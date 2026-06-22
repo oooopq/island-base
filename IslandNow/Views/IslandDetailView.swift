@@ -2,7 +2,7 @@
 //  IslandDetailView.swift
 //  Island Now
 //
-//  島をタップしたあとの詳細画面（天気・お役立ち・フェリー・航空便・スポット・ライブカメラ）
+//  島をタップしたあとの詳細画面（アイコンでセクション切り替え）
 //
 
 import SwiftUI
@@ -10,6 +10,7 @@ import SwiftUI
 struct IslandDetailView: View {
     let island: Island
 
+    @State private var selectedSection: IslandDetailSection = .weather
     @State private var weatherState: WeatherLoadState = .loading
     @State private var ferryState: FerryLoadState = .loading
     @State private var placesState: PlacesLoadState = .loading
@@ -32,48 +33,41 @@ struct IslandDetailView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                WeatherSectionView(state: weatherState)
+        VStack(spacing: 0) {
+            IslandDetailHeaderView(
+                island: island,
+                regionID: islandProfile?.regionID
+            )
+            .padding(.horizontal)
+            .padding(.top, 8)
 
-                UsefulInfoSectionView(islandID: island.id)
+            IslandDetailSectionPickerView(selection: $selectedSection)
+                .padding(.horizontal)
+                .padding(.top, 10)
 
-                FerryScheduleSectionView(island: island, state: ferryState)
+            ScrollView {
+                VStack(spacing: 16) {
+                    selectedSectionContent
 
-                if let islandProfile, islandProfile.flightSchedules.isEmpty == false {
-                    FlightScheduleSectionView(
-                        island: island,
-                        schedules: islandProfile.flightSchedules,
-                        scheduleNote: islandProfile.flightScheduleNote
-                    )
+                    Text(islandProfile?.backgroundCredit ?? "")
+                        .font(.caption2)
+                        .foregroundStyle(.white.opacity(0.75))
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
-
-                PlacesSectionView(
-                    island: island,
-                    selectedCategory: $selectedPlaceCategory,
-                    state: placesState
-                )
-
-                LiveCameraSectionView(islandID: island.id, cameras: liveCameras)
-
-                Text(islandProfile?.backgroundCredit ?? "")
-                    .font(.caption2)
-                    .foregroundStyle(.white.opacity(0.75))
-                    .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding()
             }
-            .padding()
         }
         .background {
             IslandBackgroundView(islandID: island.id)
         }
         .scrollContentBackground(.hidden)
-        .navigationTitle(island.nameJapanese)
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
         .refreshable {
             await refreshAllData()
         }
         .task(id: island.id) {
+            selectedSection = .weather
             selectedPlaceCategory = .restaurant
             restoreCachedStates(for: island)
 
@@ -83,6 +77,37 @@ struct IslandDetailView: View {
         }
         .task(id: placeSearchTaskID) {
             await loadPlaces()
+        }
+    }
+
+    @ViewBuilder
+    private var selectedSectionContent: some View {
+        switch selectedSection {
+        case .weather:
+            WeatherSectionView(state: weatherState)
+
+        case .schedule:
+            FerryScheduleSectionView(island: island, state: ferryState)
+
+            if let islandProfile, islandProfile.flightSchedules.isEmpty == false {
+                FlightScheduleSectionView(
+                    island: island,
+                    schedules: islandProfile.flightSchedules,
+                    scheduleNote: islandProfile.flightScheduleNote
+                )
+            }
+
+        case .places:
+            UsefulInfoSectionView(islandID: island.id)
+
+            PlacesSectionView(
+                island: island,
+                selectedCategory: $selectedPlaceCategory,
+                state: placesState
+            )
+
+        case .liveCamera:
+            LiveCameraSectionView(islandID: island.id, cameras: liveCameras)
         }
     }
 
