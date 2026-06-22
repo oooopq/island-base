@@ -69,4 +69,15 @@ enum IslandCatalog {
         guard let meters = profile(for: islandID)?.distanceMeters(from: place) else { return nil }
         return "\(formattedDistance(meters))（\(formattedWalkingTime(meters))）"
     }
+
+    // 現在地から港までの距離・徒歩時間（港名付き）
+    static func formattedPortAccess(from coordinate: CLLocationCoordinate2D, islandID: String) -> String? {
+        guard let port = port(for: islandID) else { return nil }
+
+        let userLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let portLocation = CLLocation(latitude: port.latitude, longitude: port.longitude)
+        let meters = userLocation.distance(from: portLocation)
+
+        return "\(port.name)から \(formattedDistance(meters))（\(formattedWalkingTime(meters))）"
+    }
 }

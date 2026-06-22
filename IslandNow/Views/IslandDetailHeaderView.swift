@@ -2,7 +2,7 @@
 //  IslandDetailHeaderView.swift
 //  Island Now
 //
-//  詳細画面の島名ヘッダー（どの島か一目で分かる表示）
+//  詳細画面の島名ヘッダー（コンパクト表示）
 //
 
 import SwiftUI
@@ -24,8 +24,8 @@ struct IslandDetailHeaderView: View {
     }
 
     var body: some View {
-        HStack(alignment: .center, spacing: 14) {
-            RoundedRectangle(cornerRadius: 2, style: .continuous)
+        HStack(alignment: .center, spacing: 10) {
+            RoundedRectangle(cornerRadius: 1.5, style: .continuous)
                 .fill(
                     LinearGradient(
                         colors: [DetailCardTheme.accent, DetailCardTheme.iconAccent],
@@ -33,58 +33,45 @@ struct IslandDetailHeaderView: View {
                         endPoint: .bottom
                     )
                 )
-                .frame(width: 4)
-                .shadow(color: DetailCardTheme.accent.opacity(0.6), radius: 6)
+                .frame(width: 3, height: 38)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 2) {
                 if let regionLabel {
                     Text(regionLabel)
                         .font(.caption2)
                         .fontWeight(.semibold)
-                        .tracking(1.5)
                         .foregroundStyle(DetailCardTheme.accent)
                 }
 
                 Text(island.nameJapanese)
-                    .font(.system(size: 34, weight: .bold, design: .rounded))
+                    .font(.title2)
+                    .fontWeight(.bold)
                     .foregroundStyle(.white)
-                    .minimumScaleFactor(0.8)
                     .lineLimit(1)
+                    .minimumScaleFactor(0.85)
 
                 Text(island.nameEnglish.uppercased())
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .tracking(3)
+                    .font(.caption2)
+                    .tracking(1.5)
                     .foregroundStyle(DetailCardTheme.secondaryText)
+                    .lineLimit(1)
             }
 
             Spacer(minLength: 0)
 
             Image(systemName: "mappin.and.ellipse")
-                .font(.title2)
-                .foregroundStyle(DetailCardTheme.accent.opacity(0.85))
-                .shadow(color: DetailCardTheme.accent.opacity(0.5), radius: 8)
+                .font(.title3)
+                .foregroundStyle(DetailCardTheme.accent.opacity(0.9))
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
         .background {
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(DetailCardTheme.cardBackground.opacity(0.95))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .strokeBorder(
-                            LinearGradient(
-                                colors: [
-                                    DetailCardTheme.accent.opacity(0.45),
-                                    DetailCardTheme.cardBorder,
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 1
-                        )
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .strokeBorder(DetailCardTheme.cardBorder, lineWidth: 1)
                 }
-                .shadow(color: .black.opacity(0.35), radius: 10, y: 4)
         }
     }
 }

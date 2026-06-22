@@ -15,6 +15,7 @@ struct IslandDetailView: View {
     @State private var ferryState: FerryLoadState = .loading
     @State private var placesState: PlacesLoadState = .loading
     @State private var selectedPlaceCategory: PlaceCategory = .restaurant
+    @State private var locationService = UserLocationService()
 
     private let weatherService = WeatherService()
     private let ferryService = FerryService()
@@ -39,11 +40,20 @@ struct IslandDetailView: View {
                 regionID: islandProfile?.regionID
             )
             .padding(.horizontal)
-            .padding(.top, 8)
+            .padding(.top, 6)
+
+            IslandUserLocationMapView(
+                island: island,
+                islandProfile: islandProfile,
+                userCoordinate: locationService.coordinate,
+                authorizationStatus: locationService.authorizationStatus
+            )
+            .padding(.horizontal)
+            .padding(.top, 6)
 
             IslandDetailSectionPickerView(selection: $selectedSection)
                 .padding(.horizontal)
-                .padding(.top, 10)
+                .padding(.top, 8)
 
             ScrollView {
                 VStack(spacing: 16) {
@@ -77,6 +87,12 @@ struct IslandDetailView: View {
         }
         .task(id: placeSearchTaskID) {
             await loadPlaces()
+        }
+        .onAppear {
+            locationService.start()
+        }
+        .onDisappear {
+            locationService.stop()
         }
     }
 
