@@ -66,9 +66,9 @@ enum YaeyamaIslandProfiles {
     // MARK: - 石垣島
 
     private static let ishigaki = IslandProfile(
-        island: Island(id: "ishigaki", nameJapanese: "石垣島", nameEnglish: "Ishigaki", latitude: 24.3444, longitude: 124.1572),
+        island: Island(id: "ishigaki", nameJapanese: "石垣島", nameEnglish: "Ishigaki", latitude: 24.432805, longitude: 124.205319),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "石垣港", latitude: 24.3397, longitude: 124.1557)],
+        ports: [IslandPort(name: "石垣港", latitude: 24.337139, longitude: 124.155611)],
         backgroundAssetName: "IslandBgIshigaki",
         backgroundCredit: "Photo: Vladimir Haltakov / Unsplash",
         placeSearchRadiusMeters: 18_000,
@@ -108,9 +108,9 @@ enum YaeyamaIslandProfiles {
     // MARK: - 竹富島
 
     private static let taketomi = IslandProfile(
-        island: Island(id: "taketomi", nameJapanese: "竹富島", nameEnglish: "Taketomi", latitude: 24.3256, longitude: 124.0850),
+        island: Island(id: "taketomi", nameJapanese: "竹富島", nameEnglish: "Taketomi", latitude: 24.325064, longitude: 124.088064),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "竹富港", latitude: 24.3250, longitude: 124.0890)],
+        ports: [IslandPort(name: "竹富港", latitude: 24.335000, longitude: 124.095556)],
         backgroundAssetName: "IslandBgTaketomi",
         backgroundCredit: "Photo: Unsplash",
         placeSearchRadiusMeters: 6_000,
@@ -141,9 +141,9 @@ enum YaeyamaIslandProfiles {
     // MARK: - 黒島
 
     private static let kuroshima = IslandProfile(
-        island: Island(id: "kuroshima", nameJapanese: "黒島", nameEnglish: "Kuroshima", latitude: 24.2450, longitude: 123.8956),
+        island: Island(id: "kuroshima", nameJapanese: "黒島", nameEnglish: "Kuroshima", latitude: 24.237716, longitude: 124.010266),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "黒島港", latitude: 24.2457, longitude: 123.8947)],
+        ports: [IslandPort(name: "黒島港", latitude: 24.254167, longitude: 124.000889)],
         backgroundAssetName: "IslandBgKuroshima",
         backgroundCredit: "Photo: Unsplash（沖縄の海と緑）",
         placeSearchRadiusMeters: 6_000,
@@ -174,9 +174,9 @@ enum YaeyamaIslandProfiles {
     // MARK: - 波照間島
 
     private static let hateruma = IslandProfile(
-        island: Island(id: "hateruma", nameJapanese: "波照間島", nameEnglish: "Hateruma", latitude: 24.0583, longitude: 123.8061),
+        island: Island(id: "hateruma", nameJapanese: "波照間島", nameEnglish: "Hateruma", latitude: 24.058487, longitude: 123.782328),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "波照間港", latitude: 24.0580, longitude: 123.8050)],
+        ports: [IslandPort(name: "波照間港", latitude: 24.067778, longitude: 123.766111)],
         backgroundAssetName: "IslandBgHateruma",
         backgroundCredit: "Photo: Unsplash（南国の海）",
         placeSearchRadiusMeters: 10_000,
@@ -207,11 +207,11 @@ enum YaeyamaIslandProfiles {
     // MARK: - 西表島
 
     private static let iriomote = IslandProfile(
-        island: Island(id: "iriomote", nameJapanese: "西表島", nameEnglish: "Iriomote", latitude: 24.4167, longitude: 123.8167),
+        island: Island(id: "iriomote", nameJapanese: "西表島", nameEnglish: "Iriomote", latitude: 24.335989, longitude: 123.814737),
         regionID: "yaeyama",
         ports: [
-            IslandPort(name: "大原港", latitude: 24.4183, longitude: 123.7940),
-            IslandPort(name: "上原港", latitude: 24.3828, longitude: 123.8594),
+            IslandPort(name: "大原港", latitude: 24.272222, longitude: 123.884222),
+            IslandPort(name: "上原港", latitude: 24.419167, longitude: 123.798611),
         ],
         backgroundAssetName: "IslandBgIriomote",
         backgroundCredit: "Photo: Unsplash（森と自然）",
@@ -253,9 +253,9 @@ enum YaeyamaIslandProfiles {
     // MARK: - 与那国島
 
     private static let yonaguni = IslandProfile(
-        island: Island(id: "yonaguni", nameJapanese: "与那国島", nameEnglish: "Yonaguni", latitude: 24.4667, longitude: 122.9833),
+        island: Island(id: "yonaguni", nameJapanese: "与那国島", nameEnglish: "Yonaguni", latitude: 24.455366, longitude: 122.988942),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "与那国港", latitude: 24.4670, longitude: 122.9780)],
+        ports: [IslandPort(name: "与那国港", latitude: 24.451944, longitude: 122.940000)],
         backgroundAssetName: "IslandBgYonaguni",
         backgroundCredit: "Photo: Unsplash（荒波の海）",
         placeSearchRadiusMeters: 10_000,

@@ -207,7 +207,7 @@ struct FerryScheduleSectionView: View {
     @ViewBuilder
     private func tripRow(_ trip: FerryTrip) -> some View {
         if let route = FerryRouteHelper.parseRoute(trip.routeName) {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 6) {
                     Text(route.departure)
                     Image(systemName: "arrow.right")
@@ -218,22 +218,22 @@ struct FerryScheduleSectionView: View {
                 .font(.subheadline)
                 .fontWeight(.medium)
 
-                HStack {
-                    Text("\(trip.departureTime) 発")
-                    Spacer()
-                    Text("\(trip.arrivalTime) 着")
-                }
-                .font(.caption)
-                .detailCardSecondaryText()
+                ScheduleDepartureArrivalView(
+                    departureTime: trip.departureTime,
+                    arrivalTime: trip.arrivalTime
+                )
             }
         } else {
-            HStack {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(trip.routeName)
-                Spacer()
-                Text("\(trip.departureTime) → \(trip.arrivalTime)")
-                    .detailCardSecondaryText()
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+
+                ScheduleDepartureArrivalView(
+                    departureTime: trip.departureTime,
+                    arrivalTime: trip.arrivalTime
+                )
             }
-            .font(.subheadline)
         }
     }
 

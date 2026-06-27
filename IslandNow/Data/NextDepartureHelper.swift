@@ -17,6 +17,7 @@ struct UpcomingDeparture: Identifiable, Hashable {
 
 enum NextDepartureHelper {
     private static let tokyoTimeZone = TimeZone(identifier: "Asia/Tokyo") ?? .current
+    static let departureUrgentThresholdMinutes = 30
 
     // 「08:30」形式を分に変換する
     static func minutesSinceMidnight(for time: String) -> Int? {
@@ -137,5 +138,51 @@ enum NextDepartureHelper {
             return false
         }
         return minutes <= currentMinutesInTokyo()
+    }
+
+    static func minutesUntilDeparture(departureTime: String, isTomorrow: Bool) -> Int? {
+        guard let departureMinutes = minutesSinceMidnight(for: departureTime) else { return nil }
+        let now = currentMinutesInTokyo()
+
+        if isTomorrow {
+            return (24 * 60 - now) + departureMinutes
+        }
+
+        let diff = departureMinutes - now
+        return diff > 0 ? diff : nil
+    }
+
+    static func travelDurationMinutes(departureTime: String, arrivalTime: String) -> Int? {
+        guard let departureMinutes = minutesSinceMidnight(for: departureTime),
+              let arrivalMinutes = minutesSinceMidnight(for: arrivalTime) else {
+            return nil
+        }
+
+        if arrivalMinutes >= departureMinutes {
+            return arrivalMinutes - departureMinutes
+        }
+        return (24 * 60 - departureMinutes) + arrivalMinutes
+    }
+
+    static func formattedCountdown(_ minutes: Int) -> String {
+        if minutes < 60 {
+            return "\(minutes)分"
+        }
+
+        let hours = minutes / 60
+        let remainingMinutes = minutes % 60
+        if remainingMinutes == 0 {
+            return "\(hours)時間"
+        }
+        return "\(hours)時間\(remainingMinutes)分"
+    }
+
+    static func formattedDuration(_ minutes: Int) -> String {
+        formattedCountdown(minutes)
+    }
+
+    static func isDepartureUrgent(countdownMinutes: Int?, isTomorrow: Bool) -> Bool {
+        guard isTomorrow == false, let countdownMinutes else { return false }
+        return countdownMinutes <= departureUrgentThresholdMinutes
     }
 }

@@ -158,7 +158,7 @@ struct FlightScheduleSectionView: View {
     @ViewBuilder
     private func tripRow(_ trip: FlightTrip) -> some View {
         if let route = FlightRouteHelper.parseRoute(trip.routeName) {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(trip.flightNumber)
                     .font(.caption)
                     .fontWeight(.semibold)
@@ -174,22 +174,22 @@ struct FlightScheduleSectionView: View {
                 .font(.subheadline)
                 .fontWeight(.medium)
 
-                HStack {
-                    Text("\(trip.departureTime) 発")
-                    Spacer()
-                    Text("\(trip.arrivalTime) 着")
-                }
-                .font(.caption)
-                .detailCardSecondaryText()
+                ScheduleDepartureArrivalView(
+                    departureTime: trip.departureTime,
+                    arrivalTime: trip.arrivalTime
+                )
             }
         } else {
-            HStack {
+            VStack(alignment: .leading, spacing: 8) {
                 Text("\(trip.flightNumber) \(trip.routeName)")
-                Spacer()
-                Text("\(trip.departureTime) → \(trip.arrivalTime)")
-                    .detailCardSecondaryText()
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+
+                ScheduleDepartureArrivalView(
+                    departureTime: trip.departureTime,
+                    arrivalTime: trip.arrivalTime
+                )
             }
-            .font(.subheadline)
         }
     }
 }

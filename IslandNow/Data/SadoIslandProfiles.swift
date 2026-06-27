@@ -42,11 +42,14 @@ enum SadoIslandProfiles {
             id: "sado",
             nameJapanese: "佐渡島",
             nameEnglish: "Sado",
-            latitude: 38.0186,
-            longitude: 138.3681
+            latitude: 38.044270,
+            longitude: 138.389903
         ),
         regionID: "sado",
-        ports: [IslandPort(name: "両津港", latitude: 38.0181, longitude: 138.2528)],
+        ports: [
+            IslandPort(name: "両津港", latitude: 38.081714, longitude: 138.437949),
+            IslandPort(name: "小木港", latitude: 37.816273, longitude: 138.282227),
+        ],
         backgroundAssetName: "IslandBgSado",
         backgroundCredit: "Photo: Unsplash（佐渡島・海と山）",
         placeSearchRadiusMeters: 18_000,
