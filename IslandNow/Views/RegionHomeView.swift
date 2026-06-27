@@ -2,30 +2,28 @@
 //  RegionHomeView.swift
 //  Island Now
 //
-//  起動画面：諸島郡を選ぶ
+//  起動画面：日本地図から諸島郡を選ぶ
 //
 
+import MapKit
 import SwiftUI
 
 struct RegionHomeView: View {
     @Environment(\.detailPalette) private var palette
+    @State private var cameraPosition: MapCameraPosition = RegionMapSupport.japanHomeCameraPosition()
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                header
+        VStack(spacing: 0) {
+            header
+                .padding(.horizontal, 20)
+                .padding(.top, 8)
+                .padding(.bottom, 12)
 
-                VStack(spacing: 14) {
-                    ForEach(IslandCatalog.regions) { region in
-                        NavigationLink(value: region.id) {
-                            RegionCardView(region: region)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 16)
+            japanMap
+
+            regionChipBar
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
         }
         .background(homeBackground)
         .navigationTitle("Island Now")
@@ -44,11 +42,49 @@ struct RegionHomeView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("行きたい諸島を選んでください")
+            Text("行きたい諸島を地図から選んでください")
                 .font(.subheadline)
                 .foregroundStyle(palette.secondaryText)
+
+            Text("ピンまたは下の一覧をタップ")
+                .font(.caption)
+                .foregroundStyle(palette.secondaryText.opacity(0.85))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var japanMap: some View {
+        Map(position: $cameraPosition, interactionModes: [.pan, .zoom]) {
+            ForEach(IslandCatalog.regions) { region in
+                Annotation(region.displayNameJapanese, coordinate: region.mapCoordinate) {
+                    NavigationLink(value: region.id) {
+                        JapanRegionMarkerView(region: region)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .mapStyle(.standard(elevation: .flat))
+        .frame(maxHeight: .infinity)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .strokeBorder(palette.cardBorder, lineWidth: 1)
+        }
+        .padding(.horizontal, 16)
+    }
+
+    private var regionChipBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(IslandCatalog.regions) { region in
+                    NavigationLink(value: region.id) {
+                        RegionChipView(region: region)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
     }
 
     private var homeBackground: some View {
@@ -64,7 +100,7 @@ struct RegionHomeView: View {
     }
 }
 
-private struct RegionCardView: View {
+private struct JapanRegionMarkerView: View {
     let region: IslandRegion
 
     @Environment(\.detailPalette) private var palette
@@ -74,47 +110,63 @@ private struct RegionCardView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            Image(region.coverAssetName)
-                .resizable()
-                .scaledToFill()
-                .frame(height: 148)
-                .clipped()
+        VStack(spacing: 4) {
+            Image(systemName: "mountain.2.fill")
+                .font(.caption)
+                .padding(8)
+                .background(Circle().fill(palette.iconAccent))
+                .foregroundStyle(.white)
+                .shadow(color: .black.opacity(0.25), radius: 4, y: 2)
 
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.72)],
-                startPoint: .center,
-                endPoint: .bottom
-            )
+            Text(region.displayNameJapanese)
+                .font(.caption2)
+                .fontWeight(.semibold)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .frame(maxWidth: 88)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
 
-            HStack(alignment: .bottom) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(region.displayNameJapanese)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
+            Text("\(islandCount)島")
+                .font(.caption2)
+                .foregroundStyle(palette.secondaryText)
+                .padding(.horizontal, 6)
+                .padding(.vertical, 2)
+                .background(palette.cardBackground.opacity(0.9), in: Capsule())
+        }
+    }
+}
 
-                    Text("\(islandCount)島")
-                        .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.85))
+private struct RegionChipView: View {
+    let region: IslandRegion
+
+    @Environment(\.detailPalette) private var palette
+
+    private var islandCount: Int {
+        IslandCatalog.islandCount(forRegionID: region.id)
+    }
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Text(region.displayNameJapanese)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+
+            Text("\(islandCount)島")
+                .font(.caption)
+                .foregroundStyle(palette.secondaryText)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(palette.cardBackground)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .strokeBorder(palette.cardBorder, lineWidth: 1)
                 }
-
-                Spacer(minLength: 0)
-
-                Image(systemName: "chevron.right.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(.white.opacity(0.9))
-            }
-            .padding(16)
         }
-        .frame(maxWidth: .infinity)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .overlay {
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .strokeBorder(palette.cardBorder, lineWidth: 1)
-        }
-        .shadow(color: palette.cardShadow, radius: 8, y: 4)
     }
 }
 
