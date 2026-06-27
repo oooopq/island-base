@@ -40,9 +40,7 @@ struct IslandUserLocationMapView: View {
             .buttonStyle(.plain)
             .accessibilityHint("タップすると地図を開いて現在地を表示します")
 
-            Text(statusText)
-                .font(.caption)
-                .foregroundStyle(palette.secondaryText)
+            portAccessStatusView
         }
         .padding(10)
         .background {
@@ -93,30 +91,68 @@ struct IslandUserLocationMapView: View {
         }
     }
 
-    private var statusText: String {
+    @ViewBuilder
+    private var portAccessStatusView: some View {
         switch authorizationStatus {
         case .denied, .restricted:
-            return "位置情報が許可されていません。設定から許可すると地図に表示されます。"
+            Text("位置情報が許可されていません。設定から許可すると地図に表示されます。")
+                .font(.caption)
+                .foregroundStyle(palette.secondaryText)
+
         case .notDetermined:
-            return "位置情報の許可を確認しています…"
+            Text("位置情報の許可を確認しています…")
+                .font(.caption)
+                .foregroundStyle(palette.secondaryText)
+
         default:
-            break
+            if let userCoordinate {
+                locationStatusContent(for: userCoordinate)
+            } else {
+                Text("現在地を取得中…")
+                    .font(.caption)
+                    .foregroundStyle(palette.secondaryText)
+            }
         }
+    }
 
-        guard let userCoordinate else {
-            return "現在地を取得中…"
-        }
-
+    @ViewBuilder
+    private func locationStatusContent(for userCoordinate: CLLocationCoordinate2D) -> some View {
         let distance = distanceFromIslandCenter(userCoordinate)
         let radius = islandProfile?.placeSearchRadiusMeters ?? 12_000
+        let portLines = IslandCatalog.formattedPortAccessLines(
+            from: userCoordinate,
+            islandID: island.id
+        )
 
-        if distance <= radius {
-            if let portAccess = IslandCatalog.formattedPortAccess(from: userCoordinate, islandID: island.id) {
-                return "島内にいます（\(portAccess)）"
+        VStack(alignment: .leading, spacing: 4) {
+            if distance <= radius {
+                Text("島内にいます")
+                    .font(.caption)
+                    .foregroundStyle(palette.secondaryText)
+
+                if portLines.isEmpty {
+                    EmptyView()
+                } else {
+                    ForEach(Array(portLines.enumerated()), id: \.offset) { _, line in
+                        Text(line)
+                            .font(.caption)
+                            .foregroundStyle(palette.secondaryText)
+                    }
+                }
+            } else {
+                Text("この島から \(IslandCatalog.formattedDistance(distance)) の位置にいます")
+                    .font(.caption)
+                    .foregroundStyle(palette.secondaryText)
+
+                if portLines.isEmpty == false {
+                    ForEach(Array(portLines.enumerated()), id: \.offset) { _, line in
+                        Text(line)
+                            .font(.caption)
+                            .foregroundStyle(palette.secondaryText)
+                    }
+                }
             }
-            return "島内にいます"
         }
-        return "この島から \(IslandCatalog.formattedDistance(distance)) の位置にいます"
     }
 
     private func distanceFromIslandCenter(_ coordinate: CLLocationCoordinate2D) -> CLLocationDistance {

@@ -26,7 +26,7 @@ enum IslandUserLocationMapSupport {
                 .foregroundStyle(.white)
         }
 
-        if let port = islandProfile?.port {
+        ForEach(islandProfile?.ports ?? []) { port in
             Annotation(port.name, coordinate: port.coordinate) {
                 Image(systemName: "ferry.fill")
                     .font(.caption2)
@@ -60,9 +60,7 @@ enum IslandUserLocationMapSupport {
         userCoordinate: CLLocationCoordinate2D?
     ) -> MKCoordinateRegion {
         var coordinates = [island.coordinate]
-        if let port = islandProfile?.port {
-            coordinates.append(port.coordinate)
-        }
+        coordinates.append(contentsOf: (islandProfile?.ports ?? []).map(\.coordinate))
         if let userCoordinate {
             coordinates.append(userCoordinate)
         }

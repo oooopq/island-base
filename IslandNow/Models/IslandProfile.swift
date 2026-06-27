@@ -8,7 +8,8 @@
 import CoreLocation
 import Foundation
 
-struct IslandPort {
+struct IslandPort: Identifiable {
+    var id: String { name }
     let name: String
     let latitude: Double
     let longitude: Double
@@ -21,7 +22,7 @@ struct IslandPort {
 struct IslandProfile: Identifiable {
     let island: Island
     let regionID: String
-    let port: IslandPort?
+    let ports: [IslandPort]
     let backgroundAssetName: String
     let backgroundCredit: String
     let placeSearchRadiusMeters: CLLocationDistance
@@ -41,10 +42,15 @@ struct IslandProfile: Identifiable {
         IslandRegionCatalog.displayName(for: regionID)
     }
 
+    /// 後方互換・単一港向け
+    var port: IslandPort? {
+        ports.first
+    }
+
     init(
         island: Island,
         regionID: String,
-        port: IslandPort?,
+        ports: [IslandPort],
         backgroundAssetName: String,
         backgroundCredit: String,
         placeSearchRadiusMeters: CLLocationDistance,
@@ -59,7 +65,7 @@ struct IslandProfile: Identifiable {
     ) {
         self.island = island
         self.regionID = regionID
-        self.port = port
+        self.ports = ports
         self.backgroundAssetName = backgroundAssetName
         self.backgroundCredit = backgroundCredit
         self.placeSearchRadiusMeters = placeSearchRadiusMeters
@@ -82,10 +88,13 @@ struct IslandProfile: Identifiable {
     }
 
     func distanceMeters(from place: PlaceInfo) -> CLLocationDistance? {
-        guard let port else { return nil }
+        guard ports.isEmpty == false else { return nil }
 
         let placeLocation = CLLocation(latitude: place.latitude, longitude: place.longitude)
-        let portLocation = CLLocation(latitude: port.latitude, longitude: port.longitude)
-        return placeLocation.distance(from: portLocation)
+        let distances = ports.map { port in
+            let portLocation = CLLocation(latitude: port.latitude, longitude: port.longitude)
+            return placeLocation.distance(from: portLocation)
+        }
+        return distances.min()
     }
 }

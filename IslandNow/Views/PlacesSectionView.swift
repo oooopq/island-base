@@ -14,6 +14,15 @@ struct PlacesSectionView: View {
 
     @Environment(\.detailPalette) private var palette
 
+    private var portDistanceCaption: String {
+        let ports = IslandCatalog.ports(for: island.id)
+        if ports.count <= 1, let port = ports.first {
+            return "港（\(port.name)）からの距離・徒歩時間を表示しています"
+        }
+        let names = ports.map(\.name).joined(separator: "・")
+        return "各港（\(names)）からの距離・徒歩時間を表示しています"
+    }
+
     private var showsPortDistance: Bool {
         selectedCategory == .restaurant || selectedCategory == .lodging
     }
@@ -30,8 +39,8 @@ struct PlacesSectionView: View {
             }
             .pickerStyle(.segmented)
 
-            if showsPortDistance, let port = IslandCatalog.port(for: island.id) {
-                Text("港（\(port.name)）からの距離・徒歩時間を表示しています")
+            if showsPortDistance, IslandCatalog.ports(for: island.id).isEmpty == false {
+                Text(portDistanceCaption)
                     .font(.caption)
                     .detailCardSecondaryText()
             }
@@ -103,7 +112,7 @@ struct PlacesSectionView: View {
                     .fontWeight(.medium)
 
                 if showsPortDistance, let accessText = portAccessText(for: place) {
-                    Label("港から \(accessText)", systemImage: "figure.walk")
+                    Text(accessText)
                         .font(.caption)
                         .detailCardSecondaryText()
                 }

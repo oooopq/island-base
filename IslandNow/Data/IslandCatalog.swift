@@ -49,6 +49,38 @@ enum IslandCatalog {
         profile(for: islandID)?.port
     }
 
+    static func ports(for islandID: String) -> [IslandPort] {
+        profile(for: islandID)?.ports ?? []
+    }
+
+    static func portAccessInfos(
+        from coordinate: CLLocationCoordinate2D,
+        islandID: String
+    ) -> [PortAccessInfo] {
+        guard let profile = profile(for: islandID), profile.ports.isEmpty == false else {
+            return []
+        }
+
+        let userLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let islandCenter = profile.island.coordinate
+
+        return profile.ports
+            .map { port in
+                let portLocation = CLLocation(latitude: port.latitude, longitude: port.longitude)
+                let meters = userLocation.distance(from: portLocation)
+                let direction = PortDirectionHelper.directionLabel(
+                    from: islandCenter,
+                    to: port.coordinate
+                )
+                return PortAccessInfo(
+                    port: port,
+                    directionLabel: direction,
+                    distanceMeters: meters
+                )
+            }
+            .sorted { $0.distanceMeters < $1.distanceMeters }
+    }
+
     static func ferryDataSourceNote(for islandID: String) -> String? {
         guard let regionID = profile(for: islandID)?.regionID else { return nil }
         return IslandRegionCatalog.region(for: regionID)?.ferryDataSourceNote
@@ -83,18 +115,17 @@ enum IslandCatalog {
     }
 
     static func formattedPortAccess(from place: PlaceInfo, islandID: String) -> String? {
-        guard let meters = profile(for: islandID)?.distanceMeters(from: place) else { return nil }
-        return "\(formattedDistance(meters))（\(formattedWalkingTime(meters))）"
+        portAccessInfos(from: place.coordinate, islandID: islandID).first?.formattedLine
     }
 
-    // 現在地から港までの距離・徒歩時間（港名付き）
+    // 現在地から各港までの距離・徒歩時間（港名・方角付き）
     static func formattedPortAccess(from coordinate: CLLocationCoordinate2D, islandID: String) -> String? {
-        guard let port = port(for: islandID) else { return nil }
+        let lines = portAccessInfos(from: coordinate, islandID: islandID).map(\.formattedLine)
+        guard lines.isEmpty == false else { return nil }
+        return lines.joined(separator: " / ")
+    }
 
-        let userLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let portLocation = CLLocation(latitude: port.latitude, longitude: port.longitude)
-        let meters = userLocation.distance(from: portLocation)
-
-        return "\(port.name)から \(formattedDistance(meters))（\(formattedWalkingTime(meters))）"
+    static func formattedPortAccessLines(from coordinate: CLLocationCoordinate2D, islandID: String) -> [String] {
+        portAccessInfos(from: coordinate, islandID: islandID).map(\.formattedLine)
     }
 }
