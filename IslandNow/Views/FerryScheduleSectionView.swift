@@ -111,7 +111,7 @@ struct FerryScheduleSectionView: View {
         }
 
         if isOfflineFallback {
-            Text("オフライン用の保存データです")
+            Text("代表ダイヤ（参考情報）です。出発前に必ず各社公式サイトでご確認ください。")
                 .font(.caption)
                 .detailCardSecondaryText()
         } else if isFromCache {

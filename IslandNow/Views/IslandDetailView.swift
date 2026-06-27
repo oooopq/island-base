@@ -304,8 +304,12 @@ struct IslandDetailView: View {
                 return
             }
 
+            // GTFS 取得失敗・キャッシュもない場合はサンプルダイヤを .failed として表示
             let fallback = islandProfile?.sampleFerrySchedules ?? []
-            ferryState = .loaded(fallback, isFromCache: true, validUntilText: nil)
+            ferryState = .failed(
+                message: "ダイヤを取得できませんでした。代表ダイヤ（参考）を表示しています。",
+                cachedSchedules: fallback.isEmpty ? nil : fallback
+            )
         }
     }
 
