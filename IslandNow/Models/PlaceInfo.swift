@@ -28,15 +28,9 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
         AppURL.from(string: websiteURLString)
     }
 
-    var navigationURL: URL? {
-        if let mapsURLString, let url = AppURL.from(string: mapsURLString) {
-            return url
-        }
-        return Self.appleMapsDirectionsURL(
-            name: name,
-            latitude: latitude,
-            longitude: longitude
-        )
+    // Apple マップで車での案内を開く
+    func openDrivingDirections() {
+        AppleMapsNavigation.openDrivingDirections(name: name, coordinate: coordinate)
     }
 
     // MKMapItem からアプリ用のモデルに変換する
@@ -48,11 +42,6 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
         let coordinate = mapItem.placemark.coordinate
         let address = mapItem.placemark.title
         let websiteURL = extractWebsiteURL(from: mapItem.url)
-        let navigationURL = appleMapsDirectionsURL(
-            name: name,
-            latitude: coordinate.latitude,
-            longitude: coordinate.longitude
-        )
 
         return PlaceInfo(
             id: "\(name)-\(coordinate.latitude)-\(coordinate.longitude)",
@@ -63,7 +52,7 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
             longitude: coordinate.longitude,
             phoneNumber: mapItem.phoneNumber,
             websiteURLString: websiteURL?.absoluteString,
-            mapsURLString: navigationURL?.absoluteString
+            mapsURLString: nil
         )
     }
 
@@ -76,17 +65,6 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
             return nil
         }
         return url
-    }
-
-    // Apple マップでナビを開始する URL
-    static func appleMapsDirectionsURL(name: String, latitude: Double, longitude: Double) -> URL? {
-        var components = URLComponents(string: "https://maps.apple.com/")
-        components?.queryItems = [
-            URLQueryItem(name: "daddr", value: "\(latitude),\(longitude)"),
-            URLQueryItem(name: "dirflg", value: "d"),
-            URLQueryItem(name: "q", value: name),
-        ]
-        return components?.url
     }
 
     // 島の中心からの距離（メートル）を計算する

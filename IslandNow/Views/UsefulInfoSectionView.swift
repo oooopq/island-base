@@ -87,7 +87,7 @@ struct UsefulInfoSectionView: View {
 
             DetailRowLinkButtonsView(
                 websiteURL: item.websiteLink,
-                navigationURL: item.navigationURL
+                onNavigate: item.canOpenNavigation ? { item.openDrivingDirections() } : nil
             )
         }
     }

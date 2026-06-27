@@ -134,7 +134,7 @@ struct PlacesSectionView: View {
 
             DetailRowLinkButtonsView(
                 websiteURL: place.websiteURL,
-                navigationURL: place.navigationURL
+                onNavigate: { place.openDrivingDirections() }
             )
         }
     }
@@ -172,7 +172,7 @@ struct PlacesSectionView: View {
                     longitude: 124.15,
                     phoneNumber: "0980-00-0000",
                     websiteURLString: "https://example.com/",
-                    mapsURLString: "https://maps.apple.com/?daddr=24.34,124.15&dirflg=d"
+                    mapsURLString: nil
                 ),
             ],
             isFromCache: false

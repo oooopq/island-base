@@ -46,16 +46,16 @@ struct UsefulInfo: Identifiable, Hashable {
         AppURL.from(string: websiteURL)
     }
 
-    // 住所から Apple マップのナビ URL を作る
-    var navigationURL: URL? {
-        guard let address, address.isEmpty == false else { return nil }
+    var canOpenNavigation: Bool {
+        guard let address else { return false }
+        return address.isEmpty == false
+    }
 
-        var components = URLComponents(string: "https://maps.apple.com/")
-        components?.queryItems = [
-            URLQueryItem(name: "daddr", value: address),
-            URLQueryItem(name: "dirflg", value: "d"),
-            URLQueryItem(name: "q", value: name),
-        ]
-        return components?.url
+    // Apple マップで車での案内を開く（住所から検索）
+    func openDrivingDirections() {
+        guard let address, address.isEmpty == false else { return }
+        Task {
+            await AppleMapsNavigation.openDrivingDirections(name: name, address: address)
+        }
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailRowLinkButtonsView: View {
     let websiteURL: URL?
-    let navigationURL: URL?
+    let onNavigate: (() -> Void)?
 
     @Environment(\.detailPalette) private var palette
 
@@ -22,12 +22,21 @@ struct DetailRowLinkButtonsView: View {
                 isEnabled: websiteURL != nil
             )
 
-            linkButton(
-                url: navigationURL,
-                systemImage: "location.fill",
-                accessibilityLabel: "ナビ",
-                isEnabled: navigationURL != nil
-            )
+            navigateButton
+        }
+    }
+
+    @ViewBuilder
+    private var navigateButton: some View {
+        if let onNavigate {
+            Button(action: onNavigate) {
+                linkButtonLabel(systemImage: "location.fill", isEnabled: true)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("ナビ")
+        } else {
+            linkButtonLabel(systemImage: "location.fill", isEnabled: false)
+                .accessibilityLabel("ナビ（利用不可）")
         }
     }
 
