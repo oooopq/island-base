@@ -185,13 +185,40 @@ struct ImageCreditsView: View {
 
             licenseNote(
                 title: "Wikimedia Commons",
-                body: "各画像に記載の Creative Commons ライセンス（CC BY / CC BY-SA など）に従い、作者名とライセンスを表示しています。"
+                body: "各画像に記載の Creative Commons ライセンス（CC BY-SA）に従い、作者名・作品名・ライセンスを表示しています。背景表示の際、視認性のため画像の上に暗色グラデーションを重ねています（この加工は各島のクレジットに明記しています）。ライセンス全文は以下のリンクをご確認ください。"
             )
+
+            VStack(alignment: .leading, spacing: 8) {
+                licenseLinkRow(
+                    title: "CC BY-SA 3.0（ライセンス全文）",
+                    urlString: "https://creativecommons.org/licenses/by-sa/3.0/"
+                )
+                licenseLinkRow(
+                    title: "CC BY-SA 4.0（ライセンス全文）",
+                    urlString: "https://creativecommons.org/licenses/by-sa/4.0/"
+                )
+            }
+            .creditCardStyle(palette: palette)
 
             licenseNote(
                 title: "アプリアイコン",
                 body: "Island Now 用のオリジナルデザインです（第三者の画像素材は使用していません）。"
             )
+        }
+    }
+
+    private func licenseLinkRow(title: String, urlString: String) -> some View {
+        Group {
+            if let url = AppURL.from(string: urlString) {
+                OpenURLButton(url: url) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "link")
+                        Text(title)
+                            .font(.caption)
+                    }
+                    .foregroundStyle(palette.iconAccent)
+                }
+            }
         }
     }
 
