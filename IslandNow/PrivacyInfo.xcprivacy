@@ -2,15 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- このアプリはユーザーを追跡しない -->
 	<key>NSPrivacyTracking</key>
 	<false/>
 	<key>NSPrivacyTrackingDomains</key>
 	<array/>
-	<!-- ユーザーデータの収集なし -->
 	<key>NSPrivacyCollectedDataTypes</key>
 	<array/>
-	<!-- Required Reason APIs: UserDefaults を使ってアプリ設定・キャッシュを端末に保存 -->
 	<key>NSPrivacyAccessedAPITypes</key>
 	<array>
 		<dict>
@@ -18,7 +15,6 @@
 			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
 			<key>NSPrivacyAccessedAPITypeReasons</key>
 			<array>
-				<!-- CA92.1: アプリの設定・状態を保存・復元するため -->
 				<string>CA92.1</string>
 			</array>
 		</dict>
