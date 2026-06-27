@@ -11,4 +11,8 @@ struct LiveCamera: Identifiable, Hashable {
     var id: String { urlString }
     let title: String
     let urlString: String
+
+    var linkURL: URL? {
+        AppURL.from(string: urlString)
+    }
 }

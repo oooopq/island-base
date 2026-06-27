@@ -43,7 +43,6 @@ struct UsefulInfo: Identifiable, Hashable {
     }
 
     var websiteLink: URL? {
-        guard let websiteURL else { return nil }
-        return URL(string: websiteURL)
+        AppURL.from(string: websiteURL)
     }
 }

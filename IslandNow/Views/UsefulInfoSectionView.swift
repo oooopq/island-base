@@ -66,14 +66,14 @@ struct UsefulInfoSectionView: View {
             }
 
             if let phoneNumber = item.phoneNumber, let phoneURL = item.phoneURL {
-                Link(destination: phoneURL) {
+                OpenURLButton(url: phoneURL) {
                     Label(phoneNumber, systemImage: "phone.fill")
                         .font(.caption)
                 }
             }
 
             if let website = item.websiteLink {
-                Link(destination: website) {
+                OpenURLButton(url: website) {
                     Label("Webサイト", systemImage: "globe")
                         .font(.caption)
                 }

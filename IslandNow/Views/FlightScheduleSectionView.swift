@@ -129,14 +129,14 @@ struct FlightScheduleSectionView: View {
                 .fontWeight(.semibold)
 
             if let website = schedule.airline.websiteLink {
-                Link(destination: website) {
+                OpenURLButton(url: website) {
                     Label("予約・時刻表（JAL）", systemImage: "globe")
                         .font(.subheadline)
                 }
             }
 
             if let phoneURL = schedule.airline.phoneURL {
-                Link(destination: phoneURL) {
+                OpenURLButton(url: phoneURL) {
                     Label("予約: \(schedule.airline.phoneNumber)", systemImage: "phone.fill")
                         .font(.subheadline)
                 }

@@ -16,7 +16,7 @@ enum SadoIslandProfiles {
 
     private static let sadoKisen = FerryCompany(
         name: "佐渡汽船株式会社",
-        websiteURL: "https://www.sado-kisen.com/",
+        websiteURL: "https://www.sadokisen.co.jp/",
         phoneNumber: "025-245-6400"
     )
 
@@ -79,7 +79,7 @@ enum SadoIslandProfiles {
                 name: "佐渡総合病院",
                 phoneNumber: "0259-27-3111",
                 address: "新潟県佐渡市千種乙233",
-                websiteURL: "https://www.sado-hospital.jp/",
+                websiteURL: "https://www.sadosogo-hp.jp/",
                 note: "佐渡島の中核病院（救急対応）"
             ),
             UsefulInfo(
@@ -108,7 +108,7 @@ enum SadoIslandProfiles {
             ),
             LiveCamera(
                 title: "佐渡汽船（運航情報）",
-                urlString: "https://www.sado-kisen.com/"
+                urlString: "https://www.sadokisen.co.jp/"
             ),
         ],
         flightSchedules: [

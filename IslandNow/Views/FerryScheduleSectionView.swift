@@ -178,14 +178,14 @@ struct FerryScheduleSectionView: View {
                 .fontWeight(.semibold)
 
             if let website = schedule.company.websiteLink {
-                Link(destination: website) {
+                OpenURLButton(url: website) {
                     Label("Webサイト", systemImage: "globe")
                         .font(.subheadline)
                 }
             }
 
             if let phoneURL = schedule.company.phoneURL {
-                Link(destination: phoneURL) {
+                OpenURLButton(url: phoneURL) {
                     Label("お問い合わせ: \(schedule.company.phoneNumber)", systemImage: "phone.fill")
                         .font(.subheadline)
                 }

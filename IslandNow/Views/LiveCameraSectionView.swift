@@ -42,8 +42,8 @@ struct LiveCameraSectionView: View {
 
     @ViewBuilder
     private func cameraRow(_ camera: LiveCamera) -> some View {
-        if let url = URL(string: camera.urlString) {
-            Link(destination: url) {
+        if let url = camera.linkURL {
+            OpenURLButton(url: url) {
                 HStack {
                     Image(systemName: "video.fill")
                     Text(camera.title)

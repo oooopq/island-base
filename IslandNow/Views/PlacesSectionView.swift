@@ -91,18 +91,7 @@ struct PlacesSectionView: View {
         .detailSectionCard()
     }
 
-    @ViewBuilder
     private func placeRow(_ place: PlaceInfo) -> some View {
-        if let url = place.mapsURL {
-            Link(destination: url) {
-                placeRowContent(place, showsMapIcon: true)
-            }
-        } else {
-            placeRowContent(place, showsMapIcon: false)
-        }
-    }
-
-    private func placeRowContent(_ place: PlaceInfo, showsMapIcon: Bool) -> some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: iconName(for: place.categoryLabel))
                 .frame(width: 24)
@@ -132,14 +121,57 @@ struct PlacesSectionView: View {
                 }
             }
 
-            Spacer(minLength: 8)
+            Spacer(minLength: 4)
 
-            if showsMapIcon {
-                Image(systemName: "map")
-                    .font(.caption)
-                    .detailCardSecondaryText()
-            }
+            placeActionButtons(for: place)
         }
+    }
+
+    private func placeActionButtons(for place: PlaceInfo) -> some View {
+        HStack(spacing: 8) {
+            placeLinkButton(
+                url: place.websiteURL,
+                systemImage: "globe",
+                accessibilityLabel: "Webサイト",
+                isEnabled: place.websiteURL != nil
+            )
+
+            placeLinkButton(
+                url: place.navigationURL,
+                systemImage: "location.fill",
+                accessibilityLabel: "ナビ",
+                isEnabled: place.navigationURL != nil
+            )
+        }
+    }
+
+    @ViewBuilder
+    private func placeLinkButton(
+        url: URL?,
+        systemImage: String,
+        accessibilityLabel: String,
+        isEnabled: Bool
+    ) -> some View {
+        if isEnabled, let url {
+            OpenURLButton(url: url) {
+                placeLinkButtonLabel(systemImage: systemImage, isEnabled: true)
+            }
+            .accessibilityLabel(accessibilityLabel)
+        } else {
+            placeLinkButtonLabel(systemImage: systemImage, isEnabled: false)
+                .accessibilityLabel("\(accessibilityLabel)（利用不可）")
+        }
+    }
+
+    private func placeLinkButtonLabel(systemImage: String, isEnabled: Bool) -> some View {
+        Image(systemName: systemImage)
+            .font(.subheadline)
+            .frame(width: 34, height: 34)
+            .foregroundStyle(isEnabled ? palette.accent : palette.secondaryText.opacity(0.45))
+            .background(
+                (isEnabled ? palette.accent.opacity(0.16) : palette.secondaryText.opacity(0.08)),
+                in: Circle()
+            )
     }
 
     private func portAccessText(for place: PlaceInfo) -> String? {
@@ -174,7 +206,8 @@ struct PlacesSectionView: View {
                     latitude: 24.34,
                     longitude: 124.15,
                     phoneNumber: "0980-00-0000",
-                    mapsURLString: "https://maps.apple.com/"
+                    websiteURLString: "https://example.com/",
+                    mapsURLString: "https://maps.apple.com/?daddr=24.34,124.15&dirflg=d"
                 ),
             ],
             isFromCache: false

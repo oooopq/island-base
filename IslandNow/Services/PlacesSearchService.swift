@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 struct PlacesSearchService {
-    private let cacheKeyPrefix = "places_cache_"
+    private let cacheKeyPrefix = "places_cache_v2_"
 
     // 島の座標付近でカテゴリに合うスポットを検索する
     func searchPlaces(for island: Island, category: PlaceCategory) async throws -> [PlaceInfo] {

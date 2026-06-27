@@ -18,7 +18,7 @@ private struct ParsedFeedResult: Sendable {
 }
 
 struct FerryService {
-    private let cacheKeyPrefix = "ferry_cache_"
+    private let cacheKeyPrefix = "ferry_cache_v2_"
 
     func fetchSchedules(for island: Island) async throws -> FerryFetchResult {
         let feeds = feeds(for: island)

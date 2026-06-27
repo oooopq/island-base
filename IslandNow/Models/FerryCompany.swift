@@ -20,6 +20,6 @@ struct FerryCompany: Codable {
     }
 
     var websiteLink: URL? {
-        URL(string: websiteURL)
+        AppURL.from(string: websiteURL)
     }
 }

@@ -17,15 +17,26 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
     let latitude: Double
     let longitude: Double
     let phoneNumber: String?
+    let websiteURLString: String?
     let mapsURLString: String?
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 
-    var mapsURL: URL? {
-        guard let mapsURLString else { return nil }
-        return URL(string: mapsURLString)
+    var websiteURL: URL? {
+        AppURL.from(string: websiteURLString)
+    }
+
+    var navigationURL: URL? {
+        if let mapsURLString, let url = AppURL.from(string: mapsURLString) {
+            return url
+        }
+        return Self.appleMapsDirectionsURL(
+            name: name,
+            latitude: latitude,
+            longitude: longitude
+        )
     }
 
     // MKMapItem からアプリ用のモデルに変換する
@@ -36,7 +47,12 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
 
         let coordinate = mapItem.placemark.coordinate
         let address = mapItem.placemark.title
-        let mapsURL = mapItem.url ?? appleMapsURL(name: name, latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let websiteURL = extractWebsiteURL(from: mapItem.url)
+        let navigationURL = appleMapsDirectionsURL(
+            name: name,
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
+        )
 
         return PlaceInfo(
             id: "\(name)-\(coordinate.latitude)-\(coordinate.longitude)",
@@ -46,15 +62,28 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
             latitude: coordinate.latitude,
             longitude: coordinate.longitude,
             phoneNumber: mapItem.phoneNumber,
-            mapsURLString: mapsURL?.absoluteString
+            websiteURLString: websiteURL?.absoluteString,
+            mapsURLString: navigationURL?.absoluteString
         )
     }
 
-    // Apple マップで開くための URL
-    static func appleMapsURL(name: String, latitude: Double, longitude: Double) -> URL? {
+    private static func extractWebsiteURL(from url: URL?) -> URL? {
+        guard let url else { return nil }
+        guard let scheme = url.scheme?.lowercased(), scheme == "http" || scheme == "https" else {
+            return nil
+        }
+        if url.host?.contains("maps.apple.com") == true {
+            return nil
+        }
+        return url
+    }
+
+    // Apple マップでナビを開始する URL
+    static func appleMapsDirectionsURL(name: String, latitude: Double, longitude: Double) -> URL? {
         var components = URLComponents(string: "https://maps.apple.com/")
         components?.queryItems = [
-            URLQueryItem(name: "ll", value: "\(latitude),\(longitude)"),
+            URLQueryItem(name: "daddr", value: "\(latitude),\(longitude)"),
+            URLQueryItem(name: "dirflg", value: "d"),
             URLQueryItem(name: "q", value: name),
         ]
         return components?.url

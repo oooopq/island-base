@@ -19,6 +19,6 @@ struct FlightAirline: Codable {
     }
 
     var websiteLink: URL? {
-        URL(string: websiteURL)
+        AppURL.from(string: websiteURL)
     }
 }

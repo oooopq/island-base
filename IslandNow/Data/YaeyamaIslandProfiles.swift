@@ -22,25 +22,25 @@ enum YaeyamaIslandProfiles {
 
     private static let yaeyamaFerry = FerryCompany(
         name: "株式会社八重山観光フェリー",
-        websiteURL: "https://www.yaeyamaferry.co.jp/",
+        websiteURL: "https://yaeyama.co.jp/",
         phoneNumber: "0570-013-007"
     )
 
     private static let aneiKanko = FerryCompany(
         name: "安栄観光株式会社",
-        websiteURL: "https://www.anei-kanko.co.jp/",
-        phoneNumber: "0980-82-4001"
+        websiteURL: "https://aneikankou.co.jp/",
+        phoneNumber: "0980-83-0055"
     )
 
     private static let irimoteJyosen = FerryCompany(
         name: "西表島交通株式会社",
-        websiteURL: "https://www.irimote-jyosen.co.jp/",
-        phoneNumber: "0980-82-2222"
+        websiteURL: "https://iriomote.com/",
+        phoneNumber: "0980-85-5601"
     )
 
     private static let rac = FlightAirline(
         name: "琉球エアコミューター（JALグループ）",
-        websiteURL: "https://www.jal.co.jp/jp/ja/dom/flights/route/yonaguni/",
+        websiteURL: "https://www.jal.co.jp/dom/",
         phoneNumber: "0570-025-031"
     )
 
@@ -94,7 +94,7 @@ enum YaeyamaIslandProfiles {
             ),
         ],
         usefulInfo: [
-            UsefulInfo(id: "ishigaki-hospital", category: .medical, name: "石垣市立南ぬ島ふれあい病院", phoneNumber: "0980-82-8181", address: "沖縄県石垣市字真栄里249", websiteURL: "https://www.city.ishigaki.okinawa.jp/hospital/", note: "八重山の中核病院（救急対応）"),
+            UsefulInfo(id: "ishigaki-hospital", category: .medical, name: "沖縄県立八重山病院", phoneNumber: "0980-87-5557", address: "沖縄県石垣市真栄里584-1", websiteURL: "https://yaeyamaweb.hosp.pref.okinawa.jp/", note: "八重山の中核病院（救急対応）"),
             UsefulInfo(id: "ishigaki-convenience", category: .convenience, name: "離島ターミナル・市街地周辺", phoneNumber: nil, address: "石垣港・美崎町・730交差点付近", websiteURL: nil, note: "セブン-イレブン、ローソン、ゆうちょATMなど"),
             UsefulInfo(id: "ishigaki-tourism", category: .tourism, name: "石垣市観光交流協会", phoneNumber: "0980-82-2808", address: "沖縄県石垣市真栄里283", websiteURL: "https://www.yaeyama.or.jp/", note: "観光案内・イベント情報"),
         ],
@@ -195,7 +195,7 @@ enum YaeyamaIslandProfiles {
         usefulInfo: [
             UsefulInfo(id: "hateruma-clinic", category: .medical, name: "波照間診療所", phoneNumber: "0980-85-8120", address: "沖縄県竹富町波照間", websiteURL: nil, note: nil),
             UsefulInfo(id: "hateruma-convenience", category: .convenience, name: "港・集落周辺の店舗", phoneNumber: nil, address: "波照間港付近", websiteURL: nil, note: "コンビニ・ATMは少なめです"),
-            UsefulInfo(id: "hateruma-tourism", category: .tourism, name: "波照間島観光案内", phoneNumber: "0980-85-8767", address: "沖縄県竹富町波照間", websiteURL: "https://www.hateruma-guide.com/", note: "最南端の碑・星空観測など"),
+            UsefulInfo(id: "hateruma-tourism", category: .tourism, name: "波照間島観光案内", phoneNumber: "0980-85-8767", address: "沖縄県竹富町波照間", websiteURL: "https://painusima.com/category/sima/haterumajima/", note: "最南端の碑・星空観測など"),
         ],
         liveCameras: [
             LiveCamera(title: "八重山リアルタイム（波照間方面）", urlString: "https://www.youtube.com/@YAEYAMALIVE"),
