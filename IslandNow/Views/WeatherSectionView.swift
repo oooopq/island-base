@@ -52,8 +52,24 @@ struct WeatherSectionView: View {
                     heatStrokeRiskContent
                 }
             }
+
+            openMeteoAttribution
         }
         .detailSectionCard()
+    }
+
+    // CC BY 4.0：天気データ表示箇所の近くに Open-Meteo へのリンクを置く
+    @ViewBuilder
+    private var openMeteoAttribution: some View {
+        if let url = AppURL.from(string: AppLegalInfo.openMeteoAttributionURL) {
+            OpenURLButton(url: url) {
+                Text(AppLegalInfo.openMeteoAttributionText)
+                    .font(.caption2)
+                    .foregroundStyle(palette.secondaryText)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            .padding(.top, 4)
+        }
     }
 
     @ViewBuilder

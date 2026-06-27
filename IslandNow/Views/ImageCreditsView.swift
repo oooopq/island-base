@@ -21,6 +21,7 @@ struct ImageCreditsView: View {
                 dataSourcesSection
                 islandCreditsSection
                 licenseNotesSection
+                legalLinksSection
             }
             .padding(16)
         }
@@ -136,6 +137,38 @@ struct ImageCreditsView: View {
                 }
                 .creditCardStyle(palette: palette)
             }
+        }
+    }
+
+    private var legalLinksSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("アプリの規約・お問い合わせ")
+                .font(.headline)
+                .foregroundStyle(palette.text)
+
+            VStack(alignment: .leading, spacing: 8) {
+                if let url = AppLegalInfo.privacyPolicyURL {
+                    legalLinkRow(title: "プライバシーポリシー", url: url)
+                }
+                if let url = AppLegalInfo.termsOfServiceURL {
+                    legalLinkRow(title: "利用規約", url: url)
+                }
+                if let url = AppLegalInfo.supportEmailURL {
+                    legalLinkRow(title: "お問い合わせ（\(AppLegalInfo.supportEmail)）", url: url)
+                }
+            }
+            .creditCardStyle(palette: palette)
+        }
+    }
+
+    private func legalLinkRow(title: String, url: URL) -> some View {
+        OpenURLButton(url: url) {
+            HStack(spacing: 6) {
+                Image(systemName: "link")
+                Text(title)
+                    .font(.caption)
+            }
+            .foregroundStyle(palette.iconAccent)
         }
     }
 
