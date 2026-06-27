@@ -45,4 +45,17 @@ struct UsefulInfo: Identifiable, Hashable {
     var websiteLink: URL? {
         AppURL.from(string: websiteURL)
     }
+
+    // 住所から Apple マップのナビ URL を作る
+    var navigationURL: URL? {
+        guard let address, address.isEmpty == false else { return nil }
+
+        var components = URLComponents(string: "https://maps.apple.com/")
+        components?.queryItems = [
+            URLQueryItem(name: "daddr", value: address),
+            URLQueryItem(name: "dirflg", value: "d"),
+            URLQueryItem(name: "q", value: name),
+        ]
+        return components?.url
+    }
 }

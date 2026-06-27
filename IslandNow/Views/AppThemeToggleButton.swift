@@ -14,8 +14,13 @@ struct AppThemeToggleButton: View {
         Button {
             themeStore.toggle()
         } label: {
-            Image(systemName: themeStore.mode.toggleSystemImage)
+            ThemeToggleIconView(
+                systemImage: themeStore.mode.toggleSystemImage,
+                palette: themeStore.palette
+            )
         }
+        .buttonStyle(.plain)
         .accessibilityLabel(themeStore.mode.accessibilityLabel)
+        .accessibilityHint("画面の明るさを切り替えます")
     }
 }

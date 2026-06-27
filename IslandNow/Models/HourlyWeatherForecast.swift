@@ -2,7 +2,7 @@
 //  HourlyWeatherForecast.swift
 //  Island Now
 //
-//  時間帯ごとの天気（今日の3時間おき表示用）
+//  時間帯ごとの天気（1時間おき表示用）
 //
 
 import Foundation

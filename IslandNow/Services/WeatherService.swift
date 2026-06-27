@@ -10,7 +10,7 @@ import Foundation
 struct WeatherService {
     private let cacheKeyPrefix = "weather_cache_"
 
-    // 島の座標から天気（現在＋今日3時間おき＋1週間）を取得し、キャッシュにも保存する
+    // 島の座標から天気（現在＋1時間おき24件＋1週間）を取得し、キャッシュにも保存する
     func fetchWeather(for island: Island) async throws -> WeatherInfo {
         let url = try makeURL(latitude: island.latitude, longitude: island.longitude)
         let (data, response) = try await URLSession.shared.data(from: url)
@@ -83,7 +83,7 @@ private struct OpenMeteoResponse: Decodable {
             condition: WeatherConditionMapper.japaneseName(for: current.weatherCode),
             humidityPercent: current.relativeHumidity2m,
             windSpeedKmh: Int(current.windSpeed10m.rounded()),
-            todayThreeHourForecast: hourly.toTodayThreeHourForecast(),
+            todayHourlyForecast: hourly.toTodayHourlyForecast(),
             weeklyForecast: daily.toWeeklyForecast()
         )
     }
@@ -118,34 +118,46 @@ private struct OpenMeteoHourly: Decodable {
         case relativeHumidity2m = "relative_humidity_2m"
     }
 
-    func toTodayThreeHourForecast() -> [HourlyWeatherForecast] {
+    func toTodayHourlyForecast(maxHours: Int = 24) -> [HourlyWeatherForecast] {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(identifier: "Asia/Tokyo") ?? .current
         let now = Date()
-        let currentHour = calendar.component(.hour, from: now)
-        let startHour = (currentHour / 3) * 3
-        let todayPrefix = WeatherDateFormatter.todayDatePrefix(for: now, calendar: calendar)
+        guard let startOfCurrentHour = calendar.date(
+            from: calendar.dateComponents([.year, .month, .day, .hour], from: now)
+        ) else {
+            return []
+        }
 
-        return time.indices.compactMap { index in
+        var forecasts: [HourlyWeatherForecast] = []
+
+        for index in time.indices {
             let timeString = time[index]
-            guard timeString.hasPrefix(todayPrefix),
-                  let hour = WeatherDateFormatter.hour(from: timeString) else {
-                return nil
+            guard let slotDate = WeatherDateFormatter.openMeteoDate(from: timeString, calendar: calendar) else {
+                continue
             }
-            guard hour >= startHour, hour <= 21, hour % 3 == 0 else {
-                return nil
+            guard slotDate >= startOfCurrentHour else {
+                continue
             }
 
             let precipitation = precipitationProbability[index]
-            return HourlyWeatherForecast(
-                id: timeString,
-                timeLabel: "\(hour)時",
-                temperatureCelsius: Int(temperature2m[index].rounded()),
-                condition: WeatherConditionMapper.japaneseName(for: weatherCode[index]),
-                humidityPercent: relativeHumidity2m[index],
-                precipitationProbabilityPercent: max(0, precipitation)
+            let hour = calendar.component(.hour, from: slotDate)
+            forecasts.append(
+                HourlyWeatherForecast(
+                    id: timeString,
+                    timeLabel: "\(hour)時",
+                    temperatureCelsius: Int(temperature2m[index].rounded()),
+                    condition: WeatherConditionMapper.japaneseName(for: weatherCode[index]),
+                    humidityPercent: relativeHumidity2m[index],
+                    precipitationProbabilityPercent: max(0, precipitation)
+                )
             )
+
+            if forecasts.count >= maxHours {
+                break
+            }
         }
+
+        return forecasts
     }
 }
 
@@ -201,6 +213,13 @@ private enum WeatherDateFormatter {
             return ""
         }
         return String(format: "%04d-%02d-%02dT", year, month, day)
+    }
+
+    static func openMeteoDate(from timeString: String, calendar: Calendar) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+        formatter.timeZone = calendar.timeZone
+        return formatter.date(from: timeString)
     }
 
     static func hour(from isoTime: String) -> Int? {

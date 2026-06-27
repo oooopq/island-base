@@ -12,6 +12,6 @@ struct WeatherInfo: Codable {
     let condition: String
     let humidityPercent: Int
     let windSpeedKmh: Int
-    let todayThreeHourForecast: [HourlyWeatherForecast]
+    let todayHourlyForecast: [HourlyWeatherForecast]
     let weeklyForecast: [DailyWeatherForecast]
 }

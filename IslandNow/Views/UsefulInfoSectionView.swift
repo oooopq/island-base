@@ -47,43 +47,48 @@ struct UsefulInfoSectionView: View {
                 if index > 0 {
                     Divider()
                 }
-                infoRow(item)
+                infoRow(item, category: category)
             }
         }
     }
 
     @ViewBuilder
-    private func infoRow(_ item: UsefulInfo) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(item.name)
-                .font(.subheadline)
-                .fontWeight(.medium)
+    private func infoRow(_ item: UsefulInfo, category: UsefulInfoCategory) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: category.systemImage)
+                .frame(width: 24)
+                .foregroundStyle(palette.iconAccent)
 
-            if let address = item.address, address.isEmpty == false {
-                Text(address)
-                    .font(.caption)
-                    .detailCardSecondaryText()
-            }
+            VStack(alignment: .leading, spacing: 4) {
+                Text(item.name)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
 
-            if let phoneNumber = item.phoneNumber, let phoneURL = item.phoneURL {
-                OpenURLButton(url: phoneURL) {
-                    Label(phoneNumber, systemImage: "phone.fill")
+                if let address = item.address, address.isEmpty == false {
+                    Text(address)
                         .font(.caption)
+                        .detailCardSecondaryText()
+                }
+
+                if let phoneNumber = item.phoneNumber, phoneNumber.isEmpty == false {
+                    Text(phoneNumber)
+                        .font(.caption)
+                        .detailCardSecondaryText()
+                }
+
+                if let note = item.note, note.isEmpty == false {
+                    Text(note)
+                        .font(.caption)
+                        .detailCardSecondaryText()
                 }
             }
 
-            if let website = item.websiteLink {
-                OpenURLButton(url: website) {
-                    Label("Webサイト", systemImage: "globe")
-                        .font(.caption)
-                }
-            }
+            Spacer(minLength: 4)
 
-            if let note = item.note, note.isEmpty == false {
-                Text(note)
-                    .font(.caption)
-                    .detailCardSecondaryText()
-            }
+            DetailRowLinkButtonsView(
+                websiteURL: item.websiteLink,
+                navigationURL: item.navigationURL
+            )
         }
     }
 }

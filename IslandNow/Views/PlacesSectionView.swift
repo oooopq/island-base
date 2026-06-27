@@ -132,55 +132,11 @@ struct PlacesSectionView: View {
 
             Spacer(minLength: 4)
 
-            placeActionButtons(for: place)
-        }
-    }
-
-    private func placeActionButtons(for place: PlaceInfo) -> some View {
-        HStack(spacing: 8) {
-            placeLinkButton(
-                url: place.websiteURL,
-                systemImage: "globe",
-                accessibilityLabel: "Webサイト",
-                isEnabled: place.websiteURL != nil
-            )
-
-            placeLinkButton(
-                url: place.navigationURL,
-                systemImage: "location.fill",
-                accessibilityLabel: "ナビ",
-                isEnabled: place.navigationURL != nil
+            DetailRowLinkButtonsView(
+                websiteURL: place.websiteURL,
+                navigationURL: place.navigationURL
             )
         }
-    }
-
-    @ViewBuilder
-    private func placeLinkButton(
-        url: URL?,
-        systemImage: String,
-        accessibilityLabel: String,
-        isEnabled: Bool
-    ) -> some View {
-        if isEnabled, let url {
-            OpenURLButton(url: url) {
-                placeLinkButtonLabel(systemImage: systemImage, isEnabled: true)
-            }
-            .accessibilityLabel(accessibilityLabel)
-        } else {
-            placeLinkButtonLabel(systemImage: systemImage, isEnabled: false)
-                .accessibilityLabel("\(accessibilityLabel)（利用不可）")
-        }
-    }
-
-    private func placeLinkButtonLabel(systemImage: String, isEnabled: Bool) -> some View {
-        Image(systemName: systemImage)
-            .font(.subheadline)
-            .frame(width: 34, height: 34)
-            .foregroundStyle(isEnabled ? palette.accent : palette.secondaryText.opacity(0.45))
-            .background(
-                (isEnabled ? palette.accent.opacity(0.16) : palette.secondaryText.opacity(0.08)),
-                in: Circle()
-            )
     }
 
     private func portAccessText(for place: PlaceInfo) -> String? {

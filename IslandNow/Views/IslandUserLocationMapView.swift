@@ -17,6 +17,7 @@ struct IslandUserLocationMapView: View {
 
     @Environment(\.detailPalette) private var palette
     @State private var cameraPosition: MapCameraPosition = .automatic
+    @State private var showsFullMap = false
 
     private let miniMapHeight: CGFloat = 96
 
@@ -27,13 +28,8 @@ struct IslandUserLocationMapView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(palette.accent)
 
-            NavigationLink {
-                IslandUserLocationFullMapView(
-                    island: island,
-                    islandProfile: islandProfile,
-                    userCoordinate: userCoordinate,
-                    authorizationStatus: authorizationStatus
-                )
+            Button {
+                showsFullMap = true
             } label: {
                 miniMapPreview
             }
@@ -50,6 +46,15 @@ struct IslandUserLocationMapView: View {
                     RoundedRectangle(cornerRadius: 16, style: .continuous)
                         .strokeBorder(palette.cardBorder, lineWidth: 1)
                 }
+        }
+        .fullScreenCover(isPresented: $showsFullMap) {
+            IslandUserLocationFullMapView(
+                island: island,
+                islandProfile: islandProfile,
+                userCoordinate: userCoordinate,
+                authorizationStatus: authorizationStatus
+            )
+            .environment(\.detailPalette, palette)
         }
     }
 

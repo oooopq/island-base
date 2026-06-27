@@ -28,7 +28,7 @@ struct WeatherSectionView: View {
             case .loaded(let weather, let isFromCache):
                 currentWeatherContent(weather)
                 heatStrokeRiskContent
-                todayThreeHourForecastContent(weather.todayThreeHourForecast)
+                todayHourlyForecastContent(weather.todayHourlyForecast)
                 weeklyForecastContent(weather.weeklyForecast)
                 if isFromCache {
                     Text("前回取得したデータを表示中")
@@ -43,7 +43,7 @@ struct WeatherSectionView: View {
                 if let cachedWeather {
                     currentWeatherContent(cachedWeather)
                     heatStrokeRiskContent
-                    todayThreeHourForecastContent(cachedWeather.todayThreeHourForecast)
+                    todayHourlyForecastContent(cachedWeather.todayHourlyForecast)
                     weeklyForecastContent(cachedWeather.weeklyForecast)
                     Text("オフライン用の保存データです")
                         .font(.caption)
@@ -79,9 +79,15 @@ struct WeatherSectionView: View {
             }
         }
 
-        Label("風速 \(weather.windSpeedKmh) km/h", systemImage: "wind")
+        Label("風速 \(formattedWindSpeedMs(kmh: weather.windSpeedKmh)) m/s", systemImage: "wind")
             .font(.subheadline)
             .detailCardSecondaryText()
+    }
+
+    // km/h を m/s に変換して表示用に整形する（小数点1桁）
+    private func formattedWindSpeedMs(kmh: Int) -> String {
+        let metersPerSecond = Double(kmh) / 3.6
+        return String(format: "%.1f", metersPerSecond)
     }
 
     @ViewBuilder
@@ -127,50 +133,22 @@ struct WeatherSectionView: View {
     }
 
     @ViewBuilder
-    private func todayThreeHourForecastContent(_ forecast: [HourlyWeatherForecast]) -> some View {
+    private func todayHourlyForecastContent(_ forecast: [HourlyWeatherForecast]) -> some View {
         if forecast.isEmpty == false {
             Divider()
                 .padding(.vertical, 4)
 
-            Text("今日の天気（3時間おき）")
+            Text("1時間ごとの予報")
                 .font(.subheadline)
                 .detailCardSecondaryText()
 
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(forecast) { slot in
-                        VStack(spacing: 6) {
-                            Text(slot.timeLabel)
-                                .font(.caption)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(palette.accent)
-
-                            WeatherIconView(condition: slot.condition, iconSize: 28)
-
-                            Text("\(slot.temperatureCelsius)°")
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-
-                            Text(slot.condition)
-                                .font(.caption2)
-                                .detailCardSecondaryText()
-                                .lineLimit(1)
-
-                            Text("湿度 \(slot.humidityPercent)%")
-                                .font(.caption2)
-                                .detailCardSecondaryText()
-
-                            Label("\(slot.precipitationProbabilityPercent)%", systemImage: "drop.fill")
-                                .font(.caption2)
-                                .foregroundStyle(.blue.opacity(0.85))
-                        }
-                        .frame(width: 72)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 4)
-                        .background {
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(palette.hourlySlotBackground)
-                        }
+                HStack(spacing: 8) {
+                    ForEach(Array(forecast.enumerated()), id: \.element.id) { index, slot in
+                        HourlyForecastSlotView(
+                            slot: slot,
+                            isNow: index == 0
+                        )
                     }
                 }
                 .padding(.vertical, 2)
@@ -206,6 +184,68 @@ struct WeatherSectionView: View {
     }
 }
 
+private struct HourlyForecastSlotView: View {
+    let slot: HourlyWeatherForecast
+    let isNow: Bool
+
+    @Environment(\.detailPalette) private var palette
+
+    var body: some View {
+        VStack(spacing: 6) {
+            Text(isNow ? "今" : slot.timeLabel)
+                .font(.caption2)
+                .fontWeight(.semibold)
+                .foregroundStyle(isNow ? palette.accent : palette.secondaryText)
+
+            WeatherIconView(condition: slot.condition, iconSize: 24)
+
+            Text("\(slot.temperatureCelsius)°")
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundStyle(palette.text)
+
+            VStack(spacing: 4) {
+                hourlyMetricRow(
+                    icon: "humidity.fill",
+                    value: "\(slot.humidityPercent)%",
+                    color: palette.secondaryText
+                )
+                hourlyMetricRow(
+                    icon: "drop.fill",
+                    value: "\(slot.precipitationProbabilityPercent)%",
+                    color: .blue.opacity(0.85)
+                )
+            }
+        }
+        .frame(width: 70)
+        .padding(.vertical, 10)
+        .padding(.horizontal, 4)
+        .background {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(isNow ? palette.accent.opacity(0.14) : palette.hourlySlotBackground)
+        }
+        .overlay {
+            if isNow {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .strokeBorder(palette.accent.opacity(0.85), lineWidth: 1.5)
+            }
+        }
+    }
+
+    // 湿度・降水確率は幅70pxのスロット内で常に同じ横並び（アイコン＋数値）にする
+    private func hourlyMetricRow(icon: String, value: String, color: Color) -> some View {
+        HStack(spacing: 3) {
+            Image(systemName: icon)
+            Text(value)
+                .monospacedDigit()
+        }
+        .font(.caption2)
+        .foregroundStyle(color)
+        .lineLimit(1)
+        .frame(maxWidth: .infinity)
+    }
+}
+
 #Preview {
     WeatherSectionView(
         state: .loaded(
@@ -214,7 +254,7 @@ struct WeatherSectionView: View {
                 condition: "晴れ",
                 humidityPercent: 72,
                 windSpeedKmh: 14,
-                todayThreeHourForecast: [
+                todayHourlyForecast: [
                     HourlyWeatherForecast(
                         id: "2026-06-21T09:00",
                         timeLabel: "9時",
@@ -224,20 +264,20 @@ struct WeatherSectionView: View {
                         precipitationProbabilityPercent: 10
                     ),
                     HourlyWeatherForecast(
-                        id: "2026-06-21T12:00",
-                        timeLabel: "12時",
+                        id: "2026-06-21T10:00",
+                        timeLabel: "10時",
+                        temperatureCelsius: 28,
+                        condition: "晴れ",
+                        humidityPercent: 70,
+                        precipitationProbabilityPercent: 5
+                    ),
+                    HourlyWeatherForecast(
+                        id: "2026-06-21T11:00",
+                        timeLabel: "11時",
                         temperatureCelsius: 29,
                         condition: "くもり",
                         humidityPercent: 68,
-                        precipitationProbabilityPercent: 30
-                    ),
-                    HourlyWeatherForecast(
-                        id: "2026-06-21T21:00",
-                        timeLabel: "21時",
-                        temperatureCelsius: 24,
-                        condition: "くもり",
-                        humidityPercent: 85,
-                        precipitationProbabilityPercent: 0
+                        precipitationProbabilityPercent: 20
                     ),
                 ],
                 weeklyForecast: [
@@ -269,7 +309,7 @@ struct WeatherSectionView: View {
                 condition: "晴れ",
                 humidityPercent: 72,
                 windSpeedKmh: 14,
-                todayThreeHourForecast: [],
+                todayHourlyForecast: [],
                 weeklyForecast: []
             ),
             isFromCache: false

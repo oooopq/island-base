@@ -75,7 +75,7 @@ enum NextDepartureHelper {
 
         return upcoming(from: candidates, limit: limit) { trip, companyName in
             UpcomingDeparture(
-                id: "ferry-\(trip.id)",
+                id: departureID(prefix: "ferry", routeText: trip.routeName, departureTime: trip.departureTime, arrivalTime: trip.arrivalTime),
                 routeText: trip.routeName,
                 departureTime: trip.departureTime,
                 arrivalTime: trip.arrivalTime,
@@ -105,7 +105,7 @@ enum NextDepartureHelper {
 
         return upcoming(from: candidates, limit: limit) { trip, flightNumber in
             UpcomingDeparture(
-                id: "flight-\(trip.id)",
+                id: departureID(prefix: "flight", routeText: trip.routeName, departureTime: trip.departureTime, arrivalTime: trip.arrivalTime),
                 routeText: trip.routeName,
                 departureTime: trip.departureTime,
                 arrivalTime: trip.arrivalTime,
@@ -137,14 +137,42 @@ enum NextDepartureHelper {
             return (minutes, departure)
         }
         .sorted { $0.0 < $1.0 }
+        .map(\.1)
 
-        let remaining = sorted.filter { $0.0 > now }.prefix(limit).map(\.1)
+        let unique = deduplicatedDepartures(sorted)
+
+        let remaining = unique.filter { departure in
+            guard let minutes = minutesSinceMidnight(for: departure.departureTime) else { return false }
+            return minutes > now
+        }.prefix(limit)
         if remaining.isEmpty == false {
             return Array(remaining)
         }
 
         // 本日の便が終わっていれば、翌日の最初の便を表示
-        return Array(sorted.prefix(limit).map(\.1))
+        return Array(unique.prefix(limit))
+    }
+
+    /// 複数社・複数GTFS由来で同じ航路・同時刻の便が重なるとき、1件にまとめる
+    private static func deduplicatedDepartures(_ departures: [UpcomingDeparture]) -> [UpcomingDeparture] {
+        var seen = Set<String>()
+        var unique: [UpcomingDeparture] = []
+
+        for departure in departures {
+            let key = departureDedupKey(for: departure)
+            guard seen.insert(key).inserted else { continue }
+            unique.append(departure)
+        }
+
+        return unique
+    }
+
+    private static func departureDedupKey(for departure: UpcomingDeparture) -> String {
+        "\(departure.routeText)|\(departure.departureTime)|\(departure.arrivalTime)"
+    }
+
+    private static func departureID(prefix: String, routeText: String, departureTime: String, arrivalTime: String) -> String {
+        "\(prefix)-\(routeText)-\(departureTime)-\(arrivalTime)"
     }
 
     static func isTodayFinished(_ departures: [UpcomingDeparture]) -> Bool {

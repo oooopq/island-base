@@ -27,27 +27,14 @@ struct AppBrandTitleView: View {
     }
 
     private var heroTitle: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline, spacing: 0) {
-                Text("Island")
-                    .font(.system(size: 36, weight: .ultraLight, design: .serif))
-                    .foregroundStyle(palette.text)
+        HStack(alignment: .firstTextBaseline, spacing: 0) {
+            Text("Island")
+                .font(.system(size: 36, weight: .ultraLight, design: .serif))
+                .foregroundStyle(palette.text)
 
-                Text("Now")
-                    .font(.system(size: 36, weight: .bold, design: .serif))
-                    .foregroundStyle(brandGradient)
-            }
-
-            HStack(spacing: 8) {
-                brandAccentBar
-                    .frame(width: 28, height: 2)
-
-                Text("離島の、いま。")
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .tracking(1.2)
-                    .foregroundStyle(palette.secondaryText)
-            }
+            Text("Now")
+                .font(.system(size: 36, weight: .bold, design: .serif))
+                .foregroundStyle(brandGradient)
         }
     }
 
@@ -69,11 +56,6 @@ struct AppBrandTitleView: View {
             startPoint: .leading,
             endPoint: .trailing
         )
-    }
-
-    private var brandAccentBar: some View {
-        Capsule(style: .continuous)
-            .fill(brandGradient)
     }
 }
 
