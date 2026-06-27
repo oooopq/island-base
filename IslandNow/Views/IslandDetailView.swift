@@ -13,21 +13,19 @@ struct IslandDetailView: View {
     @Environment(\.detailPalette) private var palette
     @State private var selectedSection: IslandDetailSection = .weather
     @State private var weatherState: WeatherLoadState = .loading
+    @State private var heatStrokeState: HeatStrokeRiskLoadState = .unavailable
     @State private var ferryState: FerryLoadState = .loading
     @State private var placesState: PlacesLoadState = .loading
     @State private var selectedPlaceCategory: PlaceCategory = .restaurant
     @State private var locationService = UserLocationService()
 
     private let weatherService = WeatherService()
+    private let wbgtService = WBGTService()
     private let ferryService = FerryService()
     private let placesSearchService = PlacesSearchService()
 
     private var islandProfile: IslandProfile? {
         IslandCatalog.profile(for: island)
-    }
-
-    private var liveCameras: [LiveCamera] {
-        islandProfile?.liveCameras ?? []
     }
 
     private var placeSearchTaskID: String {
@@ -88,8 +86,9 @@ struct IslandDetailView: View {
             restoreCachedStates(for: island)
 
             async let weatherLoad: Void = loadWeather()
+            async let heatStrokeLoad: Void = loadHeatStrokeRisk()
             async let ferryLoad: Void = loadFerrySchedules()
-            _ = await (weatherLoad, ferryLoad)
+            _ = await (weatherLoad, heatStrokeLoad, ferryLoad)
         }
         .task(id: placeSearchTaskID) {
             await loadPlaces()
@@ -106,7 +105,7 @@ struct IslandDetailView: View {
     private var selectedSectionContent: some View {
         switch selectedSection {
         case .weather:
-            WeatherSectionView(state: weatherState)
+            WeatherSectionView(state: weatherState, heatStrokeState: heatStrokeState)
 
         case .schedule:
             FerryScheduleSectionView(island: island, state: ferryState)
@@ -130,7 +129,8 @@ struct IslandDetailView: View {
 
         case .liveCamera:
             LiveCameraSectionView(
-                cameras: liveCameras,
+                liveCameras: islandProfile?.liveCameras ?? [],
+                youtubeRelatedLinks: islandProfile?.youtubeRelatedLinks ?? [],
                 footnote: islandProfile?.liveCameraFootnote
             )
         }
@@ -142,6 +142,11 @@ struct IslandDetailView: View {
         if weatherService.cachedWeather(for: island.id) == nil {
             weatherState = .loading
         }
+        if islandProfile?.wbgtStationNo != nil,
+           WBGTService.isInSeason,
+           wbgtService.cachedRisk(for: island.id) == nil {
+            heatStrokeState = .loading
+        }
         if ferryService.cachedSchedules(for: island.id) == nil {
             ferryState = .loading
         }
@@ -150,9 +155,10 @@ struct IslandDetailView: View {
         }
 
         async let weatherLoad: Void = loadWeather()
+        async let heatStrokeLoad: Void = loadHeatStrokeRisk()
         async let ferryLoad: Void = loadFerrySchedules()
         async let placesLoad: Void = loadPlaces()
-        _ = await (weatherLoad, ferryLoad, placesLoad)
+        _ = await (weatherLoad, heatStrokeLoad, ferryLoad, placesLoad)
     }
 
     // 保存済みデータがあれば先に表示する（LTEが使えない島向け）
@@ -163,6 +169,8 @@ struct IslandDetailView: View {
         } else {
             weatherState = .loading
         }
+
+        restoreHeatStrokeState(for: island)
 
         if let cached = ferryService.cachedSchedules(for: island.id) {
             ferryState = .loaded(
@@ -197,6 +205,47 @@ struct IslandDetailView: View {
                 return
             }
             weatherState = .failed(message: "天気を取得できませんでした", cachedWeather: nil)
+        }
+    }
+
+    @MainActor
+    private func restoreHeatStrokeState(for island: Island) {
+        guard islandProfile?.wbgtStationNo != nil, WBGTService.isInSeason else {
+            heatStrokeState = .unavailable
+            return
+        }
+
+        if let cached = wbgtService.cachedRisk(for: island.id) {
+            heatStrokeState = .loaded(cached, isFromCache: true)
+        } else {
+            heatStrokeState = .loading
+        }
+    }
+
+    @MainActor
+    private func loadHeatStrokeRisk() async {
+        guard let stationNo = islandProfile?.wbgtStationNo, WBGTService.isInSeason else {
+            heatStrokeState = .unavailable
+            return
+        }
+
+        if case .loading = heatStrokeState,
+           let cached = wbgtService.cachedRisk(for: island.id) {
+            heatStrokeState = .loaded(cached, isFromCache: true)
+        }
+
+        do {
+            if let risk = try await wbgtService.fetchRisk(stationNo: stationNo, islandID: island.id) {
+                heatStrokeState = .loaded(risk, isFromCache: false)
+            } else {
+                heatStrokeState = .unavailable
+            }
+        } catch {
+            if let cached = wbgtService.cachedRisk(for: island.id) {
+                heatStrokeState = .loaded(cached, isFromCache: true)
+            } else {
+                heatStrokeState = .failed
+            }
         }
     }
 

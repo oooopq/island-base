@@ -5,7 +5,7 @@
 //  島詳細画面で切り替えるセクション
 //
 
-import Foundation
+import SwiftUI
 
 enum IslandDetailSection: String, CaseIterable, Identifiable {
     case weather
@@ -38,6 +38,20 @@ enum IslandDetailSection: String, CaseIterable, Identifiable {
             return "bag.fill"
         case .liveCamera:
             return "video.fill"
+        }
+    }
+
+    /// セクションタブのアイコン色
+    var iconColor: Color {
+        switch self {
+        case .weather:
+            return Color(red: 1.0, green: 0.78, blue: 0.28)
+        case .schedule:
+            return Color(red: 0.35, green: 0.72, blue: 0.98)
+        case .places:
+            return Color(red: 0.42, green: 0.84, blue: 0.58)
+        case .liveCamera:
+            return Color(red: 0.96, green: 0.42, blue: 0.48)
         }
     }
 }

@@ -63,6 +63,12 @@ enum YaeyamaIslandProfiles {
 
     private static let flightScheduleNote = "2026年夏ダイヤ時点。季節により変更があります。"
 
+    private static let yaeyamaYouTubeURL = "https://www.youtube.com/@YAEYAMALIVE"
+
+    private static func yaeyamaYouTube(title: String) -> LiveCamera {
+        LiveCamera(title: title, urlString: yaeyamaYouTubeURL)
+    }
+
     // MARK: - 石垣島
 
     private static let ishigaki = IslandProfile(
@@ -101,8 +107,12 @@ enum YaeyamaIslandProfiles {
         liveCameras: [
             LiveCamera(title: "石垣港ライブカメラ（RBC）", urlString: "https://www.youtube.com/watch?v=5jHCxMEGor0"),
         ],
+        youtubeRelatedLinks: [
+            yaeyamaYouTube(title: "八重山リアルタイム"),
+        ],
         flightSchedules: yonaguniLineFlightSchedules,
-        flightScheduleNote: flightScheduleNote
+        flightScheduleNote: flightScheduleNote,
+        wbgtStationNo: 94_081
     )
 
     // MARK: - 竹富島
@@ -131,11 +141,13 @@ enum YaeyamaIslandProfiles {
             UsefulInfo(id: "taketomi-convenience", category: .convenience, name: "竹富港・集落周辺", phoneNumber: nil, address: "竹富港から徒歩圏内", websiteURL: nil, note: "コンビニ・ATMは集落内に少数"),
             UsefulInfo(id: "taketomi-tourism", category: .tourism, name: "竹富町観光協会", phoneNumber: "0980-85-2441", address: "沖縄県竹富町竹富", websiteURL: "https://www.taketomijima.jp/", note: "水牛車・サイクル観光の案内"),
         ],
-        liveCameras: [
-            LiveCamera(title: "八重山リアルタイム（竹富島周辺）", urlString: "https://www.youtube.com/@YAEYAMALIVE"),
+        liveCameras: [],
+        youtubeRelatedLinks: [
+            yaeyamaYouTube(title: "八重山リアルタイム（竹富島周辺）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: nil
+        flightScheduleNote: nil,
+        wbgtStationNo: 94_001
     )
 
     // MARK: - 黒島
@@ -164,11 +176,13 @@ enum YaeyamaIslandProfiles {
             UsefulInfo(id: "kuroshima-convenience", category: .convenience, name: "黒島港周辺", phoneNumber: nil, address: "黒島港・集落", websiteURL: nil, note: "店舗は限られます。現金の用意を"),
             UsefulInfo(id: "kuroshima-tourism", category: .tourism, name: "黒島観光案内（竹富町）", phoneNumber: "0980-85-2441", address: "竹富町役場観光課", websiteURL: "https://www.taketomijima.jp/", note: "黒島は竹富町に属します"),
         ],
-        liveCameras: [
-            LiveCamera(title: "八重山リアルタイム（黒島周辺）", urlString: "https://www.youtube.com/@YAEYAMALIVE"),
+        liveCameras: [],
+        youtubeRelatedLinks: [
+            yaeyamaYouTube(title: "八重山リアルタイム（黒島周辺）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: nil
+        flightScheduleNote: nil,
+        wbgtStationNo: 94_001
     )
 
     // MARK: - 波照間島
@@ -197,11 +211,13 @@ enum YaeyamaIslandProfiles {
             UsefulInfo(id: "hateruma-convenience", category: .convenience, name: "港・集落周辺の店舗", phoneNumber: nil, address: "波照間港付近", websiteURL: nil, note: "コンビニ・ATMは少なめです"),
             UsefulInfo(id: "hateruma-tourism", category: .tourism, name: "波照間島観光案内", phoneNumber: "0980-85-8767", address: "沖縄県竹富町波照間", websiteURL: "https://painusima.com/category/sima/haterumajima/", note: "最南端の碑・星空観測など"),
         ],
-        liveCameras: [
-            LiveCamera(title: "八重山リアルタイム（波照間方面）", urlString: "https://www.youtube.com/@YAEYAMALIVE"),
+        liveCameras: [],
+        youtubeRelatedLinks: [
+            yaeyamaYouTube(title: "八重山リアルタイム（波照間方面）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: nil
+        flightScheduleNote: nil,
+        wbgtStationNo: 94_116
     )
 
     // MARK: - 西表島
@@ -244,10 +260,13 @@ enum YaeyamaIslandProfiles {
         ],
         liveCameras: [
             LiveCamera(title: "西表島ライブカメラ（ヤシガニNET）", urlString: "https://www.youtube.com/@iriomote1956"),
-            LiveCamera(title: "八重山リアルタイム（西表島周辺）", urlString: "https://www.youtube.com/@YAEYAMALIVE"),
+        ],
+        youtubeRelatedLinks: [
+            yaeyamaYouTube(title: "八重山リアルタイム（西表島周辺）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: nil
+        flightScheduleNote: nil,
+        wbgtStationNo: 94_062
     )
 
     // MARK: - 与那国島
@@ -280,8 +299,12 @@ enum YaeyamaIslandProfiles {
             LiveCamera(title: "八重山リアルタイム（ライブ配信）", urlString: "https://www.youtube.com/@YAEYAMALIVE/live"),
             LiveCamera(title: "西埼灯台（海上保安庁・公式ページ）", urlString: "https://www6.kaiho.mlit.go.jp/11kanku/ishigaki/irisaki_lt/livecamera/index.html"),
         ],
+        youtubeRelatedLinks: [
+            yaeyamaYouTube(title: "八重山リアルタイム"),
+        ],
         liveCameraFootnote: "※ 海上保安庁の灯台カメラはスマホで真っ白になることがあります。上のYouTubeリンクをお試しください。",
         flightSchedules: yonaguniLineFlightSchedules,
-        flightScheduleNote: flightScheduleNote
+        flightScheduleNote: flightScheduleNote,
+        wbgtStationNo: 94_017
     )
 }

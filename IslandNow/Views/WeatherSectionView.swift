@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WeatherSectionView: View {
     let state: WeatherLoadState
+    let heatStrokeState: HeatStrokeRiskLoadState
 
     @Environment(\.detailPalette) private var palette
 
@@ -25,6 +26,7 @@ struct WeatherSectionView: View {
 
             case .loaded(let weather, let isFromCache):
                 currentWeatherContent(weather)
+                heatStrokeRiskContent
                 todayThreeHourForecastContent(weather.todayThreeHourForecast)
                 weeklyForecastContent(weather.weeklyForecast)
                 if isFromCache {
@@ -39,6 +41,7 @@ struct WeatherSectionView: View {
                     .foregroundStyle(palette.warning)
                 if let cachedWeather {
                     currentWeatherContent(cachedWeather)
+                    heatStrokeRiskContent
                     todayThreeHourForecastContent(cachedWeather.todayThreeHourForecast)
                     weeklyForecastContent(cachedWeather.weeklyForecast)
                     Text("オフライン用の保存データです")
@@ -76,8 +79,23 @@ struct WeatherSectionView: View {
         Label("風速 \(weather.windSpeedKmh) km/h", systemImage: "wind")
             .font(.subheadline)
             .detailCardSecondaryText()
+    }
 
-        WeatherNoticeBannerView(notices: WeatherNoticeHelper.notices(for: weather))
+    @ViewBuilder
+    private var heatStrokeRiskContent: some View {
+        switch heatStrokeState {
+        case .unavailable:
+            EmptyView()
+        case .loading:
+            ProgressView()
+                .tint(palette.accent)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 8)
+        case .loaded(let risk, _):
+            HeatStrokeRiskBannerView(risk: risk)
+        case .failed:
+            EmptyView()
+        }
     }
 
     @ViewBuilder
@@ -205,6 +223,10 @@ struct WeatherSectionView: View {
                     ),
                 ]
             ),
+            isFromCache: false
+        ),
+        heatStrokeState: .loaded(
+            HeatStrokeRiskInfo(currentWBGT: 26.0, todayMaxWBGT: 31.0),
             isFromCache: false
         )
     )

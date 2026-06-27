@@ -104,19 +104,21 @@ enum SadoIslandProfiles {
                 note: "観光案内・イベント情報"
             ),
         ],
-        liveCameras: [
+        liveCameras: [],
+        youtubeRelatedLinks: [
             LiveCamera(
-                title: "佐渡観光ナビ（公式サイト）",
-                urlString: "https://www.visitsado.com/"
+                title: "新潟県公式チャンネル（佐渡）",
+                urlString: "https://www.youtube.com/@niigatapref"
             ),
             LiveCamera(
-                title: "佐渡汽船（運航情報）",
-                urlString: "https://www.sadokisen.co.jp/"
+                title: "けえ【島育ち】（佐渡出身）",
+                urlString: "https://www.youtube.com/@kee_sado"
             ),
         ],
         flightSchedules: [
             FlightAirlineSchedule(id: "sado-ana", airline: ana, trips: sadoFlights),
         ],
-        flightScheduleNote: flightScheduleNote
+        flightScheduleNote: flightScheduleNote,
+        wbgtStationNo: 54_166
     )
 }
