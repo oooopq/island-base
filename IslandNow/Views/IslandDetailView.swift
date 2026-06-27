@@ -54,8 +54,9 @@ struct IslandDetailView: View {
         }
     }
 
+    // スポットタブ表示時だけ店舗検索を走らせる（初回表示を軽くする）
     private var placeSearchTaskID: String {
-        island.id + "-" + selectedPlaceCategory.rawValue
+        island.id + "-" + selectedSection.rawValue + "-" + selectedPlaceCategory.rawValue
     }
 
     var body: some View {
@@ -109,6 +110,7 @@ struct IslandDetailView: View {
         .task(id: island.id) {
             selectedSection = .weather
             selectedPlaceCategory = .restaurant
+            placesState = .loading
             restoreCachedStates(for: island)
 
             async let weatherLoad: Void = loadWeather()
@@ -117,6 +119,7 @@ struct IslandDetailView: View {
             _ = await (weatherLoad, heatStrokeLoad, ferryLoad)
         }
         .task(id: placeSearchTaskID) {
+            guard selectedSection == .places else { return }
             await loadPlaces()
         }
         .onAppear {
@@ -181,15 +184,19 @@ struct IslandDetailView: View {
         if ferryService.cachedSchedules(for: island.id) == nil {
             ferryState = .loading
         }
-        if placesSearchService.cachedPlaces(for: island.id, category: selectedPlaceCategory) == nil {
+        if selectedSection == .places,
+           placesSearchService.cachedPlaces(for: island.id, category: selectedPlaceCategory) == nil {
             placesState = .loading
         }
 
         async let weatherLoad: Void = loadWeather()
         async let heatStrokeLoad: Void = loadHeatStrokeRisk()
         async let ferryLoad: Void = loadFerrySchedules()
-        async let placesLoad: Void = loadPlaces()
-        _ = await (weatherLoad, heatStrokeLoad, ferryLoad, placesLoad)
+        _ = await (weatherLoad, heatStrokeLoad, ferryLoad)
+
+        if selectedSection == .places {
+            await loadPlaces()
+        }
     }
 
     // 保存済みデータがあれば先に表示する（LTEが使えない島向け）
@@ -211,12 +218,6 @@ struct IslandDetailView: View {
             )
         } else {
             ferryState = .loading
-        }
-
-        if let cached = placesSearchService.cachedPlaces(for: island.id, category: selectedPlaceCategory) {
-            placesState = .loaded(cached, isFromCache: true)
-        } else {
-            placesState = .loading
         }
     }
 
