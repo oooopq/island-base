@@ -103,7 +103,7 @@ struct FerryService {
                 schedule = nil
             } else {
                 schedule = FerryCompanySchedule(
-                    id: "\(islandID)-\(feed.scheduleID)",
+                    id: "\(islandID)-\(feed.id)",
                     company: feed.company,
                     trips: trips
                 )

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct LiveCameraSectionView: View {
-    let islandID: String
     let cameras: [LiveCamera]
+    let footnote: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -37,10 +37,7 @@ struct LiveCameraSectionView: View {
     }
 
     private var footnoteText: String {
-        if islandID == "yonaguni" {
-            return "※ 海上保安庁の灯台カメラはスマホで真っ白になることがあります。上のYouTubeリンクをお試しください。"
-        }
-        return "※ 配信停止・メンテナンス中の場合があります。"
+        footnote ?? "※ 配信停止・メンテナンス中の場合があります。"
     }
 
     @ViewBuilder
@@ -65,8 +62,8 @@ struct LiveCameraSectionView: View {
 
 #Preview {
     LiveCameraSectionView(
-        islandID: "ishigaki",
-        cameras: IslandCatalog.profile(for: "ishigaki")?.liveCameras ?? []
+        cameras: IslandCatalog.profile(for: "ishigaki")?.liveCameras ?? [],
+        footnote: nil
     )
-        .padding()
+    .padding()
 }

@@ -73,7 +73,7 @@ enum YaeyamaIslandProfiles {
         backgroundCredit: "Photo: Vladimir Haltakov / Unsplash",
         placeSearchRadiusMeters: 18_000,
         routeKeywords: ["石垣"],
-        ferryGTFSFeeds: [.anei, .yaeyamaFerry, .fukuyama],
+        ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry, FerryGTFSFeedCatalog.fukuyama],
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "ishigaki-yaeyama",
@@ -115,7 +115,7 @@ enum YaeyamaIslandProfiles {
         backgroundCredit: "Photo: Unsplash",
         placeSearchRadiusMeters: 6_000,
         routeKeywords: ["竹富"],
-        ferryGTFSFeeds: [.anei, .yaeyamaFerry],
+        ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "taketomi-yaeyama",
@@ -148,7 +148,7 @@ enum YaeyamaIslandProfiles {
         backgroundCredit: "Photo: Unsplash（沖縄の海と緑）",
         placeSearchRadiusMeters: 6_000,
         routeKeywords: ["黒島"],
-        ferryGTFSFeeds: [.anei, .yaeyamaFerry],
+        ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "kuroshima-anei",
@@ -181,7 +181,7 @@ enum YaeyamaIslandProfiles {
         backgroundCredit: "Photo: Unsplash（南国の海）",
         placeSearchRadiusMeters: 10_000,
         routeKeywords: ["波照間"],
-        ferryGTFSFeeds: [.anei, .yaeyamaFerry],
+        ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "hateruma-yaeyama",
@@ -214,7 +214,7 @@ enum YaeyamaIslandProfiles {
         backgroundCredit: "Photo: Unsplash（森と自然）",
         placeSearchRadiusMeters: 18_000,
         routeKeywords: ["大原", "上原", "西表", "由布"],
-        ferryGTFSFeeds: [.anei, .yaeyamaFerry],
+        ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "iriomote-yaeyama",
@@ -257,7 +257,7 @@ enum YaeyamaIslandProfiles {
         backgroundCredit: "Photo: Unsplash（荒波の海）",
         placeSearchRadiusMeters: 10_000,
         routeKeywords: ["与那国"],
-        ferryGTFSFeeds: [.fukuyama, .anei, .yaeyamaFerry],
+        ferryGTFSFeeds: [FerryGTFSFeedCatalog.fukuyama, FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "yonaguni-anei",
@@ -277,6 +277,7 @@ enum YaeyamaIslandProfiles {
             LiveCamera(title: "八重山リアルタイム（ライブ配信）", urlString: "https://www.youtube.com/@YAEYAMALIVE/live"),
             LiveCamera(title: "西埼灯台（海上保安庁・公式ページ）", urlString: "https://www6.kaiho.mlit.go.jp/11kanku/ishigaki/irisaki_lt/livecamera/index.html"),
         ],
+        liveCameraFootnote: "※ 海上保安庁の灯台カメラはスマホで真っ白になることがあります。上のYouTubeリンクをお試しください。",
         flightSchedules: yonaguniLineFlightSchedules,
         flightScheduleNote: flightScheduleNote
     )

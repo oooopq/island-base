@@ -94,7 +94,8 @@ struct FerryScheduleSectionView: View {
         }
 
         if let validUntilText {
-            Text("データ有効期限: \(validUntilText)（OTTOP公開データ）")
+            let suffix = IslandCatalog.ferryValidUntilSuffix(for: island.id) ?? ""
+            Text("データ有効期限: \(validUntilText)\(suffix)")
                 .font(.caption)
                 .detailCardSecondaryText()
         }
@@ -107,8 +108,8 @@ struct FerryScheduleSectionView: View {
             Text("前回取得したデータを表示中")
                 .font(.caption)
                 .detailCardSecondaryText()
-        } else {
-            Text("沖縄公共交通オープンデータ（OTTOP）から取得しています")
+        } else if let sourceNote = IslandCatalog.ferryDataSourceNote(for: island.id) {
+            Text(sourceNote)
                 .font(.caption)
                 .detailCardSecondaryText()
         }

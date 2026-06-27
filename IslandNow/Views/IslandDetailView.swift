@@ -37,7 +37,7 @@ struct IslandDetailView: View {
         VStack(spacing: 0) {
             IslandDetailHeaderView(
                 island: island,
-                regionID: islandProfile?.regionID
+                regionDisplayName: islandProfile?.regionDisplayName
             )
             .padding(.horizontal)
             .padding(.top, 6)
@@ -123,7 +123,10 @@ struct IslandDetailView: View {
             )
 
         case .liveCamera:
-            LiveCameraSectionView(islandID: island.id, cameras: liveCameras)
+            LiveCameraSectionView(
+                cameras: liveCameras,
+                footnote: islandProfile?.liveCameraFootnote
+            )
         }
     }
 

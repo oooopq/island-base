@@ -15,6 +15,7 @@ struct FlightDestination: Identifiable, Hashable {
 enum FlightRouteHelper {
     static let allDestinationsID = "all"
 
+    // 「石垣 → 竹富」形式を出発地と到着地に分ける
     static func parseRoute(_ routeName: String) -> (departure: String, arrival: String)? {
         let separator = " → "
         guard let range = routeName.range(of: separator) else { return nil }
@@ -30,9 +31,7 @@ enum FlightRouteHelper {
         if let islandID = IslandCatalog.islandID(matchingPlaceName: placeName) {
             return islandID
         }
-        if placeName.contains("那覇") { return "naha" }
-        if placeName.contains("新潟") { return "niigata" }
-        return nil
+        return FlightEndpointCatalog.endpointID(matchingPlaceName: placeName)
     }
 
     static func partnerEndpointID(for trip: FlightTrip, currentIslandID: String) -> String? {
@@ -71,14 +70,10 @@ enum FlightRouteHelper {
         if let islandName = IslandCatalog.profile(for: endpointID)?.island.nameJapanese {
             return islandName
         }
-        switch endpointID {
-        case "naha":
-            return "那覇"
-        case "niigata":
-            return "新潟"
-        default:
-            return endpointID
+        if let externalName = FlightEndpointCatalog.displayName(for: endpointID) {
+            return externalName
         }
+        return endpointID
     }
 
     static func filteredTrips(_ trips: [FlightTrip], destinationID: String, currentIslandID: String) -> [FlightTrip] {

@@ -5,9 +5,10 @@
 //  アプリに登録されている島の一覧
 //
 //  【新しい島を追加するとき】
-//  1. YaeyamaIslandProfiles.swift など、地域ごとのファイルに IslandProfile を1つ追加
-//  2. 下の all 配列にその地域のプロファイルを足す
-//  3. 背景画像があれば Assets.xcassets に imageset を追加
+//  1. XxxIslandProfiles.swift など、地域ごとのファイルに IslandProfile を1つ追加
+//  2. IslandCatalog.regionalProfiles にその地域の all を足す
+//  3. 新地域なら IslandRegionCatalog に地域定義を追加
+//  4. 背景画像があれば Assets.xcassets に imageset を追加
 //
 
 import CoreLocation
@@ -15,8 +16,14 @@ import Foundation
 
 enum IslandCatalog {
     static let placeDisplayLimit = 20
+    static let defaultBackgroundAssetName = "IslandBgIshigaki"
 
-    static let all: [IslandProfile] = YaeyamaIslandProfiles.all + SadoIslandProfiles.all
+    private static let regionalProfiles: [[IslandProfile]] = [
+        YaeyamaIslandProfiles.all,
+        SadoIslandProfiles.all,
+    ]
+
+    static let all: [IslandProfile] = regionalProfiles.flatMap { $0 }
 
     static var islands: [Island] {
         all.map(\.island)
@@ -40,6 +47,16 @@ enum IslandCatalog {
 
     static func port(for islandID: String) -> IslandPort? {
         profile(for: islandID)?.port
+    }
+
+    static func ferryDataSourceNote(for islandID: String) -> String? {
+        guard let regionID = profile(for: islandID)?.regionID else { return nil }
+        return IslandRegionCatalog.region(for: regionID)?.ferryDataSourceNote
+    }
+
+    static func ferryValidUntilSuffix(for islandID: String) -> String? {
+        guard let regionID = profile(for: islandID)?.regionID else { return nil }
+        return IslandRegionCatalog.region(for: regionID)?.ferryValidUntilSuffix
     }
 
     static func formattedDistance(_ meters: CLLocationDistance) -> String {

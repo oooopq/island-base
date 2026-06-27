@@ -9,19 +9,7 @@ import SwiftUI
 
 struct IslandDetailHeaderView: View {
     let island: Island
-    let regionID: String?
-
-    private var regionLabel: String? {
-        guard let regionID else { return nil }
-        switch regionID {
-        case "yaeyama":
-            return "八重山諸島"
-        case "sado":
-            return "佐渡"
-        default:
-            return regionID
-        }
-    }
+    let regionDisplayName: String?
 
     var body: some View {
         HStack(alignment: .center, spacing: 10) {
@@ -36,8 +24,8 @@ struct IslandDetailHeaderView: View {
                 .frame(width: 3, height: 38)
 
             VStack(alignment: .leading, spacing: 2) {
-                if let regionLabel {
-                    Text(regionLabel)
+                if let regionDisplayName {
+                    Text(regionDisplayName)
                         .font(.caption2)
                         .fontWeight(.semibold)
                         .foregroundStyle(DetailCardTheme.accent)
@@ -79,7 +67,7 @@ struct IslandDetailHeaderView: View {
 #Preview {
     IslandDetailHeaderView(
         island: IslandCatalog.islands[0],
-        regionID: "yaeyama"
+        regionDisplayName: "八重山諸島"
     )
     .padding()
     .background(Color.black)

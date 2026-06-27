@@ -1,0 +1,39 @@
+---
+description: 島・地域データの追加手順（Island Now）
+globs: IslandNow/Data/**/*.swift
+alwaysApply: false
+---
+
+# 島・地域データの追加
+
+## 新しい地域（例: 伊豆諸島）を足す
+
+1. `IslandRegionCatalog.swift` に `IslandRegion` を追加（表示名・フェリー取得元の注記）
+2. `XxxIslandProfiles.swift` を新規作成し `static let all: [IslandProfile]` を定義
+3. `IslandCatalog.regionalProfiles` に `XxxIslandProfiles.all` を追加
+4. 背景画像を `Assets.xcassets` に追加
+
+## 既存地域に島を1つ足す
+
+1. 該当する `XxxIslandProfiles.swift` の `all` 配列に `IslandProfile` を追加
+2. `routeKeywords` は他島と被らないよう具体的に（`IslandCatalog.islandID` は先勝ち）
+
+## IslandProfile のデータ源
+
+| データ | 置き場所 |
+|--------|----------|
+| 八重山 GTFS（OTTOP） | `FerryGTFSFeedCatalog` |
+| 他地域 GTFS | `FerryGTFSFeed` struct をプロファイルに直接定義 |
+| 本島側の空港名 | `FlightEndpointCatalog` |
+| 地域表示名・フェリー注記 | `IslandRegionCatalog` |
+| 島固有のカメラ注釈 | `IslandProfile.liveCameraFootnote` |
+
+## View に地域固有ロジックを書かない
+
+- 地域名 → `IslandProfile.regionDisplayName` / `IslandRegionCatalog`
+- フェリー出典 → `IslandCatalog.ferryDataSourceNote(for:)`
+- カメラ注釈 → `IslandProfile.liveCameraFootnote`
+
+## GTFS がない地域
+
+`ferryGTFSFeeds: []` と `sampleFerrySchedules` のみで OK（佐渡島と同パターン）。
