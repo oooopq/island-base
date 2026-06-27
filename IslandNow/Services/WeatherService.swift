@@ -129,8 +129,16 @@ private struct OpenMeteoHourly: Decodable {
         }
 
         var forecasts: [HourlyWeatherForecast] = []
+        // API レスポンスで配列長がずれた場合のクラッシュを防ぐ
+        let safeCount = [
+            time.count,
+            temperature2m.count,
+            weatherCode.count,
+            precipitationProbability.count,
+            relativeHumidity2m.count,
+        ].min() ?? 0
 
-        for index in time.indices {
+        for index in 0..<safeCount {
             let timeString = time[index]
             guard let slotDate = WeatherDateFormatter.openMeteoDate(from: timeString, calendar: calendar) else {
                 continue
@@ -177,7 +185,16 @@ private struct OpenMeteoDaily: Decodable {
     }
 
     func toWeeklyForecast() -> [DailyWeatherForecast] {
-        time.indices.map { index in
+        // API レスポンスで配列長がずれた場合のクラッシュを防ぐ
+        let safeCount = [
+            time.count,
+            weatherCode.count,
+            temperature2mMax.count,
+            temperature2mMin.count,
+            relativeHumidity2mMean.count,
+        ].min() ?? 0
+
+        return (0..<safeCount).map { index in
             DailyWeatherForecast(
                 id: time[index],
                 dateLabel: WeatherDateFormatter.label(for: time[index]),
