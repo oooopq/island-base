@@ -18,25 +18,96 @@ struct ImageCreditsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 introSection
+                dataSourcesSection
                 islandCreditsSection
                 licenseNotesSection
             }
             .padding(16)
         }
         .background(listBackground)
-        .navigationTitle("画像提供・ライセンス")
+        .navigationTitle("クレジット・出典")
         .navigationBarTitleDisplayMode(.inline)
     }
 
     private var introSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("このアプリでは、各島の詳細画面背景に以下の画像素材を使用しています。")
+            Text("このアプリでは、天気・暑さ指数・船便ダイヤなどのデータと、各島の背景画像を、以下の提供元から利用しています。")
                 .font(.subheadline)
                 .foregroundStyle(palette.text)
 
-            Text("出典表記は各画像のライセンス条件に従います。")
+            Text("出典表記は各提供元のライセンス・利用条件に従います。")
                 .font(.caption)
                 .foregroundStyle(palette.secondaryText)
+        }
+        .creditCardStyle(palette: palette)
+    }
+
+    // 天気・WBGT・フェリーダイヤのデータ提供元（各ライセンス・利用規約に基づく出典表記）
+    private var dataSourcesSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("データの出典")
+                .font(.headline)
+                .foregroundStyle(palette.text)
+
+            dataSourceCard(
+                title: "天気",
+                credit: "Weather data by Open-Meteo.com",
+                note: "Open-Meteo の天気データ（CC BY 4.0 ライセンス）を利用しています。",
+                linkTitle: "open-meteo.com",
+                urlString: "https://open-meteo.com/"
+            )
+
+            dataSourceCard(
+                title: "暑さ指数（WBGT）",
+                credit: "出典：環境省熱中症予防情報サイト",
+                note: "夏季（4月下旬〜10月中旬）のみ表示しています。表示は参考情報です。",
+                linkTitle: "wbgt.env.go.jp",
+                urlString: "https://www.wbgt.env.go.jp/"
+            )
+
+            dataSourceCard(
+                title: "船便ダイヤ",
+                credit: "ダイヤ提供：特定非営利活動法人OTTOP（沖縄県の公共交通オープンデータ）",
+                note: "代表的なダイヤの目安です。最新の運航状況は各運航会社の公式サイトでご確認ください。",
+                linkTitle: "ottop.org",
+                urlString: "https://www.ottop.org/"
+            )
+        }
+    }
+
+    private func dataSourceCard(
+        title: String,
+        credit: String,
+        note: String,
+        linkTitle: String,
+        urlString: String
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundStyle(palette.text)
+
+            Text(credit)
+                .font(.caption)
+                .foregroundStyle(palette.text)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Text(note)
+                .font(.caption2)
+                .foregroundStyle(palette.secondaryText)
+                .fixedSize(horizontal: false, vertical: true)
+
+            if let url = AppURL.from(string: urlString) {
+                OpenURLButton(url: url) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "link")
+                        Text(linkTitle)
+                    }
+                    .font(.caption)
+                    .foregroundStyle(palette.iconAccent)
+                }
+            }
         }
         .creditCardStyle(palette: palette)
     }

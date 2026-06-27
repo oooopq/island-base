@@ -36,7 +36,7 @@ struct RegionHomeView: View {
                     Image(systemName: "info.circle")
                         .foregroundStyle(palette.secondaryText)
                 }
-                .accessibilityLabel("画像提供・ライセンス")
+                .accessibilityLabel("クレジット・出典")
             }
 
             ToolbarItem(placement: .topBarTrailing) {
