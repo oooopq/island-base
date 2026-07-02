@@ -85,10 +85,6 @@ struct WeatherSectionView: View {
 
                     Text(weather.condition)
                         .font(.title3)
-
-                    Label("湿度 \(weather.humidityPercent)%", systemImage: "humidity")
-                        .font(.subheadline)
-                        .detailCardSecondaryText()
                 }
             }
             .layoutPriority(1)
@@ -98,9 +94,49 @@ struct WeatherSectionView: View {
             currentWaveHeightPanel(weather)
         }
 
-        Label("風速 \(formattedWindSpeedMs(kmh: weather.windSpeedKmh)) m/s", systemImage: "wind")
-            .font(.subheadline)
-            .detailCardSecondaryText()
+        HStack(alignment: .top, spacing: 12) {
+            currentMetricPanel(
+                icon: "humidity",
+                title: "湿度",
+                value: "\(weather.humidityPercent)%"
+            )
+            currentMetricPanel(
+                icon: "wind",
+                title: "風速",
+                value: "\(formattedWindSpeedMs(kmh: weather.windSpeedKmh)) m/s"
+            )
+        }
+    }
+
+    @ViewBuilder
+    private func currentMetricPanel(icon: String, title: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.title3)
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+            }
+            .foregroundStyle(palette.secondaryText)
+
+            Text(value)
+                .font(.system(size: 24, weight: .bold, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(palette.text)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+        }
+        .frame(maxWidth: .infinity, minHeight: 72, alignment: .leading)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .background {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(palette.hourlySlotBackground)
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .strokeBorder(palette.cardBorder, lineWidth: 1)
+        }
     }
 
     // 現在の天気の右側に波の高さを表示する
