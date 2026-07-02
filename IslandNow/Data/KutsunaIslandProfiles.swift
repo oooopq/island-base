@@ -381,7 +381,7 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "二神港", latitude: 33.933419, longitude: 132.537155),
+            IslandPort(name: "二神港", latitude: 33.933428, longitude: 132.537155),
         ],
         backgroundAssetName: "IslandBgFutagamijima",
         backgroundCredit: "Photo: Dao En Wong / Unsplash",

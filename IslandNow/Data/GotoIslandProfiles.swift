@@ -80,7 +80,7 @@ enum GotoIslandProfiles {
         ),
         regionID: "goto",
         ports: [
-            IslandPort(name: "福江港", latitude: 32.694761, longitude: 128.851350),
+            IslandPort(name: "福江港", latitude: 32.696764, longitude: 128.852276),
             IslandPort(name: "奥浦港", latitude: 32.744615, longitude: 128.825669),
         ],
         backgroundAssetName: "IslandBgFukue",
@@ -200,7 +200,7 @@ enum GotoIslandProfiles {
         ),
         regionID: "goto",
         ports: [
-            IslandPort(name: "奈留港", latitude: 32.821664, longitude: 128.939307),
+            IslandPort(name: "奈留港", latitude: 32.822013, longitude: 128.938960),
         ],
         backgroundAssetName: "IslandBgNaru",
         backgroundCredit: "Photo: Indiana jo / Wikimedia Commons（江上天主堂）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
@@ -305,8 +305,8 @@ enum GotoIslandProfiles {
         ),
         regionID: "goto",
         ports: [
-            IslandPort(name: "郷ノ首港", latitude: 32.923347, longitude: 129.037292),
-            IslandPort(name: "奈良尾港", latitude: 32.845720, longitude: 129.061272),
+            IslandPort(name: "郷ノ首港", latitude: 32.925658, longitude: 129.037458),
+            IslandPort(name: "奈良尾港", latitude: 32.846167, longitude: 129.061428),
         ],
         backgroundAssetName: "IslandBgNakadori",
         backgroundCredit: "Photo: Sapphire123 / Wikimedia Commons（青嵐教会）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",

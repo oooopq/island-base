@@ -4,6 +4,7 @@
 //
 //  八重山諸島の島データ（1島 = IslandProfile 1つ）
 //  新しい八重山の島を足すときは、このファイルの all 配列に追加する
+//  港座標: 海上保安庁「八重山列島の港」、石垣・大原・上原は OSM ferry_terminal
 //
 
 import Foundation
@@ -78,7 +79,7 @@ enum YaeyamaIslandProfiles {
     private static let ishigaki = IslandProfile(
         island: Island(id: "ishigaki", nameJapanese: "石垣島", nameEnglish: "Ishigaki", latitude: 24.432805, longitude: 124.205319),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "石垣港", latitude: 24.337139, longitude: 124.155611)],
+        ports: [IslandPort(name: "石垣港", latitude: 24.337193, longitude: 124.155485)],
         backgroundAssetName: "IslandBgIshigaki",
         backgroundCredit: "Photo: Vladimir Haltakov / Unsplash",
         placeSearchRadiusMeters: 18_000,
@@ -226,8 +227,8 @@ enum YaeyamaIslandProfiles {
         island: Island(id: "iriomote", nameJapanese: "西表島", nameEnglish: "Iriomote", latitude: 24.335989, longitude: 123.814737),
         regionID: "yaeyama",
         ports: [
-            IslandPort(name: "大原港", latitude: 24.272222, longitude: 123.884222),
-            IslandPort(name: "上原港", latitude: 24.419167, longitude: 123.798611),
+            IslandPort(name: "大原港", latitude: 24.271895, longitude: 123.884104),
+            IslandPort(name: "上原港", latitude: 24.417955, longitude: 123.799790),
         ],
         backgroundAssetName: "IslandBgIriomote",
         backgroundCredit: "Photo: Unsplash（森と自然）",

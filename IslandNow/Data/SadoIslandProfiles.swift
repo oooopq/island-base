@@ -3,6 +3,7 @@
 //  Island Now
 //
 //  佐渡島の島データ
+//  港座標: OpenStreetMap ferry_terminal（佐渡汽船ターミナル）
 //
 
 import Foundation
@@ -49,8 +50,8 @@ enum SadoIslandProfiles {
         ),
         regionID: "sado",
         ports: [
-            IslandPort(name: "両津港", latitude: 38.081714, longitude: 138.437949),
-            IslandPort(name: "小木港", latitude: 37.816273, longitude: 138.282227),
+            IslandPort(name: "両津港", latitude: 38.081653, longitude: 138.438069),
+            IslandPort(name: "小木港", latitude: 37.816271, longitude: 138.282232),
         ],
         backgroundAssetName: "IslandBgSado",
         backgroundCredit: "Photo: Unsplash（佐渡島・海と山）",

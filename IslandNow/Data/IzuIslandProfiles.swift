@@ -3,6 +3,7 @@
 //  Island Now
 //
 //  伊豆諸島の島データ
+//  港座標: OpenStreetMap ferry_terminal / pier / dock
 //
 
 import Foundation
@@ -102,8 +103,8 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "岡田港", latitude: 34.789980, longitude: 139.389670),
-            IslandPort(name: "元町港", latitude: 34.751139, longitude: 139.351472),
+            IslandPort(name: "岡田港", latitude: 34.790559, longitude: 139.390640),
+            IslandPort(name: "元町港", latitude: 34.751962, longitude: 139.352509),
         ],
         backgroundAssetName: "IslandBgOshima",
         backgroundCredit: "Photo: Huang Lin / Unsplash",
@@ -196,7 +197,7 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "前浜港", latitude: 34.371954, longitude: 139.240214),
+            IslandPort(name: "前浜港", latitude: 34.366944, longitude: 139.244167),
         ],
         backgroundAssetName: "IslandBgNiijima",
         backgroundCredit: "Photo: Fumiaki Hayashi / Unsplash",
@@ -248,7 +249,7 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "野伏港", latitude: 34.334440, longitude: 139.215280),
+            IslandPort(name: "野伏港", latitude: 34.333636, longitude: 139.215258),
         ],
         backgroundAssetName: "IslandBgShikinejima",
         backgroundCredit: "Photo: あま あわれ / Unsplash",
@@ -289,7 +290,7 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "神津港", latitude: 34.207978, longitude: 139.131511),
+            IslandPort(name: "神津港", latitude: 34.210796, longitude: 139.129848),
         ],
         backgroundAssetName: "IslandBgKozushima",
         backgroundCredit: "Photo: Ashar Mirza / Unsplash",
@@ -385,7 +386,7 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "御蔵島港", latitude: 33.897179, longitude: 139.589865),
+            IslandPort(name: "御蔵島港", latitude: 33.897239, longitude: 139.589880),
         ],
         backgroundAssetName: "IslandBgMikurajima",
         backgroundCredit: "Photo: Nakaharu Line / Unsplash",
@@ -427,7 +428,7 @@ enum IzuIslandProfiles {
         regionID: "izu",
         ports: [
             IslandPort(name: "八重根港", latitude: 33.097875, longitude: 139.769695),
-            IslandPort(name: "底土港", latitude: 33.121462, longitude: 139.819011),
+            IslandPort(name: "底土港", latitude: 33.123615, longitude: 139.821233),
         ],
         backgroundAssetName: "IslandBgHachijojima",
         backgroundCredit: "Photo: Christopher Politano / Unsplash",
