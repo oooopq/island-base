@@ -2,7 +2,7 @@
 //  WeatherSectionView.swift
 //  Island Now
 //
-//  詳細画面の天気セクション（現在＋1週間予報）
+//  詳細画面の天気セクション（現在＋週間天気）
 //
 
 import SwiftUI
@@ -220,30 +220,15 @@ struct WeatherSectionView: View {
 
     @ViewBuilder
     private func weeklyForecastContent(_ forecast: [DailyWeatherForecast]) -> some View {
-        Divider()
-            .padding(.vertical, 4)
+        if forecast.isEmpty == false {
+            Divider()
+                .padding(.vertical, 4)
 
-        Text("1週間の予報")
-            .font(.subheadline)
-            .detailCardSecondaryText()
-
-        ForEach(forecast) { day in
-            HStack(spacing: 8) {
-                Text(day.dateLabel)
-                    .frame(width: 88, alignment: .leading)
-                WeatherIconView(condition: day.condition, iconSize: 20)
-                Text(day.condition)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text("\(day.minTemperatureCelsius)° / \(day.maxTemperatureCelsius)°")
-                    Text("湿度 \(day.humidityPercent)%")
-                        .font(.caption)
-                    Label("降水 \(day.precipitationProbabilityPercent)%", systemImage: "drop.fill")
-                        .font(.caption)
-                }
+            Text("週間天気")
+                .font(.subheadline)
                 .detailCardSecondaryText()
-            }
-            .font(.subheadline)
+
+            WeeklyForecastPanelView(forecast: forecast)
         }
     }
 }
@@ -270,17 +255,17 @@ struct WeatherSectionView: View {
                         windSpeedKmh: 14
                     ),
                 ],
-                weeklyForecast: [
+                weeklyForecast: (21...27).map { day in
                     DailyWeatherForecast(
-                        id: "2026-06-21",
-                        dateLabel: "6/21（土）",
+                        id: "2026-06-\(day)",
+                        dateLabel: "6/\(day)（\(["土", "日", "月", "火", "水", "木", "金"][day - 21])）",
                         minTemperatureCelsius: 24,
                         maxTemperatureCelsius: 29,
                         condition: "晴れ",
                         humidityPercent: 72,
                         precipitationProbabilityPercent: 20
-                    ),
-                ]
+                    )
+                }
             ),
             isFromCache: false
         )
