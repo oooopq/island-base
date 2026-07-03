@@ -177,13 +177,34 @@ struct IslandUserLocationMapView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
+#Preview("現在地取得中") {
+    islandUserLocationMapPreview(userCoordinate: nil)
+}
+
+#Preview("島内") {
+    islandUserLocationMapPreview(
+        userCoordinate: CLLocationCoordinate2D(latitude: 24.337193, longitude: 124.155485)
+    )
+}
+
+// 石垣島中心から約 287.9km（placeSearchRadiusMeters 18km 圏外）の座標
+#Preview("島外 287.9km") {
+    islandUserLocationMapPreview(
+        userCoordinate: CLLocationCoordinate2D(latitude: 26.5, longitude: 125.932233)
+    )
+}
+
+private func islandUserLocationMapPreview(
+    userCoordinate: CLLocationCoordinate2D?,
+    authorizationStatus: CLAuthorizationStatus = .authorizedWhenInUse
+) -> some View {
+    let profile = IslandCatalog.profile(for: "ishigaki")!
+    return NavigationStack {
         IslandUserLocationMapView(
-            island: IslandCatalog.islands[0],
-            islandProfile: IslandCatalog.profile(for: "ishigaki"),
-            userCoordinate: nil,
-            authorizationStatus: .authorizedWhenInUse
+            island: profile.island,
+            islandProfile: profile,
+            userCoordinate: userCoordinate,
+            authorizationStatus: authorizationStatus
         )
         .padding()
         .background(Color.black)
