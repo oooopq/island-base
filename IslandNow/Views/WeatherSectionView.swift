@@ -11,6 +11,7 @@ struct WeatherSectionView: View {
     let state: WeatherLoadState
 
     @Environment(\.detailPalette) private var palette
+    @State private var isWeeklyForecastExpanded = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -224,11 +225,31 @@ struct WeatherSectionView: View {
             Divider()
                 .padding(.vertical, 4)
 
-            Text("週間天気")
-                .font(.subheadline)
-                .detailCardSecondaryText()
+            Button {
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    isWeeklyForecastExpanded.toggle()
+                }
+            } label: {
+                HStack(spacing: 8) {
+                    Text("週間天気")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
 
-            WeeklyForecastPanelView(forecast: forecast)
+                    Spacer(minLength: 0)
+
+                    Image(systemName: isWeeklyForecastExpanded ? "chevron.up" : "chevron.down")
+                        .font(.caption.weight(.semibold))
+                }
+                .foregroundStyle(palette.text)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("週間天気")
+            .accessibilityHint(isWeeklyForecastExpanded ? "タップで閉じる" : "タップで週間天気を表示")
+
+            if isWeeklyForecastExpanded {
+                WeeklyForecastPanelView(forecast: forecast)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
         }
     }
 }
