@@ -18,7 +18,7 @@ struct IslandArtIntro {
 
     /// 写真フルスクリーン → ズームアウトで通常画面へ
     static let fullscreenZoomOut = IslandArtIntro(
-        holdSeconds: 0.7,
+        holdSeconds: 0.4,
         zoomOutSeconds: 0.9,
         startScale: 1.4
     )
