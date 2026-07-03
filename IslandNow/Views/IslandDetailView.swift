@@ -19,6 +19,8 @@ struct IslandDetailView: View {
     @State private var selectedPlaceCategory: PlaceCategory = .restaurant
     @State private var savedPhotoStore = IslandSavedPhotoStore()
     @State private var locationService = UserLocationService()
+    @State private var isArtIntroActive = false
+    @State private var detailContentVisible = true
 
     private let weatherService = WeatherService()
     private let ferryService = FerryService()
@@ -64,6 +66,65 @@ struct IslandDetailView: View {
     }
 
     var body: some View {
+        ZStack {
+            detailContent
+                .opacity(detailContentVisible ? 1 : 0)
+
+            if isArtIntroActive, let artIntro = islandProfile?.artIntro {
+                IslandArtIntroOverlayView(
+                    assetName: islandProfile?.backgroundAssetName ?? IslandCatalog.defaultBackgroundAssetName,
+                    artIntro: artIntro,
+                    onZoomOutStart: {
+                        withAnimation(.easeInOut(duration: artIntro.zoomOutSeconds)) {
+                            detailContentVisible = true
+                        }
+                    },
+                    onFinished: {
+                        isArtIntroActive = false
+                    }
+                )
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                AppThemeToggleButton()
+            }
+        }
+        .refreshable {
+            await refreshAllData()
+        }
+        .task(id: island.id) {
+            prepareArtIntro(for: island)
+            selectedSection = .weather
+            selectedPlaceCategory = .restaurant
+            placesState = .loading
+            restoreCachedStates(for: island)
+
+            async let weatherLoad: Void = loadWeather()
+            if usesFerryGTFS {
+                async let ferryLoad: Void = loadFerrySchedules()
+                _ = await (weatherLoad, ferryLoad)
+            } else {
+                await weatherLoad
+            }
+        }
+        .task(id: placeSearchTaskID) {
+            guard selectedSection == .places else { return }
+            await loadPlaces()
+        }
+        .onAppear {
+            lastSelectedIslandStore.record(island)
+            locationService.start()
+        }
+        .onDisappear {
+            locationService.stop()
+        }
+    }
+
+    private var detailContent: some View {
         VStack(spacing: 0) {
             IslandDetailHeaderView(
                 island: island,
@@ -100,42 +161,12 @@ struct IslandDetailView: View {
         .background {
             IslandBackgroundView(islandID: island.id)
         }
-        .scrollContentBackground(.hidden)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                AppThemeToggleButton()
-            }
-        }
-        .refreshable {
-            await refreshAllData()
-        }
-        .task(id: island.id) {
-            selectedSection = .weather
-            selectedPlaceCategory = .restaurant
-            placesState = .loading
-            restoreCachedStates(for: island)
+    }
 
-            async let weatherLoad: Void = loadWeather()
-            if usesFerryGTFS {
-                async let ferryLoad: Void = loadFerrySchedules()
-                _ = await (weatherLoad, ferryLoad)
-            } else {
-                await weatherLoad
-            }
-        }
-        .task(id: placeSearchTaskID) {
-            guard selectedSection == .places else { return }
-            await loadPlaces()
-        }
-        .onAppear {
-            lastSelectedIslandStore.record(island)
-            locationService.start()
-        }
-        .onDisappear {
-            locationService.stop()
-        }
+    private func prepareArtIntro(for island: Island) {
+        let shouldShowIntro = IslandCatalog.profile(for: island)?.artIntro != nil
+        isArtIntroActive = shouldShowIntro
+        detailContentVisible = shouldShowIntro == false
     }
 
     @ViewBuilder

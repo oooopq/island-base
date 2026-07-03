@@ -253,5 +253,6 @@ enum ShodoshimaNaoshimaIslandProfiles {
         ],
         flightSchedules: [],
         flightScheduleNote: nil,
+        artIntro: .fullscreenZoomOut,
     )
 }
