@@ -43,7 +43,7 @@ enum IslandRegionCatalog {
         mapAnnotationLatitude: 24.432805,
         mapAnnotationLongitude: 124.205319,
         coverAssetName: "IslandBgIshigaki",
-        coverAssetCredit: nil,
+        coverAssetCredit: "Photo: Roméo A. / Unsplash（石垣島・川平湾）",
         ferryDataSourceNote: "沖縄公共交通オープンデータ（OTTOP）から取得しています",
         ferryValidUntilSuffix: "（OTTOP公開データ）"
     )
@@ -54,7 +54,7 @@ enum IslandRegionCatalog {
         mapAnnotationLatitude: 38.044270,
         mapAnnotationLongitude: 138.437949,
         coverAssetName: "IslandBgSado",
-        coverAssetCredit: "Photo: Wikimedia Commons（佐渡島）／表示時に暗色グラデーションを追加",
+        coverAssetCredit: "Photo: NASA Johnson Space Center / Wikimedia Commons（佐渡島）／Public domain／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: nil,
         ferryValidUntilSuffix: nil
     )
@@ -76,7 +76,7 @@ enum IslandRegionCatalog {
         mapAnnotationLatitude: 32.686123,
         mapAnnotationLongitude: 128.747749,
         coverAssetName: "IslandBgGoto",
-        coverAssetCredit: "Photo: Wikimedia Commons（五島列島）／表示時に暗色グラデーションを追加",
+        coverAssetCredit: "Photo: NASA Johnson Space Center / Wikimedia Commons（五島列島）／Public domain／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: "五島旅客船・木口汽船・九州商船等の代表ダイヤです。カーフェリー（OCEAN）と高速船（TAIYO・シーガル）を分けて表示しています。",
         ferryValidUntilSuffix: nil
     )
@@ -87,7 +87,7 @@ enum IslandRegionCatalog {
         mapAnnotationLatitude: 33.980615,
         mapAnnotationLongitude: 132.615204,
         coverAssetName: "IslandBgKutsuna",
-        coverAssetCredit: "Photo: Wikimedia Commons（忽那諸島・中島港）／表示時に暗色グラデーションを追加",
+        coverAssetCredit: "Photo: ブルーノ・プラス / Wikimedia Commons（忽那諸島・中島港）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: "中島汽船・ごごしま等の代表ダイヤです。フェリーと高速船を分けて表示。東線・西線で寄港が異なります。",
         ferryValidUntilSuffix: nil
     )

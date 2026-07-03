@@ -55,7 +55,7 @@ enum SadoIslandProfiles {
             IslandPort(name: "小木港", latitude: 37.816271, longitude: 138.282232),
         ],
         backgroundAssetName: "IslandBgSado",
-        backgroundCredit: "Photo: Wikimedia Commons（佐渡島）／表示時に暗色グラデーションを追加",
+        backgroundCredit: "Photo: NASA Johnson Space Center / Wikimedia Commons（佐渡島）／Public domain／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 18_000,
         routeKeywords: ["佐渡", "両津", "小木", "新潟", "直江津"],
         ferryGTFSFeeds: [],

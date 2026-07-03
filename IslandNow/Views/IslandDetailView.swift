@@ -163,6 +163,14 @@ struct IslandDetailView: View {
                 )
             }
 
+            if let islandProfile {
+                LiveCameraSectionView(
+                    liveCameras: islandProfile.liveCameras,
+                    relatedLinks: islandProfile.youtubeRelatedLinks,
+                    footnote: islandProfile.liveCameraFootnote
+                )
+            }
+
         case .places:
             UsefulInfoSectionView(islandID: island.id)
 

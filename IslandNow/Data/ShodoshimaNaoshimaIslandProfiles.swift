@@ -227,7 +227,7 @@ enum ShodoshimaNaoshimaIslandProfiles {
             IslandPort(name: "犬島港", latitude: 34.566756, longitude: 134.104110),
         ],
         backgroundAssetName: "IslandBgInujima",
-        backgroundCredit: "Photo: TOMOYUKI SHIDARA / 犬島精錬所美術館",
+        backgroundCredit: "Photo: TOMOYUKI SHIDARA / 犬島精錬所美術館（提供写真）",
         placeSearchRadiusMeters: 3_000,
         onIslandRadiusMeters: 2_500,
         routeKeywords: ["犬島", "犬島精錬所", "瀬戸内市"],
