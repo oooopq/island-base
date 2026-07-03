@@ -123,7 +123,7 @@ struct IslandUserLocationMapView: View {
     @ViewBuilder
     private func locationStatusContent(for userCoordinate: CLLocationCoordinate2D) -> some View {
         let distance = distanceFromIslandCenter(userCoordinate)
-        let radius = islandProfile?.placeSearchRadiusMeters ?? 12_000
+        let radius = islandProfile?.onIslandRadiusMeters ?? IslandProfile.defaultOnIslandRadiusMeters
         let portLines = IslandCatalog.formattedPortAccessLines(
             from: userCoordinate,
             islandID: island.id

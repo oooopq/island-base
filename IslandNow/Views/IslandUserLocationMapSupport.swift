@@ -77,7 +77,7 @@ enum IslandUserLocationMapSupport {
             longitude: (minLon + maxLon) / 2
         )
 
-        let radius = islandProfile?.placeSearchRadiusMeters ?? 12_000
+        let radius = islandProfile?.onIslandRadiusMeters ?? IslandProfile.defaultOnIslandRadiusMeters
         let minLatDelta = radius / 111_000
         let minLonDelta = radius / (111_000 * cos(center.latitude * .pi / 180))
 
