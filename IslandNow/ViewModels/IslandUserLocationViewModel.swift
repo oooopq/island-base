@@ -16,14 +16,13 @@ struct IslandUserLocationStatus {
 
 @MainActor
 struct IslandUserLocationViewModel {
-    /// MVP固定値。石垣島など大きい島と波照間島など小さい島では最適値が異なる。
-    static let islandProximityThresholdMeters: CLLocationDistance = 10_000
-
     let island: Island
+    let islandProfile: IslandProfile?
 
     func status(for userCoordinate: CLLocationCoordinate2D) -> IslandUserLocationStatus {
         let distanceFromCenter = distanceFromIslandCenter(from: userCoordinate)
-        let isOnIsland = distanceFromCenter <= Self.islandProximityThresholdMeters
+        let onIslandRadius = islandProfile?.onIslandRadiusMeters ?? IslandProfile.defaultOnIslandRadiusMeters
+        let isOnIsland = distanceFromCenter <= onIslandRadius
 
         if isOnIsland {
             return IslandUserLocationStatus(

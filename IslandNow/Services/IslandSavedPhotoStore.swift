@@ -11,9 +11,16 @@ import UIKit
 @Observable
 @MainActor
 final class IslandSavedPhotoStore {
+    /// 1島あたりの保存上限
+    static let maxPhotosPerIsland = 20
+
     private(set) var photos: [IslandSavedPhoto] = []
 
     private let fileManager = FileManager.default
+
+    var canAddPhoto: Bool {
+        photos.count < Self.maxPhotosPerIsland
+    }
 
     private var storageRoot: URL {
         let appSupport = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
@@ -32,14 +39,17 @@ final class IslandSavedPhotoStore {
         photos = decoded.sorted { $0.createdAt > $1.createdAt }
     }
 
-    func addPhoto(_ image: UIImage, for islandID: String) {
+    @discardableResult
+    func addPhoto(_ image: UIImage, for islandID: String) -> Bool {
+        guard canAddPhoto else { return false }
+
         ensureStorageDirectoryExists()
 
         let photoID = UUID().uuidString
         let fileName = "\(photoID).jpg"
         let fileURL = photoFileURL(islandID: islandID, fileName: fileName)
 
-        guard let data = image.jpegData(compressionQuality: 0.85) else { return }
+        guard let data = image.jpegData(compressionQuality: 0.85) else { return false }
 
         do {
             try fileManager.createDirectory(at: islandPhotosDirectory(islandID: islandID), withIntermediateDirectories: true)
@@ -55,8 +65,10 @@ final class IslandSavedPhotoStore {
             manifest.append(photo)
             try saveManifest(manifest, for: islandID)
             photos = manifest.sorted { $0.createdAt > $1.createdAt }
+            return true
         } catch {
             try? fileManager.removeItem(at: fileURL)
+            return false
         }
     }
 

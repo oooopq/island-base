@@ -14,7 +14,8 @@ struct PlacesSearchService {
     // 島の座標付近でカテゴリに合うスポットを検索する
     func searchPlaces(for island: Island, category: PlaceCategory) async throws -> [PlaceInfo] {
         let request = MKLocalSearch.Request()
-        let radius = IslandCatalog.profile(for: island.id)?.placeSearchRadiusMeters ?? 12_000
+        let radius = IslandCatalog.profile(for: island.id)?.placeSearchRadiusMeters
+            ?? IslandProfile.defaultPlaceSearchRadiusMeters
 
         request.region = MKCoordinateRegion(
             center: island.coordinate,

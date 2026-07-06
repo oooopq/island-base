@@ -61,8 +61,8 @@ struct ImageCreditsView: View {
 
             dataSourceCard(
                 title: "船便ダイヤ",
-                credit: "ダイヤ提供：特定非営利活動法人OTTOP（沖縄県の公共交通オープンデータ）",
-                note: "代表的なダイヤの目安です。最新の運航状況は各運航会社の公式サイトでご確認ください。",
+                credit: "八重山のGTFSダイヤ提供：特定非営利活動法人OTTOP（沖縄県の公共交通オープンデータ）",
+                note: "八重山以外の地域は、各運航会社の公式サイト・公開情報をもとにした代表ダイヤまたは公式リンクです。最新の運航状況は各運航会社の公式サイトでご確認ください。",
                 linkTitle: "ottop.org",
                 urlString: "https://www.ottop.org/"
             )
@@ -205,10 +205,14 @@ struct ImageCreditsView: View {
 
             licenseNote(
                 title: "Wikimedia Commons",
-                body: "各画像に記載の Creative Commons ライセンス（CC BY-SA）に従い、作者名・作品名・ライセンスを表示しています。背景表示の際、視認性のため画像の上に暗色グラデーションを重ねています（この加工は各島のクレジットに明記しています）。ライセンス全文は以下のリンクをご確認ください。"
+                body: "各画像に記載の Creative Commons ライセンス、Public domain、または出典表示条件に従い、作者名・対象・ライセンスまたは出典を表示しています。背景表示の際、視認性のため画像の上に暗色グラデーションを重ねています（この加工は各島のクレジットに明記しています）。"
             )
 
             VStack(alignment: .leading, spacing: 8) {
+                licenseLinkRow(
+                    title: "CC BY-SA 1.0（ライセンス全文）",
+                    urlString: "https://creativecommons.org/licenses/by-sa/1.0/"
+                )
                 licenseLinkRow(
                     title: "CC BY-SA 3.0（ライセンス全文）",
                     urlString: "https://creativecommons.org/licenses/by-sa/3.0/"
@@ -219,6 +223,21 @@ struct ImageCreditsView: View {
                 )
             }
             .creditCardStyle(palette: palette)
+
+            licenseNote(
+                title: "国土地理院",
+                body: "二神島・怒和島・津和地島の空中写真は、Wikimedia Commons 経由で国土地理院の出典表示条件に従って利用しています。該当する画像クレジットには「出典：国土地理院」と明記しています。"
+            )
+
+            licenseNote(
+                title: "NASA / Public domain",
+                body: "佐渡島・波照間島・五島列島などの一部背景画像は NASA Johnson Space Center の Public domain 画像を利用しています。出典確認のため、クレジットには提供元を明記しています。"
+            )
+
+            licenseNote(
+                title: "提供写真",
+                body: "犬島の背景画像は、提供写真としてクレジットを表示しています。第三者の素材として再配布するものではありません。"
+            )
 
             licenseNote(
                 title: "アプリアイコン",
