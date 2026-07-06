@@ -2,7 +2,7 @@
 //  IslandUserLocationFullMapView.swift
 //  Island Now
 //
-//  島・港・現在地を全画面マップで表示する
+//  島・港・現在地を全画面マップで表示する（島/港アイコンタップで港中心にズーム）
 //
 
 import CoreLocation
@@ -16,8 +16,13 @@ struct IslandUserLocationFullMapView: View {
     let authorizationStatus: CLAuthorizationStatus
 
     @Environment(\.detailPalette) private var palette
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.dismiss) private var dismiss
     @State private var cameraPosition: MapCameraPosition = .automatic
+    @State private var currentCameraDistance: CLLocationDistance = 0
+    @State private var zoomTask: Task<Void, Never>?
+
+    private let zoomInDuration: TimeInterval = 0.45
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -26,6 +31,9 @@ struct IslandUserLocationFullMapView: View {
             returnBar
         }
         .background(Color.black)
+        .onDisappear {
+            zoomTask?.cancel()
+        }
     }
 
     private var mapContent: some View {
@@ -37,7 +45,9 @@ struct IslandUserLocationFullMapView: View {
                 islandProfile: islandProfile,
                 userCoordinate: userCoordinate,
                 palette: palette,
-                showsUserLocationAnnotation: false
+                showsUserLocationAnnotation: false,
+                onIslandTap: { focusOnPrimaryPort() },
+                onPortTap: { port in focusOnPort(port) }
             )
         }
         .mapStyle(.standard(elevation: .realistic))
@@ -47,13 +57,7 @@ struct IslandUserLocationFullMapView: View {
             MapScaleView()
         }
         .onAppear {
-            updateCamera()
-        }
-        .onChange(of: userCoordinate?.latitude) { _, _ in
-            updateCamera()
-        }
-        .onChange(of: userCoordinate?.longitude) { _, _ in
-            updateCamera()
+            showOverview()
         }
     }
 
@@ -100,14 +104,78 @@ struct IslandUserLocationFullMapView: View {
         }
     }
 
-    private func updateCamera() {
-        cameraPosition = .region(
-            IslandUserLocationMapSupport.mapRegion(
-                island: island,
-                islandProfile: islandProfile,
-                userCoordinate: userCoordinate
+    private func showOverview() {
+        let overview = IslandUserLocationMapSupport.islandOverviewRegion(
+            island: island,
+            islandProfile: islandProfile
+        )
+        currentCameraDistance = IslandUserLocationMapSupport.cameraDistance(for: overview)
+        cameraPosition = .camera(
+            IslandUserLocationMapSupport.mapCamera(
+                center: overview.center,
+                distance: currentCameraDistance
             )
         )
+    }
+
+    private func focusOnPrimaryPort() {
+        guard let port = islandProfile?.ports.first else {
+            focusOnPort(
+                IslandPort(
+                    name: island.nameJapanese,
+                    latitude: island.latitude,
+                    longitude: island.longitude
+                )
+            )
+            return
+        }
+
+        focusOnPort(port)
+    }
+
+    private func focusOnPort(_ port: IslandPort) {
+        zoomTask?.cancel()
+
+        let targetRegion = IslandUserLocationMapSupport.mapRegionCenteredOnPort(
+            port: port,
+            island: island,
+            islandProfile: islandProfile
+        )
+        let center = port.coordinate
+        let targetDistance = IslandUserLocationMapSupport.cameraDistance(for: targetRegion)
+        let startDistance = currentCameraDistance
+
+        guard reduceMotion == false else {
+            currentCameraDistance = targetDistance
+            cameraPosition = .camera(
+                IslandUserLocationMapSupport.mapCamera(center: center, distance: targetDistance)
+            )
+            return
+        }
+
+        zoomTask = Task { @MainActor in
+            let steps = 16
+            let stepSleep = zoomInDuration / Double(steps)
+
+            for step in 1...steps {
+                guard Task.isCancelled == false else { return }
+
+                let progress = Double(step) / Double(steps)
+                let eased = easeOut(progress)
+                let distance = startDistance + (targetDistance - startDistance) * eased
+
+                currentCameraDistance = distance
+                cameraPosition = .camera(
+                    IslandUserLocationMapSupport.mapCamera(center: center, distance: distance)
+                )
+
+                try? await Task.sleep(nanoseconds: UInt64(stepSleep * 1_000_000_000))
+            }
+        }
+    }
+
+    private func easeOut(_ progress: Double) -> Double {
+        1 - pow(1 - progress, 3)
     }
 }
 

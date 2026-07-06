@@ -18,20 +18,28 @@ struct IslandSavedPhotosSectionView: View {
     @State private var showingCamera = false
     @State private var viewingPhoto: IslandSavedPhoto?
     @State private var cameraUnavailableMessage: String?
+    @State private var showingPhotoLimitAlert = false
 
-    private let gridColumns = [
-        GridItem(.flexible(), spacing: 10),
-        GridItem(.flexible(), spacing: 10),
-    ]
+    private let thumbnailHeight: CGFloat = 90
+    private let gridSpacing: CGFloat = 8
+
+    private var gridColumns: [GridItem] {
+        Array(
+            repeating: GridItem(.flexible(), spacing: gridSpacing),
+            count: 3
+        )
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("写真メモ")
                 .font(.headline)
 
-            Text("港や案内所で撮影した時刻表・案内を、この端末内だけに保存できます。サムネイルをタップするとすぐ表示されます。")
+            Text("港や案内所で撮影した時刻表・案内を、この端末内だけに保存できます。各島あたり最大\(IslandSavedPhotoStore.maxPhotosPerIsland)枚まで。サムネイルをタップするとすぐ表示されます。")
                 .font(.caption)
                 .detailCardSecondaryText()
+
+            photoCountLabel
 
             addPhotoButtons
 
@@ -54,7 +62,7 @@ struct IslandSavedPhotosSectionView: View {
         }
         .fullScreenCover(isPresented: $showingCamera) {
             CameraImagePicker { image in
-                store.addPhoto(image, for: islandID)
+                addPhoto(image)
             }
             .ignoresSafeArea()
         }
@@ -66,6 +74,18 @@ struct IslandSavedPhotosSectionView: View {
         } message: {
             Text(cameraUnavailableMessage ?? "この端末ではカメラ撮影が利用できません。")
         }
+        .alert("保存上限に達しました", isPresented: $showingPhotoLimitAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("この島の写真メモは\(IslandSavedPhotoStore.maxPhotosPerIsland)枚までです。不要な写真を削除すると追加できます。")
+        }
+    }
+
+    private var photoCountLabel: some View {
+        Text("\(store.photos.count)/\(IslandSavedPhotoStore.maxPhotosPerIsland)枚")
+            .font(.caption)
+            .fontWeight(.medium)
+            .detailCardSecondaryText()
     }
 
     private var addPhotoButtons: some View {
@@ -80,6 +100,7 @@ struct IslandSavedPhotosSectionView: View {
             }
             .buttonStyle(.borderedProminent)
             .tint(palette.accent)
+            .disabled(store.canAddPhoto == false)
 
             PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
                 Label("写真を選ぶ", systemImage: "photo.on.rectangle")
@@ -88,6 +109,7 @@ struct IslandSavedPhotosSectionView: View {
                     .padding(.vertical, 12)
             }
             .buttonStyle(.bordered)
+            .disabled(store.canAddPhoto == false)
         }
     }
 
@@ -106,7 +128,7 @@ struct IslandSavedPhotosSectionView: View {
     }
 
     private var photoGrid: some View {
-        LazyVGrid(columns: gridColumns, spacing: 10) {
+        LazyVGrid(columns: gridColumns, spacing: gridSpacing) {
             ForEach(store.photos) { photo in
                 photoThumbnail(photo)
             }
@@ -118,17 +140,17 @@ struct IslandSavedPhotosSectionView: View {
         Button {
             viewingPhoto = photo
         } label: {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 4) {
                 if let image = store.image(for: photo) {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFill()
-                        .frame(height: 120)
+                        .frame(height: thumbnailHeight)
                         .clipped()
                 } else {
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
                         .fill(palette.chipBackground(isSelected: false))
-                        .frame(height: 120)
+                        .frame(height: thumbnailHeight)
                         .overlay {
                             Image(systemName: "photo")
                                 .foregroundStyle(palette.secondaryText)
@@ -139,10 +161,11 @@ struct IslandSavedPhotosSectionView: View {
                     .font(.caption2)
                     .detailCardSecondaryText()
                     .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .overlay {
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .strokeBorder(palette.cardBorder, lineWidth: 1)
             }
         }
@@ -162,6 +185,11 @@ struct IslandSavedPhotosSectionView: View {
     }
 
     private func openCamera() {
+        guard store.canAddPhoto else {
+            showingPhotoLimitAlert = true
+            return
+        }
+
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
             cameraUnavailableMessage = "カメラがない端末、またはシミュレーターでは撮影できません。"
             return
@@ -170,11 +198,23 @@ struct IslandSavedPhotosSectionView: View {
     }
 
     private func importPhoto(from item: PhotosPickerItem) async {
+        guard store.canAddPhoto else {
+            showingPhotoLimitAlert = true
+            return
+        }
+
         guard let data = try? await item.loadTransferable(type: Data.self),
               let image = UIImage(data: data) else {
             return
         }
-        store.addPhoto(image, for: islandID)
+        addPhoto(image)
+    }
+
+    private func addPhoto(_ image: UIImage) {
+        let added = store.addPhoto(image, for: islandID)
+        if added == false {
+            showingPhotoLimitAlert = true
+        }
     }
 
     private func formattedDate(_ date: Date) -> String {

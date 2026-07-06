@@ -24,6 +24,7 @@ enum IslandCatalog {
         IzuIslandProfiles.all,
         GotoIslandProfiles.all,
         KutsunaIslandProfiles.all,
+        ShodoshimaNaoshimaIslandProfiles.all,
     ]
 
     static let all: [IslandProfile] = regionalProfiles.flatMap { $0 }
@@ -172,7 +173,13 @@ enum IslandCatalog {
         return lines.joined(separator: " / ")
     }
 
-    static func formattedPortAccessLines(from coordinate: CLLocationCoordinate2D, islandID: String) -> [String] {
-        portAccessInfos(from: coordinate, islandID: islandID).map(\.formattedLine)
+    static func formattedPortAccessLines(
+        from coordinate: CLLocationCoordinate2D,
+        islandID: String,
+        includeWalkingTime: Bool = true
+    ) -> [String] {
+        portAccessInfos(from: coordinate, islandID: islandID).map {
+            $0.formattedLine(includeWalkingTime: includeWalkingTime)
+        }
     }
 }

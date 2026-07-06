@@ -20,12 +20,17 @@ struct IslandPort: Identifiable {
 }
 
 struct IslandProfile: Identifiable {
+    static let defaultPlaceSearchRadiusMeters: CLLocationDistance = 12_000
+    static let defaultOnIslandRadiusMeters: CLLocationDistance = 12_000
+
     let island: Island
     let regionID: String
     let ports: [IslandPort]
     let backgroundAssetName: String
     let backgroundCredit: String
     let placeSearchRadiusMeters: CLLocationDistance
+    /// 現在地が「島内にいます」と判定される中心からの距離
+    let onIslandRadiusMeters: CLLocationDistance
     /// 航路名・港名の判定用（例: 「石垣」「大原」）
     let routeKeywords: [String]
     let ferryGTFSFeeds: [FerryGTFSFeed]
@@ -37,6 +42,8 @@ struct IslandProfile: Identifiable {
     let liveCameraFootnote: String?
     let flightSchedules: [FlightAirlineSchedule]
     let flightScheduleNote: String?
+    /// 詳細画面を開いた直後のアート演出（nil で無効）
+    let artIntro: IslandArtIntro?
 
     var id: String { island.id }
 
@@ -75,6 +82,7 @@ struct IslandProfile: Identifiable {
         backgroundAssetName: String,
         backgroundCredit: String,
         placeSearchRadiusMeters: CLLocationDistance,
+        onIslandRadiusMeters: CLLocationDistance? = nil,
         routeKeywords: [String],
         ferryGTFSFeeds: [FerryGTFSFeed],
         sampleFerrySchedules: [FerryCompanySchedule],
@@ -83,7 +91,8 @@ struct IslandProfile: Identifiable {
         youtubeRelatedLinks: [LiveCamera] = [],
         liveCameraFootnote: String? = nil,
         flightSchedules: [FlightAirlineSchedule],
-        flightScheduleNote: String?
+        flightScheduleNote: String?,
+        artIntro: IslandArtIntro? = .fullscreenZoomOut
     ) {
         self.island = island
         self.regionID = regionID
@@ -91,6 +100,7 @@ struct IslandProfile: Identifiable {
         self.backgroundAssetName = backgroundAssetName
         self.backgroundCredit = backgroundCredit
         self.placeSearchRadiusMeters = placeSearchRadiusMeters
+        self.onIslandRadiusMeters = onIslandRadiusMeters ?? placeSearchRadiusMeters
         self.routeKeywords = routeKeywords
         self.ferryGTFSFeeds = ferryGTFSFeeds
         self.sampleFerrySchedules = sampleFerrySchedules
@@ -100,6 +110,7 @@ struct IslandProfile: Identifiable {
         self.liveCameraFootnote = liveCameraFootnote
         self.flightSchedules = flightSchedules
         self.flightScheduleNote = flightScheduleNote
+        self.artIntro = artIntro
     }
 
     func matchesRoute(_ routeLongName: String) -> Bool {

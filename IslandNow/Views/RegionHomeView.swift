@@ -88,7 +88,11 @@ struct RegionHomeView: View {
     }
 
     private var japanMap: some View {
-        Map(position: $cameraPosition, interactionModes: [.pan, .zoom]) {
+        Map(
+            position: $cameraPosition,
+            bounds: RegionMapSupport.japanMapCameraBounds,
+            interactionModes: [.pan, .zoom]
+        ) {
             ForEach(IslandCatalog.regions) { region in
                 Annotation("", coordinate: region.mapCoordinate) {
                     Button {
@@ -102,6 +106,10 @@ struct RegionHomeView: View {
             }
         }
         .mapStyle(.standard(elevation: .flat))
+        .onAppear {
+            // bounds 付き Map は初回レイアウト後に region を再適用しないと南寄りになることがある
+            cameraPosition = RegionMapSupport.japanHomeCameraPosition()
+        }
         .frame(minHeight: 280)
         .frame(maxHeight: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))

@@ -15,6 +15,10 @@ struct IslandUserLocationMapView: View {
     let userCoordinate: CLLocationCoordinate2D?
     let authorizationStatus: CLAuthorizationStatus
 
+    private var locationViewModel: IslandUserLocationViewModel {
+        IslandUserLocationViewModel(island: island, islandProfile: islandProfile)
+    }
+
     @Environment(\.detailPalette) private var palette
     @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var showsFullMap = false
@@ -122,48 +126,21 @@ struct IslandUserLocationMapView: View {
 
     @ViewBuilder
     private func locationStatusContent(for userCoordinate: CLLocationCoordinate2D) -> some View {
-        let distance = distanceFromIslandCenter(userCoordinate)
-        let radius = islandProfile?.placeSearchRadiusMeters ?? 12_000
-        let portLines = IslandCatalog.formattedPortAccessLines(
-            from: userCoordinate,
-            islandID: island.id
-        )
+        let locationStatus = locationViewModel.status(for: userCoordinate)
 
         VStack(alignment: .leading, spacing: 4) {
-            if distance <= radius {
-                Text("島内にいます")
-                    .font(.caption)
-                    .foregroundStyle(palette.secondaryText)
+            Text(locationStatus.summaryText)
+                .font(.caption)
+                .foregroundStyle(palette.secondaryText)
 
-                if portLines.isEmpty {
-                    EmptyView()
-                } else {
-                    ForEach(Array(portLines.enumerated()), id: \.offset) { _, line in
-                        Text(line)
-                            .font(.caption)
-                            .foregroundStyle(palette.secondaryText)
-                    }
-                }
-            } else {
-                Text("この島から \(IslandCatalog.formattedDistance(distance)) の位置にいます")
-                    .font(.caption)
-                    .foregroundStyle(palette.secondaryText)
-
-                if portLines.isEmpty == false {
-                    ForEach(Array(portLines.enumerated()), id: \.offset) { _, line in
-                        Text(line)
-                            .font(.caption)
-                            .foregroundStyle(palette.secondaryText)
-                    }
+            if locationStatus.isOnIsland, locationStatus.portAccessLines.isEmpty == false {
+                ForEach(Array(locationStatus.portAccessLines.enumerated()), id: \.offset) { _, line in
+                    Text(line)
+                        .font(.caption)
+                        .foregroundStyle(palette.secondaryText)
                 }
             }
         }
-    }
-
-    private func distanceFromIslandCenter(_ coordinate: CLLocationCoordinate2D) -> CLLocationDistance {
-        let userLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let islandLocation = CLLocation(latitude: island.latitude, longitude: island.longitude)
-        return userLocation.distance(from: islandLocation)
     }
 
     private func updateCamera() {
@@ -177,13 +154,34 @@ struct IslandUserLocationMapView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
+#Preview("現在地取得中") {
+    islandUserLocationMapPreview(userCoordinate: nil)
+}
+
+#Preview("島内") {
+    islandUserLocationMapPreview(
+        userCoordinate: CLLocationCoordinate2D(latitude: 24.337193, longitude: 124.155485)
+    )
+}
+
+// 石垣島中心から約 287.9km（placeSearchRadiusMeters 18km 圏外）の座標
+#Preview("島外 287.9km") {
+    islandUserLocationMapPreview(
+        userCoordinate: CLLocationCoordinate2D(latitude: 26.5, longitude: 125.932233)
+    )
+}
+
+private func islandUserLocationMapPreview(
+    userCoordinate: CLLocationCoordinate2D?,
+    authorizationStatus: CLAuthorizationStatus = .authorizedWhenInUse
+) -> some View {
+    let profile = IslandCatalog.profile(for: "ishigaki")!
+    return NavigationStack {
         IslandUserLocationMapView(
-            island: IslandCatalog.islands[0],
-            islandProfile: IslandCatalog.profile(for: "ishigaki"),
-            userCoordinate: nil,
-            authorizationStatus: .authorizedWhenInUse
+            island: profile.island,
+            islandProfile: profile,
+            userCoordinate: userCoordinate,
+            authorizationStatus: authorizationStatus
         )
         .padding()
         .background(Color.black)

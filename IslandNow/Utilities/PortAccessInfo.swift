@@ -14,7 +14,15 @@ struct PortAccessInfo {
     let distanceMeters: CLLocationDistance
 
     var formattedLine: String {
-        "\(port.name)（\(directionLabel)）から \(IslandCatalog.formattedDistance(distanceMeters))（\(IslandCatalog.formattedWalkingTime(distanceMeters))）"
+        formattedLine(includeWalkingTime: true)
+    }
+
+    func formattedLine(includeWalkingTime: Bool) -> String {
+        let distanceText = IslandCatalog.formattedDistance(distanceMeters)
+        if includeWalkingTime {
+            return "\(port.name)（\(directionLabel)）から \(distanceText)（\(IslandCatalog.formattedWalkingTime(distanceMeters))）"
+        }
+        return "\(port.name)（\(directionLabel)）から \(distanceText)"
     }
 }
 
