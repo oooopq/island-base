@@ -17,17 +17,12 @@ struct FerryLinkSectionView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("船便")
                     .font(.headline)
-                Text("フェリー・高速船 / Ferry & High-Speed Boat")
+                Text("フェリー・高速船")
                     .font(.caption)
                     .detailCardSecondaryText()
             }
 
             Text("ダイヤ・運航状況は各社公式サイトでご確認ください。")
-                .font(.caption)
-                .detailCardSecondaryText()
-                .fixedSize(horizontal: false, vertical: true)
-
-            Text("Check timetables and service status on each operator's official website.")
                 .font(.caption)
                 .detailCardSecondaryText()
                 .fixedSize(horizontal: false, vertical: true)
@@ -50,28 +45,10 @@ struct FerryLinkSectionView: View {
                 .font(.subheadline)
                 .fontWeight(.semibold)
 
-            ForEach(company.linkButtons) { button in
-                linkButton(button)
-            }
+            ScheduleOperatorActionButtonsView(
+                actions: company.linkButtons.map(ScheduleOperatorActionFactory.actions(for:))
+            )
         }
-    }
-
-    private func linkButton(_ button: FerryLinkButton) -> some View {
-        OpenURLButton(url: button.url) {
-            Label {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(button.kind.titleJapanese)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                    Text(button.kind.titleEnglish)
-                        .font(.caption)
-                        .detailCardSecondaryText()
-                }
-            } icon: {
-                Image(systemName: button.kind.systemImage)
-            }
-        }
-        .padding(.vertical, 4)
     }
 }
 

@@ -18,7 +18,7 @@ CURATED = [
     ("IslandBgTaketomi", "taketomi.jpg", "unsplash_slug", "white-and-brown-concrete-building-under-blue-sky-and-white-clouds-during-daytime-kInzQWIYFMA", "Photo: Hiroko Yoshii / Unsplash（竹富島）"),
     ("IslandBgIriomote", "iriomote.jpg", "unsplash_slug", "tFtc8jNnNds", "Photo: Wataru Sato / Unsplash（西表島）"),
     # 八重山 — Wikimedia（Unsplashに場所タグ付き写真なし）
-    ("IslandBgKuroshima", "kuroshima.jpg", "wiki", "Kuroshima_Okinawa_prefecture_Wikivoyage_banner.jpg", "Photo: mariemon / Wikimedia Commons（黒島・八重山）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgKuroshima", "kuroshima.jpg", "local", "", "Photo: TOMOYUKI SHIDARA（黒島）"),
     ("IslandBgHateruma", "hateruma.jpg", "wiki", "Hateruma_Island.jpg", "Photo: NASA Johnson Space Center / Wikimedia Commons（波照間島）／Public domain／表示時に暗色グラデーションを追加"),
     ("IslandBgYonaguni", "yonaguni.jpg", "wiki", "Yonaguni_agarizaki.jpg", "Photo: Metatron / Wikimedia Commons（与那国島・東崎）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
     # 佐渡
@@ -103,6 +103,10 @@ def write_contents(folder: Path, filename: str):
 def main():
     credits = {}
     for asset, filename, src_type, src_id, credit in CURATED:
+        if src_type == "local":
+            credits[asset] = credit
+            print(f"SKIP (local) {asset}")
+            continue
         if src_type == "unsplash_slug":
             url = unsplash_img_url(src_id)
         else:

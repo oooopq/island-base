@@ -64,14 +64,8 @@ struct RegionHomeView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 14) {
-            HStack(alignment: .top, spacing: 12) {
-                AppBrandTitleView(style: .hero)
-
-                Spacer(minLength: 8)
-
-                if let island = lastSelectedIslandStore.island {
-                    LastSelectedIslandShortcutView(island: island)
-                }
+            if lastSelectedIslandStore.islands.isEmpty == false {
+                recentIslandsSection
             }
 
             VStack(alignment: .leading, spacing: 6) {
@@ -85,6 +79,21 @@ struct RegionHomeView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var recentIslandsSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("最近見た島")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(palette.secondaryText)
+
+            HStack(spacing: 10) {
+                ForEach(lastSelectedIslandStore.islands) { island in
+                    LastSelectedIslandShortcutView(island: island)
+                }
+            }
+        }
     }
 
     private var japanMap: some View {

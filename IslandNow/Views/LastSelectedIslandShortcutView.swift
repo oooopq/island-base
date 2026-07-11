@@ -2,7 +2,7 @@
 //  LastSelectedIslandShortcutView.swift
 //  Island Now
 //
-//  前回選択した島へ戻るショートカット
+//  最近見た島へのコンパクトショートカット
 //
 
 import SwiftUI
@@ -18,31 +18,22 @@ struct LastSelectedIslandShortcutView: View {
 
     var body: some View {
         NavigationLink(value: island) {
-            HStack(spacing: 8) {
+            VStack(spacing: 6) {
                 Image(backgroundAssetName)
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 44, height: 44)
+                    .frame(height: 52)
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("前回の島")
-                        .font(.caption2)
-                        .foregroundStyle(palette.secondaryText)
-
-                    Text(island.nameJapanese)
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(palette.text)
-                        .lineLimit(1)
-                }
-
-                Image(systemName: "chevron.right")
-                    .font(.caption2)
+                Text(island.nameJapanese)
+                    .font(.caption)
                     .fontWeight(.semibold)
-                    .foregroundStyle(palette.accent)
+                    .foregroundStyle(palette.text)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
             }
-            .padding(.horizontal, 10)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 8)
             .padding(.vertical, 8)
             .background {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -54,13 +45,17 @@ struct LastSelectedIslandShortcutView: View {
             }
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("\(island.nameJapanese)の詳細を開く")
     }
 }
 
 #Preview {
     NavigationStack {
-        LastSelectedIslandShortcutView(island: IslandCatalog.islands[0])
-            .padding()
+        HStack(spacing: 10) {
+            LastSelectedIslandShortcutView(island: IslandCatalog.islands[0])
+            LastSelectedIslandShortcutView(island: IslandCatalog.islands[1])
+        }
+        .padding()
     }
     .environment(\.detailPalette, DetailCardPalette.dark)
 }

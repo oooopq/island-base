@@ -124,10 +124,6 @@ struct IslandUserLocationMapView: View {
     private func locationStatusContent(for userCoordinate: CLLocationCoordinate2D) -> some View {
         let distance = distanceFromIslandCenter(userCoordinate)
         let radius = islandProfile?.onIslandRadiusMeters ?? IslandProfile.defaultOnIslandRadiusMeters
-        let portLines = IslandCatalog.formattedPortAccessLines(
-            from: userCoordinate,
-            islandID: island.id
-        )
 
         VStack(alignment: .leading, spacing: 4) {
             if distance <= radius {
@@ -135,6 +131,10 @@ struct IslandUserLocationMapView: View {
                     .font(.caption)
                     .foregroundStyle(palette.secondaryText)
 
+                let portLines = IslandCatalog.formattedPortAccessLines(
+                    from: userCoordinate,
+                    islandID: island.id
+                )
                 if portLines.isEmpty {
                     EmptyView()
                 } else {
@@ -148,14 +148,6 @@ struct IslandUserLocationMapView: View {
                 Text("この島から \(IslandCatalog.formattedDistance(distance)) の位置にいます")
                     .font(.caption)
                     .foregroundStyle(palette.secondaryText)
-
-                if portLines.isEmpty == false {
-                    ForEach(Array(portLines.enumerated()), id: \.offset) { _, line in
-                        Text(line)
-                            .font(.caption)
-                            .foregroundStyle(palette.secondaryText)
-                    }
-                }
             }
         }
     }

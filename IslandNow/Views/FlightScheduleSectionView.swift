@@ -139,28 +139,9 @@ struct FlightScheduleSectionView: View {
                 .font(.subheadline)
                 .fontWeight(.semibold)
 
-            if let statusURL = schedule.airline.statusPageLink {
-                OpenURLButton(url: statusURL) {
-                    Label("運航状況 / Flight Status", systemImage: "exclamationmark.triangle.fill")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                }
-                .scheduleStatusCallout()
-            }
-
-            if let website = schedule.airline.websiteLink {
-                OpenURLButton(url: website) {
-                    Label("時刻表・予約 / Timetable & Booking（\(schedule.airline.name)）", systemImage: "globe")
-                        .font(.subheadline)
-                }
-            }
-
-            if let phoneURL = schedule.airline.phoneURL {
-                OpenURLButton(url: phoneURL) {
-                    Label("運航問い合わせ / Call: \(schedule.airline.phoneNumber)", systemImage: "phone.fill")
-                        .font(.subheadline)
-                }
-            }
+            ScheduleOperatorActionButtonsView(
+                actions: ScheduleOperatorActionFactory.actions(for: schedule.airline)
+            )
 
             ForEach(Array(schedule.trips.enumerated()), id: \.element.id) { index, trip in
                 if index > 0 {

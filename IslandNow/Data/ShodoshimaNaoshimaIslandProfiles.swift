@@ -20,23 +20,23 @@ enum ShodoshimaNaoshimaIslandProfiles {
 
     private static let shikokuFerry = FerryCompany(
         name: "四国フェリー株式会社",
-        websiteURL: "https://www.shikokuferry.com/port/time.html",
-        phoneNumber: "0877-56-3019",
-        statusPageURL: "https://www.shikokuferry.com/port/unkou.html",
+        websiteURL: "https://www.shikokuferry.com/lp-ferry/",
+        phoneNumber: "087-851-0131",
+        statusPageURL: "https://www.shikokuferry.com/news/",
         homePageURL: "https://www.shikokuferry.com/"
     )
 
     private static let shodoshimaFerry = FerryCompany(
-        name: "小豆島フェリー株式会社",
-        websiteURL: "https://www.shodoshimaferry.com/diagram/",
-        phoneNumber: "0879-62-0018",
-        statusPageURL: "https://www.shodoshimaferry.com/info/",
-        homePageURL: "https://www.shodoshimaferry.com/"
+        name: "小豆島豊島フェリー株式会社",
+        websiteURL: "https://www.shodoshima-ferry.co.jp/timetable/",
+        phoneNumber: "0879-62-1348",
+        statusPageURL: "https://www.shodoshima-ferry.co.jp/",
+        homePageURL: "https://www.shodoshima-ferry.co.jp/"
     )
 
     private static let shikokuKisen = FerryCompany(
         name: "四国汽船株式会社",
-        websiteURL: "https://www.shikokukisen.com/timetable/",
+        websiteURL: "https://www.shikokukisen.com/routes/",
         phoneNumber: "087-821-5100",
         statusPageURL: "https://www.shikokukisen.com/news/traffic-info/",
         homePageURL: "https://www.shikokukisen.com/"

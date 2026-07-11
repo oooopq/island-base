@@ -2,7 +2,7 @@
 //  ScheduleStatusBannerView.swift
 //  Island Now
 //
-//  欠航・遅延確認の共通バナー（日英併記）
+//  欠航・遅延確認の共通バナー
 //
 
 import SwiftUI
@@ -15,15 +15,9 @@ struct ScheduleStatusBannerView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Label {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("欠航・遅延")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                    Text("Delays & Cancellations")
-                        .font(.caption)
-                        .fontWeight(.medium)
-                        .scheduleStatusSecondaryText()
-                }
+                Text("欠航・遅延")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
             } icon: {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .foregroundStyle(palette.warning)
@@ -31,11 +25,6 @@ struct ScheduleStatusBannerView: View {
 
             Text("出発前に各社公式サイトで運航状況を確認してください。本アプリの時刻は参考ダイヤです。")
                 .font(.caption)
-                .fixedSize(horizontal: false, vertical: true)
-
-            Text("Check official websites before you travel. This app shows sample timetables only.")
-                .font(.caption)
-                .scheduleStatusSecondaryText()
                 .fixedSize(horizontal: false, vertical: true)
 
             ForEach(sources) { source in
@@ -47,33 +36,43 @@ struct ScheduleStatusBannerView: View {
 
     @ViewBuilder
     private func sourceLinks(_ source: ScheduleStatusSource) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             Text(source.name)
                 .font(.caption)
                 .fontWeight(.semibold)
 
-            OpenURLButton(url: source.statusPageURL) {
-                Label(statusButtonTitle(for: source.category), systemImage: statusIcon(for: source.category))
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-            }
-
-            if let phoneURL = source.phoneURL, let phoneNumber = source.phoneNumber {
-                OpenURLButton(url: phoneURL) {
-                    Label("運航問い合わせ / Call: \(phoneNumber)", systemImage: "phone.fill")
-                        .font(.caption)
-                }
-            }
+            sourceActionButtons(source)
         }
     }
 
-    private func statusButtonTitle(for category: ScheduleStatusSource.Category) -> String {
-        switch category {
-        case .ferry:
-            return "運航状況 / Service Status"
-        case .flight:
-            return "運航状況 / Flight Status"
+    @ViewBuilder
+    private func sourceActionButtons(_ source: ScheduleStatusSource) -> some View {
+        ScheduleOperatorActionButtonsView(actions: actions(for: source))
+    }
+
+    private func actions(for source: ScheduleStatusSource) -> [ScheduleOperatorAction] {
+        var actions: [ScheduleOperatorAction] = [
+            ScheduleOperatorAction(
+                id: "status-\(source.id)",
+                title: "運航状況",
+                systemImage: statusIcon(for: source.category),
+                url: source.statusPageURL,
+                isEmphasized: true
+            ),
+        ]
+
+        if let phoneURL = source.phoneURL {
+            actions.append(
+                ScheduleOperatorAction(
+                    id: "phone-\(source.id)",
+                    title: "電話",
+                    systemImage: "phone.fill",
+                    url: phoneURL
+                )
+            )
         }
+
+        return actions
     }
 
     private func statusIcon(for category: ScheduleStatusSource.Category) -> String {

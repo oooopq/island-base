@@ -160,7 +160,7 @@ enum YaeyamaIslandProfiles {
         regionID: "yaeyama",
         ports: [IslandPort(name: "黒島港", latitude: 24.254167, longitude: 124.000889)],
         backgroundAssetName: "IslandBgKuroshima",
-        backgroundCredit: "Photo: mariemon / Wikimedia Commons（黒島・八重山）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: "Photo: TOMOYUKI SHIDARA（黒島）",
         placeSearchRadiusMeters: 6_000,
         routeKeywords: ["黒島"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],

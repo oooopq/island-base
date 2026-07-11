@@ -13,13 +13,14 @@ struct FerryScheduleSectionView: View {
 
     @Environment(\.detailPalette) private var palette
     @State private var selectedDestinationID = FerryRouteHelper.allDestinationsID
+    @State private var isFullScheduleExpanded = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 4) {
                 Text("船便")
                     .font(.headline)
-                Text("フェリー・高速船 / Ferry & High-Speed Boat")
+                Text("フェリー・高速船")
                     .font(.caption)
                     .detailCardSecondaryText()
             }
@@ -54,10 +55,10 @@ struct FerryScheduleSectionView: View {
         }
         .detailSectionCard()
         .onChange(of: island.id) { _, _ in
-            selectedDestinationID = FerryRouteHelper.allDestinationsID
+            resetSchedulePresentation()
         }
         .onChange(of: stateKey) { _, _ in
-            selectedDestinationID = FerryRouteHelper.allDestinationsID
+            resetSchedulePresentation()
         }
     }
 
@@ -69,11 +70,6 @@ struct FerryScheduleSectionView: View {
         isOfflineFallback: Bool = false
     ) -> some View {
         let destinations = FerryRouteHelper.destinations(in: schedules, currentIslandID: island.id)
-
-        if destinations.isEmpty == false {
-            destinationPicker(destinations: destinations)
-        }
-
         let visibleSchedules = filteredSchedules(schedules)
         let nextDepartures = NextDepartureHelper.nextFerryDepartures(
             from: schedules,
@@ -81,9 +77,13 @@ struct FerryScheduleSectionView: View {
             destinationID: selectedDestinationID
         )
 
-        if nextDepartures.isEmpty == false {
+        if destinations.isEmpty == false {
+            destinationPicker(destinations: destinations)
+        }
+
+        if isFullScheduleExpanded == false, nextDepartures.isEmpty == false {
             NextDepartureBannerView(
-                title: "次の船便 / Next Departure",
+                title: "次の船便",
                 departures: nextDepartures,
                 showsTomorrowNote: NextDepartureHelper.isTodayFinished(nextDepartures)
             )
@@ -93,7 +93,7 @@ struct FerryScheduleSectionView: View {
             Text("この行き先のダイヤはありません")
                 .font(.subheadline)
                 .detailCardSecondaryText()
-        } else {
+        } else if isFullScheduleExpanded {
             if hasMultipleServiceKinds(in: visibleSchedules) {
                 shipTypeLegend
             }
@@ -101,6 +101,14 @@ struct FerryScheduleSectionView: View {
             ForEach(visibleSchedules) { schedule in
                 companyBlock(schedule, allSchedules: visibleSchedules)
             }
+
+            collapseScheduleButton
+        } else {
+            ForEach(visibleSchedules) { schedule in
+                companySummaryBlock(schedule, allSchedules: visibleSchedules)
+            }
+
+            expandScheduleButton(tripCount: visibleSchedules.reduce(0) { $0 + $1.trips.count })
         }
 
         if let validUntilText {
@@ -123,6 +131,61 @@ struct FerryScheduleSectionView: View {
                 .font(.caption)
                 .detailCardSecondaryText()
         }
+    }
+
+    private func expandScheduleButton(tripCount: Int) -> some View {
+        Button {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                isFullScheduleExpanded = true
+            }
+        } label: {
+            HStack(spacing: 8) {
+                Text("全ダイヤを見る（\(tripCount)便）")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+
+                Spacer(minLength: 0)
+
+                Image(systemName: "chevron.down")
+                    .font(.caption.weight(.semibold))
+            }
+            .foregroundStyle(palette.text)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .background {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(palette.chipBackground(isSelected: false))
+            }
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint("タップで全便のダイヤを表示")
+    }
+
+    private var collapseScheduleButton: some View {
+        Button {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                isFullScheduleExpanded = false
+            }
+        } label: {
+            HStack(spacing: 8) {
+                Text("全ダイヤを閉じる")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+
+                Spacer(minLength: 0)
+
+                Image(systemName: "chevron.up")
+                    .font(.caption.weight(.semibold))
+            }
+            .foregroundStyle(palette.text)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .background {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(palette.chipBackground(isSelected: false))
+            }
+        }
+        .buttonStyle(.plain)
     }
 
     @ViewBuilder
@@ -185,19 +248,31 @@ struct FerryScheduleSectionView: View {
     }
 
     private var shipTypeLegend: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("この路線には高速船（日中）と大型客船（夜航）があります。")
-                .font(.caption)
-                .detailCardSecondaryText()
-            Text("Two types of service operate on this route.")
-                .font(.caption)
-                .detailCardSecondaryText()
-        }
+        Text("この路線には高速船（日中）と大型客船（夜航）があります。")
+            .font(.caption)
+            .detailCardSecondaryText()
     }
 
     private func hasMultipleServiceKinds(in schedules: [FerryCompanySchedule]) -> Bool {
         let kinds = Set(schedules.compactMap(\.serviceKind))
         return kinds.count > 1
+    }
+
+    @ViewBuilder
+    private func companySummaryBlock(_ schedule: FerryCompanySchedule, allSchedules: [FerryCompanySchedule]) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(schedule.company.name)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+
+            ScheduleOperatorActionButtonsView(
+                actions: ScheduleOperatorActionFactory.actions(for: schedule.company)
+            )
+        }
+
+        if schedule.id != allSchedules.last?.id {
+            Divider()
+        }
     }
 
     @ViewBuilder
@@ -211,28 +286,9 @@ struct FerryScheduleSectionView: View {
                 .font(.subheadline)
                 .fontWeight(.semibold)
 
-            if let statusURL = schedule.company.statusPageLink {
-                OpenURLButton(url: statusURL) {
-                    Label("運航状況 / Service Status", systemImage: "exclamationmark.triangle.fill")
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                }
-                .scheduleStatusCallout()
-            }
-
-            if let website = schedule.company.websiteLink {
-                OpenURLButton(url: website) {
-                    Label("時刻表・予約 / Timetable & Booking", systemImage: "globe")
-                        .font(.subheadline)
-                }
-            }
-
-            if let phoneURL = schedule.company.phoneURL {
-                OpenURLButton(url: phoneURL) {
-                    Label("運航問い合わせ / Call: \(schedule.company.phoneNumber)", systemImage: "phone.fill")
-                        .font(.subheadline)
-                }
-            }
+            ScheduleOperatorActionButtonsView(
+                actions: ScheduleOperatorActionFactory.actions(for: schedule.company)
+            )
 
             ForEach(Array(schedule.trips.enumerated()), id: \.element.id) { index, trip in
                 if index > 0 {
@@ -280,7 +336,11 @@ struct FerryScheduleSectionView: View {
         }
     }
 
-    // データが更新されたら行き先選択をリセットする
+    private func resetSchedulePresentation() {
+        selectedDestinationID = FerryRouteHelper.allDestinationsID
+        isFullScheduleExpanded = false
+    }
+
     private var stateKey: String {
         switch state {
         case .loading:

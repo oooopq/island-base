@@ -99,7 +99,7 @@ enum IslandRegionCatalog {
         mapAnnotationLongitude: 134.103496,
         coverAssetName: "IslandBgShodoshimaNaoshima",
         coverAssetCredit: "Photo: Yu / Unsplash（小豆島・香川）",
-        ferryDataSourceNote: "四国フェリー・小豆島フェリー・四国汽船等の公式サイトからご確認ください。",
+        ferryDataSourceNote: "四国フェリー・小豆島豊島フェリー・四国汽船等の公式サイトからご確認ください。",
         ferryValidUntilSuffix: nil
     )
 

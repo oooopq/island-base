@@ -35,10 +35,7 @@ struct IslandArtIntroOverlayView: View {
             Color.black
                 .ignoresSafeArea()
 
-            Image(assetName)
-                .resizable()
-                .scaledToFill()
-                .scaleEffect(photoScale)
+            IslandFullscreenPhotoView(assetName: assetName, scale: photoScale)
                 .overlay {
                     if showsBackgroundGradient {
                         LinearGradient(
@@ -51,7 +48,6 @@ struct IslandArtIntroOverlayView: View {
                         )
                     }
                 }
-                .ignoresSafeArea()
         }
         .opacity(overlayOpacity)
         .ignoresSafeArea()

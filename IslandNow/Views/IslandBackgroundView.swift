@@ -14,12 +14,13 @@ struct IslandBackgroundView: View {
 
     private let readabilityBlurRadius: CGFloat = 10
 
+    private var backgroundAssetName: String {
+        IslandCatalog.profile(for: islandID)?.backgroundAssetName ?? IslandCatalog.defaultBackgroundAssetName
+    }
+
     var body: some View {
-        Image(IslandCatalog.profile(for: islandID)?.backgroundAssetName ?? IslandCatalog.defaultBackgroundAssetName)
-            .resizable()
-            .scaledToFill()
+        IslandFullscreenPhotoView(assetName: backgroundAssetName)
             .blur(radius: blurForReadability ? readabilityBlurRadius : 0)
-            .ignoresSafeArea()
             .overlay {
                 LinearGradient(
                     colors: blurForReadability

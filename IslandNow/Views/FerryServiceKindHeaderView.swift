@@ -2,7 +2,7 @@
 //  FerryServiceKindHeaderView.swift
 //  Island Now
 //
-//  高速船・夜航客船などの種別ヘッダー（日英併記）
+//  高速船・夜航客船などの種別ヘッダー
 //
 
 import SwiftUI
@@ -24,16 +24,7 @@ struct FerryServiceKindHeaderView: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
 
-                Text(serviceKind.titleEnglish)
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .detailCardSecondaryText()
-
                 Text(serviceKind.descriptionJapanese)
-                    .font(.caption)
-                    .detailCardSecondaryText()
-
-                Text(serviceKind.descriptionEnglish)
                     .font(.caption)
                     .detailCardSecondaryText()
             }

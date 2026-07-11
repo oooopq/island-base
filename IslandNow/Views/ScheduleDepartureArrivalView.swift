@@ -38,7 +38,7 @@ struct ScheduleDepartureArrivalView: View {
                 .monospacedDigit()
                 .foregroundStyle(isUrgent ? .red : palette.text)
 
-            Text(label == "発" ? "発 / DEP" : "着 / ARR")
+            Text(label == "発" ? "発" : "着")
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundStyle(labelColor)
@@ -47,7 +47,7 @@ struct ScheduleDepartureArrivalView: View {
                 departureTime: departureTime,
                 arrivalTime: arrivalTime
             ) {
-                Text("翌日 / Next day")
+                Text("翌日")
                     .font(.caption2)
                     .fontWeight(.semibold)
                     .foregroundStyle(palette.warning)
