@@ -73,11 +73,11 @@ struct IslandArtIntroOverlayView: View {
 
         try? await Task.sleep(for: .seconds(artIntro.zoomOutSeconds))
 
-        withAnimation(.easeOut(duration: 0.2)) {
+        withAnimation(.easeOut(duration: 0.15)) {
             overlayOpacity = 0
         }
 
-        try? await Task.sleep(for: .seconds(0.2))
+        try? await Task.sleep(for: .seconds(0.15))
         onFinished()
     }
 }

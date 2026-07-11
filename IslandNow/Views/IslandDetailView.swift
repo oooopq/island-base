@@ -21,6 +21,7 @@ struct IslandDetailView: View {
     @State private var locationService = UserLocationService()
     @State private var isArtIntroActive = false
     @State private var detailContentVisible = true
+    @State private var blurBackgroundForReadability = false
 
     private let weatherService = WeatherService()
     private let ferryService = FerryService()
@@ -81,6 +82,9 @@ struct IslandDetailView: View {
                     },
                     onFinished: {
                         isArtIntroActive = false
+                        withAnimation(.easeInOut(duration: 0.5)) {
+                            blurBackgroundForReadability = true
+                        }
                     }
                 )
             }
@@ -159,7 +163,10 @@ struct IslandDetailView: View {
             }
         }
         .background {
-            IslandBackgroundView(islandID: island.id)
+            IslandBackgroundView(
+                islandID: island.id,
+                blurForReadability: blurBackgroundForReadability
+            )
         }
     }
 
@@ -167,6 +174,7 @@ struct IslandDetailView: View {
         let shouldShowIntro = IslandCatalog.profile(for: island)?.artIntro != nil
         isArtIntroActive = shouldShowIntro
         detailContentVisible = shouldShowIntro == false
+        blurBackgroundForReadability = shouldShowIntro == false
     }
 
     @ViewBuilder
