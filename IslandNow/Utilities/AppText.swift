@@ -95,9 +95,9 @@ enum AppText {
     private var japanese: String {
         switch self {
         case .pickRegionOnMap:
-            return "行きたい諸島を地図から選んでください"
+            return "諸島を選んで、いまの天気・船便を確認"
         case .tapPinOrList:
-            return "ピンまたは下の一覧をタップ"
+            return "地図のピンか、下の諸島名から選ぶ"
         case .recentIslands:
             return "最近見た島"
         case .islandCount(let count):
@@ -248,9 +248,9 @@ enum AppText {
     private var english: String {
         switch self {
         case .pickRegionOnMap:
-            return "Choose an island group on the map"
+            return "Pick an island group to check weather and ferries now"
         case .tapPinOrList:
-            return "Tap a pin or a name below"
+            return "Tap a map pin or a name below"
         case .recentIslands:
             return "Recent islands"
         case .islandCount(let count):

@@ -19,17 +19,7 @@ struct ThemeToggleHintView: View {
                 .font(.headline)
 
             HStack(spacing: 28) {
-                hintItem(
-                    title: "明るさ",
-                    detail: "ライト / ダーク"
-                ) {
-                    ThemeToggleIconView(
-                        systemImage: mode.toggleSystemImage,
-                        palette: palette,
-                        size: 52
-                    )
-                }
-
+                // 実ツールバーと同じ順：言語 → 明るさ（右端が明るさ）
                 hintItem(
                     title: "言語",
                     detail: "日本語 / English"
@@ -44,6 +34,17 @@ struct ThemeToggleHintView: View {
                             Circle()
                                 .strokeBorder(palette.accent.opacity(0.35), lineWidth: 1)
                         }
+                }
+
+                hintItem(
+                    title: "明るさ",
+                    detail: "ライト / ダーク"
+                ) {
+                    ThemeToggleIconView(
+                        systemImage: mode.toggleSystemImage,
+                        palette: palette,
+                        size: 52
+                    )
                 }
             }
 

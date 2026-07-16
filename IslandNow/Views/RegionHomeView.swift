@@ -17,17 +17,25 @@ struct RegionHomeView: View {
     @State private var mapSelectedRegionID: String?
 
     var body: some View {
-        VStack(spacing: 0) {
-            header
-                .padding(.horizontal, 20)
-                .padding(.top, 8)
-                .padding(.bottom, 12)
+        GeometryReader { geometry in
+            // 画面の約58%を地図に使い、諸島2列グリッドの余地も残す
+            let mapHeight = max(320, min(geometry.size.height * 0.58, 560))
 
-            japanMap
+            ScrollView {
+                VStack(spacing: 0) {
+                    header
+                        .padding(.horizontal, 20)
+                        .padding(.top, 8)
+                        .padding(.bottom, 12)
 
-            regionChipBar
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
+                    japanMap(height: mapHeight)
+
+                    regionChipGrid
+                        .padding(.horizontal, 16)
+                        .padding(.top, 10)
+                        .padding(.bottom, 16)
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(homeBackground)
@@ -63,6 +71,9 @@ struct RegionHomeView: View {
         }
         .navigationDestination(for: Island.self) { island in
             IslandDetailView(island: island)
+        }
+        .onAppear {
+            applyJapanHomeCamera()
         }
     }
 
@@ -100,7 +111,7 @@ struct RegionHomeView: View {
         }
     }
 
-    private var japanMap: some View {
+    private func japanMap(height: CGFloat) -> some View {
         Map(
             position: $cameraPosition,
             bounds: RegionMapSupport.japanMapCameraBounds,
@@ -122,11 +133,18 @@ struct RegionHomeView: View {
         }
         .mapStyle(.standard(elevation: .flat))
         .onAppear {
-            // bounds 付き Map は初回レイアウト後に region を再適用しないと南寄りになることがある
-            cameraPosition = RegionMapSupport.japanHomeCameraPosition()
+            applyJapanHomeCamera()
         }
-        .frame(minHeight: 280)
-        .frame(maxHeight: .infinity)
+        .task(id: height) {
+            // 起動・レイアウト確定のたびに、全諸島が収まる基準画角へ戻す
+            applyJapanHomeCamera()
+            try? await Task.sleep(for: .milliseconds(50))
+            applyJapanHomeCamera()
+            try? await Task.sleep(for: .milliseconds(200))
+            applyJapanHomeCamera()
+        }
+        .frame(height: height)
+        .frame(maxWidth: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -135,15 +153,23 @@ struct RegionHomeView: View {
         .padding(.horizontal, 16)
     }
 
-    private var regionChipBar: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
-                ForEach(IslandCatalog.regions) { region in
-                    NavigationLink(value: region.id) {
-                        RegionChipView(region: region)
-                    }
-                    .buttonStyle(.plain)
+    private func applyJapanHomeCamera() {
+        cameraPosition = RegionMapSupport.japanHomeCameraPosition()
+    }
+
+    /// 横スクロール1列ではなく、2列で全地域を見せる
+    private var regionChipGrid: some View {
+        let columns = [
+            GridItem(.flexible(), spacing: 10),
+            GridItem(.flexible(), spacing: 10),
+        ]
+
+        return LazyVGrid(columns: columns, spacing: 10) {
+            ForEach(IslandCatalog.regions) { region in
+                NavigationLink(value: region.id) {
+                    RegionChipView(region: region)
                 }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -218,13 +244,19 @@ private struct RegionChipView: View {
             Text(region.displayName(for: languageStore.mode))
                 .font(.subheadline)
                 .fontWeight(.semibold)
+                .lineLimit(2)
+                .minimumScaleFactor(0.85)
+                .multilineTextAlignment(.leading)
+
+            Spacer(minLength: 4)
 
             Text(languageStore.t(.islandCount(islandCount)))
                 .font(.caption)
                 .foregroundStyle(palette.secondaryText)
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 10)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
         .background {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(palette.cardBackground)

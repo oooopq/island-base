@@ -2,7 +2,7 @@
 //  UsefulInfoSectionView.swift
 //  Island Now
 //
-//  詳細画面のお役立ち情報セクション
+//  詳細画面のお役立ち情報セクション（初期は閉じた状態）
 //
 
 import SwiftUI
@@ -12,6 +12,7 @@ struct UsefulInfoSectionView: View {
 
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
+    @State private var isExpanded = false
 
     private var items: [UsefulInfo] {
         IslandCatalog.profile(for: islandID)?.usefulInfo ?? []
@@ -19,21 +20,49 @@ struct UsefulInfoSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(languageStore.t(.usefulInfo))
-                .font(.headline)
-
-            ForEach(UsefulInfoCategory.allCases) { category in
-                let categoryItems = items.filter { $0.category == category }
-                if categoryItems.isEmpty == false {
-                    categoryBlock(category: category, items: categoryItems)
+            Button {
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    isExpanded.toggle()
                 }
-            }
+            } label: {
+                HStack(spacing: 8) {
+                    Text(languageStore.t(.usefulInfo))
+                        .font(.headline)
 
-            Text(languageStore.t(.usefulInfoDisclaimer))
-                .font(.caption)
-                .detailCardSecondaryText()
+                    Spacer(minLength: 0)
+
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        .font(.caption.weight(.semibold))
+                }
+                .foregroundStyle(palette.text)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(languageStore.t(.usefulInfo))
+            .accessibilityHint(isExpanded ? "タップで閉じる" : "タップでお役立ち情報を表示")
+
+            if isExpanded {
+                expandedContent
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
         }
         .detailSectionCard()
+        .onChange(of: islandID) { _, _ in
+            isExpanded = false
+        }
+    }
+
+    @ViewBuilder
+    private var expandedContent: some View {
+        ForEach(UsefulInfoCategory.allCases) { category in
+            let categoryItems = items.filter { $0.category == category }
+            if categoryItems.isEmpty == false {
+                categoryBlock(category: category, items: categoryItems)
+            }
+        }
+
+        Text(languageStore.t(.usefulInfoDisclaimer))
+            .font(.caption)
+            .detailCardSecondaryText()
     }
 
     @ViewBuilder
@@ -97,4 +126,6 @@ struct UsefulInfoSectionView: View {
 #Preview {
     UsefulInfoSectionView(islandID: "ishigaki")
         .padding()
+        .environment(AppLanguageStore())
+        .environment(\.detailPalette, DetailCardPalette.dark)
 }
