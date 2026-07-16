@@ -11,7 +11,9 @@ import Foundation
 struct IslandRegion: Identifiable, Hashable {
     let id: String
     let displayNameJapanese: String
-    /// 日本地図ホームのピン位置（代表島・諸島の目安）
+    /// 日本地図ホームのピン用の短い名前（長い正式名は下の一覧に残す）
+    let mapLabelJapanese: String
+    /// 日本地図ホームのピン位置（見やすさのため実座標から少しずらす場合あり）
     let mapAnnotationLatitude: Double
     let mapAnnotationLongitude: Double
     /// ホーム画面カード用の背景画像（Assets）
@@ -40,6 +42,7 @@ enum IslandRegionCatalog {
     static let yaeyama = IslandRegion(
         id: "yaeyama",
         displayNameJapanese: "八重山諸島",
+        mapLabelJapanese: "八重山",
         mapAnnotationLatitude: 24.432805,
         mapAnnotationLongitude: 124.205319,
         coverAssetName: "IslandBgIshigaki",
@@ -51,6 +54,7 @@ enum IslandRegionCatalog {
     static let sado = IslandRegion(
         id: "sado",
         displayNameJapanese: "佐渡",
+        mapLabelJapanese: "佐渡",
         mapAnnotationLatitude: 38.044270,
         mapAnnotationLongitude: 138.437949,
         coverAssetName: "IslandBgSado",
@@ -62,6 +66,7 @@ enum IslandRegionCatalog {
     static let izu = IslandRegion(
         id: "izu",
         displayNameJapanese: "伊豆諸島",
+        mapLabelJapanese: "伊豆",
         mapAnnotationLatitude: 34.737500,
         mapAnnotationLongitude: 139.398817,
         coverAssetName: "IslandBgIzu",
@@ -73,6 +78,7 @@ enum IslandRegionCatalog {
     static let goto = IslandRegion(
         id: "goto",
         displayNameJapanese: "五島列島",
+        mapLabelJapanese: "五島",
         mapAnnotationLatitude: 32.686123,
         mapAnnotationLongitude: 128.747749,
         coverAssetName: "IslandBgGoto",
@@ -81,22 +87,26 @@ enum IslandRegionCatalog {
         ferryValidUntilSuffix: nil
     )
 
+    // ピンは見やすさのため南西へ（小豆・直島と重ならないように）
     static let kutsuna = IslandRegion(
         id: "kutsuna",
         displayNameJapanese: "忽那諸島",
-        mapAnnotationLatitude: 33.980615,
-        mapAnnotationLongitude: 132.615204,
+        mapLabelJapanese: "忽那",
+        mapAnnotationLatitude: 33.45,
+        mapAnnotationLongitude: 131.95,
         coverAssetName: "IslandBgKutsuna",
         coverAssetCredit: "Photo: ブルーノ・プラス / Wikimedia Commons（忽那諸島・中島港）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: "中島汽船・ごごしま等の代表ダイヤです。フェリーと高速船を分けて表示。東線・西線で寄港が異なります。",
         ferryValidUntilSuffix: nil
     )
 
+    // ピンは見やすさのため北東へ（忽那と重ならないように）
     static let shodoshimaNaoshima = IslandRegion(
         id: "shodoshima_naoshima",
         displayNameJapanese: "小豆島・直島諸島",
-        mapAnnotationLatitude: 34.498376,
-        mapAnnotationLongitude: 134.103496,
+        mapLabelJapanese: "小豆・直島",
+        mapAnnotationLatitude: 34.95,
+        mapAnnotationLongitude: 134.75,
         coverAssetName: "IslandBgShodoshimaNaoshima",
         coverAssetCredit: "Photo: Yu / Unsplash（小豆島・香川）",
         ferryDataSourceNote: "四国フェリー・小豆島豊島フェリー・四国汽船等の公式サイトからご確認ください。",
