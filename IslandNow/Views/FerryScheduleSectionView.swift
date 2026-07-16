@@ -31,14 +31,15 @@ struct FerryScheduleSectionView: View {
                     .tint(palette.accent)
                     .detailCardSecondaryText()
 
-            case .loaded(let schedules, let isFromCache, let validUntilText):
+            case .loaded(let schedules, let isFromCache, let validUntilText, let fetchedAt):
                 scheduleContent(
                     schedules: schedules,
                     isFromCache: isFromCache,
-                    validUntilText: validUntilText
+                    validUntilText: validUntilText,
+                    fetchedAt: fetchedAt
                 )
 
-            case .failed(let message, let cachedSchedules):
+            case .failed(let message, let cachedSchedules, let fetchedAt):
                 Text(message)
                     .font(.subheadline)
                     .foregroundStyle(palette.warning)
@@ -48,6 +49,7 @@ struct FerryScheduleSectionView: View {
                         schedules: cachedSchedules,
                         isFromCache: true,
                         validUntilText: nil,
+                        fetchedAt: fetchedAt,
                         isOfflineFallback: true
                     )
                 }
@@ -67,6 +69,7 @@ struct FerryScheduleSectionView: View {
         schedules: [FerryCompanySchedule],
         isFromCache: Bool,
         validUntilText: String?,
+        fetchedAt: Date? = nil,
         isOfflineFallback: Bool = false
     ) -> some View {
         let destinations = FerryRouteHelper.destinations(in: schedules, currentIslandID: island.id)
@@ -122,8 +125,8 @@ struct FerryScheduleSectionView: View {
             Text("代表ダイヤ（参考情報）です。出発前に必ず各社公式サイトでご確認ください。")
                 .font(.caption)
                 .detailCardSecondaryText()
-        } else if isFromCache {
-            Text("前回取得したデータを表示中")
+        } else if let cacheText = CacheAgeText.displayText(fetchedAt: fetchedAt, isFromCache: isFromCache) {
+            Text(cacheText)
                 .font(.caption)
                 .detailCardSecondaryText()
         } else if let sourceNote = IslandCatalog.ferryDataSourceNote(for: island.id) {
@@ -345,10 +348,10 @@ struct FerryScheduleSectionView: View {
         switch state {
         case .loading:
             return "loading"
-        case .loaded(let schedules, let isFromCache, _):
+        case .loaded(let schedules, let isFromCache, _, _):
             let tripCount = schedules.reduce(0) { $0 + $1.trips.count }
             return "loaded-\(tripCount)-\(isFromCache)"
-        case .failed(let message, let cached):
+        case .failed(let message, let cached, _):
             let tripCount = cached?.reduce(0) { $0 + $1.trips.count } ?? 0
             return "failed-\(message)-\(tripCount)"
         }
@@ -361,7 +364,8 @@ struct FerryScheduleSectionView: View {
         state: .loaded(
             IslandCatalog.profile(for: "ishigaki")?.sampleFerrySchedules ?? [],
             isFromCache: false,
-            validUntilText: "2026/06/19"
+            validUntilText: "2026/06/19",
+            fetchedAt: Date()
         )
     )
     .padding()

@@ -52,9 +52,9 @@ struct IslandDetailView: View {
 
     private var currentFerrySchedules: [FerryCompanySchedule] {
         switch ferryState {
-        case .loaded(let schedules, _, _):
+        case .loaded(let schedules, _, _, _):
             return schedules
-        case .failed(_, let cachedSchedules):
+        case .failed(_, let cachedSchedules, _):
             return cachedSchedules ?? islandProfile?.sampleFerrySchedules ?? []
         case .loading:
             return islandProfile?.sampleFerrySchedules ?? []
@@ -108,11 +108,12 @@ struct IslandDetailView: View {
             restoreCachedStates(for: island)
 
             async let weatherLoad: Void = loadWeather()
+            async let placesPrefetch: Void = prefetchPlaces()
             if usesFerryGTFS {
                 async let ferryLoad: Void = loadFerrySchedules()
-                _ = await (weatherLoad, ferryLoad)
+                _ = await (weatherLoad, ferryLoad, placesPrefetch)
             } else {
-                await weatherLoad
+                _ = await (weatherLoad, placesPrefetch)
             }
         }
         .task(id: placeSearchTaskID) {
@@ -242,11 +243,12 @@ struct IslandDetailView: View {
         }
 
         async let weatherLoad: Void = loadWeather()
+        async let placesPrefetch: Void = prefetchPlaces()
         if usesFerryGTFS {
             async let ferryLoad: Void = loadFerrySchedules()
-            _ = await (weatherLoad, ferryLoad)
+            _ = await (weatherLoad, ferryLoad, placesPrefetch)
         } else {
-            await weatherLoad
+            _ = await (weatherLoad, placesPrefetch)
         }
 
         if selectedSection == .places {
@@ -268,30 +270,43 @@ struct IslandDetailView: View {
                 ferryState = .loaded(
                     cached.schedules,
                     isFromCache: true,
-                    validUntilText: cached.validUntilText
+                    validUntilText: cached.validUntilText,
+                    fetchedAt: cached.fetchedAt
                 )
             } else {
                 ferryState = .loading
             }
         }
+
+        // 飲食カテゴリのキャッシュがあればスポットタブ用に先復元する
+        if let cached = placesSearchService.cachedPlaces(for: island.id, category: .restaurant) {
+            placesState = .loaded(cached.places, isFromCache: true, fetchedAt: cached.fetchedAt)
+        }
     }
 
     @MainActor
     private func loadWeather() async {
+        let hasCache = weatherService.cachedWeather(for: island.id) != nil
+
         if case .loading = weatherState,
            let cached = weatherService.cachedWeather(for: island.id) {
             weatherState = .loaded(cached, isFromCache: true)
         }
 
         do {
-            let weather = try await weatherService.fetchWeather(for: island)
+            let weather = try await fetchWeatherWithTimeout(hasCache: hasCache)
             weatherState = .loaded(weather, isFromCache: false)
+        } catch is CancellationError {
+            return
         } catch {
             if let cached = weatherService.cachedWeather(for: island.id) {
                 weatherState = .loaded(cached, isFromCache: true)
                 return
             }
-            weatherState = .failed(message: "天気を取得できませんでした", cachedWeather: nil)
+            weatherState = .failed(
+                message: offlineFailureMessage(for: "天気"),
+                cachedWeather: nil
+            )
         }
     }
 
@@ -299,24 +314,35 @@ struct IslandDetailView: View {
     private func loadFerrySchedules() async {
         guard usesFerryGTFS else { return }
 
+        let hasCache = ferryService.cachedSchedules(for: island.id) != nil
+
         if case .loading = ferryState,
            let cached = ferryService.cachedSchedules(for: island.id) {
             ferryState = .loaded(
                 cached.schedules,
                 isFromCache: true,
-                validUntilText: cached.validUntilText
+                validUntilText: cached.validUntilText,
+                fetchedAt: cached.fetchedAt
             )
         }
 
         do {
-            let result = try await ferryService.fetchSchedules(for: island)
-            ferryState = .loaded(result.schedules, isFromCache: false, validUntilText: result.validUntilText)
+            let result = try await fetchFerryWithTimeout(hasCache: hasCache)
+            ferryState = .loaded(
+                result.schedules,
+                isFromCache: false,
+                validUntilText: result.validUntilText,
+                fetchedAt: result.fetchedAt
+            )
+        } catch is CancellationError {
+            return
         } catch {
             if let cached = ferryService.cachedSchedules(for: island.id) {
                 ferryState = .loaded(
                     cached.schedules,
                     isFromCache: true,
-                    validUntilText: cached.validUntilText
+                    validUntilText: cached.validUntilText,
+                    fetchedAt: cached.fetchedAt
                 )
                 return
             }
@@ -325,7 +351,8 @@ struct IslandDetailView: View {
             let fallback = islandProfile?.sampleFerrySchedules ?? []
             ferryState = .failed(
                 message: "ダイヤを取得できませんでした。代表ダイヤ（参考）を表示しています。",
-                cachedSchedules: fallback.isEmpty ? nil : fallback
+                cachedSchedules: fallback.isEmpty ? nil : fallback,
+                fetchedAt: nil
             )
         }
     }
@@ -333,28 +360,93 @@ struct IslandDetailView: View {
     @MainActor
     private func loadPlaces() async {
         let category = selectedPlaceCategory
+        let cachedEntry = placesSearchService.cachedPlaces(for: island.id, category: category)
+        let hasCache = cachedEntry != nil
 
         switch placesState {
-        case .loaded(let places, _) where places.first?.categoryLabel == category.rawValue:
+        case .loaded(let places, _, _) where places.first?.categoryLabel == category.rawValue:
             break
         default:
-            if let cached = placesSearchService.cachedPlaces(for: island.id, category: category) {
-                placesState = .loaded(cached, isFromCache: true)
+            if let cachedEntry {
+                placesState = .loaded(cachedEntry.places, isFromCache: true, fetchedAt: cachedEntry.fetchedAt)
             } else {
                 placesState = .loading
             }
         }
 
         do {
-            let places = try await placesSearchService.searchPlaces(for: island, category: category)
-            placesState = .loaded(places, isFromCache: false)
+            let entry = try await fetchPlacesWithTimeout(category: category, hasCache: hasCache)
+            placesState = .loaded(entry.places, isFromCache: false, fetchedAt: entry.fetchedAt)
+        } catch is CancellationError {
+            return
         } catch {
-            if let cached = placesSearchService.cachedPlaces(for: island.id, category: category) {
-                placesState = .loaded(cached, isFromCache: true)
+            if let cachedEntry {
+                placesState = .loaded(cachedEntry.places, isFromCache: true, fetchedAt: cachedEntry.fetchedAt)
                 return
             }
-            placesState = .failed(message: "スポットを取得できませんでした", cachedPlaces: nil)
+            placesState = .failed(
+                message: offlineFailureMessage(for: "スポット"),
+                cachedPlaces: nil,
+                fetchedAt: nil
+            )
         }
+    }
+
+    /// 島を開いた時点で主要スポットを裏で保存する（圏外対策）
+    @MainActor
+    private func prefetchPlaces() async {
+        for category in PlaceCategory.allCases {
+            do {
+                // 圏外で長く待たないよう短めのタイムアウト
+                _ = try await NetworkTimeout.withTimeout {
+                    try await placesSearchService.searchPlaces(for: island, category: category)
+                }
+            } catch is CancellationError {
+                return
+            } catch {
+                continue
+            }
+        }
+
+        // いまスポットタブを開いているカテゴリなら表示を最新に合わせる
+        if selectedSection == .places,
+           let cached = placesSearchService.cachedPlaces(for: island.id, category: selectedPlaceCategory) {
+            placesState = .loaded(cached.places, isFromCache: false, fetchedAt: cached.fetchedAt)
+        }
+    }
+
+    private func fetchWeatherWithTimeout(hasCache: Bool) async throws -> WeatherInfo {
+        if hasCache {
+            return try await weatherService.fetchWeather(for: island)
+        }
+        return try await NetworkTimeout.withTimeout {
+            try await weatherService.fetchWeather(for: island)
+        }
+    }
+
+    private func fetchFerryWithTimeout(hasCache: Bool) async throws -> FerryFetchResult {
+        if hasCache {
+            return try await ferryService.fetchSchedules(for: island)
+        }
+        return try await NetworkTimeout.withTimeout {
+            try await ferryService.fetchSchedules(for: island)
+        }
+    }
+
+    private func fetchPlacesWithTimeout(
+        category: PlaceCategory,
+        hasCache: Bool
+    ) async throws -> PlacesCacheEntry {
+        if hasCache {
+            return try await placesSearchService.searchPlaces(for: island, category: category)
+        }
+        return try await NetworkTimeout.withTimeout {
+            try await placesSearchService.searchPlaces(for: island, category: category)
+        }
+    }
+
+    private func offlineFailureMessage(for subject: String) -> String {
+        "電波がないため\(subject)を取得できませんでした"
     }
 }
 

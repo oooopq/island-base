@@ -8,11 +8,17 @@
 import Foundation
 import MapKit
 
+struct PlacesCacheEntry: Codable {
+    let places: [PlaceInfo]
+    /// 古いキャッシュ形式では nil
+    let fetchedAt: Date?
+}
+
 struct PlacesSearchService {
     private let cacheKeyPrefix = "places_cache_v2_"
 
     // 島の座標付近でカテゴリに合うスポットを検索する
-    func searchPlaces(for island: Island, category: PlaceCategory) async throws -> [PlaceInfo] {
+    func searchPlaces(for island: Island, category: PlaceCategory) async throws -> PlacesCacheEntry {
         let request = MKLocalSearch.Request()
         let radius = IslandCatalog.profile(for: island.id)?.placeSearchRadiusMeters
             ?? IslandProfile.defaultPlaceSearchRadiusMeters
@@ -39,29 +45,36 @@ struct PlacesSearchService {
             return lhsDistance < rhsDistance
         }
 
-        saveCache(sortedPlaces, islandID: island.id, category: category)
-        return sortedPlaces
+        let entry = PlacesCacheEntry(places: sortedPlaces, fetchedAt: Date())
+        saveCache(entry, islandID: island.id, category: category)
+        return entry
     }
 
     // オフライン用：最後に取得したスポット一覧を読み出す
-    func cachedPlaces(for islandID: String, category: PlaceCategory) -> [PlaceInfo]? {
+    func cachedPlaces(for islandID: String, category: PlaceCategory) -> PlacesCacheEntry? {
         let key = cacheKey(for: islandID, category: category)
         guard let data = UserDefaults.standard.data(forKey: key) else {
             return nil
         }
 
-        guard let places = try? JSONDecoder().decode([PlaceInfo].self, from: data),
-              places.isEmpty == false else {
-            UserDefaults.standard.removeObject(forKey: key)
-            return nil
+        if let entry = try? JSONDecoder().decode(PlacesCacheEntry.self, from: data),
+           entry.places.isEmpty == false {
+            return entry
         }
 
-        return places
+        // 旧形式（配列のみ）も読めるようにする
+        if let places = try? JSONDecoder().decode([PlaceInfo].self, from: data),
+           places.isEmpty == false {
+            return PlacesCacheEntry(places: places, fetchedAt: nil)
+        }
+
+        UserDefaults.standard.removeObject(forKey: key)
+        return nil
     }
 
-    private func saveCache(_ places: [PlaceInfo], islandID: String, category: PlaceCategory) {
-        guard places.isEmpty == false else { return }
-        guard let data = try? JSONEncoder().encode(places) else { return }
+    private func saveCache(_ entry: PlacesCacheEntry, islandID: String, category: PlaceCategory) {
+        guard entry.places.isEmpty == false else { return }
+        guard let data = try? JSONEncoder().encode(entry) else { return }
         UserDefaults.standard.set(data, forKey: cacheKey(for: islandID, category: category))
     }
 

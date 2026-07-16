@@ -134,7 +134,8 @@ private struct OpenMeteoResponse: Decodable {
             currentWaveHeightMeters: waveHeight?.currentMeters,
             todayMaxWaveHeightMeters: waveHeight?.todayMaxMeters,
             todayHourlyForecast: hourly.toTodayHourlyForecast(),
-            weeklyForecast: daily.toWeeklyForecast()
+            weeklyForecast: daily.toWeeklyForecast(),
+            fetchedAt: Date()
         )
     }
 }

@@ -51,7 +51,7 @@ struct PlacesSectionView: View {
                     .tint(palette.accent)
                     .detailCardSecondaryText()
 
-            case .loaded(let places, let isFromCache):
+            case .loaded(let places, let isFromCache, let fetchedAt):
                 if places.isEmpty {
                     Text("このカテゴリのスポットが見つかりませんでした")
                         .font(.subheadline)
@@ -72,8 +72,8 @@ struct PlacesSectionView: View {
                     }
                 }
 
-                if isFromCache {
-                    Text("前回取得したデータを表示中")
+                if let cacheText = CacheAgeText.displayText(fetchedAt: fetchedAt, isFromCache: isFromCache) {
+                    Text(cacheText)
                         .font(.caption)
                         .detailCardSecondaryText()
                 } else {
@@ -82,7 +82,7 @@ struct PlacesSectionView: View {
                         .detailCardSecondaryText()
                 }
 
-            case .failed(let message, let cachedPlaces):
+            case .failed(let message, let cachedPlaces, let fetchedAt):
                 Text(message)
                     .font(.subheadline)
                     .foregroundStyle(palette.warning)
@@ -91,9 +91,11 @@ struct PlacesSectionView: View {
                     ForEach(Array(cachedPlaces.prefix(IslandCatalog.placeDisplayLimit))) { place in
                         placeRow(place)
                     }
-                    Text("オフライン用の保存データです")
-                        .font(.caption)
-                        .detailCardSecondaryText()
+                    if let cacheText = CacheAgeText.displayText(fetchedAt: fetchedAt, isFromCache: true) {
+                        Text(cacheText)
+                            .font(.caption)
+                            .detailCardSecondaryText()
+                    }
                 }
             }
         }
@@ -175,7 +177,8 @@ struct PlacesSectionView: View {
                     mapsURLString: nil
                 ),
             ],
-            isFromCache: false
+            isFromCache: false,
+            fetchedAt: Date()
         )
     )
     .padding()

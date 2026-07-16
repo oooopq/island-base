@@ -18,4 +18,28 @@ struct WeatherInfo: Codable {
     let todayMaxWaveHeightMeters: Double?
     let todayHourlyForecast: [HourlyWeatherForecast]
     let weeklyForecast: [DailyWeatherForecast]
+    /// 端末に保存した取得時刻（古いキャッシュには無い）
+    let fetchedAt: Date?
+
+    init(
+        temperatureCelsius: Int,
+        condition: String,
+        humidityPercent: Int,
+        windSpeedKmh: Int,
+        currentWaveHeightMeters: Double?,
+        todayMaxWaveHeightMeters: Double?,
+        todayHourlyForecast: [HourlyWeatherForecast],
+        weeklyForecast: [DailyWeatherForecast],
+        fetchedAt: Date? = nil
+    ) {
+        self.temperatureCelsius = temperatureCelsius
+        self.condition = condition
+        self.humidityPercent = humidityPercent
+        self.windSpeedKmh = windSpeedKmh
+        self.currentWaveHeightMeters = currentWaveHeightMeters
+        self.todayMaxWaveHeightMeters = todayMaxWaveHeightMeters
+        self.todayHourlyForecast = todayHourlyForecast
+        self.weeklyForecast = weeklyForecast
+        self.fetchedAt = fetchedAt
+    }
 }

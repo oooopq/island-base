@@ -10,6 +10,18 @@ import Foundation
 struct FerryFetchResult: Codable {
     let schedules: [FerryCompanySchedule]
     let validUntilText: String?
+    /// 端末に保存した取得時刻（古いキャッシュには無い）
+    let fetchedAt: Date?
+
+    init(
+        schedules: [FerryCompanySchedule],
+        validUntilText: String?,
+        fetchedAt: Date? = nil
+    ) {
+        self.schedules = schedules
+        self.validUntilText = validUntilText
+        self.fetchedAt = fetchedAt
+    }
 }
 
 private struct ParsedFeedResult: Sendable {
@@ -60,7 +72,8 @@ struct FerryService {
 
         let result = FerryFetchResult(
             schedules: schedules,
-            validUntilText: validUntilTexts.max()
+            validUntilText: validUntilTexts.max(),
+            fetchedAt: Date()
         )
         saveCache(result, for: island.id)
         return result

@@ -9,6 +9,6 @@ import Foundation
 
 enum PlacesLoadState: Equatable {
     case loading
-    case loaded([PlaceInfo], isFromCache: Bool)
-    case failed(message: String, cachedPlaces: [PlaceInfo]?)
+    case loaded([PlaceInfo], isFromCache: Bool, fetchedAt: Date?)
+    case failed(message: String, cachedPlaces: [PlaceInfo]?, fetchedAt: Date?)
 }

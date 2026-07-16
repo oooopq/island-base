@@ -28,8 +28,11 @@ struct WeatherSectionView: View {
                 currentWeatherContent(weather)
                 todayHourlyForecastContent(weather.todayHourlyForecast)
                 weeklyForecastContent(weather.weeklyForecast)
-                if isFromCache {
-                    Text("前回取得したデータを表示中")
+                if let cacheText = CacheAgeText.displayText(
+                    fetchedAt: weather.fetchedAt,
+                    isFromCache: isFromCache
+                ) {
+                    Text(cacheText)
                         .font(.caption)
                         .detailCardSecondaryText()
                 }
@@ -42,9 +45,14 @@ struct WeatherSectionView: View {
                     currentWeatherContent(cachedWeather)
                     todayHourlyForecastContent(cachedWeather.todayHourlyForecast)
                     weeklyForecastContent(cachedWeather.weeklyForecast)
-                    Text("オフライン用の保存データです")
-                        .font(.caption)
-                        .detailCardSecondaryText()
+                    if let cacheText = CacheAgeText.displayText(
+                        fetchedAt: cachedWeather.fetchedAt,
+                        isFromCache: true
+                    ) {
+                        Text(cacheText)
+                            .font(.caption)
+                            .detailCardSecondaryText()
+                    }
                 }
             }
 
