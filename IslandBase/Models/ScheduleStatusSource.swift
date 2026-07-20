@@ -34,6 +34,10 @@ enum ScheduleStatusSourceCollector {
         }
     }
 
+    static func fromFerryCompanies(_ companies: [FerryCompany]) -> [ScheduleStatusSource] {
+        companies.compactMap { fromFerryCompany($0) }
+    }
+
     static func fromFlightSchedules(_ schedules: [FlightAirlineSchedule]) -> [ScheduleStatusSource] {
         schedules.compactMap { schedule in
             fromFlightAirline(schedule.airline)

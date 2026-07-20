@@ -56,6 +56,19 @@ struct IslandProfile: Identifiable {
         ferryGTFSFeeds.isEmpty == false
     }
 
+    /// アプリ内に発着時刻を出せるか（GTFS または代表ダイヤの便あり）
+    var hasInAppFerryTrips: Bool {
+        if usesFerryGTFS {
+            return true
+        }
+        return sampleFerrySchedules.contains { $0.trips.isEmpty == false }
+    }
+
+    /// 時刻なし・公式リンクのみの島
+    var showsFerryLinksOnly: Bool {
+        hasInAppFerryTrips == false && ferryLinkCompanies.isEmpty == false
+    }
+
     /// リンクのみ表示する地域向け：sampleFerrySchedules から会社を重複除去
     var ferryLinkCompanies: [FerryCompany] {
         var seen = Set<String>()

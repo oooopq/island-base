@@ -17,7 +17,7 @@ enum SadoIslandProfiles {
 
     private static let sadoKisen = FerryCompany(
         name: "佐渡汽船株式会社",
-        websiteURL: "https://www.sadokisen.co.jp/timetable/",
+        websiteURL: "https://www.sadokisen.co.jp/reservation/timetables/?route=1",
         phoneNumber: "025-245-6400",
         statusPageURL: "https://www.sadokisen.co.jp/reservation/service-status/",
         homePageURL: "https://www.sadokisen.co.jp/"
@@ -55,9 +55,9 @@ enum SadoIslandProfiles {
             IslandPort(name: "小木港", latitude: 37.816271, longitude: 138.282232),
         ],
         backgroundAssetName: "IslandBgSado",
-        backgroundCredit: "Photo: NASA Johnson Space Center / Wikimedia Commons（佐渡島）／Public domain／表示時に暗色グラデーションを追加",
+        backgroundCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 18_000,
-        routeKeywords: ["佐渡", "両津", "小木", "新潟", "直江津"],
+        routeKeywords: ["佐渡", "両津", "小木"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [
             FerryCompanySchedule(

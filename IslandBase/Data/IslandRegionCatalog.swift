@@ -72,7 +72,7 @@ enum IslandRegionCatalog {
         mapAnnotationLatitude: 38.044270,
         mapAnnotationLongitude: 138.437949,
         coverAssetName: "IslandBgSado",
-        coverAssetCredit: "Photo: NASA Johnson Space Center / Wikimedia Commons（佐渡島）／Public domain／表示時に暗色グラデーションを追加",
+        coverAssetCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: nil,
         ferryValidUntilSuffix: nil
     )
@@ -115,7 +115,7 @@ enum IslandRegionCatalog {
         mapAnnotationLatitude: 33.45,
         mapAnnotationLongitude: 131.95,
         coverAssetName: "IslandBgKutsuna",
-        coverAssetCredit: "Photo: ブルーノ・プラス / Wikimedia Commons（忽那諸島・中島港）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        coverAssetCredit: "Photo: KUNIO MIURA / Wikimedia Commons（興居島沖合）／CC BY 3.0／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: "中島汽船・ごごしま等の代表ダイヤです。フェリーと高速船を分けて表示。東線・西線で寄港が異なります。",
         ferryValidUntilSuffix: nil
     )

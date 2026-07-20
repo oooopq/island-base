@@ -5,6 +5,7 @@
 //  MapKit（Apple マップ）で島付近のスポットを検索する
 //
 
+import CoreLocation
 import Foundation
 import MapKit
 
@@ -15,7 +16,8 @@ struct PlacesCacheEntry: Codable {
 }
 
 struct PlacesSearchService {
-    private let cacheKeyPrefix = "places_cache_v2_"
+    /// v3: 最寄り島フィルタ後の結果をキャッシュする
+    private let cacheKeyPrefix = "places_cache_v3_"
 
     // 島の座標付近でカテゴリに合うスポットを検索する
     func searchPlaces(for island: Island, category: PlaceCategory) async throws -> PlacesCacheEntry {
@@ -37,7 +39,9 @@ struct PlacesSearchService {
             PlaceInfo.from(mapItem: mapItem, categoryLabel: category.rawValue)
         }
 
-        let sortedPlaces = places.sorted { lhs, rhs in
+        // 半径外・他島の店舗を除いてから近い順に並べる
+        let filteredPlaces = places.filter { belongsToIsland($0, island: island, radius: radius) }
+        let sortedPlaces = filteredPlaces.sorted { lhs, rhs in
             let lhsDistance = IslandCatalog.profile(for: island.id)?.distanceMeters(from: lhs)
                 ?? lhs.distanceMeters(from: island)
             let rhsDistance = IslandCatalog.profile(for: island.id)?.distanceMeters(from: rhs)
@@ -48,6 +52,31 @@ struct PlacesSearchService {
         let entry = PlacesCacheEntry(places: sortedPlaces, fetchedAt: Date())
         saveCache(entry, islandID: island.id, category: category)
         return entry
+    }
+
+    /// この島の店舗か（検索半径内 かつ 同地域で最寄りの島が今の島）
+    private func belongsToIsland(
+        _ place: PlaceInfo,
+        island: Island,
+        radius: CLLocationDistance
+    ) -> Bool {
+        guard place.distanceMeters(from: island) <= radius else {
+            return false
+        }
+
+        guard let regionID = IslandCatalog.profile(for: island.id)?.regionID else {
+            return true
+        }
+
+        let regionIslands = IslandCatalog.islands(forRegionID: regionID)
+        guard regionIslands.count > 1 else {
+            return true
+        }
+
+        let nearestIsland = regionIslands.min { lhs, rhs in
+            place.distanceMeters(from: lhs) < place.distanceMeters(from: rhs)
+        }
+        return nearestIsland?.id == island.id
     }
 
     // オフライン用：最後に取得したスポット一覧を読み出す

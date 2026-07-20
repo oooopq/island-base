@@ -194,7 +194,7 @@ enum YaeyamaIslandProfiles {
         regionID: "yaeyama",
         ports: [IslandPort(name: "波照間港", latitude: 24.067778, longitude: 123.766111)],
         backgroundAssetName: "IslandBgHateruma",
-        backgroundCredit: "Photo: NASA Johnson Space Center / Wikimedia Commons（波照間島）／Public domain／表示時に暗色グラデーションを追加",
+        backgroundCredit: "Photo: TOMOYUKI SHIDARA（波照間島・西浜）",
         placeSearchRadiusMeters: 10_000,
         routeKeywords: ["波照間"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],

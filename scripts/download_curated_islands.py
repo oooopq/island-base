@@ -19,29 +19,29 @@ CURATED = [
     ("IslandBgIriomote", "iriomote.jpg", "unsplash_slug", "tFtc8jNnNds", "Photo: Wataru Sato / Unsplash（西表島）"),
     # 八重山 — Wikimedia（Unsplashに場所タグ付き写真なし）
     ("IslandBgKuroshima", "kuroshima.jpg", "local", "", "Photo: TOMOYUKI SHIDARA（黒島）"),
-    ("IslandBgHateruma", "hateruma.jpg", "wiki", "Hateruma_Island.jpg", "Photo: NASA Johnson Space Center / Wikimedia Commons（波照間島）／Public domain／表示時に暗色グラデーションを追加"),
+    ("IslandBgHateruma", "hateruma.jpg", "local", "", "Photo: TOMOYUKI SHIDARA（波照間島・西浜）"),
     ("IslandBgYonaguni", "yonaguni.jpg", "wiki", "Yonaguni_agarizaki.jpg", "Photo: Metatron / Wikimedia Commons（与那国島・東崎）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
     # 佐渡
-    ("IslandBgSado", "sado.jpg", "wiki", "Sadogashima_ISS064.jpg", "Photo: NASA Johnson Space Center / Wikimedia Commons（佐渡島）／Public domain／表示時に暗色グラデーションを追加"),
+    ("IslandBgSado", "sado.jpg", "wiki", "矢島経島たらい舟_-_panoramio.jpg", "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
     # 伊豆 — Wikimedia
     ("IslandBgOshima", "oshima.jpg", "wiki", "Izu-Oshima-IMG_4759.jpg", "Photo: Donners / Wikimedia Commons（伊豆大島）／CC BY-SA 1.0／表示時に暗色グラデーションを追加"),
     ("IslandBgToshima", "toshima.jpg", "wiki", "Toshima_Island_from_offshore,_Tokyo,_Japan.JPG", "Photo: User: (WT-shared) Shoestring / Wikimedia Commons（利島・東京）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
-    ("IslandBgNiijima", "niijima.jpg", "wiki", "Niijima_island_aerial_shoot.jpg", "Photo: ブルーノ・プラス / Wikimedia Commons（新島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
-    ("IslandBgShikinejima", "shikinejima.jpg", "wiki", "Landsat_Niijima_and_Shikinejima_Island.jpg", "Photo: っ / Wikimedia Commons（新島・式根島 Landsat）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgNiijima", "niijima.jpg", "unsplash_slug", "sandy-cliffs-overlook-the-bright-blue-ocean-and-sky-ODBhLvrmvHA", "Photo: Fumiaki Hayashi / Unsplash（新島・白ママ層崖）"),
+    ("IslandBgShikinejima", "shikinejima.jpg", "wiki", "Shikinejima,_Niijima,_Tokyo_100-0511,_Japan_-_panoramio.jpg", "Photo: takeakisky homma / Wikimedia Commons（式根島・泊海水浴場）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
     ("IslandBgKozushima", "kozushima.jpg", "unsplash_slug", "green-and-brown-plant-on-gray-rock-formation-near-blue-sea-during-daytime-i8bg_aTGloQ", "Photo: Ice Tea / Unsplash（神津島）"),
     ("IslandBgMiyakejima", "miyakejima.jpg", "unsplash_slug", "brown-rock-formation-on-body-of-water-during-daytime-kCsD88x1AM8", "Photo: Marek Okon / Unsplash（三宅島）"),
     ("IslandBgMikurajima", "mikurajima.jpg", "wiki", "Wharf_in_Mikurajima.jpg", "Photo: 名古屋太郎 / Wikimedia Commons（御蔵島）／Public domain／表示時に暗色グラデーションを追加"),
     ("IslandBgHachijojima", "hachijojima.jpg", "wiki", "Hachijojima_airport2.jpg", "Photo: ブルーノ・プラス / Wikimedia Commons（八丈島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
     # 忽那諸島 — Wikimedia
-    ("IslandBgNakajima", "nakajima.jpg", "wiki", "Nakajima.port.ehime_island.jpg", "Photo: ブルーノ・プラス / Wikimedia Commons（中島・愛媛）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
-    ("IslandBgGogoshima", "gogoshima.jpg", "wiki", "Gogoshima.ferry.jpg", "Photo: ブルーノ・プラス / Wikimedia Commons（興居島・愛媛）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
-    ("IslandBgMuzukijima", "muzukijima.jpg", "wiki", "Muzuki_Island,_Ehime,_Japan_11-Aug-2018.jpg", "Photo: 全樺連 / Wikimedia Commons（睦月島・愛媛）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
-    ("IslandBgNogutsunajima", "nogutsunajima.jpg", "wiki", "Nogutsunajima_2019.jpg", "Photo: 皓月旗 / Wikimedia Commons（野忽那島・愛媛）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgNakajima", "nakajima.jpg", "wiki", "Amiage-_Beach.jpg", "Photo: melvil / Wikimedia Commons（中島・網明海岸）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgGogoshima", "gogoshima.jpg", "wiki", "Gogoshima_01.JPG", "Photo: Reggaeman / Wikimedia Commons（興居島）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgMuzukijima", "muzukijima.jpg", "wiki", "Mutsuki-island201807.jpg", "Photo: melvil / Wikimedia Commons（睦月島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgNogutsunajima", "nogutsunajima.jpg", "wiki", "Nogutsuna_Island,_Ehime,_Japan_26-May-2018.jpg", "Photo: 全樺連 / Wikimedia Commons（野忽那島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
     ("IslandBgNuwajima", "nuwajima.jpg", "wiki", "Nuwa_jima_Island_Aerial_photograph.2019.jpg", "Photo: 国土地理院 / Wikimedia Commons（怒和島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加"),
     ("IslandBgTsuwajishima", "tsuwajishima.jpg", "wiki", "Tsuwaji_jima_Island_Aerial_photograph.2019.jpg", "Photo: 国土地理院 / Wikimedia Commons（津和地島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加"),
-    ("IslandBgFutagamijima", "futagamijima.jpg", "wiki", "Futagami-jima_Island_Aerial_photograph.2009.jpg", "Photo: 国土地理院 / Wikimedia Commons（二神島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加"),
-    ("IslandBgTsurushima", "tsurushima.jpg", "wiki", "Tsurushima_island.jpg", "Photo: Navian / Wikimedia Commons（釣島・愛媛）／Public domain／表示時に暗色グラデーションを追加"),
-    ("IslandBgAijima", "aijima.jpg", "wiki", "Aijima_2019.jpg", "Photo: 皓月旗 / Wikimedia Commons（安居島・愛媛）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgFutagamijima", "futagamijima.jpg", "wiki", "Futagami_jima_Island_Aerial_photograph.2019.jpg", "Photo: 国土地理院 / Wikimedia Commons（二神島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加"),
+    ("IslandBgTsurushima", "tsurushima.jpg", "wiki", "Tsurushima_20180814_162343.jpg", "Photo: Ka23 13 / Wikimedia Commons（釣島）／CC BY 4.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgAijima", "aijima.jpg", "wiki", "Aijima_Island,_Ehime,_Japan_26-May-2018.jpg", "Photo: 全樺連 / Wikimedia Commons（安居島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
     # 小豆島・直島 — Unsplash
     ("IslandBgShodoshima", "shodoshima.jpg", "unsplash_slug", "people-walking-on-beach-during-daytime-k6IxsXAObPo", "Photo: Yu / Unsplash（小豆島・香川）"),
     ("IslandBgNaoshima", "naoshima.jpg", "unsplash_slug", "a-yellow-and-black-fruit-3ItvceJh4hY", "Photo: Rahil Chadha / Unsplash（直島）"),
@@ -49,7 +49,7 @@ CURATED = [
     ("IslandBgShodoshimaNaoshima", "shodoshima_naoshima.jpg", "unsplash_slug", "people-walking-on-beach-during-daytime-k6IxsXAObPo", "Photo: Yu / Unsplash（小豆島・香川）"),
     # 地域カバー
     ("IslandBgIzu", "izu.jpg", "unsplash_slug", "green-and-brown-plant-on-gray-rock-formation-near-blue-sea-during-daytime-i8bg_aTGloQ", "Photo: Ice Tea / Unsplash（神津島・伊豆諸島）"),
-    ("IslandBgKutsuna", "kutsuna.jpg", "wiki", "Nakajima.port.ehime_island.jpg", "Photo: ブルーノ・プラス / Wikimedia Commons（忽那諸島・中島港）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgKutsuna", "kutsuna.jpg", "wiki", "興居島沖合 - panoramio.jpg", "Photo: KUNIO MIURA / Wikimedia Commons（興居島沖合）／CC BY 3.0／表示時に暗色グラデーションを追加"),
 ]
 
 

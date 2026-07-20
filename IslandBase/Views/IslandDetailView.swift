@@ -36,11 +36,17 @@ struct IslandDetailView: View {
         islandProfile?.usesFerryGTFS == true
     }
 
+    private var hasInAppFerryTrips: Bool {
+        islandProfile?.hasInAppFerryTrips == true
+    }
+
     private var scheduleStatusSources: [ScheduleStatusSource]? {
         var sources: [ScheduleStatusSource] = []
 
-        if usesFerryGTFS {
+        if hasInAppFerryTrips {
             sources += ScheduleStatusSourceCollector.fromFerrySchedules(currentFerrySchedules)
+        } else if let companies = islandProfile?.ferryLinkCompanies {
+            sources += ScheduleStatusSourceCollector.fromFerryCompanies(companies)
         }
 
         if let flightSchedules = islandProfile?.flightSchedules {
@@ -117,6 +123,7 @@ struct IslandDetailView: View {
                 async let ferryLoad: Void = loadFerrySchedules()
                 _ = await (weatherLoad, ferryLoad, placesPrefetch)
             } else {
+                applySampleFerrySchedulesIfNeeded()
                 _ = await (weatherLoad, placesPrefetch)
             }
         }
@@ -200,9 +207,10 @@ struct IslandDetailView: View {
                 ScheduleStatusBannerView(sources: scheduleStatusSources)
             }
 
-            if usesFerryGTFS {
+            if hasInAppFerryTrips {
                 FerryScheduleSectionView(island: island, state: ferryState)
-            } else if let companies = islandProfile?.ferryLinkCompanies, companies.isEmpty == false {
+            } else if islandProfile?.showsFerryLinksOnly == true,
+                      let companies = islandProfile?.ferryLinkCompanies {
                 FerryLinkSectionView(companies: companies)
             }
 
@@ -260,6 +268,7 @@ struct IslandDetailView: View {
             async let ferryLoad: Void = loadFerrySchedules()
             _ = await (weatherLoad, ferryLoad, placesPrefetch)
         } else {
+            applySampleFerrySchedulesIfNeeded()
             _ = await (weatherLoad, placesPrefetch)
         }
 
@@ -288,6 +297,8 @@ struct IslandDetailView: View {
             } else {
                 ferryState = .loading
             }
+        } else {
+            applySampleFerrySchedulesIfNeeded()
         }
 
         // 飲食カテゴリのキャッシュがあればスポットタブ用に先復元する
@@ -367,6 +378,21 @@ struct IslandDetailView: View {
                 fetchedAt: nil
             )
         }
+    }
+
+    /// GTFS 非対応でも代表ダイヤの便がある島は、そのままアプリ内表示する
+    @MainActor
+    private func applySampleFerrySchedulesIfNeeded() {
+        guard usesFerryGTFS == false else { return }
+        guard hasInAppFerryTrips else { return }
+        guard let schedules = islandProfile?.sampleFerrySchedules, schedules.isEmpty == false else { return }
+
+        ferryState = .loaded(
+            schedules,
+            isFromCache: false,
+            validUntilText: nil,
+            fetchedAt: nil
+        )
     }
 
     @MainActor

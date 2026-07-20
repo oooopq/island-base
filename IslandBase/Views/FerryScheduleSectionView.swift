@@ -14,43 +14,55 @@ struct FerryScheduleSectionView: View {
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
     @State private var selectedDestinationID = FerryRouteHelper.allDestinationsID
-    @State private var isFullScheduleExpanded = false
+    @State private var isScheduleExpanded = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            ScheduleTransportHeaderView(
-                kind: .ferry,
-                title: languageStore.t(.ferry),
-                subtitle: languageStore.t(.ferryAndHighSpeed)
-            )
-
             switch state {
             case .loading:
-                ProgressView(languageStore.t(.loadingSchedule))
-                    .tint(palette.accent)
-                    .detailCardSecondaryText()
+                ScheduleTransportCardView(
+                    kind: .ferry,
+                    tripCount: 0,
+                    isExpanded: $isScheduleExpanded
+                ) {
+                    ProgressView(languageStore.t(.loadingSchedule))
+                        .tint(ScheduleTransportKind.ferry.accentColor)
+                        .detailCardSecondaryText()
+                }
 
             case .loaded(let schedules, let isFromCache, let validUntilText, let fetchedAt):
-                scheduleContent(
-                    schedules: schedules,
-                    isFromCache: isFromCache,
-                    validUntilText: validUntilText,
-                    fetchedAt: fetchedAt
-                )
+                ScheduleTransportCardView(
+                    kind: .ferry,
+                    tripCount: schedules.reduce(0) { $0 + $1.trips.count },
+                    isExpanded: $isScheduleExpanded
+                ) {
+                    scheduleContent(
+                        schedules: schedules,
+                        isFromCache: isFromCache,
+                        validUntilText: validUntilText,
+                        fetchedAt: fetchedAt
+                    )
+                }
 
             case .failed(let message, let cachedSchedules, let fetchedAt):
-                Text(message)
-                    .font(.subheadline)
-                    .foregroundStyle(palette.warning)
+                ScheduleTransportCardView(
+                    kind: .ferry,
+                    tripCount: cachedSchedules?.reduce(0) { $0 + $1.trips.count } ?? 0,
+                    isExpanded: $isScheduleExpanded
+                ) {
+                    Text(message)
+                        .font(.subheadline)
+                        .foregroundStyle(palette.warning)
 
-                if let cachedSchedules {
-                    scheduleContent(
-                        schedules: cachedSchedules,
-                        isFromCache: true,
-                        validUntilText: nil,
-                        fetchedAt: fetchedAt,
-                        isOfflineFallback: true
-                    )
+                    if let cachedSchedules {
+                        scheduleContent(
+                            schedules: cachedSchedules,
+                            isFromCache: true,
+                            validUntilText: nil,
+                            fetchedAt: fetchedAt,
+                            isOfflineFallback: true
+                        )
+                    }
                 }
             }
         }
@@ -83,7 +95,7 @@ struct FerryScheduleSectionView: View {
             destinationPicker(destinations: destinations)
         }
 
-        if isFullScheduleExpanded == false, nextDepartures.isEmpty == false {
+        if nextDepartures.isEmpty == false {
             NextDepartureBannerView(
                 title: languageStore.t(.nextFerry),
                 departures: nextDepartures,
@@ -96,7 +108,7 @@ struct FerryScheduleSectionView: View {
             Text(languageStore.t(.noTripsForDestination))
                 .font(.subheadline)
                 .detailCardSecondaryText()
-        } else if isFullScheduleExpanded {
+        } else {
             if hasMultipleServiceKinds(in: visibleSchedules) {
                 shipTypeLegend
             }
@@ -104,14 +116,6 @@ struct FerryScheduleSectionView: View {
             ForEach(visibleSchedules) { schedule in
                 companyBlock(schedule, allSchedules: visibleSchedules)
             }
-
-            collapseScheduleButton
-        } else {
-            ForEach(visibleSchedules) { schedule in
-                companySummaryBlock(schedule, allSchedules: visibleSchedules)
-            }
-
-            expandScheduleButton(tripCount: visibleSchedules.reduce(0) { $0 + $1.trips.count })
         }
 
         if let validUntilText {
@@ -134,61 +138,6 @@ struct FerryScheduleSectionView: View {
                 .font(.caption)
                 .detailCardSecondaryText()
         }
-    }
-
-    private func expandScheduleButton(tripCount: Int) -> some View {
-        Button {
-            withAnimation(.easeInOut(duration: 0.25)) {
-                isFullScheduleExpanded = true
-            }
-        } label: {
-            HStack(spacing: 8) {
-                Text(languageStore.t(.showAllTrips(tripCount)))
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-
-                Spacer(minLength: 0)
-
-                Image(systemName: "chevron.down")
-                    .font(.caption.weight(.semibold))
-            }
-            .foregroundStyle(palette.text)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .background {
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(palette.chipBackground(isSelected: false))
-            }
-        }
-        .buttonStyle(.plain)
-        .accessibilityHint("タップで全便のダイヤを表示")
-    }
-
-    private var collapseScheduleButton: some View {
-        Button {
-            withAnimation(.easeInOut(duration: 0.25)) {
-                isFullScheduleExpanded = false
-            }
-        } label: {
-            HStack(spacing: 8) {
-                Text(languageStore.t(.hideAllTrips))
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-
-                Spacer(minLength: 0)
-
-                Image(systemName: "chevron.up")
-                    .font(.caption.weight(.semibold))
-            }
-            .foregroundStyle(palette.text)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .background {
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(palette.chipBackground(isSelected: false))
-            }
-        }
-        .buttonStyle(.plain)
     }
 
     @ViewBuilder
@@ -262,23 +211,6 @@ struct FerryScheduleSectionView: View {
     }
 
     @ViewBuilder
-    private func companySummaryBlock(_ schedule: FerryCompanySchedule, allSchedules: [FerryCompanySchedule]) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(schedule.company.name)
-                .font(.subheadline)
-                .fontWeight(.semibold)
-
-            ScheduleOperatorActionButtonsView(
-                actions: ScheduleOperatorActionFactory.actions(for: schedule.company, language: languageStore.mode)
-            )
-        }
-
-        if schedule.id != allSchedules.last?.id {
-            Divider()
-        }
-    }
-
-    @ViewBuilder
     private func companyBlock(_ schedule: FerryCompanySchedule, allSchedules: [FerryCompanySchedule]) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             if let serviceKind = schedule.serviceKind {
@@ -341,7 +273,7 @@ struct FerryScheduleSectionView: View {
 
     private func resetSchedulePresentation() {
         selectedDestinationID = FerryRouteHelper.allDestinationsID
-        isFullScheduleExpanded = false
+        isScheduleExpanded = true
     }
 
     private var stateKey: String {

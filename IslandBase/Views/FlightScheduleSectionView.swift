@@ -15,61 +15,69 @@ struct FlightScheduleSectionView: View {
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
     @State private var selectedDestinationID = FlightRouteHelper.allDestinationsID
+    @State private var isScheduleExpanded = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            ScheduleTransportHeaderView(
+            ScheduleTransportCardView(
                 kind: .flight,
-                title: languageStore.t(.flights)
-            )
-
-            let destinations = FlightRouteHelper.destinations(in: schedules, currentIslandID: island.id)
-
-            if destinations.isEmpty == false {
-                destinationPicker(destinations: destinations)
-            }
-
-            let visibleSchedules = filteredSchedules(schedules)
-            let nextDepartures = NextDepartureHelper.nextFlightDepartures(
-                from: schedules,
-                islandID: island.id,
-                destinationID: selectedDestinationID
-            )
-
-            if nextDepartures.isEmpty == false {
-                NextDepartureBannerView(
-                    title: languageStore.t(.nextFlight),
-                    departures: nextDepartures,
-                    showsTomorrowNote: NextDepartureHelper.isTodayFinished(nextDepartures),
-                    accentColor: ScheduleTransportKind.flight.accentColor
-                )
-            }
-
-            if visibleSchedules.isEmpty {
-                Text(languageStore.t(.noFlightsForDestination))
-                    .font(.subheadline)
-                    .detailCardSecondaryText()
-            } else {
-                ForEach(visibleSchedules) { schedule in
-                    airlineBlock(schedule, allSchedules: visibleSchedules)
-                }
-            }
-
-            if let scheduleNote {
-                Text(scheduleNote)
-                    .font(.caption)
-                    .detailCardSecondaryText()
-            }
-
-            if let bookingNote = bookingFootnote(from: visibleSchedules) {
-                Text(bookingNote)
-                    .font(.caption)
-                    .detailCardSecondaryText()
+                tripCount: schedules.reduce(0) { $0 + $1.trips.count },
+                isExpanded: $isScheduleExpanded
+            ) {
+                scheduleContent
             }
         }
         .detailSectionCard()
         .onChange(of: island.id) { _, _ in
             selectedDestinationID = FlightRouteHelper.allDestinationsID
+            isScheduleExpanded = true
+        }
+    }
+
+    @ViewBuilder
+    private var scheduleContent: some View {
+        let destinations = FlightRouteHelper.destinations(in: schedules, currentIslandID: island.id)
+
+        if destinations.isEmpty == false {
+            destinationPicker(destinations: destinations)
+        }
+
+        let visibleSchedules = filteredSchedules(schedules)
+        let nextDepartures = NextDepartureHelper.nextFlightDepartures(
+            from: schedules,
+            islandID: island.id,
+            destinationID: selectedDestinationID
+        )
+
+        if nextDepartures.isEmpty == false {
+            NextDepartureBannerView(
+                title: languageStore.t(.nextFlight),
+                departures: nextDepartures,
+                showsTomorrowNote: NextDepartureHelper.isTodayFinished(nextDepartures),
+                accentColor: ScheduleTransportKind.flight.accentColor
+            )
+        }
+
+        if visibleSchedules.isEmpty {
+            Text(languageStore.t(.noFlightsForDestination))
+                .font(.subheadline)
+                .detailCardSecondaryText()
+        } else {
+            ForEach(visibleSchedules) { schedule in
+                airlineBlock(schedule, allSchedules: visibleSchedules)
+            }
+        }
+
+        if let scheduleNote {
+            Text(scheduleNote)
+                .font(.caption)
+                .detailCardSecondaryText()
+        }
+
+        if let bookingNote = bookingFootnote(from: visibleSchedules) {
+            Text(bookingNote)
+                .font(.caption)
+                .detailCardSecondaryText()
         }
     }
 

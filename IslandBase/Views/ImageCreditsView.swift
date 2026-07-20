@@ -226,6 +226,14 @@ struct ImageCreditsView: View {
                     title: "CC BY-SA 4.0",
                     urlString: "https://creativecommons.org/licenses/by-sa/4.0/"
                 )
+                licenseLinkRow(
+                    title: "CC BY 3.0",
+                    urlString: "https://creativecommons.org/licenses/by/3.0/"
+                )
+                licenseLinkRow(
+                    title: "CC BY 4.0",
+                    urlString: "https://creativecommons.org/licenses/by/4.0/"
+                )
             }
             .creditCardStyle(palette: palette)
 
@@ -386,8 +394,8 @@ struct ImageCreditsView: View {
 
     private var nasaBody: String {
         isJapanese
-            ? "佐渡島・波照間島・五島列島などの一部背景画像は NASA Johnson Space Center の Public domain 画像を利用しています。出典確認のため、クレジットには提供元を明記しています。"
-            : "Some backgrounds (e.g. Sado, Hateruma, Goto) use NASA Johnson Space Center public-domain imagery, credited in-app."
+            ? "五島列島などの一部背景画像は NASA Johnson Space Center の Public domain 画像を利用しています。出典確認のため、クレジットには提供元を明記しています。"
+            : "Some backgrounds (e.g. Goto) use NASA Johnson Space Center public-domain imagery, credited in-app."
     }
 
     private var providedPhotoTitle: String {
@@ -396,8 +404,8 @@ struct ImageCreditsView: View {
 
     private var providedPhotoBody: String {
         isJapanese
-            ? "黒島および犬島の背景画像は、提供写真としてクレジットを表示しています。第三者の素材として再配布するものではありません。"
-            : "Backgrounds for Kuroshima and Inujima are provided photos with credit shown. They are not redistributed as third-party stock."
+            ? "黒島・波照間島および犬島の背景画像は、提供写真としてクレジットを表示しています。第三者の素材として再配布するものではありません。"
+            : "Backgrounds for Kuroshima, Hateruma, and Inujima are provided photos with credit shown. They are not redistributed as third-party stock."
     }
 
     private var photoNotesTitle: String {
