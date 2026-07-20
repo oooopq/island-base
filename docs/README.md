@@ -1,4 +1,4 @@
-# Island Now — リリース用ドキュメント
+# Island Base — リリース用ドキュメント
 
 App Store 公開と法的表記用の文案です。
 
@@ -14,11 +14,11 @@ App Store 公開と法的表記用の文案です。
 
 ## 公開 URL（GitHub Pages）
 
-GitHub ユーザー **oooopq** / リポジトリ **island-now** / Source: **Deploy from branch → /docs**
+GitHub ユーザー **oooopq** / リポジトリ **island-base** / Source: **Deploy from branch → /docs**
 
-- トップ: https://oooopq.github.io/island-now/
-- プライバシーポリシー: https://oooopq.github.io/island-now/privacy-policy.html
-- 利用規約: https://oooopq.github.io/island-now/terms-of-service.html
+- トップ: https://oooopq.github.io/island-base/
+- プライバシーポリシー: https://oooopq.github.io/island-base/privacy-policy.html
+- 利用規約: https://oooopq.github.io/island-base/terms-of-service.html
 
 お問い合わせメール: opaquu@gmail.com（Pages のホスト名とは別）
 

@@ -1,6 +1,6 @@
 # 利用規約
 
-**Island Now**（以下「本アプリ」）
+**Island Base**（以下「本アプリ」）
 
 最終更新日: 2026年7月16日
 
@@ -88,7 +88,7 @@
 
 ## 第10条（お問い合わせ）
 
-- アプリ名: Island Now
+- アプリ名: Island Base
 - お問い合わせ: opaquu@gmail.com
 
 ---

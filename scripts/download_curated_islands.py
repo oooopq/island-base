@@ -6,7 +6,7 @@ import subprocess
 import urllib.parse
 from pathlib import Path
 
-BASE = Path(__file__).resolve().parents[1] / "IslandNow" / "Assets.xcassets"
+BASE = Path(__file__).resolve().parents[1] / "IslandBase" / "Assets.xcassets"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
 WIKI_API = "https://commons.wikimedia.org/w/api.php"
 

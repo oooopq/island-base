@@ -1,4 +1,4 @@
-# App Store 提出前チェックリスト（Island Now）
+# App Store 提出前チェックリスト（Island Base）
 
 最終更新: 2026年7月16日
 
@@ -9,8 +9,8 @@
 
 ## A. 公開 URL（ブロッカー）
 
-- [x] プライバシーポリシーが開ける: https://oooopq.github.io/island-now/privacy-policy.html
-- [x] 利用規約が開ける: https://oooopq.github.io/island-now/terms-of-service.html
+- [x] プライバシーポリシーが開ける: https://oooopq.github.io/island-base/privacy-policy.html
+- [x] 利用規約が開ける: https://oooopq.github.io/island-base/terms-of-service.html
 - [x] 最終更新日が現行（2026年7月16日）であること
 - [x] アプリ内 `AppLegalInfo` が `oooopq.github.io` を指していること（`opaquu.github.io` は 404）
 - [ ] App Store Connect のプライバシーポリシー URL に上記を入力した
