@@ -117,14 +117,15 @@ struct IslandDetailView: View {
             placesState = .loading
             restoreCachedStates(for: island)
 
-            async let weatherLoad: Void = loadWeather()
-            async let placesPrefetch: Void = prefetchPlaces()
             if usesFerryGTFS {
                 async let ferryLoad: Void = loadFerrySchedules()
-                _ = await (weatherLoad, ferryLoad, placesPrefetch)
+                await loadWeather()
+                await prefetchPlaces()
+                _ = await ferryLoad
             } else {
                 applySampleFerrySchedulesIfNeeded()
-                _ = await (weatherLoad, placesPrefetch)
+                await loadWeather()
+                await prefetchPlaces()
             }
         }
         .task(id: placeSearchTaskID) {
@@ -262,14 +263,15 @@ struct IslandDetailView: View {
             placesState = .loading
         }
 
-        async let weatherLoad: Void = loadWeather()
-        async let placesPrefetch: Void = prefetchPlaces()
         if usesFerryGTFS {
             async let ferryLoad: Void = loadFerrySchedules()
-            _ = await (weatherLoad, ferryLoad, placesPrefetch)
+            await loadWeather()
+            await prefetchPlaces()
+            _ = await ferryLoad
         } else {
             applySampleFerrySchedulesIfNeeded()
-            _ = await (weatherLoad, placesPrefetch)
+            await loadWeather()
+            await prefetchPlaces()
         }
 
         if selectedSection == .places {
@@ -321,6 +323,15 @@ struct IslandDetailView: View {
             weatherState = .loaded(weather, isFromCache: false)
         } catch is CancellationError {
             return
+        } catch NetworkTimeout.TimeoutError.timedOut {
+            if let cached = weatherService.cachedWeather(for: island.id) {
+                weatherState = .loaded(cached, isFromCache: true)
+                return
+            }
+            weatherState = .failed(
+                message: languageStore.t(.weatherTimeout),
+                cachedWeather: nil
+            )
         } catch {
             if let cached = weatherService.cachedWeather(for: island.id) {
                 weatherState = .loaded(cached, isFromCache: true)
@@ -457,8 +468,18 @@ struct IslandDetailView: View {
         if hasCache {
             return try await weatherService.fetchWeather(for: island)
         }
-        return try await NetworkTimeout.withTimeout {
-            try await weatherService.fetchWeather(for: island)
+
+        let fetch = {
+            try await NetworkTimeout.withTimeout(seconds: NetworkTimeout.weatherSeconds) {
+                try await weatherService.fetchWeather(for: island)
+            }
+        }
+
+        do {
+            return try await fetch()
+        } catch NetworkTimeout.TimeoutError.timedOut {
+            // Open-Meteo が遅いときがあるため、1回だけ再試行する
+            return try await fetch()
         }
     }
 

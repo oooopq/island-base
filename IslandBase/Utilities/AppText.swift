@@ -79,6 +79,7 @@ enum AppText {
     case photoMemoPlaceholder
     case photoMemoDone
     case offlineWeather
+    case weatherTimeout
     case offlineFerry
     case offlineFerryFallback
     case offlinePlaces
@@ -234,7 +235,9 @@ enum AppText {
         case .photoMemoDone:
             return "完了"
         case .offlineWeather:
-            return "電波がないため天気を取得できませんでした"
+            return "天気を取得できませんでした。通信状況をご確認ください。"
+        case .weatherTimeout:
+            return "天気の取得がタイムアウトしました。しばらくしてから再度お試しください。"
         case .offlineFerry:
             return "電波がないためダイヤを取得できませんでした"
         case .offlineFerryFallback:
@@ -397,7 +400,9 @@ enum AppText {
         case .photoMemoDone:
             return "Done"
         case .offlineWeather:
-            return "Couldn’t load weather — little or no signal"
+            return "Couldn't load weather. Check your connection."
+        case .weatherTimeout:
+            return "Weather request timed out. Please try again in a moment."
         case .offlineFerry:
             return "Couldn’t load schedules — little or no signal"
         case .offlineFerryFallback:

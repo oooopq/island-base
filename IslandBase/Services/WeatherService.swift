@@ -238,7 +238,8 @@ private struct OpenMeteoHourly: Decodable {
     let time: [String]
     let temperature2m: [Double]
     let weatherCode: [Int]
-    let precipitationProbability: [Int]
+    // jma_seamless などで null が返ることがあるため Optional
+    let precipitationProbability: [Int?]
     let relativeHumidity2m: [Int]
     let windSpeed10m: [Double]
     let precipitation: [Double]
@@ -284,7 +285,7 @@ private struct OpenMeteoHourly: Decodable {
                 continue
             }
 
-            let precipitationProb = precipitationProbability[index]
+            let precipitationProb = precipitationProbability[index] ?? 0
             let hour = calendar.component(.hour, from: slotDate)
             forecasts.append(
                 HourlyWeatherForecast(
@@ -314,7 +315,7 @@ private struct OpenMeteoDaily: Decodable {
     let temperature2mMax: [Double]
     let temperature2mMin: [Double]
     let relativeHumidity2mMean: [Double]
-    let precipitationProbabilityMax: [Int]
+    let precipitationProbabilityMax: [Int?]
 
     enum CodingKeys: String, CodingKey {
         case time
@@ -344,7 +345,7 @@ private struct OpenMeteoDaily: Decodable {
                 maxTemperatureCelsius: Int(temperature2mMax[index].rounded()),
                 condition: WeatherConditionMapper.japaneseName(for: weatherCode[index]),
                 humidityPercent: Int(relativeHumidity2mMean[index].rounded()),
-                precipitationProbabilityPercent: max(0, precipitationProbabilityMax[index])
+                precipitationProbabilityPercent: max(0, precipitationProbabilityMax[index] ?? 0)
             )
         }
     }

@@ -8,8 +8,10 @@
 import Foundation
 
 enum NetworkTimeout {
-    /// キャッシュがないときの待ち時間（秒）
+    /// キャッシュがないときの待ち時間（秒）— ダイヤ・店舗など
     static let shortSeconds: TimeInterval = 8
+    /// 天気API（Open-Meteo）は応答が遅いことがあるため長めにする
+    static let weatherSeconds: TimeInterval = 30
 
     enum TimeoutError: Error {
         case timedOut
