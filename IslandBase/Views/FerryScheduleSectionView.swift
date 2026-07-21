@@ -59,8 +59,7 @@ struct FerryScheduleSectionView: View {
                             schedules: cachedSchedules,
                             isFromCache: true,
                             validUntilText: nil,
-                            fetchedAt: fetchedAt,
-                            isOfflineFallback: true
+                            fetchedAt: fetchedAt
                         )
                     }
                 }
@@ -80,8 +79,7 @@ struct FerryScheduleSectionView: View {
         schedules: [FerryCompanySchedule],
         isFromCache: Bool,
         validUntilText: String?,
-        fetchedAt: Date? = nil,
-        isOfflineFallback: Bool = false
+        fetchedAt: Date? = nil
     ) -> some View {
         let destinations = FerryRouteHelper.destinations(in: schedules, currentIslandID: island.id)
         let visibleSchedules = filteredSchedules(schedules)
@@ -125,11 +123,7 @@ struct FerryScheduleSectionView: View {
                 .detailCardSecondaryText()
         }
 
-        if isOfflineFallback {
-            Text(languageStore.t(.representativeTimetableNote))
-                .font(.caption)
-                .detailCardSecondaryText()
-        } else if let cacheText = CacheAgeText.displayText(fetchedAt: fetchedAt, isFromCache: isFromCache, language: languageStore.mode) {
+        if let cacheText = CacheAgeText.displayText(fetchedAt: fetchedAt, isFromCache: isFromCache, language: languageStore.mode) {
             Text(cacheText)
                 .font(.caption)
                 .detailCardSecondaryText()

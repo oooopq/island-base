@@ -70,6 +70,7 @@ enum AppText {
     case hideAllTrips
     case highSpeedAndOvernightNote
     case ferryCheckOfficialSites
+    case flightCheckOfficialSites
     case liveCameraFootnote
     case usefulInfoDisclaimer
     case photoNotesDescription(Int)
@@ -219,6 +220,8 @@ enum AppText {
             return "この路線には高速船（日中）と大型客船（夜航）があります。"
         case .ferryCheckOfficialSites:
             return "ダイヤ・運航状況は各社公式サイトでご確認ください。"
+        case .flightCheckOfficialSites:
+            return "ダイヤ・運航状況は各航空会社の公式サイトでご確認ください。"
         case .liveCameraFootnote:
             return "公開配信や公式ページを外部ブラウザで開きます。"
         case .usefulInfoDisclaimer:
@@ -386,6 +389,8 @@ enum AppText {
             return "This route has daytime high-speed boats and overnight ferries."
         case .ferryCheckOfficialSites:
             return "Check timetables and service status on each operator’s official site."
+        case .flightCheckOfficialSites:
+            return "Check timetables and service status on each airline’s official site."
         case .liveCameraFootnote:
             return "Opens public streams or official pages in your browser."
         case .usefulInfoDisclaimer:

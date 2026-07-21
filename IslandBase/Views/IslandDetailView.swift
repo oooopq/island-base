@@ -40,6 +40,17 @@ struct IslandDetailView: View {
         islandProfile?.hasInAppFerryTrips == true
     }
 
+    /// GTFS 失敗かつキャッシュの便もないとき、公式リンクを併せて出す
+    private var shouldShowFerryLinksAlongsideGTFSFailure: Bool {
+        switch ferryState {
+        case .failed(_, let cachedSchedules, _):
+            let hasTrips = cachedSchedules?.contains { $0.trips.isEmpty == false } == true
+            return hasTrips == false
+        case .loading, .loaded:
+            return false
+        }
+    }
+
     private var scheduleStatusSources: [ScheduleStatusSource]? {
         var sources: [ScheduleStatusSource] = []
 
@@ -62,9 +73,10 @@ struct IslandDetailView: View {
         case .loaded(let schedules, _, _, _):
             return schedules
         case .failed(_, let cachedSchedules, _):
-            return cachedSchedules ?? islandProfile?.sampleFerrySchedules ?? []
+            // 代表ダイヤは使わない。GTFS のキャッシュがあるときだけ
+            return cachedSchedules ?? []
         case .loading:
-            return islandProfile?.sampleFerrySchedules ?? []
+            return []
         }
     }
 
@@ -123,7 +135,6 @@ struct IslandDetailView: View {
                 await prefetchPlaces()
                 _ = await ferryLoad
             } else {
-                applySampleFerrySchedulesIfNeeded()
                 await loadWeather()
                 await prefetchPlaces()
             }
@@ -204,23 +215,37 @@ struct IslandDetailView: View {
             WeatherSectionView(state: weatherState)
 
         case .schedule:
-            if let scheduleStatusSources, scheduleStatusSources.isEmpty == false {
+            // 八重山以外は各社・各航空会社に運行状況があるので、先頭の欠航・遅延は出さない
+            if islandProfile?.regionID == "yaeyama",
+               let scheduleStatusSources,
+               scheduleStatusSources.isEmpty == false {
                 ScheduleStatusBannerView(sources: scheduleStatusSources)
             }
 
             if hasInAppFerryTrips {
                 FerryScheduleSectionView(island: island, state: ferryState)
+
+                // GTFS 取得失敗で時刻がないときは、公式リンクへ誘導する
+                if shouldShowFerryLinksAlongsideGTFSFailure,
+                   let companies = islandProfile?.ferryLinkCompanies,
+                   companies.isEmpty == false {
+                    FerryLinkSectionView(companies: companies)
+                }
             } else if islandProfile?.showsFerryLinksOnly == true,
                       let companies = islandProfile?.ferryLinkCompanies {
                 FerryLinkSectionView(companies: companies)
             }
 
-            if let islandProfile, islandProfile.flightSchedules.isEmpty == false {
+            if islandProfile?.hasInAppFlightTrips == true,
+               let islandProfile {
                 FlightScheduleSectionView(
                     island: island,
                     schedules: islandProfile.flightSchedules,
                     scheduleNote: islandProfile.flightScheduleNote
                 )
+            } else if islandProfile?.showsFlightLinksOnly == true,
+                      let airlines = islandProfile?.flightLinkAirlines {
+                FlightLinkSectionView(airlines: airlines)
             }
 
             if let islandProfile {
@@ -269,7 +294,6 @@ struct IslandDetailView: View {
             await prefetchPlaces()
             _ = await ferryLoad
         } else {
-            applySampleFerrySchedulesIfNeeded()
             await loadWeather()
             await prefetchPlaces()
         }
@@ -299,8 +323,6 @@ struct IslandDetailView: View {
             } else {
                 ferryState = .loading
             }
-        } else {
-            applySampleFerrySchedulesIfNeeded()
         }
 
         // 飲食カテゴリのキャッシュがあればスポットタブ用に先復元する
@@ -381,29 +403,13 @@ struct IslandDetailView: View {
                 return
             }
 
-            // GTFS 取得失敗・キャッシュもない場合はサンプルダイヤを .failed として表示
-            let fallback = islandProfile?.sampleFerrySchedules ?? []
+            // GTFS 取得失敗・キャッシュもない場合は代表ダイヤを出さない
             ferryState = .failed(
-                message: languageStore.t(.offlineFerryFallback),
-                cachedSchedules: fallback.isEmpty ? nil : fallback,
+                message: languageStore.t(.offlineFerry),
+                cachedSchedules: nil,
                 fetchedAt: nil
             )
         }
-    }
-
-    /// GTFS 非対応でも代表ダイヤの便がある島は、そのままアプリ内表示する
-    @MainActor
-    private func applySampleFerrySchedulesIfNeeded() {
-        guard usesFerryGTFS == false else { return }
-        guard hasInAppFerryTrips else { return }
-        guard let schedules = islandProfile?.sampleFerrySchedules, schedules.isEmpty == false else { return }
-
-        ferryState = .loaded(
-            schedules,
-            isFromCache: false,
-            validUntilText: nil,
-            fetchedAt: nil
-        )
     }
 
     @MainActor

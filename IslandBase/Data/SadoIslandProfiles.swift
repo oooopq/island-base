@@ -30,15 +30,6 @@ enum SadoIslandProfiles {
         statusPageURL: "https://www.ana.co.jp/fs/dom/jp/"
     )
 
-    private static let sadoFlights: [FlightTrip] = [
-        FlightTrip(id: "ana301", flightNumber: "ANA301", routeName: "新潟 → 佐渡", departureTime: "09:40", arrivalTime: "10:05"),
-        FlightTrip(id: "ana303", flightNumber: "ANA303", routeName: "新潟 → 佐渡", departureTime: "15:10", arrivalTime: "15:35"),
-        FlightTrip(id: "ana302", flightNumber: "ANA302", routeName: "佐渡 → 新潟", departureTime: "10:25", arrivalTime: "10:50"),
-        FlightTrip(id: "ana304", flightNumber: "ANA304", routeName: "佐渡 → 新潟", departureTime: "15:55", arrivalTime: "16:20"),
-    ]
-
-    private static let flightScheduleNote = "代表ダイヤです。季節・天候により変更・欠航があります。"
-
     // MARK: - 佐渡島
 
     private static let sado = IslandProfile(
@@ -63,20 +54,12 @@ enum SadoIslandProfiles {
             FerryCompanySchedule(
                 id: "sado-kisen-niigata",
                 company: sadoKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "新潟 → 両津", departureTime: "06:00", arrivalTime: "07:30"),
-                    FerryTrip(id: "2", routeName: "新潟 → 両津", departureTime: "10:00", arrivalTime: "11:30"),
-                    FerryTrip(id: "3", routeName: "両津 → 新潟", departureTime: "08:00", arrivalTime: "09:30"),
-                    FerryTrip(id: "4", routeName: "両津 → 新潟", departureTime: "17:00", arrivalTime: "18:30"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "sado-kisen-naoetsu",
                 company: sadoKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "直江津 → 小木", departureTime: "07:30", arrivalTime: "09:00"),
-                    FerryTrip(id: "2", routeName: "小木 → 直江津", departureTime: "16:00", arrivalTime: "17:30"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -120,8 +103,8 @@ enum SadoIslandProfiles {
             ),
         ],
         flightSchedules: [
-            FlightAirlineSchedule(id: "sado-ana", airline: ana, trips: sadoFlights),
+            FlightAirlineSchedule(id: "sado-ana", airline: ana, trips: []),
         ],
-        flightScheduleNote: flightScheduleNote,
+        flightScheduleNote: nil,
     )
 }

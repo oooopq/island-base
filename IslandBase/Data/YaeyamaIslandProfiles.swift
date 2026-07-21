@@ -49,24 +49,10 @@ enum YaeyamaIslandProfiles {
         statusPageURL: "https://www.jal.co.jp/jp/ja/flight-status/dom/"
     )
 
-    private static let yonaguniLineFlights: [FlightTrip] = [
-        FlightTrip(id: "rac721", flightNumber: "RAC721", routeName: "那覇 → 与那国", departureTime: "07:15", arrivalTime: "08:30"),
-        FlightTrip(id: "rac727", flightNumber: "RAC727", routeName: "那覇 → 与那国", departureTime: "14:55", arrivalTime: "16:10"),
-        FlightTrip(id: "rac724", flightNumber: "RAC724", routeName: "与那国 → 那覇", departureTime: "11:25", arrivalTime: "12:45"),
-        FlightTrip(id: "rac728", flightNumber: "RAC728", routeName: "与那国 → 那覇", departureTime: "18:50", arrivalTime: "20:10"),
-        FlightTrip(id: "rac741", flightNumber: "RAC741", routeName: "石垣 → 与那国", departureTime: "10:05", arrivalTime: "10:35"),
-        FlightTrip(id: "rac743", flightNumber: "RAC743", routeName: "石垣 → 与那国", departureTime: "12:35", arrivalTime: "13:05"),
-        FlightTrip(id: "rac747", flightNumber: "RAC747", routeName: "石垣 → 与那国", departureTime: "17:50", arrivalTime: "18:20"),
-        FlightTrip(id: "rac742", flightNumber: "RAC742", routeName: "与那国 → 石垣", departureTime: "09:05", arrivalTime: "09:35"),
-        FlightTrip(id: "rac744", flightNumber: "RAC744", routeName: "与那国 → 石垣", departureTime: "13:40", arrivalTime: "14:10"),
-        FlightTrip(id: "rac746", flightNumber: "RAC746", routeName: "与那国 → 石垣", departureTime: "16:50", arrivalTime: "17:20"),
-    ]
 
     private static let yonaguniLineFlightSchedules: [FlightAirlineSchedule] = [
-        FlightAirlineSchedule(id: "yonaguni-rac", airline: rac, trips: yonaguniLineFlights),
+        FlightAirlineSchedule(id: "yonaguni-rac", airline: rac, trips: []),
     ]
-
-    private static let flightScheduleNote = "2026年夏ダイヤ時点。季節により変更があります。"
 
     private static let yaeyamaYouTubeURL = "https://www.youtube.com/@YAEYAMALIVE"
 
@@ -89,19 +75,12 @@ enum YaeyamaIslandProfiles {
             FerryCompanySchedule(
                 id: "ishigaki-yaeyama",
                 company: yaeyamaFerry,
-                trips: [
-                    FerryTrip(id: "1", routeName: "石垣 → 竹富", departureTime: "08:00", arrivalTime: "08:10"),
-                    FerryTrip(id: "2", routeName: "石垣 → 西表", departureTime: "09:30", arrivalTime: "10:20"),
-                    FerryTrip(id: "3", routeName: "石垣 → 波照間", departureTime: "10:00", arrivalTime: "11:30"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "ishigaki-anei",
                 company: aneiKanko,
-                trips: [
-                    FerryTrip(id: "1", routeName: "石垣 → 黒島", departureTime: "07:30", arrivalTime: "08:00"),
-                    FerryTrip(id: "2", routeName: "石垣 → 与那国", departureTime: "07:00", arrivalTime: "08:30"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -116,7 +95,7 @@ enum YaeyamaIslandProfiles {
             yaeyamaYouTube(title: "八重山リアルタイム"),
         ],
         flightSchedules: yonaguniLineFlightSchedules,
-        flightScheduleNote: flightScheduleNote,
+        flightScheduleNote: nil,
     )
 
     // MARK: - 竹富島
@@ -134,10 +113,7 @@ enum YaeyamaIslandProfiles {
             FerryCompanySchedule(
                 id: "taketomi-yaeyama",
                 company: yaeyamaFerry,
-                trips: [
-                    FerryTrip(id: "1", routeName: "竹富 → 石垣", departureTime: "08:30", arrivalTime: "08:40"),
-                    FerryTrip(id: "2", routeName: "石垣 → 竹富", departureTime: "14:00", arrivalTime: "14:10"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -168,10 +144,7 @@ enum YaeyamaIslandProfiles {
             FerryCompanySchedule(
                 id: "kuroshima-anei",
                 company: aneiKanko,
-                trips: [
-                    FerryTrip(id: "1", routeName: "石垣 → 黒島", departureTime: "07:30", arrivalTime: "08:00"),
-                    FerryTrip(id: "2", routeName: "黒島 → 石垣", departureTime: "16:00", arrivalTime: "16:30"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -202,10 +175,7 @@ enum YaeyamaIslandProfiles {
             FerryCompanySchedule(
                 id: "hateruma-yaeyama",
                 company: yaeyamaFerry,
-                trips: [
-                    FerryTrip(id: "1", routeName: "石垣 → 波照間", departureTime: "10:00", arrivalTime: "11:30"),
-                    FerryTrip(id: "2", routeName: "波照間 → 石垣", departureTime: "15:00", arrivalTime: "16:30"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -239,18 +209,12 @@ enum YaeyamaIslandProfiles {
             FerryCompanySchedule(
                 id: "iriomote-yaeyama",
                 company: yaeyamaFerry,
-                trips: [
-                    FerryTrip(id: "1", routeName: "石垣 → 西表（大原）", departureTime: "08:30", arrivalTime: "09:20"),
-                    FerryTrip(id: "2", routeName: "西表（大原） → 石垣", departureTime: "17:00", arrivalTime: "17:50"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "iriomote-jyosen",
                 company: irimoteJyosen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "西表（宇波利） → 由布島", departureTime: "09:00", arrivalTime: "09:10"),
-                    FerryTrip(id: "2", routeName: "由布島 → 西表（宇波利）", departureTime: "16:00", arrivalTime: "16:10"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -284,10 +248,7 @@ enum YaeyamaIslandProfiles {
             FerryCompanySchedule(
                 id: "yonaguni-anei",
                 company: aneiKanko,
-                trips: [
-                    FerryTrip(id: "1", routeName: "石垣 → 与那国", departureTime: "07:00", arrivalTime: "08:30"),
-                    FerryTrip(id: "2", routeName: "与那国 → 石垣", departureTime: "16:30", arrivalTime: "18:00"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -304,6 +265,6 @@ enum YaeyamaIslandProfiles {
         ],
         liveCameraFootnote: "※ 海上保安庁の灯台カメラはスマホで真っ白になることがあります。上のYouTubeリンクをお試しください。",
         flightSchedules: yonaguniLineFlightSchedules,
-        flightScheduleNote: flightScheduleNote,
+        flightScheduleNote: nil,
     )
 }

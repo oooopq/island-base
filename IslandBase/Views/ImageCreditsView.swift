@@ -322,8 +322,8 @@ struct ImageCreditsView: View {
 
     private var ferryNote: String {
         isJapanese
-            ? "八重山以外の地域は、各運航会社の公式サイト・公開情報をもとにした代表ダイヤまたは公式リンクです。最新の運航状況は各運航会社の公式サイトでご確認ください。"
-            : "Outside Yaeyama, schedules are representative timetables or official links based on public operator information. Always check the operator’s site for the latest status."
+            ? "八重山以外の地域は、各運航会社の公式サイトへのリンクのみです。時刻表はアプリ内に表示しません。最新の運航状況は各運航会社の公式サイトでご確認ください。"
+            : "Outside Yaeyama, the app links to each operator’s official site only and does not show in-app timetables. Always check the operator’s site for the latest status."
     }
 
     private var placesTitle: String {

@@ -85,12 +85,9 @@ struct IslandProfile: Identifiable {
         ferryGTFSFeeds.isEmpty == false
     }
 
-    /// アプリ内に発着時刻を出せるか（GTFS または代表ダイヤの便あり）
+    /// アプリ内に発着時刻を出せるか（OTTOP GTFS のみ。代表ダイヤは出さない）
     var hasInAppFerryTrips: Bool {
-        if usesFerryGTFS {
-            return true
-        }
-        return sampleFerrySchedules.contains { $0.trips.isEmpty == false }
+        usesFerryGTFS
     }
 
     /// 時刻なし・公式リンクのみの島
@@ -110,6 +107,30 @@ struct IslandProfile: Identifiable {
         }
 
         return companies
+    }
+
+    /// アプリ内に航空便の発着時刻があるか（代表ダイヤは入れない）
+    var hasInAppFlightTrips: Bool {
+        flightSchedules.contains { $0.trips.isEmpty == false }
+    }
+
+    /// 航空便は公式リンクのみ
+    var showsFlightLinksOnly: Bool {
+        hasInAppFlightTrips == false && flightLinkAirlines.isEmpty == false
+    }
+
+    /// flightSchedules から航空会社を重複除去
+    var flightLinkAirlines: [FlightAirline] {
+        var seen = Set<String>()
+        var airlines: [FlightAirline] = []
+
+        for schedule in flightSchedules {
+            let key = schedule.airline.name
+            guard seen.insert(key).inserted else { continue }
+            airlines.append(schedule.airline)
+        }
+
+        return airlines
     }
 
     /// 後方互換・単一港向け

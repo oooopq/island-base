@@ -50,8 +50,6 @@ enum GotoIslandProfiles {
         statusPageURL: "https://www.ana.co.jp/fs/dom/jp/"
     )
 
-    private static let ferryScheduleNote = "代表ダイヤです。季節・天候・ドック等により変更・欠航があります。"
-    private static let flightScheduleNote = "代表ダイヤです。季節により変更があります。"
 
     private static let gotoTourismURL = "https://goto.nagasaki-tabinet.com/"
 
@@ -59,17 +57,6 @@ enum GotoIslandProfiles {
         LiveCamera(title: title, urlString: gotoTourismURL)
     }
 
-    // 五島空港（福江）— ANA 代表ダイヤ
-    private static let fukueAnaFlights: [FlightTrip] = [
-        FlightTrip(id: "ana384", flightNumber: "ANA384", routeName: "福岡 → 五島", departureTime: "10:05", arrivalTime: "10:45"),
-        FlightTrip(id: "ana386", flightNumber: "ANA386", routeName: "福岡 → 五島", departureTime: "16:30", arrivalTime: "17:10"),
-        FlightTrip(id: "ana385", flightNumber: "ANA385", routeName: "五島 → 福岡", departureTime: "11:15", arrivalTime: "11:55"),
-        FlightTrip(id: "ana387", flightNumber: "ANA387", routeName: "五島 → 福岡", departureTime: "17:40", arrivalTime: "18:20"),
-        FlightTrip(id: "ana490", flightNumber: "ANA490", routeName: "長崎 → 五島", departureTime: "09:15", arrivalTime: "09:45"),
-        FlightTrip(id: "ana492", flightNumber: "ANA492", routeName: "長崎 → 五島", departureTime: "15:20", arrivalTime: "15:50"),
-        FlightTrip(id: "ana491", flightNumber: "ANA491", routeName: "五島 → 長崎", departureTime: "10:05", arrivalTime: "10:35"),
-        FlightTrip(id: "ana493", flightNumber: "ANA493", routeName: "五島 → 長崎", departureTime: "16:10", arrivalTime: "16:40"),
-    ]
 
     // MARK: - 福江島
 
@@ -95,31 +82,18 @@ enum GotoIslandProfiles {
             FerryCompanySchedule(
                 id: "fukue-goto-ocean",
                 company: gotoRyokyakusen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "福江 → 奈留", departureTime: "08:05", arrivalTime: "08:50"),
-                    FerryTrip(id: "2", routeName: "奈留 → 福江", departureTime: "09:00", arrivalTime: "09:45"),
-                    FerryTrip(id: "3", routeName: "福江 → 若松", departureTime: "13:00", arrivalTime: "14:40"),
-                    FerryTrip(id: "4", routeName: "若松 → 福江", departureTime: "14:55", arrivalTime: "16:40"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "fukue-goto-taiyo",
                 company: gotoRyokyakusen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "福江 → 奈留", departureTime: "09:45", arrivalTime: "10:15"),
-                    FerryTrip(id: "2", routeName: "福江 → 若松", departureTime: "15:55", arrivalTime: "17:35"),
-                    FerryTrip(id: "3", routeName: "若松 → 福江", departureTime: "07:30", arrivalTime: "09:15"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
             FerryCompanySchedule(
                 id: "fukue-kyushu-nagasaki",
                 company: kyushuShosen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "長崎 → 福江", departureTime: "08:05", arrivalTime: "11:15"),
-                    FerryTrip(id: "2", routeName: "福江 → 長崎", departureTime: "08:00", arrivalTime: "11:45"),
-                    FerryTrip(id: "3", routeName: "長崎 → 福江", departureTime: "16:50", arrivalTime: "20:00"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -132,9 +106,9 @@ enum GotoIslandProfiles {
             gotoYouTube(title: "五島の島たび（公式）"),
         ],
         flightSchedules: [
-            FlightAirlineSchedule(id: "fukue-ana", airline: ana, trips: fukueAnaFlights),
+            FlightAirlineSchedule(id: "fukue-ana", airline: ana, trips: []),
         ],
-        flightScheduleNote: flightScheduleNote,
+        flightScheduleNote: nil,
     )
 
     // MARK: - 久賀島
@@ -160,22 +134,12 @@ enum GotoIslandProfiles {
             FerryCompanySchedule(
                 id: "hisaka-kiguchi-hisaka",
                 company: kiguchiKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "福江 → 田ノ浦", departureTime: "07:30", arrivalTime: "07:49"),
-                    FerryTrip(id: "2", routeName: "田ノ浦 → 福江", departureTime: "08:00", arrivalTime: "08:34"),
-                    FerryTrip(id: "3", routeName: "福江 → 田ノ浦", departureTime: "13:35", arrivalTime: "14:09"),
-                    FerryTrip(id: "4", routeName: "田ノ浦 → 福江", departureTime: "14:35", arrivalTime: "15:09"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "hisaka-kiguchi-seagull",
                 company: kiguchiKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "福江 → 田ノ浦", departureTime: "09:10", arrivalTime: "09:30"),
-                    FerryTrip(id: "2", routeName: "田ノ浦 → 福江", departureTime: "09:35", arrivalTime: "09:55"),
-                    FerryTrip(id: "3", routeName: "福江 → 田ノ浦", departureTime: "16:45", arrivalTime: "17:05"),
-                    FerryTrip(id: "4", routeName: "田ノ浦 → 福江", departureTime: "17:10", arrivalTime: "17:30"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],
@@ -214,21 +178,12 @@ enum GotoIslandProfiles {
             FerryCompanySchedule(
                 id: "naru-goto-ocean",
                 company: gotoRyokyakusen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "福江 → 奈留", departureTime: "08:05", arrivalTime: "08:50"),
-                    FerryTrip(id: "2", routeName: "奈留 → 福江", departureTime: "09:00", arrivalTime: "09:45"),
-                    FerryTrip(id: "3", routeName: "奈留 → 若松", departureTime: "10:30", arrivalTime: "11:20"),
-                    FerryTrip(id: "4", routeName: "若松 → 奈留", departureTime: "11:30", arrivalTime: "12:15"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "naru-goto-taiyo",
                 company: gotoRyokyakusen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "福江 → 奈留", departureTime: "09:45", arrivalTime: "10:15"),
-                    FerryTrip(id: "2", routeName: "奈留 → 福江", departureTime: "10:15", arrivalTime: "10:50"),
-                    FerryTrip(id: "3", routeName: "福江 → 奈留", departureTime: "15:55", arrivalTime: "16:25"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],
@@ -268,20 +223,12 @@ enum GotoIslandProfiles {
             FerryCompanySchedule(
                 id: "wakamatsu-goto-ocean",
                 company: gotoRyokyakusen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "若松 → 福江", departureTime: "06:35", arrivalTime: "07:20"),
-                    FerryTrip(id: "2", routeName: "福江 → 若松", departureTime: "13:00", arrivalTime: "14:40"),
-                    FerryTrip(id: "3", routeName: "若松 → 福江", departureTime: "14:55", arrivalTime: "16:40"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "wakamatsu-goto-taiyo",
                 company: gotoRyokyakusen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "若松 → 福江", departureTime: "07:30", arrivalTime: "09:15"),
-                    FerryTrip(id: "2", routeName: "福江 → 若松", departureTime: "15:55", arrivalTime: "17:35"),
-                    FerryTrip(id: "3", routeName: "若松 → 福江", departureTime: "10:50", arrivalTime: "11:20"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],
@@ -320,12 +267,7 @@ enum GotoIslandProfiles {
             FerryCompanySchedule(
                 id: "nakadori-goto-taiyo",
                 company: gotoRyokyakusen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "福江 → 郷ノ首", departureTime: "15:55", arrivalTime: "17:20"),
-                    FerryTrip(id: "2", routeName: "郷ノ首 → 福江", departureTime: "07:45", arrivalTime: "09:15"),
-                    FerryTrip(id: "3", routeName: "福江 → 郷ノ首", departureTime: "11:50", arrivalTime: "12:30"),
-                    FerryTrip(id: "4", routeName: "郷ノ首 → 若松", departureTime: "17:20", arrivalTime: "17:35"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],

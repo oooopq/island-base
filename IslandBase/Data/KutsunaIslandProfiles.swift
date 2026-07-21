@@ -47,8 +47,6 @@ enum KutsunaIslandProfiles {
         homePageURL: "https://www.pref.ehime.jp/site/chuyo/4770.html"
     )
 
-    private static let ferryScheduleNote = "代表ダイヤです。東線・西線・便により寄港が異なります。最新は各社公式でご確認ください。"
-    private static let aijimaScheduleNote = "便数が少ない航路です。水曜・第1土曜・夏季は日帰り可能な便があります。"
 
     private static let kutsunaTourismURL = "https://ritou.ehime.jp/guide/kutsuna/"
 
@@ -81,22 +79,12 @@ enum KutsunaIslandProfiles {
             FerryCompanySchedule(
                 id: "nakajima-kisen-ferry-east",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 大浦", departureTime: "06:55", arrivalTime: "07:40"),
-                    FerryTrip(id: "2", routeName: "大浦 → 高浜", departureTime: "08:15", arrivalTime: "09:00"),
-                    FerryTrip(id: "3", routeName: "高浜 → 大浦", departureTime: "09:57", arrivalTime: "10:55"),
-                    FerryTrip(id: "4", routeName: "大浦 → 高浜", departureTime: "11:30", arrivalTime: "12:21"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "nakajima-kisen-hs-east",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 大浦", departureTime: "09:45", arrivalTime: "10:15"),
-                    FerryTrip(id: "2", routeName: "大浦 → 高浜", departureTime: "10:55", arrivalTime: "11:20"),
-                    FerryTrip(id: "3", routeName: "高浜 → 神浦", departureTime: "07:40", arrivalTime: "08:06"),
-                    FerryTrip(id: "4", routeName: "神浦 → 高浜", departureTime: "09:11", arrivalTime: "09:45"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],
@@ -137,22 +125,12 @@ enum KutsunaIslandProfiles {
             FerryCompanySchedule(
                 id: "gogoshima-yura",
                 company: gogoshimaFerry,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 由良", departureTime: "07:08", arrivalTime: "07:25"),
-                    FerryTrip(id: "2", routeName: "由良 → 高浜", departureTime: "07:44", arrivalTime: "08:08"),
-                    FerryTrip(id: "3", routeName: "高浜 → 由良", departureTime: "11:35", arrivalTime: "11:55"),
-                    FerryTrip(id: "4", routeName: "由良 → 高浜", departureTime: "12:55", arrivalTime: "13:15"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "gogoshima-toma",
                 company: gogoshimaFerry,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 泊", departureTime: "06:25", arrivalTime: "06:45"),
-                    FerryTrip(id: "2", routeName: "泊 → 高浜", departureTime: "07:00", arrivalTime: "07:17"),
-                    FerryTrip(id: "3", routeName: "高浜 → 泊", departureTime: "11:05", arrivalTime: "11:25"),
-                    FerryTrip(id: "4", routeName: "泊 → 高浜", departureTime: "12:10", arrivalTime: "12:25"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -190,20 +168,12 @@ enum KutsunaIslandProfiles {
             FerryCompanySchedule(
                 id: "muzuki-kisen-ferry",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 睦月", departureTime: "06:55", arrivalTime: "07:10"),
-                    FerryTrip(id: "2", routeName: "睦月 → 大浦", departureTime: "07:10", arrivalTime: "07:40"),
-                    FerryTrip(id: "3", routeName: "高浜 → 睦月", departureTime: "09:57", arrivalTime: "10:10"),
-                    FerryTrip(id: "4", routeName: "睦月 → 高浜", departureTime: "10:10", arrivalTime: "10:30"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "muzuki-kisen-hs",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 睦月", departureTime: "09:45", arrivalTime: "10:00"),
-                    FerryTrip(id: "2", routeName: "睦月 → 大浦", departureTime: "10:00", arrivalTime: "10:15"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],
@@ -215,7 +185,7 @@ enum KutsunaIslandProfiles {
             kutsunaLink(title: "忽那諸島ガイド（睦月島）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: ferryScheduleNote,
+        flightScheduleNote: nil,
     )
 
     // MARK: - 野忽那島
@@ -241,20 +211,12 @@ enum KutsunaIslandProfiles {
             FerryCompanySchedule(
                 id: "nogutsuna-kisen-ferry",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 野忽那", departureTime: "06:55", arrivalTime: "07:25"),
-                    FerryTrip(id: "2", routeName: "野忽那 → 大浦", departureTime: "07:25", arrivalTime: "07:40"),
-                    FerryTrip(id: "3", routeName: "高浜 → 野忽那", departureTime: "09:57", arrivalTime: "10:25"),
-                    FerryTrip(id: "4", routeName: "野忽那 → 高浜", departureTime: "10:25", arrivalTime: "10:55"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "nogutsuna-kisen-hs",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 野忽那", departureTime: "09:45", arrivalTime: "10:05"),
-                    FerryTrip(id: "2", routeName: "野忽那 → 大浦", departureTime: "10:05", arrivalTime: "10:15"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],
@@ -266,7 +228,7 @@ enum KutsunaIslandProfiles {
             kutsunaLink(title: "忽那諸島ガイド（野忽那島）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: ferryScheduleNote,
+        flightScheduleNote: nil,
     )
 
     // MARK: - 怒和島
@@ -293,20 +255,12 @@ enum KutsunaIslandProfiles {
             FerryCompanySchedule(
                 id: "nuwa-kisen-ferry",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 上怒和", departureTime: "09:10", arrivalTime: "10:17"),
-                    FerryTrip(id: "2", routeName: "元怒和 → 高浜", departureTime: "11:14", arrivalTime: "11:52"),
-                    FerryTrip(id: "3", routeName: "高浜 → 元怒和", departureTime: "14:10", arrivalTime: "15:20"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "nuwa-kisen-hs",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 上怒和", departureTime: "07:40", arrivalTime: "08:23"),
-                    FerryTrip(id: "2", routeName: "元怒和 → 高浜", departureTime: "08:36", arrivalTime: "09:45"),
-                    FerryTrip(id: "3", routeName: "高浜 → 上怒和", departureTime: "12:34", arrivalTime: "13:18"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],
@@ -318,7 +272,7 @@ enum KutsunaIslandProfiles {
             kutsunaLink(title: "忽那諸島ガイド（怒和島）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: ferryScheduleNote,
+        flightScheduleNote: nil,
     )
 
     // MARK: - 津和地島
@@ -344,20 +298,12 @@ enum KutsunaIslandProfiles {
             FerryCompanySchedule(
                 id: "tsuwaji-kisen-ferry",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 津和地", departureTime: "09:10", arrivalTime: "10:43"),
-                    FerryTrip(id: "2", routeName: "津和地 → 高浜", departureTime: "10:43", arrivalTime: "11:52"),
-                    FerryTrip(id: "3", routeName: "高浜 → 津和地", departureTime: "14:10", arrivalTime: "15:32"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "tsuwaji-kisen-hs",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 津和地", departureTime: "07:40", arrivalTime: "08:43"),
-                    FerryTrip(id: "2", routeName: "津和地 → 高浜", departureTime: "08:43", arrivalTime: "09:45"),
-                    FerryTrip(id: "3", routeName: "高浜 → 津和地", departureTime: "12:34", arrivalTime: "13:34"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],
@@ -369,7 +315,7 @@ enum KutsunaIslandProfiles {
             kutsunaLink(title: "忽那諸島ガイド（津和地島）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: ferryScheduleNote,
+        flightScheduleNote: nil,
     )
 
     // MARK: - 二神島
@@ -395,19 +341,12 @@ enum KutsunaIslandProfiles {
             FerryCompanySchedule(
                 id: "futagami-kisen-ferry",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 二神", departureTime: "09:10", arrivalTime: "10:43"),
-                    FerryTrip(id: "2", routeName: "二神 → 高浜", departureTime: "10:43", arrivalTime: "11:52"),
-                    FerryTrip(id: "3", routeName: "高浜 → 二神", departureTime: "14:10", arrivalTime: "15:20"),
-                ]
+                trips: []
             ),
             FerryCompanySchedule(
                 id: "futagami-kisen-hs",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "高浜 → 二神", departureTime: "07:40", arrivalTime: "08:56"),
-                    FerryTrip(id: "2", routeName: "二神 → 高浜", departureTime: "08:56", arrivalTime: "09:45"),
-                ],
+                trips: [],
                 serviceKind: .highSpeedBoat
             ),
         ],
@@ -419,7 +358,7 @@ enum KutsunaIslandProfiles {
             kutsunaLink(title: "忽那諸島ガイド（二神島）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: ferryScheduleNote,
+        flightScheduleNote: nil,
     )
 
     // MARK: - 釣島
@@ -445,11 +384,7 @@ enum KutsunaIslandProfiles {
             FerryCompanySchedule(
                 id: "tsurushima-kisen-ferry",
                 company: nakajimaKisen,
-                trips: [
-                    FerryTrip(id: "1", routeName: "三津浜 → 釣島", departureTime: "09:10", arrivalTime: "09:50"),
-                    FerryTrip(id: "2", routeName: "釣島 → 高浜", departureTime: "09:50", arrivalTime: "10:17"),
-                    FerryTrip(id: "3", routeName: "三津浜 → 釣島", departureTime: "14:10", arrivalTime: "14:48"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -460,7 +395,7 @@ enum KutsunaIslandProfiles {
             kutsunaLink(title: "忽那諸島ガイド（釣島）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: "西線フェリーのみ。1日2便のため日帰りは便の組み合わせ要確認。",
+        flightScheduleNote: nil,
     )
 
     // MARK: - 安居島
@@ -486,12 +421,7 @@ enum KutsunaIslandProfiles {
             FerryCompanySchedule(
                 id: "aijima-shinkiho",
                 company: aijimaShip,
-                trips: [
-                    FerryTrip(id: "1", routeName: "北条 → 安居島", departureTime: "11:00", arrivalTime: "11:35"),
-                    FerryTrip(id: "2", routeName: "安居島 → 北条", departureTime: "08:00", arrivalTime: "08:35"),
-                    FerryTrip(id: "3", routeName: "北条 → 安居島", departureTime: "16:00", arrivalTime: "16:35"),
-                    FerryTrip(id: "4", routeName: "安居島 → 北条", departureTime: "15:00", arrivalTime: "15:35"),
-                ]
+                trips: []
             ),
         ],
         usefulInfo: [
@@ -502,6 +432,6 @@ enum KutsunaIslandProfiles {
             kutsunaLink(title: "忽那諸島ガイド（安居島）"),
         ],
         flightSchedules: [],
-        flightScheduleNote: aijimaScheduleNote,
+        flightScheduleNote: nil,
     )
 }

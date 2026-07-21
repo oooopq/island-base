@@ -87,7 +87,7 @@ enum IslandRegionCatalog {
         mapAnnotationLongitude: 139.398817,
         coverAssetName: "IslandBgIzu",
         coverAssetCredit: "Photo: Ice Tea / Unsplash（神津島・伊豆諸島）",
-        ferryDataSourceNote: "東海汽船の代表ダイヤです。高速船（日中）と大型客船（夜航）を分けて表示しています。",
+        ferryDataSourceNote: "ダイヤ・運航状況は東海汽船の公式サイトでご確認ください。",
         ferryValidUntilSuffix: nil
     )
 
@@ -101,7 +101,7 @@ enum IslandRegionCatalog {
         mapAnnotationLongitude: 128.747749,
         coverAssetName: "IslandBgGoto",
         coverAssetCredit: "Photo: NASA Johnson Space Center / Wikimedia Commons（五島列島）／Public domain／表示時に暗色グラデーションを追加",
-        ferryDataSourceNote: "五島旅客船・木口汽船・九州商船等の代表ダイヤです。カーフェリー（OCEAN）と高速船（TAIYO・シーガル）を分けて表示しています。",
+        ferryDataSourceNote: "ダイヤ・運航状況は五島旅客船・木口汽船・九州商船等の公式サイトでご確認ください。",
         ferryValidUntilSuffix: nil
     )
 
@@ -116,7 +116,7 @@ enum IslandRegionCatalog {
         mapAnnotationLongitude: 131.95,
         coverAssetName: "IslandBgKutsuna",
         coverAssetCredit: "Photo: KUNIO MIURA / Wikimedia Commons（興居島沖合）／CC BY 3.0／表示時に暗色グラデーションを追加",
-        ferryDataSourceNote: "中島汽船・ごごしま等の代表ダイヤです。フェリーと高速船を分けて表示。東線・西線で寄港が異なります。",
+        ferryDataSourceNote: "ダイヤ・運航状況は中島汽船・ごごしま等の公式サイトでご確認ください。",
         ferryValidUntilSuffix: nil
     )
 
