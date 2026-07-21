@@ -12,7 +12,7 @@ struct Island: Identifiable, Hashable {
     let id: String
     let nameJapanese: String
     let nameEnglish: String
-    /// 地図の島アイコン・天気・店舗検索の基準点（島のおおよその中心。港座標とは別）
+    /// 地図の島アイコン・店舗検索の基準点（島のおおよその中心。港座標・天気地点とは別）
     let latitude: Double
     let longitude: Double
 

@@ -19,6 +19,16 @@ struct IslandPort: Identifiable {
     }
 }
 
+/// 天気API用の地点（地図用の島中心とは分離。未設定時は島中心を使う）
+struct IslandWeatherLocation {
+    let latitude: Double
+    let longitude: Double
+    /// Open-Meteo の標高補正（メートル）。港・集落向けに低標高を指定する
+    let elevationMeters: Double?
+    /// Open-Meteo `models`（例: jma_seamless）。nil なら自動選択
+    let models: String?
+}
+
 struct IslandProfile: Identifiable {
     static let defaultPlaceSearchRadiusMeters: CLLocationDistance = 12_000
     static let defaultOnIslandRadiusMeters: CLLocationDistance = 12_000
@@ -26,6 +36,8 @@ struct IslandProfile: Identifiable {
     let island: Island
     let regionID: String
     let ports: [IslandPort]
+    /// 天気取得地点（nil なら島中心座標を使用）
+    let weatherLocation: IslandWeatherLocation?
     let backgroundAssetName: String
     let backgroundCredit: String
     let placeSearchRadiusMeters: CLLocationDistance
@@ -92,6 +104,7 @@ struct IslandProfile: Identifiable {
         island: Island,
         regionID: String,
         ports: [IslandPort],
+        weatherLocation: IslandWeatherLocation? = nil,
         backgroundAssetName: String,
         backgroundCredit: String,
         placeSearchRadiusMeters: CLLocationDistance,
@@ -110,6 +123,7 @@ struct IslandProfile: Identifiable {
         self.island = island
         self.regionID = regionID
         self.ports = ports
+        self.weatherLocation = weatherLocation
         self.backgroundAssetName = backgroundAssetName
         self.backgroundCredit = backgroundCredit
         self.placeSearchRadiusMeters = placeSearchRadiusMeters
