@@ -8,12 +8,14 @@
 import Foundation
 
 struct WeatherService {
-    private let cacheKeyPrefix = "weather_cache_"
+    // クエリ変更時に古い中心座標キャッシュを捨てる
+    private let cacheKeyPrefix = "weather_cache_v2_"
 
-    // 島の座標から天気（現在＋1時間おき24件＋1週間）と波の高さを取得し、キャッシュにも保存する
+    // 島の天気地点から天気（現在＋1時間おき24件＋1週間）と波の高さを取得し、キャッシュにも保存する
     func fetchWeather(for island: Island) async throws -> WeatherInfo {
-        async let forecastData = fetchForecast(latitude: island.latitude, longitude: island.longitude)
-        async let waveData = fetchWaveHeight(latitude: island.latitude, longitude: island.longitude)
+        let query = weatherQuery(for: island)
+        async let forecastData = fetchForecast(query: query)
+        async let waveData = fetchWaveHeight(latitude: query.latitude, longitude: query.longitude)
 
         let decoded = try await forecastData
         let wave = await waveData
@@ -43,8 +45,26 @@ struct WeatherService {
         UserDefaults.standard.set(data, forKey: cacheKeyPrefix + islandID)
     }
 
-    private func fetchForecast(latitude: Double, longitude: Double) async throws -> OpenMeteoResponse {
-        let url = try makeForecastURL(latitude: latitude, longitude: longitude)
+    private func weatherQuery(for island: Island) -> WeatherQuery {
+        if let location = IslandCatalog.profile(for: island)?.weatherLocation {
+            return WeatherQuery(
+                latitude: location.latitude,
+                longitude: location.longitude,
+                elevationMeters: location.elevationMeters,
+                models: location.models
+            )
+        }
+
+        return WeatherQuery(
+            latitude: island.latitude,
+            longitude: island.longitude,
+            elevationMeters: nil,
+            models: nil
+        )
+    }
+
+    private func fetchForecast(query: WeatherQuery) async throws -> OpenMeteoResponse {
+        let url = try makeForecastURL(query: query)
         let (data, response) = try await URLSession.shared.data(from: url)
 
         guard let httpResponse = response as? HTTPURLResponse,
@@ -73,17 +93,26 @@ struct WeatherService {
         }
     }
 
-    private func makeForecastURL(latitude: Double, longitude: Double) throws -> URL {
+    private func makeForecastURL(query: WeatherQuery) throws -> URL {
         var components = URLComponents(string: "https://api.open-meteo.com/v1/forecast")
-        components?.queryItems = [
-            URLQueryItem(name: "latitude", value: String(latitude)),
-            URLQueryItem(name: "longitude", value: String(longitude)),
+        var items: [URLQueryItem] = [
+            URLQueryItem(name: "latitude", value: String(query.latitude)),
+            URLQueryItem(name: "longitude", value: String(query.longitude)),
             URLQueryItem(name: "current", value: "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code"),
             URLQueryItem(name: "hourly", value: "temperature_2m,weather_code,precipitation_probability,relative_humidity_2m,wind_speed_10m,precipitation"),
             URLQueryItem(name: "daily", value: "weather_code,temperature_2m_max,temperature_2m_min,relative_humidity_2m_mean,precipitation_probability_max"),
             URLQueryItem(name: "forecast_days", value: "7"),
             URLQueryItem(name: "timezone", value: "Asia/Tokyo"),
         ]
+
+        if let elevationMeters = query.elevationMeters {
+            items.append(URLQueryItem(name: "elevation", value: String(elevationMeters)))
+        }
+        if let models = query.models, models.isEmpty == false {
+            items.append(URLQueryItem(name: "models", value: models))
+        }
+
+        components?.queryItems = items
 
         guard let url = components?.url else {
             throw WeatherServiceError.invalidURL
@@ -107,6 +136,13 @@ struct WeatherService {
         }
         return url
     }
+}
+
+private struct WeatherQuery {
+    let latitude: Double
+    let longitude: Double
+    let elevationMeters: Double?
+    let models: String?
 }
 
 enum WeatherServiceError: Error {

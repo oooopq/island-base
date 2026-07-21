@@ -75,6 +75,13 @@ enum ShodoshimaNaoshimaIslandProfiles {
         ports: [
             IslandPort(name: "土庄港", latitude: 34.489263, longitude: 134.171791),
         ],
+        // 先行検証: 港周辺・低標高・JMA固定（地図用の島中心とは分離）
+        weatherLocation: IslandWeatherLocation(
+            latitude: 34.489263,
+            longitude: 134.171791,
+            elevationMeters: 5,
+            models: "jma_seamless"
+        ),
         backgroundAssetName: "IslandBgShodoshima",
         backgroundCredit: "Photo: Yu / Unsplash（小豆島・香川）",
         placeSearchRadiusMeters: 20_000,
