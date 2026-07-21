@@ -135,46 +135,46 @@ struct GTFSFerryParser {
             }
         }
 
+        // 曜日・例外の前に「今日を覆う期間があるか」を判定する
+        let coveringRows = calendarRows.filter { row in
+            guard let startDate = Int(row["start_date"] ?? ""),
+                  let endDate = Int(row["end_date"] ?? "") else {
+                return false
+            }
+            return todayNumber >= startDate && todayNumber <= endDate
+        }
+        let hasCoveringPeriod = coveringRows.isEmpty == false
+
+        let weekday = calendar.component(.weekday, from: today)
+        let weekdayKey: String
+        switch weekday {
+        case 1: weekdayKey = "sunday"
+        case 2: weekdayKey = "monday"
+        case 3: weekdayKey = "tuesday"
+        case 4: weekdayKey = "wednesday"
+        case 5: weekdayKey = "thursday"
+        case 6: weekdayKey = "friday"
+        default: weekdayKey = "saturday"
+        }
+
         var activeServices = Set<String>()
-
-        for row in calendarRows {
-            guard let serviceID = row["service_id"],
-                  let startDate = Int(row["start_date"] ?? ""),
-                  let endDate = Int(row["end_date"] ?? ""),
-                  todayNumber >= startDate,
-                  todayNumber <= endDate else {
-                continue
-            }
-
-            let weekday = calendar.component(.weekday, from: today)
-            let weekdayKey: String
-            switch weekday {
-            case 1: weekdayKey = "sunday"
-            case 2: weekdayKey = "monday"
-            case 3: weekdayKey = "tuesday"
-            case 4: weekdayKey = "wednesday"
-            case 5: weekdayKey = "thursday"
-            case 6: weekdayKey = "friday"
-            default: weekdayKey = "saturday"
-            }
-
-            if row[weekdayKey] == "1" {
-                activeServices.insert(serviceID)
-            }
+        for row in coveringRows {
+            guard let serviceID = row["service_id"], row[weekdayKey] == "1" else { continue }
+            activeServices.insert(serviceID)
         }
 
         activeServices.subtract(removedServices)
         activeServices.formUnion(addedServices)
 
-        // 今日に該当する期間がなければ、直近の期間を使う（OTTOP更新待ちの間も表示できる）
-        if activeServices.isEmpty {
-            return fallbackServiceIDs(calendarRows: calendarRows, todayNumber: todayNumber)
+        // 運休などで空になった場合は空のまま返す。フォールバックは期間切れのときだけ。
+        if activeServices.isEmpty == false || hasCoveringPeriod {
+            return activeServices
         }
 
-        return activeServices
+        return fallbackServiceIDs(calendarRows: calendarRows, todayNumber: todayNumber)
     }
 
-    // 終了日が今日以前で、いちばん新しいダイヤ期間を選ぶ
+    // 終了日が今日以前で、いちばん新しいダイヤ期間を選ぶ（OTTOP更新待ち用）
     private func fallbackServiceIDs(calendarRows: [[String: String]], todayNumber: Int) -> Set<String> {
         let eligibleRows = calendarRows.filter { row in
             guard let endDate = Int(row["end_date"] ?? "") else { return false }
@@ -182,7 +182,8 @@ struct GTFSFerryParser {
         }
 
         guard let latestEndDate = eligibleRows.compactMap({ Int($0["end_date"] ?? "") }).max() else {
-            return Set(calendarRows.compactMap { $0["service_id"] })
+            // 期間切れでも終了済み期間が無いときは、全サービスを出さず空にする
+            return []
         }
 
         return Set(
