@@ -123,6 +123,14 @@ struct WeatherSectionView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.55)
 
+                if let apparentCelsius = weather.displayApparentTemperatureCelsius {
+                    Text(languageStore.t(.feelsLikeTemperature(apparentCelsius)))
+                        .font(.caption.weight(.medium))
+                        .detailCardSecondaryText()
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+                }
+
                 Text(weather.condition)
                     .font(.subheadline.weight(.medium))
                     .detailCardSecondaryText()
@@ -284,6 +292,7 @@ struct WeatherSectionView: View {
         state: .loaded(
             WeatherInfo(
                 temperatureCelsius: 28,
+                apparentTemperatureCelsius: 35,
                 condition: "晴れ",
                 humidityPercent: 72,
                 windSpeedKmh: 14,

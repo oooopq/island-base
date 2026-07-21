@@ -33,6 +33,7 @@ enum AppText {
     case weeklyWeather
     case humidity
     case windSpeed
+    case feelsLikeTemperature(Int)
     case waveHeight
     case significantWaveHeight
     case waveUnavailable
@@ -144,6 +145,8 @@ enum AppText {
             return "湿度"
         case .windSpeed:
             return "風速"
+        case .feelsLikeTemperature(let celsius):
+            return "体感 \(celsius)°C"
         case .waveHeight:
             return "波の高さ"
         case .significantWaveHeight:
@@ -309,6 +312,8 @@ enum AppText {
             return "Humidity"
         case .windSpeed:
             return "Wind"
+        case .feelsLikeTemperature(let celsius):
+            return "Feels like \(celsius)°C"
         case .waveHeight:
             return "Wave height"
         case .significantWaveHeight:

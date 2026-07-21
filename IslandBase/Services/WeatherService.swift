@@ -9,7 +9,7 @@ import Foundation
 
 struct WeatherService {
     // クエリ変更時に古い中心座標キャッシュを捨てる
-    private let cacheKeyPrefix = "weather_cache_v3_"
+    private let cacheKeyPrefix = "weather_cache_v4_"
 
     // 島の天気地点から天気（現在＋1時間おき24件＋1週間）と波の高さを取得し、キャッシュにも保存する
     func fetchWeather(for island: Island) async throws -> WeatherInfo {
@@ -99,7 +99,7 @@ struct WeatherService {
         var items: [URLQueryItem] = [
             URLQueryItem(name: "latitude", value: String(query.latitude)),
             URLQueryItem(name: "longitude", value: String(query.longitude)),
-            URLQueryItem(name: "current", value: "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code"),
+            URLQueryItem(name: "current", value: "temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code"),
             URLQueryItem(name: "hourly", value: "temperature_2m,weather_code,precipitation_probability,relative_humidity_2m,wind_speed_10m,precipitation"),
             URLQueryItem(name: "daily", value: "weather_code,temperature_2m_max,temperature_2m_min,relative_humidity_2m_mean,precipitation_probability_max"),
             URLQueryItem(name: "forecast_days", value: "7"),
@@ -165,6 +165,7 @@ private struct OpenMeteoResponse: Decodable {
     func toWeatherInfo(waveHeight: WaveHeightData?) -> WeatherInfo {
         WeatherInfo(
             temperatureCelsius: Int(current.temperature2m.rounded()),
+            apparentTemperatureCelsius: current.apparentTemperature.map { Int($0.rounded()) },
             condition: WeatherConditionMapper.japaneseName(for: current.weatherCode),
             humidityPercent: current.relativeHumidity2m,
             windSpeedKmh: Int(current.windSpeed10m.rounded()),
@@ -223,12 +224,14 @@ private struct OpenMeteoMarineHourly: Decodable {
 
 private struct OpenMeteoCurrent: Decodable {
     let temperature2m: Double
+    let apparentTemperature: Double?
     let relativeHumidity2m: Int
     let windSpeed10m: Double
     let weatherCode: Int
 
     enum CodingKeys: String, CodingKey {
         case temperature2m = "temperature_2m"
+        case apparentTemperature = "apparent_temperature"
         case relativeHumidity2m = "relative_humidity_2m"
         case windSpeed10m = "wind_speed_10m"
         case weatherCode = "weather_code"

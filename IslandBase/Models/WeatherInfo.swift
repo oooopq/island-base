@@ -9,6 +9,8 @@ import Foundation
 
 struct WeatherInfo: Codable {
     let temperatureCelsius: Int
+    /// Open-Meteo の体感温度（実温とほぼ同じときは表示しない）
+    let apparentTemperatureCelsius: Int?
     let condition: String
     let humidityPercent: Int
     let windSpeedKmh: Int
@@ -21,8 +23,21 @@ struct WeatherInfo: Codable {
     /// 端末に保存した取得時刻（古いキャッシュには無い）
     let fetchedAt: Date?
 
+    /// 実温との差がこの値以下なら体感温度行を出さない
+    private static let apparentTemperatureDisplayThresholdCelsius = 1
+
+    /// 画面表示用の体感温度（nil なら行を出さない）
+    var displayApparentTemperatureCelsius: Int? {
+        guard let apparentTemperatureCelsius else { return nil }
+        guard abs(apparentTemperatureCelsius - temperatureCelsius) > Self.apparentTemperatureDisplayThresholdCelsius else {
+            return nil
+        }
+        return apparentTemperatureCelsius
+    }
+
     init(
         temperatureCelsius: Int,
+        apparentTemperatureCelsius: Int? = nil,
         condition: String,
         humidityPercent: Int,
         windSpeedKmh: Int,
@@ -33,6 +48,7 @@ struct WeatherInfo: Codable {
         fetchedAt: Date? = nil
     ) {
         self.temperatureCelsius = temperatureCelsius
+        self.apparentTemperatureCelsius = apparentTemperatureCelsius
         self.condition = condition
         self.humidityPercent = humidityPercent
         self.windSpeedKmh = windSpeedKmh
