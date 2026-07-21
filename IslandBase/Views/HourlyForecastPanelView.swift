@@ -134,6 +134,7 @@ private struct HourlyForecastCompactSlotView: View {
     let isNow: Bool
 
     @Environment(\.detailPalette) private var palette
+    @Environment(AppLanguageStore.self) private var languageStore
 
     var body: some View {
         VStack(spacing: 2) {
@@ -149,6 +150,14 @@ private struct HourlyForecastCompactSlotView: View {
                 .font(.system(size: 11, weight: .semibold))
                 .monospacedDigit()
                 .foregroundStyle(palette.text)
+
+            if let apparentCelsius = slot.displayApparentTemperatureCelsius {
+                Text(languageStore.t(.feelsLikeTemperature(apparentCelsius)))
+                    .font(.system(size: 8, weight: .medium))
+                    .foregroundStyle(palette.secondaryText)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
 
             VStack(spacing: 1) {
                 compactMetric(icon: "humidity.fill", value: "\(slot.humidityPercent)%")
@@ -174,7 +183,12 @@ private struct HourlyForecastCompactSlotView: View {
 
     private var accessibilityText: String {
         let time = isNow ? "現在" : slot.timeLabel
-        return "\(time) \(slot.condition) 気温\(slot.temperatureCelsius)度 湿度\(slot.humidityPercent)パーセント 風速\(formattedWindSpeedMs(kmh: slot.windSpeedKmh))メートル毎秒 降水量\(formattedPrecipitation(slot.precipitationMillimeters))"
+        var text = "\(time) \(slot.condition) 気温\(slot.temperatureCelsius)度"
+        if let apparentCelsius = slot.displayApparentTemperatureCelsius {
+            text += " 体感\(apparentCelsius)度"
+        }
+        text += " 湿度\(slot.humidityPercent)パーセント 風速\(formattedWindSpeedMs(kmh: slot.windSpeedKmh))メートル毎秒 降水量\(formattedPrecipitation(slot.precipitationMillimeters))"
+        return text
     }
 
     private func compactMetric(icon: String, value: String) -> some View {
@@ -209,6 +223,7 @@ private struct HourlyForecastCompactSlotView: View {
                 id: "2026-06-21T\(hour):00",
                 timeLabel: "\(hour)時",
                 temperatureCelsius: 8 + hour,
+                apparentTemperatureCelsius: hour % 2 == 0 ? 8 + hour + 3 : nil,
                 condition: hour % 3 == 0 ? "くもり" : "晴れ",
                 humidityPercent: 70 - hour,
                 precipitationProbabilityPercent: hour % 4 == 0 ? 30 : 5,

@@ -28,7 +28,7 @@ alwaysApply: false
 | 地域表示名・フェリー注記 | `IslandRegionCatalog` |
 | 島固有のカメラ注釈 | `IslandProfile.liveCameraFootnote` |
 | 島の中心座標（`Island.latitude/longitude`） | OpenStreetMap の島輪郭ポリゴン重心（地図アイコン・店舗検索の基準。港座標とは別） |
-| 天気地点（`IslandProfile.weatherLocation`） | 任意。港・集落など生活圏座標と標高・Open-Meteo models を指定。未設定時は島中心。小豆島は土庄港＋標高5m＋`jma_seamless` で先行検証 |
+| 天気地点（`IslandProfile.weatherLocation`） | 任意。港・集落など生活圏座標を指定。未設定時は先頭の港。標高・モデルは `WeatherService` で一律（5 m・`jma_seamless`） |
 | 港の座標 | 海上保安庁「八重山列島の港」等の公式データを使用（島中心座標と混同しない） |
 | ライブカメラ / YouTube | `liveCameras` にライブ配信、`youtubeRelatedLinks` にフォールバック（カメラセクションはライブ優先） |
 

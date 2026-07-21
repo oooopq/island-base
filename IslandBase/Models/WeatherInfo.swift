@@ -24,7 +24,7 @@ struct WeatherInfo: Codable {
     let fetchedAt: Date?
 
     /// 実温との差がこの値以下なら体感温度行を出さない
-    private static let apparentTemperatureDisplayThresholdCelsius = 1
+    static let apparentTemperatureDisplayThresholdCelsius = 1
 
     /// 画面表示用の体感温度（nil なら行を出さない）
     var displayApparentTemperatureCelsius: Int? {

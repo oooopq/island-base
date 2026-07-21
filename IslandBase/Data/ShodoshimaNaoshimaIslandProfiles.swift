@@ -79,8 +79,6 @@ enum ShodoshimaNaoshimaIslandProfiles {
         ),
         regionID: "shodoshima_naoshima",
         ports: [shodoshimaPort],
-        // JMA モデルだけ上書き（座標・標高は港の既定と同じ）
-        weatherLocation: IslandWeatherLocation.from(port: shodoshimaPort, models: "jma_seamless"),
         backgroundAssetName: "IslandBgShodoshima",
         backgroundCredit: "Photo: Yu / Unsplash（小豆島・香川）",
         placeSearchRadiusMeters: 20_000,

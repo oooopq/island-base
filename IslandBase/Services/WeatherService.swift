@@ -9,7 +9,10 @@ import Foundation
 
 struct WeatherService {
     // クエリ変更時に古い中心座標キャッシュを捨てる
-    private let cacheKeyPrefix = "weather_cache_v4_"
+    private let cacheKeyPrefix = "weather_cache_v5_"
+
+    private static let forecastModels = "jma_seamless"
+    private static let forecastElevationMeters = IslandWeatherLocation.defaultPortElevationMeters
 
     // 島の天気地点から天気（現在＋1時間おき24件＋1週間）と波の高さを取得し、キャッシュにも保存する
     func fetchWeather(for island: Island) async throws -> WeatherInfo {
@@ -49,18 +52,14 @@ struct WeatherService {
         if let location = IslandCatalog.profile(for: island)?.resolvedWeatherLocation {
             return WeatherQuery(
                 latitude: location.latitude,
-                longitude: location.longitude,
-                elevationMeters: location.elevationMeters,
-                models: location.models
+                longitude: location.longitude
             )
         }
 
         // プロファイルがない場合のみ島中心にフォールバック
         return WeatherQuery(
             latitude: island.latitude,
-            longitude: island.longitude,
-            elevationMeters: IslandWeatherLocation.defaultPortElevationMeters,
-            models: nil
+            longitude: island.longitude
         )
     }
 
@@ -100,18 +99,16 @@ struct WeatherService {
             URLQueryItem(name: "latitude", value: String(query.latitude)),
             URLQueryItem(name: "longitude", value: String(query.longitude)),
             URLQueryItem(name: "current", value: "temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code"),
-            URLQueryItem(name: "hourly", value: "temperature_2m,weather_code,precipitation_probability,relative_humidity_2m,wind_speed_10m,precipitation"),
+            URLQueryItem(
+                name: "hourly",
+                value: "temperature_2m,apparent_temperature,weather_code,precipitation_probability,relative_humidity_2m,wind_speed_10m,precipitation"
+            ),
             URLQueryItem(name: "daily", value: "weather_code,temperature_2m_max,temperature_2m_min,relative_humidity_2m_mean,precipitation_probability_max"),
             URLQueryItem(name: "forecast_days", value: "7"),
             URLQueryItem(name: "timezone", value: "Asia/Tokyo"),
+            URLQueryItem(name: "elevation", value: String(Self.forecastElevationMeters)),
+            URLQueryItem(name: "models", value: Self.forecastModels),
         ]
-
-        if let elevationMeters = query.elevationMeters {
-            items.append(URLQueryItem(name: "elevation", value: String(elevationMeters)))
-        }
-        if let models = query.models, models.isEmpty == false {
-            items.append(URLQueryItem(name: "models", value: models))
-        }
 
         components?.queryItems = items
 
@@ -142,8 +139,6 @@ struct WeatherService {
 private struct WeatherQuery {
     let latitude: Double
     let longitude: Double
-    let elevationMeters: Double?
-    let models: String?
 }
 
 enum WeatherServiceError: Error {
@@ -241,6 +236,7 @@ private struct OpenMeteoCurrent: Decodable {
 private struct OpenMeteoHourly: Decodable {
     let time: [String]
     let temperature2m: [Double]
+    let apparentTemperature: [Double?]
     let weatherCode: [Int]
     // jma_seamless などで null が返ることがあるため Optional
     let precipitationProbability: [Int?]
@@ -251,6 +247,7 @@ private struct OpenMeteoHourly: Decodable {
     enum CodingKeys: String, CodingKey {
         case time
         case temperature2m = "temperature_2m"
+        case apparentTemperature = "apparent_temperature"
         case weatherCode = "weather_code"
         case precipitationProbability = "precipitation_probability"
         case relativeHumidity2m = "relative_humidity_2m"
@@ -273,6 +270,7 @@ private struct OpenMeteoHourly: Decodable {
         let safeCount = [
             time.count,
             temperature2m.count,
+            apparentTemperature.count,
             weatherCode.count,
             precipitationProbability.count,
             relativeHumidity2m.count,
@@ -291,11 +289,13 @@ private struct OpenMeteoHourly: Decodable {
 
             let precipitationProb = precipitationProbability[index] ?? 0
             let hour = calendar.component(.hour, from: slotDate)
+            let apparentCelsius = apparentTemperature[index].map { Int($0.rounded()) }
             forecasts.append(
                 HourlyWeatherForecast(
                     id: timeString,
                     timeLabel: "\(hour)時",
                     temperatureCelsius: Int(temperature2m[index].rounded()),
+                    apparentTemperatureCelsius: apparentCelsius,
                     condition: WeatherConditionMapper.japaneseName(for: weatherCode[index]),
                     humidityPercent: relativeHumidity2m[index],
                     precipitationProbabilityPercent: max(0, precipitationProb),

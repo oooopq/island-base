@@ -303,6 +303,7 @@ struct WeatherSectionView: View {
                         id: "2026-06-21T09:00",
                         timeLabel: "9時",
                         temperatureCelsius: 27,
+                        apparentTemperatureCelsius: 31,
                         condition: "晴れ",
                         humidityPercent: 72,
                         precipitationProbabilityPercent: 10,
