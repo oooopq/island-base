@@ -23,7 +23,8 @@ struct LastSelectedIslandShortcutView: View {
                 Image(backgroundAssetName)
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 52)
+                    .frame(width: cardWidth, height: imageHeight)
+                    .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
 
                 Text(island.primaryName(for: languageStore.mode))
@@ -33,9 +34,8 @@ struct LastSelectedIslandShortcutView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.85)
             }
-            .frame(maxWidth: .infinity)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 8)
+            .frame(width: cardWidth, alignment: .leading)
+            .padding(8)
             .background {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .fill(palette.cardBackground.opacity(0.92))
@@ -50,15 +50,21 @@ struct LastSelectedIslandShortcutView: View {
             languageStore.t(.openIslandDetail(island.primaryName(for: languageStore.mode)))
         )
     }
+
+    /// 諸島カード（RegionCoverCardView）と同じ幅
+    private var cardWidth: CGFloat { 148 }
+    private var imageHeight: CGFloat { 52 }
 }
 
 #Preview {
     NavigationStack {
-        HStack(spacing: 10) {
-            LastSelectedIslandShortcutView(island: IslandCatalog.islands[0])
-            LastSelectedIslandShortcutView(island: IslandCatalog.islands[1])
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                LastSelectedIslandShortcutView(island: IslandCatalog.islands[0])
+                LastSelectedIslandShortcutView(island: IslandCatalog.islands[1])
+            }
+            .padding()
         }
-        .padding()
     }
     .environment(AppLanguageStore())
     .environment(\.detailPalette, DetailCardPalette.dark)

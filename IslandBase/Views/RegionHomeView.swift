@@ -102,9 +102,11 @@ struct RegionHomeView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(palette.secondaryText)
 
-            HStack(spacing: 10) {
-                ForEach(lastSelectedIslandStore.islands) { island in
-                    LastSelectedIslandShortcutView(island: island)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(lastSelectedIslandStore.islands) { island in
+                        LastSelectedIslandShortcutView(island: island)
+                    }
                 }
             }
         }
