@@ -5,7 +5,8 @@ App Store 公開と法的表記用の文案です。
 | ファイル | 用途 |
 |---|---|
 | [submission-checklist-ja.md](./submission-checklist-ja.md) | **提出前チェックリスト（必読）** |
-| [app-store-ja.md](./app-store-ja.md) | App Store Connect の説明文・キーワード等 |
+| [app-store-ja.md](./app-store-ja.md) | App Store Connect の説明文・キーワード・審査メモ |
+| [connect-app-privacy-ja.md](./connect-app-privacy-ja.md) | Connect「App のプライバシー」入力手順 |
 | [privacy-policy-ja.md](./privacy-policy-ja.md) | プライバシーポリシー（原稿・Markdown） |
 | [terms-of-service-ja.md](./terms-of-service-ja.md) | 利用規約（原稿・Markdown） |
 | [privacy-policy.html](./privacy-policy.html) | プライバシーポリシー（Web 公開用 HTML） |
