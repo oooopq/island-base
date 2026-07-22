@@ -20,28 +20,29 @@ enum RegionMapSupport {
         .region(japanOverviewRegion())
     }
 
-    /// 起動時の基準画角：八重山〜佐渡〜伊豆の全ピンが同時に見える日本概観
-    /// （北回帰線が南端付近、韓国・上海が西側に少し入る程度）
+    /// 起動時の基準画角：登録ピンが全部見える、日本列島寄りの概観
+    /// （縦長画面で緯度方向に広がっても、マニラ付近まで出ない程度に東西を絞る）
     static func japanOverviewRegion() -> MKCoordinateRegion {
         let pins = IslandRegionCatalog.all.map(\.mapCoordinate)
         let fitted = boundingRegion(
             for: pins,
-            minimumPadding: 1.2,
-            paddingRatio: 0.18
+            minimumPadding: 1.0,
+            paddingRatio: 0.16
         )
 
-        // ピン範囲をベースに、参考スクショに近い余白へ広げる
-        // 南: 北回帰線〜フィリピン海ラベル付近 / 北: 北海道南〜ウラジオ付近
-        // 西: 上海・ソウルが端に入る / 東: 伊豆の東に少し余白
         var minLat = pins.map(\.latitude).min() ?? fitted.center.latitude
         var maxLat = pins.map(\.latitude).max() ?? fitted.center.latitude
         var minLon = pins.map(\.longitude).min() ?? fitted.center.longitude
         var maxLon = pins.map(\.longitude).max() ?? fitted.center.longitude
 
-        minLat -= 1.8 // 八重山ラベル＋北回帰線付近
-        maxLat += 5.5 // 佐渡より北
-        minLon -= 5.5 // 大陸側
-        maxLon += 2.5 // 伊豆より東
+        // ピン周りの余白（南は八重山ラベル分だけ。大陸・フィリピンは入れない）
+        minLat -= 1.0
+        maxLat += 3.0
+        minLon -= 2.0
+        maxLon += 2.0
+
+        let latitudeDelta = max(maxLat - minLat, 14)
+        let longitudeDelta = max(maxLon - minLon, 14)
 
         return MKCoordinateRegion(
             center: CLLocationCoordinate2D(
@@ -49,8 +50,8 @@ enum RegionMapSupport {
                 longitude: (minLon + maxLon) / 2
             ),
             span: MKCoordinateSpan(
-                latitudeDelta: max(maxLat - minLat, 18),
-                longitudeDelta: max(maxLon - minLon, 16)
+                latitudeDelta: latitudeDelta,
+                longitudeDelta: longitudeDelta
             )
         )
     }

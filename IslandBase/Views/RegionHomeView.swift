@@ -18,7 +18,7 @@ struct RegionHomeView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            // 画面の約58%を地図に使い、諸島2列グリッドの余地も残す
+            // 画面の約58%を地図に使い、下のカバーカード用の余地も残す
             let mapHeight = max(320, min(geometry.size.height * 0.58, 560))
 
             ScrollView {
@@ -30,9 +30,8 @@ struct RegionHomeView: View {
 
                     japanMap(height: mapHeight)
 
-                    regionChipGrid
-                        .padding(.horizontal, 16)
-                        .padding(.top, 10)
+                    regionCoverCarousel
+                        .padding(.top, 12)
                         .padding(.bottom, 16)
                 }
             }
@@ -157,20 +156,28 @@ struct RegionHomeView: View {
         cameraPosition = RegionMapSupport.japanHomeCameraPosition()
     }
 
-    /// 横スクロール1列ではなく、2列で全地域を見せる
-    private var regionChipGrid: some View {
-        let columns = [
-            GridItem(.flexible(), spacing: 10),
-            GridItem(.flexible(), spacing: 10),
-        ]
+    /// 横スクロールのカバーカード。地域が増えても縦を圧迫しない
+    private var regionCoverCarousel: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(languageStore.t(.chooseRegion))
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(palette.secondaryText)
+                .padding(.horizontal, 16)
 
-        return LazyVGrid(columns: columns, spacing: 10) {
-            ForEach(IslandCatalog.regions) { region in
-                NavigationLink(value: region.id) {
-                    RegionChipView(region: region)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(IslandCatalog.regions) { region in
+                        NavigationLink(value: region.id) {
+                            RegionCoverCardView(region: region)
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
-                .buttonStyle(.plain)
             }
+            // 地図・見出しと同じく、スクロールビュー自体を左右にインセットする
+            // （中の padding だけだと先頭カードが画面端に張り付く端末がある）
+            .padding(.horizontal, 16)
         }
     }
 
@@ -225,45 +232,6 @@ private struct JapanRegionMarkerView: View {
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
                 .background(palette.cardBackground.opacity(0.9), in: Capsule())
-        }
-    }
-}
-
-private struct RegionChipView: View {
-    let region: IslandRegion
-
-    @Environment(\.detailPalette) private var palette
-    @Environment(AppLanguageStore.self) private var languageStore
-
-    private var islandCount: Int {
-        IslandCatalog.islandCount(forRegionID: region.id)
-    }
-
-    var body: some View {
-        HStack(spacing: 8) {
-            Text(region.displayName(for: languageStore.mode))
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .lineLimit(2)
-                .minimumScaleFactor(0.85)
-                .multilineTextAlignment(.leading)
-
-            Spacer(minLength: 4)
-
-            Text(languageStore.t(.islandCount(islandCount)))
-                .font(.caption)
-                .foregroundStyle(palette.secondaryText)
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 12)
-        .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
-        .background {
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(palette.cardBackground)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .strokeBorder(palette.cardBorder, lineWidth: 1)
-                }
         }
     }
 }
