@@ -21,15 +21,15 @@ struct RegionHomeView: View {
             // 画面の約58%を地図に使い、下のカバーカード用の余地も残す
             let mapHeight = max(320, min(geometry.size.height * 0.58, 560))
 
-            ScrollView {
-                VStack(spacing: 0) {
-                    header
-                        .padding(.horizontal, 20)
-                        .padding(.top, 8)
-                        .padding(.bottom, 12)
+            VStack(spacing: 0) {
+                header
+                    .padding(.horizontal, 20)
+                    .padding(.top, 8)
+                    .padding(.bottom, 12)
 
-                    japanMap(height: mapHeight)
+                japanMap(height: mapHeight)
 
+                ScrollView {
                     regionCoverCarousel
                         .padding(.top, 12)
                         .padding(.bottom, 16)
