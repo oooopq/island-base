@@ -2,41 +2,87 @@
 //  DetailRowLinkButtonsView.swift
 //  Island Base
 //
-//  詳細画面の行右端：Webサイト・ナビボタン
+//  詳細画面の行右端：Webサイト・ナビ・Google マップボタン
 //
 
 import SwiftUI
 
 struct DetailRowLinkButtonsView: View {
     let websiteURL: URL?
+    var googleMapsURL: URL? = nil
     let onNavigate: (() -> Void)?
 
     @Environment(\.detailPalette) private var palette
+    @Environment(AppLanguageStore.self) private var languageStore
+
+    private let compactButtonSize: CGFloat = 30
+    private let standardButtonSize: CGFloat = 34
 
     var body: some View {
-        HStack(spacing: 8) {
-            linkButton(
-                url: websiteURL,
-                systemImage: "globe",
-                accessibilityLabel: "Webサイト",
-                isEnabled: websiteURL != nil
-            )
+        if googleMapsURL != nil {
+            compactActionGrid
+        } else {
+            standardActionRow
+        }
+    }
 
-            navigateButton
+    private var standardActionRow: some View {
+        HStack(spacing: 8) {
+            websiteButton(size: standardButtonSize)
+
+            navigateButton(size: standardButtonSize)
+        }
+    }
+
+    private var compactActionGrid: some View {
+        VStack(spacing: 6) {
+            HStack(spacing: 6) {
+                websiteButton(size: compactButtonSize)
+                googleMapsButton(size: compactButtonSize)
+            }
+
+            HStack(spacing: 6) {
+                navigateButton(size: compactButtonSize)
+                Color.clear
+                    .frame(width: compactButtonSize, height: compactButtonSize)
+                    .accessibilityHidden(true)
+            }
         }
     }
 
     @ViewBuilder
-    private var navigateButton: some View {
+    private func websiteButton(size: CGFloat) -> some View {
+        linkButton(
+            url: websiteURL,
+            systemImage: "globe",
+            accessibilityLabel: languageStore.t(.openWebsite),
+            isEnabled: websiteURL != nil,
+            size: size
+        )
+    }
+
+    @ViewBuilder
+    private func googleMapsButton(size: CGFloat) -> some View {
+        linkButton(
+            url: googleMapsURL,
+            systemImage: "map",
+            accessibilityLabel: languageStore.t(.openInGoogleMaps),
+            isEnabled: googleMapsURL != nil,
+            size: size
+        )
+    }
+
+    @ViewBuilder
+    private func navigateButton(size: CGFloat) -> some View {
         if let onNavigate {
             Button(action: onNavigate) {
-                linkButtonLabel(systemImage: "location.fill", isEnabled: true)
+                linkButtonLabel(systemImage: "location.fill", isEnabled: true, size: size)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("ナビ")
+            .accessibilityLabel(languageStore.t(.openNavigation))
         } else {
-            linkButtonLabel(systemImage: "location.fill", isEnabled: false)
-                .accessibilityLabel("ナビ（利用不可）")
+            linkButtonLabel(systemImage: "location.fill", isEnabled: false, size: size)
+                .accessibilityLabel(languageStore.t(.openNavigationUnavailable))
         }
     }
 
@@ -45,23 +91,24 @@ struct DetailRowLinkButtonsView: View {
         url: URL?,
         systemImage: String,
         accessibilityLabel: String,
-        isEnabled: Bool
+        isEnabled: Bool,
+        size: CGFloat
     ) -> some View {
         if isEnabled, let url {
             OpenURLButton(url: url) {
-                linkButtonLabel(systemImage: systemImage, isEnabled: true)
+                linkButtonLabel(systemImage: systemImage, isEnabled: true, size: size)
             }
             .accessibilityLabel(accessibilityLabel)
         } else {
-            linkButtonLabel(systemImage: systemImage, isEnabled: false)
-                .accessibilityLabel("\(accessibilityLabel)（利用不可）")
+            linkButtonLabel(systemImage: systemImage, isEnabled: false, size: size)
+                .accessibilityLabel(accessibilityLabel)
         }
     }
 
-    private func linkButtonLabel(systemImage: String, isEnabled: Bool) -> some View {
+    private func linkButtonLabel(systemImage: String, isEnabled: Bool, size: CGFloat) -> some View {
         Image(systemName: systemImage)
             .font(.subheadline)
-            .frame(width: 34, height: 34)
+            .frame(width: size, height: size)
             .foregroundStyle(isEnabled ? palette.accent : palette.secondaryText.opacity(0.45))
             .background(
                 (isEnabled ? palette.accent.opacity(0.16) : palette.secondaryText.opacity(0.08)),

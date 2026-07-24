@@ -59,6 +59,10 @@ enum AppText {
     case noPlacesInCategory
     case morePlaces(Int)
     case appleMapsData
+    case openWebsite
+    case openNavigation
+    case openNavigationUnavailable
+    case openInGoogleMaps
     case portDistanceSingle(String)
     case portDistanceMultiple(String)
     case userDistanceCaption
@@ -199,6 +203,14 @@ enum AppText {
             return "ほか \(count) 件"
         case .appleMapsData:
             return "Apple マップのデータを表示しています"
+        case .openWebsite:
+            return "Webサイト"
+        case .openNavigation:
+            return "ナビ"
+        case .openNavigationUnavailable:
+            return "ナビ（利用不可）"
+        case .openInGoogleMaps:
+            return "Google マップで開く"
         case .portDistanceSingle(let name):
             return "港（\(name)）からの距離・徒歩時間を表示しています"
         case .portDistanceMultiple(let names):
@@ -370,6 +382,14 @@ enum AppText {
             return "\(count) more"
         case .appleMapsData:
             return "Showing Apple Maps data"
+        case .openWebsite:
+            return "Website"
+        case .openNavigation:
+            return "Directions"
+        case .openNavigationUnavailable:
+            return "Directions unavailable"
+        case .openInGoogleMaps:
+            return "Open in Google Maps"
         case .portDistanceSingle(let name):
             return "Distance and walking time from \(name)"
         case .portDistanceMultiple(let names):

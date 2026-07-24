@@ -28,6 +28,13 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
         AppURL.from(string: websiteURLString)
     }
 
+    var googleMapsURL: URL? {
+        if let mapsURLString, let url = AppURL.from(string: mapsURLString) {
+            return url
+        }
+        return GoogleMapsNavigation.placeURL(name: name, coordinate: coordinate)
+    }
+
     // Apple マップで車での案内を開く
     func openDrivingDirections() {
         AppleMapsNavigation.openDrivingDirections(name: name, coordinate: coordinate)
@@ -43,6 +50,8 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
         let address = mapItem.placemark.title
         let websiteURL = extractWebsiteURL(from: mapItem.url)
 
+        let googleMapsURL = GoogleMapsNavigation.placeURL(name: name, coordinate: coordinate)
+
         return PlaceInfo(
             id: "\(name)-\(coordinate.latitude)-\(coordinate.longitude)",
             name: name,
@@ -52,7 +61,7 @@ struct PlaceInfo: Identifiable, Hashable, Codable {
             longitude: coordinate.longitude,
             phoneNumber: mapItem.phoneNumber,
             websiteURLString: websiteURL?.absoluteString,
-            mapsURLString: nil
+            mapsURLString: googleMapsURL?.absoluteString
         )
     }
 

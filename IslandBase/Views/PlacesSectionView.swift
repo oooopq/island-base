@@ -169,6 +169,7 @@ struct PlacesSectionView: View {
 
             DetailRowLinkButtonsView(
                 websiteURL: place.websiteURL,
+                googleMapsURL: place.googleMapsURL,
                 onNavigate: { place.openDrivingDirections() }
             )
         }
