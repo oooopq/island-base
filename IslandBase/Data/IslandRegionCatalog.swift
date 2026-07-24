@@ -100,7 +100,7 @@ enum IslandRegionCatalog {
         mapAnnotationLatitude: 32.686123,
         mapAnnotationLongitude: 128.747749,
         coverAssetName: "IslandBgGoto",
-        coverAssetCredit: "Photo: NASA Johnson Space Center / Wikimedia Commons（五島列島）／Public domain／表示時に暗色グラデーションを追加",
+        coverAssetCredit: "Photo: Nami-ja / Wikimedia Commons（五島市玉之浦町・頓泊海水浴場）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: "ダイヤ・運航状況は五島旅客船・木口汽船・九州商船等の公式サイトでご確認ください。",
         ferryValidUntilSuffix: nil
     )

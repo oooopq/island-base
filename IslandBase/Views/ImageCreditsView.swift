@@ -115,7 +115,7 @@ struct ImageCreditsView: View {
         .creditCardStyle(palette: palette)
     }
 
-    // 地域ホームのカバー画像（Unsplash / Wikimedia / NASA 等）
+    // 地域ホームのカバー画像（Unsplash / Wikimedia 等）
     private var regionCoverCreditsSection: some View {
         let regionsWithCredit = IslandRegionCatalog.all.filter { $0.coverAssetCredit != nil }
         return VStack(alignment: .leading, spacing: 12) {
@@ -238,7 +238,6 @@ struct ImageCreditsView: View {
             .creditCardStyle(palette: palette)
 
             licenseNote(title: gsiTitle, body: gsiBody)
-            licenseNote(title: "NASA / Public domain", body: nasaBody)
             licenseNote(title: providedPhotoTitle, body: providedPhotoBody)
             licenseNote(title: photoNotesTitle, body: photoNotesBody)
             licenseNote(title: appIconTitle, body: appIconBody)
@@ -390,12 +389,6 @@ struct ImageCreditsView: View {
         isJapanese
             ? "二神島・怒和島・津和地島の空中写真は、Wikimedia Commons 経由で国土地理院の出典表示条件に従って利用しています。該当する画像クレジットには「出典：国土地理院」と明記しています。"
             : "Aerial photos of Futagami, Nuwa, and Tsuwaji are used via Wikimedia Commons under GSI attribution rules. Credits include “出典：国土地理院”."
-    }
-
-    private var nasaBody: String {
-        isJapanese
-            ? "五島列島などの一部背景画像は NASA Johnson Space Center の Public domain 画像を利用しています。出典確認のため、クレジットには提供元を明記しています。"
-            : "Some backgrounds (e.g. Goto) use NASA Johnson Space Center public-domain imagery, credited in-app."
     }
 
     private var providedPhotoTitle: String {
