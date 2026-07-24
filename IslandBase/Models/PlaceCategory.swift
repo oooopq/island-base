@@ -55,7 +55,13 @@ enum PlaceCategory: String, CaseIterable, Identifiable {
         case .restaurant:
             return ["\(name) レストラン", "\(name) 飲食店"]
         case .lodging:
-            return ["\(name) 民宿", "\(name) ホテル"]
+            return [
+                "\(name) 民宿",
+                "\(name) ホテル",
+                "\(name) 旅館",
+                "\(name) ゲストハウス",
+                "\(name) ペンション",
+            ]
         case .shop:
             return ["\(name) コンビニ", "\(name) 商店"]
         }

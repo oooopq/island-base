@@ -57,7 +57,8 @@ enum AppText {
     case cancellationsDelays
     case checkStatusBeforeDeparture
     case noPlacesInCategory
-    case morePlaces(Int)
+    case showMorePlaces(Int)
+    case showFewerPlaces
     case appleMapsData
     case openWebsite
     case openNavigation
@@ -199,8 +200,10 @@ enum AppText {
             return "出発前に各社公式サイトで運航状況を確認してください。本アプリの時刻は参考ダイヤです。"
         case .noPlacesInCategory:
             return "このカテゴリのスポットが見つかりませんでした"
-        case .morePlaces(let count):
-            return "ほか \(count) 件"
+        case .showMorePlaces(let count):
+            return "さらに \(count) 件を表示"
+        case .showFewerPlaces:
+            return "表示を少なく"
         case .appleMapsData:
             return "Apple マップのデータを表示しています"
         case .openWebsite:
@@ -378,8 +381,10 @@ enum AppText {
             return "Check each operator’s official site before departure. Times in this app are for reference only."
         case .noPlacesInCategory:
             return "No places found in this category"
-        case .morePlaces(let count):
-            return "\(count) more"
+        case .showMorePlaces(let count):
+            return "Show \(count) more"
+        case .showFewerPlaces:
+            return "Show fewer"
         case .appleMapsData:
             return "Showing Apple Maps data"
         case .openWebsite:

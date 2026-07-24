@@ -18,6 +18,7 @@ struct PlacesSectionView: View {
 
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
+    @State private var showsAllPlaces = false
 
     private var isOnIsland: Bool {
         guard let userCoordinate else { return false }
@@ -101,6 +102,12 @@ struct PlacesSectionView: View {
             }
         }
         .detailSectionCard()
+        .onChange(of: selectedCategory) { _, _ in
+            showsAllPlaces = false
+        }
+        .onChange(of: island.id) { _, _ in
+            showsAllPlaces = false
+        }
     }
 
     @ViewBuilder
@@ -111,7 +118,11 @@ struct PlacesSectionView: View {
                 .detailCardSecondaryText()
         } else {
             let ordered = orderedPlaces(places)
-            let visiblePlaces = Array(ordered.prefix(IslandCatalog.placeDisplayLimit))
+            let limit = IslandCatalog.placeDisplayLimit
+            let hiddenCount = max(ordered.count - limit, 0)
+            let visibleCount = showsAllPlaces ? ordered.count : min(ordered.count, limit)
+            let visiblePlaces = Array(ordered.prefix(visibleCount))
+
             ForEach(Array(visiblePlaces.enumerated()), id: \.element.id) { index, place in
                 if index > 0 {
                     Divider()
@@ -119,10 +130,36 @@ struct PlacesSectionView: View {
                 placeRow(place)
             }
 
-            if ordered.count > IslandCatalog.placeDisplayLimit {
-                Text(languageStore.t(.morePlaces(ordered.count - IslandCatalog.placeDisplayLimit)))
-                    .font(.caption)
-                    .detailCardSecondaryText()
+            if hiddenCount > 0, showsAllPlaces == false {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        showsAllPlaces = true
+                    }
+                } label: {
+                    Text(languageStore.t(.showMorePlaces(hiddenCount)))
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(palette.accent)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 4)
+            }
+
+            if hiddenCount > 0, showsAllPlaces {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        showsAllPlaces = false
+                    }
+                } label: {
+                    Text(languageStore.t(.showFewerPlaces))
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(palette.accent)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 4)
             }
         }
     }

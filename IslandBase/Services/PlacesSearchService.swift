@@ -16,8 +16,8 @@ struct PlacesCacheEntry: Codable {
 }
 
 struct PlacesSearchService {
-    /// v4: POI＋自然言語の併用、港基準の島判定
-    private let cacheKeyPrefix = "places_cache_v4_"
+    /// v5: 宿の自然言語検索に旅館・ゲストハウス・ペンションを追加
+    private let cacheKeyPrefix = "places_cache_v5_"
 
     // 島付近でカテゴリに合うスポットを検索する
     func searchPlaces(for island: Island, category: PlaceCategory) async throws -> PlacesCacheEntry {
