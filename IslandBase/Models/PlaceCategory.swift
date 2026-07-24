@@ -47,4 +47,17 @@ enum PlaceCategory: String, CaseIterable, Identifiable {
             return [.store, .foodMarket, .pharmacy]
         }
     }
+
+    /// 自然言語検索用（POI だけでは足りない離島向け）
+    func naturalLanguageQueries(for island: Island) -> [String] {
+        let name = island.nameJapanese
+        switch self {
+        case .restaurant:
+            return ["\(name) レストラン", "\(name) 飲食店"]
+        case .lodging:
+            return ["\(name) 民宿", "\(name) ホテル"]
+        case .shop:
+            return ["\(name) コンビニ", "\(name) 商店"]
+        }
+    }
 }

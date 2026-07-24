@@ -14,8 +14,12 @@ struct UsefulInfoSectionView: View {
     @Environment(AppLanguageStore.self) private var languageStore
     @State private var isExpanded = false
 
+    private var islandProfile: IslandProfile? {
+        IslandCatalog.profile(for: islandID)
+    }
+
     private var items: [UsefulInfo] {
-        IslandCatalog.profile(for: islandID)?.usefulInfo ?? []
+        islandProfile?.usefulInfo ?? []
     }
 
     var body: some View {
@@ -117,7 +121,9 @@ struct UsefulInfoSectionView: View {
 
             DetailRowLinkButtonsView(
                 websiteURL: item.websiteLink,
-                onNavigate: item.canOpenNavigation ? { item.openDrivingDirections() } : nil
+                onNavigate: item.canOpenNavigation
+                    ? { item.openDrivingDirections(islandCoordinate: islandProfile?.island.coordinate) }
+                    : nil
             )
         }
     }

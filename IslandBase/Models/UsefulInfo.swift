@@ -5,6 +5,7 @@
 //  島のお役立ち情報（病院・ATM・観光案内など）
 //
 
+import CoreLocation
 import Foundation
 
 enum UsefulInfoCategory: String, CaseIterable, Identifiable {
@@ -45,6 +46,31 @@ struct UsefulInfo: Identifiable, Hashable {
     let address: String?
     let websiteURL: String?
     let note: String?
+    /// ナビ用の固定座標（分かっている施設のみ。nil なら住所検索）
+    let navigationLatitude: Double?
+    let navigationLongitude: Double?
+
+    init(
+        id: String,
+        category: UsefulInfoCategory,
+        name: String,
+        phoneNumber: String?,
+        address: String?,
+        websiteURL: String?,
+        note: String?,
+        navigationLatitude: Double? = nil,
+        navigationLongitude: Double? = nil
+    ) {
+        self.id = id
+        self.category = category
+        self.name = name
+        self.phoneNumber = phoneNumber
+        self.address = address
+        self.websiteURL = websiteURL
+        self.note = note
+        self.navigationLatitude = navigationLatitude
+        self.navigationLongitude = navigationLongitude
+    }
 
     var phoneURL: URL? {
         guard let phoneNumber else { return nil }
@@ -57,16 +83,31 @@ struct UsefulInfo: Identifiable, Hashable {
         AppURL.from(string: websiteURL)
     }
 
+    var navigationCoordinate: CLLocationCoordinate2D? {
+        guard let navigationLatitude, let navigationLongitude else { return nil }
+        return CLLocationCoordinate2D(latitude: navigationLatitude, longitude: navigationLongitude)
+    }
+
     var canOpenNavigation: Bool {
+        if navigationCoordinate != nil { return true }
         guard let address else { return false }
         return address.isEmpty == false
     }
 
-    // Apple マップで車での案内を開く（住所から検索）
-    func openDrivingDirections() {
+    // Apple マップで車での案内を開く
+    func openDrivingDirections(islandCoordinate: CLLocationCoordinate2D?) {
+        if let navigationCoordinate {
+            AppleMapsNavigation.openDrivingDirections(name: name, coordinate: navigationCoordinate)
+            return
+        }
+
         guard let address, address.isEmpty == false else { return }
         Task {
-            await AppleMapsNavigation.openDrivingDirections(name: name, address: address)
+            await AppleMapsNavigation.openDrivingDirections(
+                name: name,
+                address: address,
+                searchRegionCenter: islandCoordinate
+            )
         }
     }
 }

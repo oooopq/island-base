@@ -169,7 +169,17 @@ enum IzuIslandProfiles {
             ),
         ],
         usefulInfo: [
-            UsefulInfo(id: "niijima-hospital", category: .medical, name: "新島病院", phoneNumber: "04992-5-2111", address: "東京都新島村本村", websiteURL: nil, note: "新島の中核病院"),
+            UsefulInfo(
+                id: "niijima-hospital",
+                category: .medical,
+                name: "新島村国民健康保険診療所（本村）",
+                phoneNumber: "04992-5-0083",
+                address: "東京都新島村本村4-10-3",
+                websiteURL: "https://www.niijima.com/facility/health-center_clinic/shinryoujo/index.html",
+                note: "若郷診療所（若郷1-5）もあり",
+                navigationLatitude: 34.3708236,
+                navigationLongitude: 139.2572467
+            ),
             UsefulInfo(id: "niijima-convenience", category: .convenience, name: "前浜港・本村周辺", phoneNumber: nil, address: "前浜港付近", websiteURL: nil, note: "コンビニ・ATMは少数"),
             UsefulInfo(id: "niijima-tourism", category: .tourism, name: "新島村観光協会", phoneNumber: "04992-5-0018", address: "東京都新島村", websiteURL: "https://www.niijima.com/", note: "サーフィン・温泉の案内"),
         ],
@@ -209,7 +219,17 @@ enum IzuIslandProfiles {
             ),
         ],
         usefulInfo: [
-            UsefulInfo(id: "shikine-clinic", category: .medical, name: "式根島診療所", phoneNumber: "04992-7-0011", address: "東京都新島村式根島", websiteURL: nil, note: nil),
+            UsefulInfo(
+                id: "shikine-clinic",
+                category: .medical,
+                name: "新島村国民健康保険診療所（式根島）",
+                phoneNumber: "04992-7-0019",
+                address: "東京都新島村式根島311-1",
+                websiteURL: "https://www.niijima.com/facility/health-center_clinic/shinryoujo/index.html",
+                note: nil,
+                navigationLatitude: 34.3263076,
+                navigationLongitude: 139.2151854
+            ),
             UsefulInfo(id: "shikine-convenience", category: .convenience, name: "野伏港周辺", phoneNumber: nil, address: "野伏港・集落", websiteURL: nil, note: "店舗は限られます"),
             UsefulInfo(id: "shikine-tourism", category: .tourism, name: "新島村観光協会（式根島）", phoneNumber: "04992-5-0018", address: "東京都新島村", websiteURL: "https://www.niijima.com/", note: "式根島は新島村に属します"),
         ],
