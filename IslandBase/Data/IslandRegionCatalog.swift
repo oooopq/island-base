@@ -70,7 +70,7 @@ enum IslandRegionCatalog {
         mapLabelJapanese: "佐渡",
         mapLabelEnglish: "Sado",
         // ピンは見やすさのため北へ（伊豆ピンと「1島」バッジが重ならないように）
-        mapAnnotationLatitude: 38.20,
+        mapAnnotationLatitude: 38.35,
         mapAnnotationLongitude: 138.437949,
         coverAssetName: "IslandBgSado",
         coverAssetCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
@@ -84,9 +84,9 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Izu Islands",
         mapLabelJapanese: "伊豆",
         mapLabelEnglish: "Izu",
-        // ピンは見やすさのため南へ（佐渡ピンと重ならないように）
-        mapAnnotationLatitude: 34.58,
-        mapAnnotationLongitude: 139.398817,
+        // ピンは見やすさのため南へ（佐渡の「1島」バッジと重ならないように）
+        mapAnnotationLatitude: 33.7,
+        mapAnnotationLongitude: 139.55,
         coverAssetName: "IslandBgIzu",
         coverAssetCredit: "Photo: Ice Tea / Unsplash（神津島・伊豆諸島）",
         ferryDataSourceNote: "ダイヤ・運航状況は東海汽船の公式サイトでご確認ください。",
@@ -130,7 +130,7 @@ enum IslandRegionCatalog {
         mapLabelJapanese: "小豆・直島",
         mapLabelEnglish: "Shodo·Nao",
         mapAnnotationLatitude: 34.95,
-        mapAnnotationLongitude: 134.88,
+        mapAnnotationLongitude: 135.5,
         coverAssetName: "IslandBgShodoshimaNaoshima",
         coverAssetCredit: "Photo: Yu / Unsplash（小豆島・香川）",
         ferryDataSourceNote: "四国フェリー・小豆島豊島フェリー・四国汽船等の公式サイトからご確認ください。",
