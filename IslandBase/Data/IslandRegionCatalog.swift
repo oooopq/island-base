@@ -69,7 +69,8 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Sado",
         mapLabelJapanese: "佐渡",
         mapLabelEnglish: "Sado",
-        mapAnnotationLatitude: 38.044270,
+        // ピンは見やすさのため北へ（伊豆ピンと「1島」バッジが重ならないように）
+        mapAnnotationLatitude: 38.20,
         mapAnnotationLongitude: 138.437949,
         coverAssetName: "IslandBgSado",
         coverAssetCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
@@ -83,7 +84,8 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Izu Islands",
         mapLabelJapanese: "伊豆",
         mapLabelEnglish: "Izu",
-        mapAnnotationLatitude: 34.737500,
+        // ピンは見やすさのため南へ（佐渡ピンと重ならないように）
+        mapAnnotationLatitude: 34.58,
         mapAnnotationLongitude: 139.398817,
         coverAssetName: "IslandBgIzu",
         coverAssetCredit: "Photo: Ice Tea / Unsplash（神津島・伊豆諸島）",
@@ -120,7 +122,7 @@ enum IslandRegionCatalog {
         ferryValidUntilSuffix: nil
     )
 
-    // ピンは見やすさのため北東へ（忽那と重ならないように）
+    // ピンは見やすさのため北東へ（忽那と重ならないよう「小」がアイコンに被らない程度に東へ）
     static let shodoshimaNaoshima = IslandRegion(
         id: "shodoshima_naoshima",
         displayNameJapanese: "小豆島・直島諸島",
@@ -128,7 +130,7 @@ enum IslandRegionCatalog {
         mapLabelJapanese: "小豆・直島",
         mapLabelEnglish: "Shodo·Nao",
         mapAnnotationLatitude: 34.95,
-        mapAnnotationLongitude: 134.75,
+        mapAnnotationLongitude: 134.88,
         coverAssetName: "IslandBgShodoshimaNaoshima",
         coverAssetCredit: "Photo: Yu / Unsplash（小豆島・香川）",
         ferryDataSourceNote: "四国フェリー・小豆島豊島フェリー・四国汽船等の公式サイトからご確認ください。",
