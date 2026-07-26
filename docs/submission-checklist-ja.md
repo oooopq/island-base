@@ -115,6 +115,16 @@
 
 ---
 
+## F2. 背景画像の出典台帳（リリース前）
+
+- [ ] [image-provenance.csv](./image-provenance.csv) の **P0** がすべて `verified` または差し替え済み
+- [ ] **IslandBgNaoshima** — 実ファイルと curated の Unsplash slug が一致（fetch_results は別候補のため注意）
+- [ ] 提供写真（黒島・波照間・八丈・犬島）— 利用許可の記録あり
+- [ ] 五島・地域カバー（IslandBgGoto 等）— Commons File 名を台帳に追記済み
+- [ ] 詳細手順: [image-provenance-checklist-ja.md](./image-provenance-checklist-ja.md)
+
+---
+
 ## G. 提出後
 
 - [ ] 審査質問が来たら、データ出典はクレジット画面と `docs` を根拠にする
