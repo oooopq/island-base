@@ -23,12 +23,12 @@ enum KutsunaIslandProfiles {
 
     // MARK: - 共有データ
 
+    // 中島汽船は公式 HTTPS がないため、松山観光港ターミナルの乗船案内へ誘導する
     private static let nakajimaKisen = FerryCompany(
-        name: "中島汽船株式会社",
-        websiteURL: "http://www.nakajimakisen.co.jp/",
+        name: "松山観光港（中島汽船便）",
+        websiteURL: "https://www.kankoko.com/contents/timetable.html",
         phoneNumber: "089-997-1221",
-        statusPageURL: "http://www.nakajimakisen.co.jp/",
-        homePageURL: "http://www.nakajimakisen.co.jp/"
+        homePageURL: "https://www.kankoko.com/"
     )
 
     private static let gogoshimaFerry = FerryCompany(
