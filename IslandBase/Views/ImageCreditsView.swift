@@ -73,7 +73,9 @@ struct ImageCreditsView: View {
                 credit: ferryCredit,
                 note: ferryNote,
                 linkTitle: "ottop.org",
-                urlString: "https://www.ottop.org/"
+                urlString: "https://www.ottop.org/",
+                secondaryLinkTitle: "CC BY 4.0",
+                secondaryURLString: "https://creativecommons.org/licenses/by/4.0/deed.ja"
             )
 
             dataSourceCard(
@@ -99,7 +101,9 @@ struct ImageCreditsView: View {
         credit: String,
         note: String,
         linkTitle: String?,
-        urlString: String?
+        urlString: String?,
+        secondaryLinkTitle: String? = nil,
+        secondaryURLString: String? = nil
     ) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
@@ -117,16 +121,31 @@ struct ImageCreditsView: View {
                 .foregroundStyle(palette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
 
-            if let linkTitle,
-               let urlString,
-               let url = AppURL.from(string: urlString) {
-                OpenURLButton(url: url) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "link")
-                        Text(linkTitle)
+            HStack(spacing: 12) {
+                if let linkTitle,
+                   let urlString,
+                   let url = AppURL.from(string: urlString) {
+                    OpenURLButton(url: url) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "link")
+                            Text(linkTitle)
+                        }
+                        .font(.caption)
+                        .foregroundStyle(palette.iconAccent)
                     }
-                    .font(.caption)
-                    .foregroundStyle(palette.iconAccent)
+                }
+
+                if let secondaryLinkTitle,
+                   let secondaryURLString,
+                   let url = AppURL.from(string: secondaryURLString) {
+                    OpenURLButton(url: url) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "link")
+                            Text(secondaryLinkTitle)
+                        }
+                        .font(.caption)
+                        .foregroundStyle(palette.iconAccent)
+                    }
                 }
             }
         }
@@ -349,14 +368,26 @@ struct ImageCreditsView: View {
 
     private var ferryCredit: String {
         isJapanese
-            ? "八重山のGTFSダイヤ提供：特定非営利活動法人OTTOP（沖縄県の公共交通オープンデータ）"
-            : "Yaeyama GTFS timetables: NPO OTTOP (Okinawa public transit open data)"
+            ? "このアプリの八重山船便時刻表は、沖縄公共交通オープンデータ（特定非営利活動法人OTTOP）が配信する GTFS データを改変して表示しています（CC BY 4.0）。"
+            : "Yaeyama ferry timetables in this app are derived from GTFS data published by NPO OTTOP (Okinawa public transit open data), modified for display (CC BY 4.0)."
     }
 
     private var ferryNote: String {
         isJapanese
-            ? "八重山以外の地域は、各運航会社の公式サイトへのリンクのみです。時刻表はアプリ内に表示しません。最新の運航状況は各運航会社の公式サイトでご確認ください。"
-            : "Outside Yaeyama, the app links to each operator’s official site only and does not show in-app timetables. Always check the operator’s site for the latest status."
+            ? """
+            利用データセット（原著作権者）：
+            ・（有）安栄観光 GTFS — OTTOP・（有）安栄観光
+            ・八重山観光フェリー（株） GTFS — OTTOP・八重山観光フェリー（株）
+            ・福山海運 GTFS — OTTOP・福山海運
+            八重山以外の地域は各運航会社の公式サイトへのリンクのみで、時刻表はアプリ内に表示しません。最新の運航状況は各運航会社の公式サイトでご確認ください。
+            """
+            : """
+            Datasets used (copyright holders):
+            ・(有) Anei Kanko GTFS — OTTOP · (有) Anei Kanko
+            ・Yaeyama Kanko Ferry Co. GTFS — OTTOP · Yaeyama Kanko Ferry Co.
+            ・Fukuyama Kaiun GTFS — OTTOP · Fukuyama Kaiun
+            Outside Yaeyama, the app links to each operator’s official site only and does not show in-app timetables. Always check the operator’s site for the latest status.
+            """
     }
 
     private var placesTitle: String {

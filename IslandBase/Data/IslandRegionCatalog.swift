@@ -59,7 +59,7 @@ enum IslandRegionCatalog {
         mapAnnotationLongitude: 124.205319,
         coverAssetName: "IslandBgIshigaki",
         coverAssetCredit: "Photo: Roméo A. / Unsplash（石垣島・川平湾）",
-        ferryDataSourceNote: "沖縄公共交通オープンデータ（OTTOP）から取得しています",
+        ferryDataSourceNote: "OTTOP 公開 GTFS を改変して表示（CC BY 4.0）。詳細は出典・クレジット参照",
         ferryValidUntilSuffix: "（OTTOP公開データ）"
     )
 

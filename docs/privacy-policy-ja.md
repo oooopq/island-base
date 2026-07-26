@@ -59,7 +59,7 @@ iOS の設定から、いつでも位置情報の許可を変更できます。
 |---|---|---|
 | Open-Meteo | 天気予報・波の高さ（一部 jma_seamless） | https://open-meteo.com/ |
 | 気象庁（JMA） | 海上警報・予報ページへのリンク（利用者がタップした場合） | https://www.jma.go.jp/ |
-| 沖縄公共交通オープンデータ（OTTOP）等 | 八重山諸島の船便ダイヤ（GTFS）のみアプリ内表示 | 各公開元に準拠 |
+| 沖縄公共交通オープンデータ（OTTOP）等 | 八重山諸島の船便ダイヤ（GTFS）のみアプリ内表示（改変利用・CC BY 4.0） | https://www.ottop.org/ ・ https://creativecommons.org/licenses/by/4.0/deed.ja |
 | Apple MapKit | 島付近の店舗・施設検索、地図表示、案内 | https://www.apple.com/legal/privacy/ |
 | Google マップ | 店舗・施設の場所表示（利用者がタップした場合） | https://policies.google.com/privacy |
 | 各運航会社・航空会社・観光サイト・YouTube 等 | 公式サイト等へのリンク（利用者がタップした場合） | リンク先各社 |
