@@ -78,7 +78,20 @@
 | 忽那 GSI | IslandBgNuwajima, IslandBgTsuwajishima, IslandBgFutagamijima |
 | 五島（**File 名要特定**） | IslandBgGoto, IslandBgFukue, IslandBgHisaka, IslandBgNaru, IslandBgWakamatsu, IslandBgNakadori |
 
-**五島の File 名の探し方（例）**
+**2026-07-26 自動照合結果**: 38/39 verified。残り1件は `IslandBgNakadori`（Commons File 名未特定。クレジット「青嵐教会」と実在の「青砂ヶ浦天主堂」の表記差の可能性あり）。照合スクリプト: `python3 scripts/verify_image_provenance.py`
+
+**五島の File 名（照合済み 2026-07-26）**
+
+| asset | Commons File 名 |
+|---|---|
+| IslandBgGoto | 頓泊海水浴場.jpg |
+| IslandBgFukue | 堂崎教会 (Dozaki Church) 18 Nov, 2013 - panoramio.jpg |
+| IslandBgHisaka | Front view of the Former Gorin Church.jpg |
+| IslandBgNaru | 江上天主堂.JPG |
+| IslandBgWakamatsu | Wakamatsu_Oohashi.JPG |
+| IslandBgNakadori | **未特定（要目視）** |
+
+**五島の File 名の探し方（例・Nakadori 向け）**
 
 - Commons で「堂崎天主堂」「旧五輪教会」「頓泊海水浴場」等を検索
 - 作者名（Hiroaki Kaneko 等）で絞り込み
