@@ -29,10 +29,10 @@ enum GotoIslandProfiles {
 
     private static let kiguchiKisen = FerryCompany(
         name: "木口汽船",
-        websiteURL: "http://www.kiguchi-kisen.jp/",
+        websiteURL: "https://www.kiguchi-kisen.jp/",
         phoneNumber: "0959-73-0003",
-        statusPageURL: "http://www.kiguchi-kisen.jp/",
-        homePageURL: "http://www.kiguchi-kisen.jp/"
+        statusPageURL: "https://www.kiguchi-kisen.jp/",
+        homePageURL: "https://www.kiguchi-kisen.jp/"
     )
 
     private static let kyushuShosen = FerryCompany(
