@@ -65,6 +65,7 @@ enum IzuIslandProfiles {
             IslandPort(name: "岡田港", latitude: 34.790559, longitude: 139.390640),
             IslandPort(name: "元町港", latitude: 34.751962, longitude: 139.352509),
         ],
+        jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgOshima",
         backgroundCredit: "Photo: Donners / Wikimedia Commons（伊豆大島）／CC BY-SA 1.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 18_000,
@@ -111,6 +112,7 @@ enum IzuIslandProfiles {
         ports: [
             IslandPort(name: "利島港", latitude: 34.532398, longitude: 139.281009),
         ],
+        jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgToshima",
         backgroundCredit: "Photo: User: (WT-shared) Shoestring / Wikimedia Commons（利島・東京）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 4_000,
@@ -149,6 +151,7 @@ enum IzuIslandProfiles {
         ports: [
             IslandPort(name: "前浜港", latitude: 34.366944, longitude: 139.244167),
         ],
+        jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgNiijima",
         backgroundCredit: "Photo: Fumiaki Hayashi / Unsplash（新島・白ママ層崖）",
         placeSearchRadiusMeters: 10_000,
@@ -205,6 +208,7 @@ enum IzuIslandProfiles {
         ports: [
             IslandPort(name: "野伏港", latitude: 34.333636, longitude: 139.215258),
         ],
+        jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgShikinejima",
         backgroundCredit: "Photo: takeakisky homma / Wikimedia Commons（式根島・泊海水浴場）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 6_000,
@@ -253,6 +257,7 @@ enum IzuIslandProfiles {
         ports: [
             IslandPort(name: "神津港", latitude: 34.210796, longitude: 139.129848),
         ],
+        jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgKozushima",
         backgroundCredit: "Photo: Ice Tea / Unsplash（神津島）",
         placeSearchRadiusMeters: 8_000,
@@ -300,6 +305,7 @@ enum IzuIslandProfiles {
             IslandPort(name: "三池港", latitude: 34.079750, longitude: 139.563624),
             IslandPort(name: "阿古港", latitude: 34.068218, longitude: 139.478162),
         ],
+        jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgMiyakejima",
         backgroundCredit: "Photo: Marek Okon / Unsplash（三宅島）",
         placeSearchRadiusMeters: 12_000,
@@ -340,6 +346,7 @@ enum IzuIslandProfiles {
         ports: [
             IslandPort(name: "御蔵島港", latitude: 33.897239, longitude: 139.589880),
         ],
+        jmaMarineForecastArea: .kantoSouth,
         backgroundAssetName: "IslandBgMikurajima",
         backgroundCredit: "Photo: 名古屋太郎 / Wikimedia Commons（御蔵島）／Public domain／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 5_000,
@@ -379,6 +386,7 @@ enum IzuIslandProfiles {
             IslandPort(name: "八重根港", latitude: 33.097875, longitude: 139.769695),
             IslandPort(name: "底土港", latitude: 33.123615, longitude: 139.821233),
         ],
+        jmaMarineForecastArea: .kantoSouth,
         backgroundAssetName: "IslandBgHachijojima",
         backgroundCredit: "Photo: Tomoyuki Shidara（八丈島）",
         placeSearchRadiusMeters: 15_000,

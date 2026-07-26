@@ -92,6 +92,8 @@ enum AppText {
     case offlineFerryFallback
     case offlinePlaces
     case creditsAndSources
+    case jmaMarineForecastLink(String)
+    case jmaMarineForecastNote
     case themeToggleHint
     case languageToggleHint
 
@@ -270,6 +272,10 @@ enum AppText {
             return "電波がないためスポットを取得できませんでした"
         case .creditsAndSources:
             return "クレジット・出典"
+        case .jmaMarineForecastLink(let areaName):
+            return "気象庁 海上予報（\(areaName)）"
+        case .jmaMarineForecastNote:
+            return "出航前の公式確認用です。アプリ内の波の高さ（Open-Meteo）とは別ソースです。"
         case .themeToggleHint:
             return "画面の明るさを切り替えます"
         case .languageToggleHint:
@@ -451,6 +457,10 @@ enum AppText {
             return "Couldn’t load places — little or no signal"
         case .creditsAndSources:
             return "Credits & sources"
+        case .jmaMarineForecastLink(let areaName):
+            return "JMA marine forecast (\(areaName))"
+        case .jmaMarineForecastNote:
+            return "Official reference before sailing. In-app wave height (Open-Meteo) is a different source."
         case .themeToggleHint:
             return "Toggle light or dark appearance"
         case .languageToggleHint:

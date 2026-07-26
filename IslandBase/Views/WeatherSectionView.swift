@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WeatherSectionView: View {
     let state: WeatherLoadState
+    let jmaMarineForecastArea: JMAMarineForecastArea
 
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
@@ -60,6 +61,7 @@ struct WeatherSectionView: View {
             }
 
             openMeteoAttribution
+            JMAMarineForecastLinkView(area: jmaMarineForecastArea)
         }
         .detailSectionCard()
     }
@@ -324,7 +326,8 @@ struct WeatherSectionView: View {
                 }
             ),
             isFromCache: false
-        )
+        ),
+        jmaMarineForecastArea: .okinawaSouth
     )
     .padding()
 }

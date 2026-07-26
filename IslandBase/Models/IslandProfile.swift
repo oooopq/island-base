@@ -53,6 +53,8 @@ struct IslandProfile: Identifiable {
     let island: Island
     let regionID: String
     let ports: [IslandPort]
+    /// 気象庁「海上警報・予報」の細分海域（島ごとに指定）
+    let jmaMarineForecastArea: JMAMarineForecastArea
     /// 天気取得地点の上書き（nil なら先頭の港・低標高を使用）
     let weatherLocation: IslandWeatherLocation?
     let backgroundAssetName: String
@@ -151,6 +153,7 @@ struct IslandProfile: Identifiable {
         island: Island,
         regionID: String,
         ports: [IslandPort],
+        jmaMarineForecastArea: JMAMarineForecastArea,
         weatherLocation: IslandWeatherLocation? = nil,
         backgroundAssetName: String,
         backgroundCredit: String,
@@ -170,6 +173,7 @@ struct IslandProfile: Identifiable {
         self.island = island
         self.regionID = regionID
         self.ports = ports
+        self.jmaMarineForecastArea = jmaMarineForecastArea
         self.weatherLocation = weatherLocation
         self.backgroundAssetName = backgroundAssetName
         self.backgroundCredit = backgroundCredit

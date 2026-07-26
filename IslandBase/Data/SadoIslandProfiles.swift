@@ -45,6 +45,7 @@ enum SadoIslandProfiles {
             IslandPort(name: "両津港", latitude: 38.081653, longitude: 138.438069),
             IslandPort(name: "小木港", latitude: 37.816271, longitude: 138.282232),
         ],
+        jmaMarineForecastArea: .sadoOffshore,
         backgroundAssetName: "IslandBgSado",
         backgroundCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 18_000,

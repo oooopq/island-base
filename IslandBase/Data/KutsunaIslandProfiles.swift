@@ -70,6 +70,7 @@ enum KutsunaIslandProfiles {
             IslandPort(name: "神浦港", latitude: 33.949661, longitude: 132.603977),
             IslandPort(name: "西中港", latitude: 33.984307, longitude: 132.604786),
         ],
+        jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNakajima",
         backgroundCredit: "Photo: melvil / Wikimedia Commons（中島・網明海岸）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 10_000,
@@ -116,6 +117,7 @@ enum KutsunaIslandProfiles {
             IslandPort(name: "由良港", latitude: 33.902807, longitude: 132.681645),
             IslandPort(name: "泊港", latitude: 33.882132, longitude: 132.680514),
         ],
+        jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgGogoshima",
         backgroundCredit: "Photo: Reggaeman / Wikimedia Commons（興居島）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 6_000,
@@ -159,6 +161,7 @@ enum KutsunaIslandProfiles {
         ports: [
             IslandPort(name: "睦月港", latitude: 33.956442, longitude: 132.665515),
         ],
+        jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgMuzukijima",
         backgroundCredit: "Photo: melvil / Wikimedia Commons（睦月島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 5_000,
@@ -202,6 +205,7 @@ enum KutsunaIslandProfiles {
         ports: [
             IslandPort(name: "野忽那港", latitude: 33.975424, longitude: 132.688247),
         ],
+        jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNogutsunajima",
         backgroundCredit: "Photo: 全樺連 / Wikimedia Commons（野忽那島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 4_000,
@@ -246,6 +250,7 @@ enum KutsunaIslandProfiles {
             IslandPort(name: "上怒和港", latitude: 33.986633, longitude: 132.557480),
             IslandPort(name: "元怒和港", latitude: 33.974775, longitude: 132.540551),
         ],
+        jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNuwajima",
         backgroundCredit: "Photo: 国土地理院 / Wikimedia Commons（怒和島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 5_000,
@@ -289,6 +294,7 @@ enum KutsunaIslandProfiles {
         ports: [
             IslandPort(name: "津和地港", latitude: 33.983116, longitude: 132.516270),
         ],
+        jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgTsuwajishima",
         backgroundCredit: "Photo: 国土地理院 / Wikimedia Commons（津和地島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 4_000,
@@ -332,6 +338,7 @@ enum KutsunaIslandProfiles {
         ports: [
             IslandPort(name: "二神港", latitude: 33.933428, longitude: 132.537155),
         ],
+        jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgFutagamijima",
         backgroundCredit: "Photo: 国土地理院 / Wikimedia Commons（二神島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 3_000,
@@ -375,6 +382,7 @@ enum KutsunaIslandProfiles {
         ports: [
             IslandPort(name: "釣島港", latitude: 33.894317, longitude: 132.639913),
         ],
+        jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgTsurushima",
         backgroundCredit: "Photo: Ka23 13 / Wikimedia Commons（釣島）／CC BY 4.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 2_000,
@@ -412,6 +420,7 @@ enum KutsunaIslandProfiles {
         ports: [
             IslandPort(name: "安居島港", latitude: 34.068059, longitude: 132.705669),
         ],
+        jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgAijima",
         backgroundCredit: "Photo: 全樺連 / Wikimedia Commons（安居島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 2_000,
