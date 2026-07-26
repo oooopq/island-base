@@ -41,12 +41,12 @@
 
 ## P0 — リリース前に必ず確認（ブロッカー候補）
 
-### A. fetch_results と curated が食い違う（最優先）
+### A. fetch_results と curated の食い違い — 解消済み（2026-07-26）
 
-| asset | 問題 | 確認手順 |
-|---|---|---|
-| **IslandBgNaoshima** | `fetch_results.json` は Jess o'Hanley（猫の写真）。`download_curated_islands.py` は Rahil Chadha / `a-yellow-and-black-fruit-3ItvceJh4hY` | 1. [原典 URL](https://unsplash.com/photos/a-yellow-and-black-fruit-3ItvceJh4hY) を開く 2. `naoshima.jpg` と並べて同一か確認 3. 直島の風景として妥当か判断 4. 不一致なら差し替え |
-| **IslandBgTsurushima** | `fetch_results.json` は Unsplash / Seungji Ryu。実際は Wikimedia / Ka23 13 | **fetch_results は無視**。 [Commons 原典](https://commons.wikimedia.org/wiki/File:Tsurushima_20180814_162343.jpg) と `tsurushima.jpg` を照合 |
+| asset | 結果 |
+|---|---|
+| **IslandBgNaoshima** | `naoshima.jpg` と Unsplash（Rahil Chadha / `a-yellow-and-black-fruit-3ItvceJh4hY`）を照合し **一致**。旧 fetch 候補（猫の写真）は未採用 |
+| **IslandBgTsurushima** | `tsurushima.jpg` と Wikimedia（Ka23 13 / `Tsurushima_20180814_162343.jpg`）を照合し **一致**。旧 fetch 候補（Unsplash）は未採用 |
 
 ### B. 自作写真（開発者撮影）— 確認済み
 
@@ -115,11 +115,10 @@
 ## 確認の進め方（推奨順）
 
 ```
-1. P0-A（Naoshima・Tsurushima）     ← 不一致リスク最大
-2. P0-C 五島（6 枚）                ← File 名特定から
-3. P0-C その他 Wikimedia（約 16 枚）
-4. P1 Unsplash（10 件）
-5. P2 自作写真・アイコン（6 件）    ← 4 枚は verified 済み
+1. P0-C 五島（6 枚）                ← File 名特定から
+2. P0-C その他 Wikimedia（約 16 枚）
+3. P1 Unsplash（残り）
+4. P2 自作写真・アイコン（6 件）
 ```
 
 1日あたり 10〜15 枚ペースなら、**P0+P1 は 2〜3 日**が目安です。
