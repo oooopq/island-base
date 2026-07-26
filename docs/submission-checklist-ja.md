@@ -1,6 +1,6 @@
 # App Store 提出前チェックリスト（Island Base）
 
-最終更新: 2026年7月22日
+最終更新: 2026年7月26日
 
 提出ビルドを作る前に、上から順に確認してください。  
 （コード作業と Connect 作業が混在しています）
@@ -15,7 +15,7 @@
 - 利用規約: https://oooopq.github.io/island-base/terms-of-service.html
 - トップ: https://oooopq.github.io/island-base/
 
-- [ ] 上記3 URL をブラウザで開き、**2026年7月22日** 以降の内容になっている
+- [ ] 上記3 URL をブラウザで開き、**2026年7月26日** 以降の内容になっている
 - [ ] `docs/` の HTML を更新したあと、GitHub Pages（`main` / `docs`）へ **プッシュ済み**（反映に数分かかることがある）
 - [ ] アプリ内 `AppLegalInfo` が `oooopq.github.io/island-base` を指している
 - [ ] App Store Connect のプライバシーポリシー URL に上記を入力した

@@ -61,6 +61,14 @@ struct ImageCreditsView: View {
             )
 
             dataSourceCard(
+                title: jmaMarineTitle,
+                credit: jmaMarineCredit,
+                note: jmaMarineNote,
+                linkTitle: "jma.go.jp（海上警報・予報）",
+                urlString: "https://www.jma.go.jp/bosai/seawarning/"
+            )
+
+            dataSourceCard(
                 title: ferryTitle,
                 credit: ferryCredit,
                 note: ferryNote,
@@ -75,6 +83,14 @@ struct ImageCreditsView: View {
                 linkTitle: "Apple Maps / MapKit",
                 urlString: "https://www.apple.com/maps/"
             )
+
+            dataSourceCard(
+                title: externalLinksTitle,
+                credit: externalLinksCredit,
+                note: externalLinksNote,
+                linkTitle: nil,
+                urlString: nil
+            )
         }
     }
 
@@ -82,8 +98,8 @@ struct ImageCreditsView: View {
         title: String,
         credit: String,
         note: String,
-        linkTitle: String,
-        urlString: String
+        linkTitle: String?,
+        urlString: String?
     ) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
@@ -101,7 +117,9 @@ struct ImageCreditsView: View {
                 .foregroundStyle(palette.secondaryText)
                 .fixedSize(horizontal: false, vertical: true)
 
-            if let url = AppURL.from(string: urlString) {
+            if let linkTitle,
+               let urlString,
+               let url = AppURL.from(string: urlString) {
                 OpenURLButton(url: url) {
                     HStack(spacing: 4) {
                         Image(systemName: "link")
@@ -285,8 +303,8 @@ struct ImageCreditsView: View {
 
     private var introBody: String {
         isJapanese
-            ? "このアプリでは、天気・波の高さ・船便ダイヤ・店舗情報などのデータと、各島の背景画像を、以下の提供元から利用しています。"
-            : "This app uses weather, wave height, ferry timetables, place data, and island background images from the sources below."
+            ? "このアプリでは、天気・波の高さ・気象庁の海上予報リンク・船便・店舗情報などのデータと、各島の背景画像を、以下の提供元から利用しています。"
+            : "This app uses weather, wave height, JMA marine forecast links, ferry info, place data, and island background images from the sources below."
     }
 
     private var introNote: String {
@@ -305,8 +323,24 @@ struct ImageCreditsView: View {
 
     private var weatherNote: String {
         isJapanese
-            ? "Open-Meteo の天気・海洋データ（CC BY 4.0 ライセンス）を利用しています。"
-            : "Uses Open-Meteo weather and marine data (CC BY 4.0)."
+            ? "Open-Meteo の天気・海洋データ（CC BY 4.0）を利用しています。一部地域は気象庁 seamless モデル（jma_seamless）を指定しています。"
+            : "Uses Open-Meteo weather and marine data (CC BY 4.0). Some regions use the JMA seamless model (jma_seamless)."
+    }
+
+    private var jmaMarineTitle: String {
+        isJapanese ? "海上予報（気象庁）" : "Marine forecast (JMA)"
+    }
+
+    private var jmaMarineCredit: String {
+        isJapanese
+            ? "気象庁「海上警報・予報」の公式ページへ、島ごとの細分海域リンクを表示しています。"
+            : "Links to the Japan Meteorological Agency marine warning/forecast pages by sub-area."
+    }
+
+    private var jmaMarineNote: String {
+        isJapanese
+            ? "出航前の公式確認用です。アプリ内の波の高さ（Open-Meteo）とは別ソースです。"
+            : "For official pre-departure checks. Separate from in-app wave height (Open-Meteo)."
     }
 
     private var ferryTitle: String {
@@ -331,14 +365,30 @@ struct ImageCreditsView: View {
 
     private var placesCredit: String {
         isJapanese
-            ? "島付近の飲食店・宿・商店などの検索結果は Apple マップ（MapKit）のデータを表示しています。"
-            : "Nearby restaurants, lodging, and shops come from Apple Maps (MapKit)."
+            ? "島付近の飲食店・宿・商店などの検索結果は Apple マップ（MapKit）のデータを表示しています。各店舗から Google マップを開くリンクも提供しています。"
+            : "Nearby restaurants, lodging, and shops come from Apple Maps (MapKit). Each place may also link to Google Maps."
     }
 
     private var placesNote: String {
         isJapanese
-            ? "営業時間・休業・存在の正確性は保証しません。詳細は Apple マップまたは各店舗でご確認ください。"
-            : "Hours, closures, and accuracy are not guaranteed. Confirm in Apple Maps or with the business."
+            ? "営業時間・休業・存在の正確性は保証しません。詳細は Apple マップ・Google マップまたは各店舗でご確認ください。"
+            : "Hours, closures, and accuracy are not guaranteed. Confirm in Apple Maps, Google Maps, or with the business."
+    }
+
+    private var externalLinksTitle: String {
+        isJapanese ? "外部リンク・ナビ" : "External links & navigation"
+    }
+
+    private var externalLinksCredit: String {
+        isJapanese
+            ? "船便・航空便・観光案内・ライブカメラ（YouTube 等）・お役立ち情報の Web サイト・Apple マップ／Google マップでの案内は、各リンク先のサービスを開きます。"
+            : "Ferry/flight/tourism pages, live cameras (e.g. YouTube), useful-info websites, and Apple Maps / Google Maps directions open each provider’s service."
+    }
+
+    private var externalLinksNote: String {
+        isJapanese
+            ? "リンク先の内容・料金・可用性は各提供者の責任です。本アプリは予約・運航・医療等のサービスを提供しません。"
+            : "Linked content, pricing, and availability are each provider’s responsibility. This app does not provide booking, operations, or medical services."
     }
 
     private var sectionTitleRegionCovers: String {
