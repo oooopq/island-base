@@ -14,9 +14,17 @@ final class IslandSavedPhotoStore {
     /// 1島あたりの保存上限
     static let maxPhotosPerIsland = 20
 
+    /// 本画像の長辺上限（ダイヤ文字が読める程度）
+    private static let maxFullImageLongEdge: CGFloat = 1600
+    /// グリッド用サムネイルの長辺上限
+    private static let maxThumbnailLongEdge: CGFloat = 300
+    private static let fullJPEGQuality: CGFloat = 0.80
+    private static let thumbnailJPEGQuality: CGFloat = 0.75
+
     private(set) var photos: [IslandSavedPhoto] = []
 
     private let fileManager = FileManager.default
+    private let thumbnailCache = NSCache<NSString, UIImage>()
 
     var canAddPhoto: Bool {
         photos.count < Self.maxPhotosPerIsland
@@ -47,13 +55,20 @@ final class IslandSavedPhotoStore {
 
         let photoID = UUID().uuidString
         let fileName = "\(photoID).jpg"
+        let thumbFileName = Self.thumbnailFileName(for: fileName)
         let fileURL = photoFileURL(islandID: islandID, fileName: fileName)
+        let thumbURL = photoFileURL(islandID: islandID, fileName: thumbFileName)
 
-        guard let data = image.jpegData(compressionQuality: 0.85) else { return false }
+        let resizedFull = Self.resize(image, maxLongEdge: Self.maxFullImageLongEdge)
+        guard let data = resizedFull.jpegData(compressionQuality: Self.fullJPEGQuality) else { return false }
+
+        let thumb = Self.resize(resizedFull, maxLongEdge: Self.maxThumbnailLongEdge)
+        guard let thumbData = thumb.jpegData(compressionQuality: Self.thumbnailJPEGQuality) else { return false }
 
         do {
             try fileManager.createDirectory(at: islandPhotosDirectory(islandID: islandID), withIntermediateDirectories: true)
             try data.write(to: fileURL, options: .atomic)
+            try thumbData.write(to: thumbURL, options: .atomic)
 
             var manifest = loadManifest(for: islandID)
             let photo = IslandSavedPhoto(
@@ -66,9 +81,11 @@ final class IslandSavedPhotoStore {
             manifest.append(photo)
             try saveManifest(manifest, for: islandID)
             photos = manifest.sorted { $0.createdAt > $1.createdAt }
+            thumbnailCache.setObject(thumb, forKey: photoID as NSString)
             return true
         } catch {
             try? fileManager.removeItem(at: fileURL)
+            try? fileManager.removeItem(at: thumbURL)
             return false
         }
     }
@@ -88,7 +105,10 @@ final class IslandSavedPhotoStore {
 
     func deletePhoto(_ photo: IslandSavedPhoto) {
         let fileURL = photoFileURL(islandID: photo.islandID, fileName: photo.fileName)
+        let thumbURL = thumbnailFileURL(for: photo)
         try? fileManager.removeItem(at: fileURL)
+        try? fileManager.removeItem(at: thumbURL)
+        thumbnailCache.removeObject(forKey: photo.id as NSString)
 
         var manifest = loadManifest(for: photo.islandID)
         manifest.removeAll { $0.id == photo.id }
@@ -96,10 +116,48 @@ final class IslandSavedPhotoStore {
         photos = manifest.sorted { $0.createdAt > $1.createdAt }
     }
 
-    func image(for photo: IslandSavedPhoto) -> UIImage? {
+    /// グリッド表示用の小さなサムネイル（バックグラウンドで読み込み）
+    func thumbnail(for photo: IslandSavedPhoto) async -> UIImage? {
+        let cacheKey = photo.id as NSString
+        if let cached = thumbnailCache.object(forKey: cacheKey) {
+            return cached
+        }
+
+        let thumbURL = thumbnailFileURL(for: photo)
+        let fullURL = photoFileURL(islandID: photo.islandID, fileName: photo.fileName)
+
+        let image = await Task.detached(priority: .userInitiated) { () -> UIImage? in
+            if let data = try? Data(contentsOf: thumbURL),
+               let thumbnail = UIImage(data: data) {
+                return thumbnail
+            }
+
+            // 旧データ用：本画像からサムネを生成して保存する
+            guard let data = try? Data(contentsOf: fullURL),
+                  let fullImage = UIImage(data: data) else {
+                return nil
+            }
+
+            let generated = Self.resize(fullImage, maxLongEdge: Self.maxThumbnailLongEdge)
+            if let thumbData = generated.jpegData(compressionQuality: Self.thumbnailJPEGQuality) {
+                try? thumbData.write(to: thumbURL, options: .atomic)
+            }
+            return generated
+        }.value
+
+        if let image {
+            thumbnailCache.setObject(image, forKey: cacheKey)
+        }
+        return image
+    }
+
+    /// 全画面表示用の本画像（バックグラウンドで読み込み）
+    func fullImage(for photo: IslandSavedPhoto) async -> UIImage? {
         let fileURL = photoFileURL(islandID: photo.islandID, fileName: photo.fileName)
-        guard let data = try? Data(contentsOf: fileURL) else { return nil }
-        return UIImage(data: data)
+        return await Task.detached(priority: .userInitiated) { () -> UIImage? in
+            guard let data = try? Data(contentsOf: fileURL) else { return nil }
+            return UIImage(data: data)
+        }.value
     }
 
     private func ensureStorageDirectoryExists() {
@@ -116,6 +174,31 @@ final class IslandSavedPhotoStore {
 
     private func photoFileURL(islandID: String, fileName: String) -> URL {
         islandPhotosDirectory(islandID: islandID).appendingPathComponent(fileName)
+    }
+
+    private func thumbnailFileURL(for photo: IslandSavedPhoto) -> URL {
+        photoFileURL(
+            islandID: photo.islandID,
+            fileName: Self.thumbnailFileName(for: photo.fileName)
+        )
+    }
+
+    private nonisolated static func thumbnailFileName(for fileName: String) -> String {
+        let base = (fileName as NSString).deletingPathExtension
+        return "\(base)-thumb.jpg"
+    }
+
+    private nonisolated static func resize(_ image: UIImage, maxLongEdge: CGFloat) -> UIImage {
+        let size = image.size
+        let longEdge = max(size.width, size.height)
+        guard longEdge > maxLongEdge else { return image }
+
+        let scale = maxLongEdge / longEdge
+        let newSize = CGSize(width: size.width * scale, height: size.height * scale)
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: newSize))
+        }
     }
 
     private func loadManifest(for islandID: String) -> [IslandSavedPhoto] {

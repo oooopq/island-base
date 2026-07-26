@@ -16,6 +16,8 @@ struct IslandSavedPhotoViewerView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var noteText: String = ""
+    @State private var fullImage: UIImage?
+    @State private var didFinishLoadingFullImage = false
     @FocusState private var isNoteFocused: Bool
 
     var body: some View {
@@ -56,6 +58,11 @@ struct IslandSavedPhotoViewerView: View {
             .onAppear {
                 noteText = photo.note
             }
+            .task(id: photo.id) {
+                didFinishLoadingFullImage = false
+                fullImage = await store.fullImage(for: photo)
+                didFinishLoadingFullImage = true
+            }
             .onDisappear {
                 saveNoteIfNeeded()
             }
@@ -64,22 +71,25 @@ struct IslandSavedPhotoViewerView: View {
 
     @ViewBuilder
     private var photoContent: some View {
-        if let image = store.image(for: photo) {
+        if let fullImage {
             ScrollView {
-                Image(uiImage: image)
+                Image(uiImage: fullImage)
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
             }
             .scrollDismissesKeyboard(.interactively)
-        } else {
+        } else if didFinishLoadingFullImage {
             ContentUnavailableView(
                 "写真を開けません",
                 systemImage: "photo",
                 description: Text("保存データが見つかりませんでした")
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 

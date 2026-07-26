@@ -144,21 +144,11 @@ struct IslandSavedPhotosSectionView: View {
             viewingPhoto = photo
         } label: {
             VStack(alignment: .leading, spacing: 4) {
-                if let image = store.image(for: photo) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: thumbnailHeight)
-                        .clipped()
-                } else {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(palette.chipBackground(isSelected: false))
-                        .frame(height: thumbnailHeight)
-                        .overlay {
-                            Image(systemName: "photo")
-                                .foregroundStyle(palette.secondaryText)
-                        }
-                }
+                SavedPhotoThumbnailView(
+                    photo: photo,
+                    store: store,
+                    height: thumbnailHeight
+                )
 
                 Text(formattedDate(photo.createdAt))
                     .font(.caption2)
