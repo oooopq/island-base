@@ -473,13 +473,13 @@ struct ImageCreditsView: View {
     }
 
     private var providedPhotoTitle: String {
-        isJapanese ? "提供写真" : "Provided photos"
+        isJapanese ? "自作写真（開発者撮影）" : "Original photos (developer)"
     }
 
     private var providedPhotoBody: String {
         isJapanese
-            ? "黒島・波照間島・八丈島および犬島の背景画像は、提供写真としてクレジットを表示しています。第三者の素材として再配布するものではありません。"
-            : "Backgrounds for Kuroshima, Hateruma, Hachijojima, and Inujima are provided photos with credit shown. They are not redistributed as third-party stock."
+            ? "黒島・波照間島・八丈島・犬島の背景画像は、アプリ開発者（Tomoyuki Shidara）が撮影したものです。第三者の画像素材は使用していません。"
+            : "Backgrounds for Kuroshima, Hateruma, Hachijojima, and Inujima were taken by the app developer (Tomoyuki Shidara). No third-party image assets are used for these islands."
     }
 
     private var photoNotesTitle: String {

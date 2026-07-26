@@ -33,9 +33,9 @@
 
 | 優先度 | 件数（目安） | いつまでに | 理由 |
 |---|---|---|---|
-| **P0** | 約 28 | **リリース前必須** | CC 義務・提供写真・台帳未登録・fetch 不一致 |
+| **P0** | 約 24 | **リリース前必須** | CC 義務・台帳未登録・fetch 不一致 |
 | **P1** | 約 9 | リリース前推奨 | Unsplash（slug あり）。目視一致確認 |
-| **P2** | 2 | 余裕があれば | 自作アイコン類 |
+| **P2** | 6 | 確認済みまたは低リスク | 自作写真 4 枚（verified）・アイコン 2 枚 |
 
 ---
 
@@ -48,14 +48,16 @@
 | **IslandBgNaoshima** | `fetch_results.json` は Jess o'Hanley（猫の写真）。`download_curated_islands.py` は Rahil Chadha / `a-yellow-and-black-fruit-3ItvceJh4hY` | 1. [原典 URL](https://unsplash.com/photos/a-yellow-and-black-fruit-3ItvceJh4hY) を開く 2. `naoshima.jpg` と並べて同一か確認 3. 直島の風景として妥当か判断 4. 不一致なら差し替え |
 | **IslandBgTsurushima** | `fetch_results.json` は Unsplash / Seungji Ryu。実際は Wikimedia / Ka23 13 | **fetch_results は無視**。 [Commons 原典](https://commons.wikimedia.org/wiki/File:Tsurushima_20180814_162343.jpg) と `tsurushima.jpg` を照合 |
 
-### B. 提供写真（権利記録がコード外）
+### B. 自作写真（開発者撮影）— 確認済み
 
-| asset | 作者 | 確認手順 |
+| asset | 作者 | 状態 |
 |---|---|---|
-| IslandBgKuroshima | Tomoyuki Shidara | 利用許可の記録（日付・範囲）をメモまたはメール保存 |
+| IslandBgKuroshima | Tomoyuki Shidara | `verified`（台帳・クレジット画面に記載） |
 | IslandBgHateruma | Tomoyuki Shidara | 同上 |
-| IslandBgHachijojima | Tomoyuki Shidara | 同上（curated 未登録） |
-| IslandBgInujima | Tomoyuki Shidara / 犬島精錬所美術館 | 美術館・提供者の許可範囲を確認 |
+| IslandBgHachijojima | Tomoyuki Shidara | 同上 |
+| IslandBgInujima | Tomoyuki Shidara | 同上 |
+
+島詳細のクレジットは `Photo: Tomoyuki Shidara（島名）`。アプリ内の「自作写真（開発者撮影）」セクションで説明。
 
 ### C. Wikimedia Commons（CC / GSI）— 作者・ライセンス・ファイル一致
 
@@ -114,11 +116,10 @@
 
 ```
 1. P0-A（Naoshima・Tsurushima）     ← 不一致リスク最大
-2. P0-B（提供写真 4 枚）            ← 許可記録
-3. P0-C 五島（6 枚）                ← File 名特定から
-4. P0-C その他 Wikimedia（約 16 枚）
-5. P1 Unsplash（10 件）
-6. P2 アイコン（2 件）
+2. P0-C 五島（6 枚）                ← File 名特定から
+3. P0-C その他 Wikimedia（約 16 枚）
+4. P1 Unsplash（10 件）
+5. P2 自作写真・アイコン（6 件）    ← 4 枚は verified 済み
 ```
 
 1日あたり 10〜15 枚ペースなら、**P0+P1 は 2〜3 日**が目安です。

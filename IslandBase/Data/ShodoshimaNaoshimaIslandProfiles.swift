@@ -235,7 +235,7 @@ enum ShodoshimaNaoshimaIslandProfiles {
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgInujima",
-        backgroundCredit: "Photo: Tomoyuki Shidara / 犬島精錬所美術館（提供写真）",
+        backgroundCredit: "Photo: Tomoyuki Shidara（犬島）",
         placeSearchRadiusMeters: 3_000,
         onIslandRadiusMeters: 2_500,
         routeKeywords: ["犬島", "犬島精錬所", "瀬戸内市"],

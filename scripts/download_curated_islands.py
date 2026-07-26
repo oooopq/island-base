@@ -31,7 +31,7 @@ CURATED = [
     ("IslandBgKozushima", "kozushima.jpg", "unsplash_slug", "green-and-brown-plant-on-gray-rock-formation-near-blue-sea-during-daytime-i8bg_aTGloQ", "Photo: Ice Tea / Unsplash（神津島）"),
     ("IslandBgMiyakejima", "miyakejima.jpg", "unsplash_slug", "brown-rock-formation-on-body-of-water-during-daytime-kCsD88x1AM8", "Photo: Marek Okon / Unsplash（三宅島）"),
     ("IslandBgMikurajima", "mikurajima.jpg", "wiki", "Wharf_in_Mikurajima.jpg", "Photo: 名古屋太郎 / Wikimedia Commons（御蔵島）／Public domain／表示時に暗色グラデーションを追加"),
-    # 八丈島は提供写真（Assets 内を手動管理）
+    # 八丈島は開発者の自作写真（Assets 内を手動管理）
     # 忽那諸島 — Wikimedia
     ("IslandBgNakajima", "nakajima.jpg", "wiki", "Amiage-_Beach.jpg", "Photo: melvil / Wikimedia Commons（中島・網明海岸）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
     ("IslandBgGogoshima", "gogoshima.jpg", "wiki", "Gogoshima_01.JPG", "Photo: Reggaeman / Wikimedia Commons（興居島）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),

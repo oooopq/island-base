@@ -119,7 +119,7 @@
 
 - [ ] [image-provenance.csv](./image-provenance.csv) の **P0** がすべて `verified` または差し替え済み
 - [ ] **IslandBgNaoshima** — 実ファイルと curated の Unsplash slug が一致（fetch_results は別候補のため注意）
-- [ ] 提供写真（黒島・波照間・八丈・犬島）— 利用許可の記録あり
+- [ ] 自作写真（黒島・波照間・八丈・犬島）— 開発者撮影として台帳・クレジット画面に記載済み
 - [ ] 五島・地域カバー（IslandBgGoto 等）— Commons File 名を台帳に追記済み
 - [ ] 詳細手順: [image-provenance-checklist-ja.md](./image-provenance-checklist-ja.md)
 
