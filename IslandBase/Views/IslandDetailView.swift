@@ -351,7 +351,8 @@ struct IslandDetailView: View {
 
         do {
             let weather = try await fetchWeatherWithTimeout(hasCache: hasCache)
-            weatherState = .loaded(weather, isFromCache: false)
+            // Pages 由来は常にサーバー側キャッシュなので更新時刻を表示する
+            weatherState = .loaded(weather, isFromCache: true)
         } catch is CancellationError {
             return
         } catch NetworkTimeout.TimeoutError.timedOut {
@@ -480,20 +481,16 @@ struct IslandDetailView: View {
     }
 
     private func fetchWeatherWithTimeout(hasCache: Bool) async throws -> WeatherInfo {
-        if hasCache {
-            return try await weatherService.fetchWeather(for: island)
-        }
-
         let fetch = {
-            try await NetworkTimeout.withTimeout(seconds: NetworkTimeout.weatherSeconds) {
+            try await NetworkTimeout.withTimeout(seconds: NetworkTimeout.weatherPagesSeconds) {
                 try await weatherService.fetchWeather(for: island)
             }
         }
 
         do {
             return try await fetch()
-        } catch NetworkTimeout.TimeoutError.timedOut {
-            // Open-Meteo が遅いときがあるため、1回だけ再試行する
+        } catch NetworkTimeout.TimeoutError.timedOut where !hasCache {
+            // キャッシュがないときだけ 1 回再試行（キャッシュありは早めに諦めて表示を維持）
             return try await fetch()
         }
     }

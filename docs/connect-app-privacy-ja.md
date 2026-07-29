@@ -1,6 +1,6 @@
 # App Store Connect「App のプライバシー」入力手順（Island Base）
 
-最終更新: 2026年7月22日
+最終更新: 2026年7月29日
 
 本アプリの実装（2026年7月時点）に合わせた申告の目安です。Connect の画面文言は Apple の更新で変わることがあります。
 
@@ -10,7 +10,8 @@
 
 - **開発者のサーバーへ個人データを送らない**（アカウントなし、Analytics なし、広告 SDK なし）
 - 位置情報・写真は **端末内** でのみ利用
-- 天気・店舗・GTFS 取得時は **端末から各第三者 API へ直接** 通信（IP 等が各社に届く可能性はあるが、当方が「収集」するわけではない）
+- **天気** — 利用者の端末は当方が GitHub Pages で配信する天気キャッシュ JSON を取得（データ出典は Open-Meteo。端末から Open-Meteo へは直接通信しません）
+- **店舗・GTFS** — 端末から Apple MapKit や公開 GTFS 等へ直接通信（IP 等が各社に届く可能性はあるが、当方が「収集」するわけではない）
 
 ---
 
@@ -36,7 +37,7 @@ Connect で「収集するデータタイプ」を選ぶ形式の場合、**当�
 | 識別子（メール等） | いいえ | いいえ | 未使用 |
 | 使用状況・診断 | いいえ | いいえ | クラッシュレポーター未実装 |
 
-**注意:** 「収集しない」とは **開発者がユーザーデータを取得してサーバーに保持しない** という意味です。Open-Meteo や Apple への通信は、Apple の質問では別カテゴリ（第三者処理）として説明されることがあります。不明な選択肢は「データを収集しない」に近い方を選び、審査メモで補足してもよいです。
+**注意:** 「収集しない」とは **開発者がユーザーデータを取得してサーバーに保持しない** という意味です。GitHub Pages・Apple MapKit 等への通信は、Apple の質問では別カテゴリ（第三者処理）として説明されることがあります。不明な選択肢は「データを収集しない」に近い方を選び、審査メモで補足してもよいです。
 
 ---
 
@@ -54,7 +55,7 @@ Connect で「収集するデータタイプ」を選ぶ形式の場合、**当�
 
 - [ ] `PrivacyInfo.xcprivacy` がビルドに含まれている
 - [ ] プライバシーポリシー URL: https://oooopq.github.io/island-base/privacy-policy.html がブラウザで開く
-- [ ] ポリシー本文が位置情報・写真メモ・第三者通信を説明している
+- [ ] ポリシー本文が位置情報・写真メモ・第三者通信（GitHub Pages 天気キャッシュ含む）を説明している
 - [ ] アプリ内 ℹ️ から同じ URL が開ける
 
 ---
@@ -62,5 +63,5 @@ Connect で「収集するデータタイプ」を選ぶ形式の場合、**当�
 ## 審査で聞かれたときの短文（英語例・任意）
 
 ```
-We do not collect personal data on our servers. Location is used on-device only for the map on the island detail screen. Photos stay in the app sandbox. Weather and ferry GTFS are fetched directly from third-party APIs by the device.
+We do not collect personal data on our servers. Location is used on-device only for the map on the island detail screen. Photos stay in the app sandbox. Weather is fetched from our GitHub Pages cache (sourced from Open-Meteo; the device does not call Open-Meteo directly). Ferry GTFS and place search are fetched from third-party APIs by the device.
 ```

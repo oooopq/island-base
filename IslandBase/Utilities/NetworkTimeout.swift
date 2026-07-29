@@ -10,8 +10,8 @@ import Foundation
 enum NetworkTimeout {
     /// キャッシュがないときの待ち時間（秒）— ダイヤ・店舗など
     static let shortSeconds: TimeInterval = 8
-    /// 天気API（Open-Meteo）は応答が遅いことがあるため長めにする
-    static let weatherSeconds: TimeInterval = 30
+    /// GitHub Pages の天気 JSON（静的 CDN・軽量のため短め）
+    static let weatherPagesSeconds: TimeInterval = 8
 
     enum TimeoutError: Error {
         case timedOut
@@ -31,10 +31,11 @@ enum NetworkTimeout {
                 throw TimeoutError.timedOut
             }
 
+            defer { group.cancelAll() }
+
             guard let result = try await group.next() else {
                 throw TimeoutError.timedOut
             }
-            group.cancelAll()
             return result
         }
     }

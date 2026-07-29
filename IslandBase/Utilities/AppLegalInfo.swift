@@ -28,4 +28,9 @@ enum AppLegalInfo {
 
     static let openMeteoAttributionURL = "https://open-meteo.com/"
     static let openMeteoAttributionText = "Weather data by Open-Meteo.com"
+
+    /// GitHub Pages 上の天気キャッシュ JSON（Actions が毎時更新）
+    static let weatherCacheBaseURL = "https://oooopq.github.io/island-base/weather"
+    /// Actions の更新間隔（秒）。表示用の目安
+    static let weatherCacheUpdateIntervalSeconds = 3600
 }
