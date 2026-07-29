@@ -48,10 +48,6 @@ struct WeatherService {
     }
 
     private func fetchFromPagesCache(islandID: String) async throws -> WeatherInfo {
-        guard NetworkConnectivity.isConnected else {
-            throw WeatherServiceError.networkUnavailable
-        }
-
         let url = try makeCacheURL(for: islandID)
         var request = URLRequest(url: url)
         request.cachePolicy = .reloadIgnoringLocalCacheData
@@ -98,7 +94,6 @@ struct WeatherService {
 enum WeatherServiceError: Error {
     case invalidURL
     case badResponse
-    case networkUnavailable
 }
 
 // GitHub Pages 配信 JSON（WeatherInfo 互換 + updatedAt）
