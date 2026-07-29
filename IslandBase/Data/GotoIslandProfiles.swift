@@ -264,7 +264,7 @@ enum GotoIslandProfiles {
         ],
         jmaMarineForecastArea: .nagasakiWest,
         backgroundAssetName: "IslandBgNakadori",
-        backgroundCredit: "Photo: Sapphire123 / Wikimedia Commons（青嵐教会）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: "Photo: Sapphire123 / Wikimedia Commons（青砂ヶ浦教会）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 15_000,
         routeKeywords: ["中通", "中通島", "郷ノ首", "奈良尾", "新上五島"],
         ferryGTFSFeeds: [],

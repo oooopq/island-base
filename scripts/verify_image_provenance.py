@@ -32,6 +32,7 @@ WIKI_OVERRIDES: Dict[str, str] = {
     "IslandBgHisaka": "Front view of the Former Gorin Church.jpg",
     "IslandBgNaru": "江上天主堂.JPG",
     "IslandBgWakamatsu": "Wakamatsu_Oohashi.JPG",
+    "IslandBgNakadori": "Aosagaura Church.JPG",
 }
 
 PAIR_CHECKS = [
@@ -320,12 +321,6 @@ def main():
         if wiki_file:
             row["source_id"] = wiki_file
             row["source_url"] = wiki_source_url(wiki_file)
-        if asset == "IslandBgNakadori" and status == "pending":
-            row["verification_notes"] = (
-                "Commons File 名未特定。クレジットは「青嵐教会」だが、"
-                "中通島の実在教会名は「青砂ヶ浦天主堂」の可能性あり。"
-                "作者 Sapphire123 の投稿を Commons で目視確認すること"
-            )
 
     with CSV_PATH.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(
