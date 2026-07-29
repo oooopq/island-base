@@ -12,6 +12,7 @@ App Store 公開と法的表記用の文案です。
 | [privacy-policy.html](./privacy-policy.html) | プライバシーポリシー（Web 公開用 HTML） |
 | [terms-of-service.html](./terms-of-service.html) | 利用規約（Web 公開用 HTML） |
 | [index.html](./index.html) | GitHub Pages トップ |
+| [weather-cache-design-ja.md](./weather-cache-design-ja.md) | **天気キャッシュ改修の設計書**（GitHub Actions + Pages） |
 
 ## 公開 URL（GitHub Pages）
 

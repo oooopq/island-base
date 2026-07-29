@@ -1,0 +1,116 @@
+---
+description: 天気キャッシュ（GitHub Actions + GitHub Pages）の実装方針
+globs: IslandBase/Services/WeatherService.swift,IslandBase/Utilities/AppLegalInfo.swift,IslandBase/Views/IslandDetailView.swift,.github/workflows/weather-cache.yml,scripts/fetch_weather_cache.py,scripts/weather_locations.json,docs/weather/**
+alwaysApply: false
+---
+
+# 天気キャッシュ改修（Open-Meteo 直接呼び出し廃止）
+
+## 目的
+
+- ユーザー数に関わらず Open-Meteo への実コールを **48 HTTP リクエスト/日**（forecast 1 + marine 1 × 24 回）に固定
+- アプリは GitHub Pages 上の静的 JSON を取得する（Open-Meteo を直接叩かない）
+- **既存の天気 UI・`WeatherInfo` モデルは変更しない**（取得元のみ差し替え）
+- サードパーティ依存は追加しない（iOS: Foundation のみ、Actions: Python 標準ライブラリ）
+
+詳細設計: `docs/weather-cache-design-ja.md`
+
+## アーキテクチャ
+
+```
+GitHub Actions（毎時 JST :10）
+  → scripts/fetch_weather_cache.py
+  → Open-Meteo forecast + marine を各1回のバッチ取得（全島）
+  → docs/weather/{island-id}.json を生成
+  → 成功時のみ main に commit → GitHub Pages 配信
+
+iOS WeatherService
+  → https://oooopq.github.io/island-base/weather/{id}.json?h=YYYYMMDDHH
+  → デコードして UserDefaults に保存
+  → 失敗時は UserDefaults の直近キャッシュ or エラー
+```
+
+## 実装ファイル（未作成のものは新規追加）
+
+| ファイル | 役割 |
+|----------|------|
+| `.github/workflows/weather-cache.yml` | 毎時 cron + workflow_dispatch |
+| `scripts/fetch_weather_cache.py` | バッチ取得・変換・検証 |
+| `scripts/weather_locations.json` | 天気地点座標の正本（33島） |
+| `docs/weather/{id}.json` | Actions が生成する静的キャッシュ |
+| `docs/weather/manifest.json` | 運用用メタデータ（アプリ必須取得ではない） |
+| `IslandBase/Services/WeatherService.swift` | 取得元を Pages JSON に差し替え |
+| `IslandBase/Utilities/AppLegalInfo.swift` | `weatherCacheBaseURL` 等の定数 |
+| `IslandBase/Views/IslandDetailView.swift` | 取得成功時も `isFromCache: true` |
+
+## Open-Meteo バッチ（現行 WeatherService.swift と同一パラメータ）
+
+**Forecast** `https://api.open-meteo.com/v1/forecast`
+
+- `latitude` / `longitude`: `scripts/weather_locations.json` の全島をカンマ区切り
+- `current`: `temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code`
+- `hourly`: `temperature_2m,apparent_temperature,weather_code,precipitation_probability,relative_humidity_2m,wind_speed_10m,precipitation`
+- `daily`: `weather_code,temperature_2m_max,temperature_2m_min,relative_humidity_2m_mean,precipitation_probability_max`
+- `forecast_days=7`, `timezone=Asia/Tokyo`, `elevation=5`, `models=jma_seamless`
+
+**Marine** `https://marine-api.open-meteo.com/v1/marine`
+
+- 同上の座標
+- `current=wave_height`, `hourly=wave_height`, `forecast_days=1`, `timezone=Asia/Tokyo`
+
+## 配信 JSON スキーマ
+
+`weather` / `wave` は配信層では分けない。`WeatherInfo` 互換 + `updatedAt` のラッパー:
+
+```json
+{
+  "updatedAt": "2026-07-28T06:10:00+09:00",
+  "temperatureCelsius": 28,
+  "condition": "晴れ",
+  "todayHourlyForecast": [],
+  "weeklyForecast": []
+}
+```
+
+- `updatedAt`: Actions が Open-Meteo 取得に成功した時刻（ISO 8601、JST）
+- 変換ロジックは `WeatherService.swift` の `WeatherConditionMapper` / `WeatherDateFormatter` / hourly フィルタを Python に移植
+
+## Actions の失敗時ポリシー
+
+- 全33島の検証に合格した場合**のみ** `docs/weather/` を上書きして commit
+- 1島でも失敗 → **git を触らない**（前回の Pages 配信を維持）
+
+## アプリ側キャッシュ対策
+
+1. `URLRequest.cachePolicy = .reloadIgnoringLocalCacheData`（HTTP キャッシュ無視・最優先）
+2. URL に `?h=YYYYMMDDHH`（JST の時間ブロック）を付与（CDN 対策）
+3. UserDefaults（`weather_cache_v6_{id}`）はオフライン・取得失敗用として維持
+4. Open-Meteo への直接フォールバックは**入れない**
+
+## アプリ定数（AppLegalInfo.swift に追加予定）
+
+```swift
+static let weatherCacheBaseURL = "https://oooopq.github.io/island-base/weather"
+static let weatherCacheUpdateIntervalSeconds = 3600
+```
+
+## 更新時刻表示
+
+Pages 由来のデータは常にサーバー側キャッシュなので、`IslandDetailView.loadWeather()` で取得成功時も `isFromCache: true` にする。`updatedAt` → `WeatherInfo.fetchedAt` にマッピングし、既存 `CacheAgeText` で「◯分前に取得」を表示。
+
+## 島追加時
+
+`island-data.mdc` の手順に加え、`scripts/weather_locations.json` に天気地点（`resolvedWeatherLocation` = 先頭の港）を追加する。
+
+## 文案更新（実装時）
+
+`docs/privacy-policy-ja.md` 等: 端末から Open-Meteo 直接 → GitHub Pages キャッシュ（出典 Open-Meteo）を取得、に変更。Open-Meteo CC BY 4.0 表記は維持。
+
+## 実装フェーズ
+
+1. `scripts/weather_locations.json` の座標照合（済）
+2. `scripts/fetch_weather_cache.py` + ローカル実行
+3. `.github/workflows/weather-cache.yml` + 初回 push（Pages に JSON 公開）
+4. `WeatherService.swift` 差し替え
+5. プライバシー文案更新
+6. 実機確認（オンライン / 機内モード）
