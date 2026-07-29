@@ -11,6 +11,7 @@ struct WeeklyForecastPanelView: View {
     let forecast: [DailyWeatherForecast]
 
     @Environment(\.detailPalette) private var palette
+    @Environment(AppLanguageStore.self) private var languageStore
 
     private let rowHeight: CGFloat = 52
     private let visibleRowCount: CGFloat = 4
@@ -40,25 +41,28 @@ struct WeeklyForecastPanelView: View {
                 .fill(palette.chipBackground(isSelected: false))
         }
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("週間天気")
+        .accessibilityLabel(languageStore.t(.weeklyWeatherAccessibility))
     }
 
     @ViewBuilder
     private func weeklyRow(_ day: DailyWeatherForecast) -> some View {
         HStack(spacing: 8) {
-            Text(day.dateLabel)
+            Text(day.localizedDateLabel(language: languageStore.mode))
                 .frame(width: 88, alignment: .leading)
 
-            WeatherIconView(condition: day.condition, iconSize: 20)
+            WeatherIconView(weatherCode: day.weatherCode, condition: day.condition, iconSize: 20)
 
-            Text(day.condition)
+            Text(day.localizedCondition(language: languageStore.mode))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             VStack(alignment: .trailing, spacing: 2) {
                 Text("\(day.minTemperatureCelsius)° / \(day.maxTemperatureCelsius)°")
-                Text("湿度 \(day.humidityPercent)%")
+                Text("\(languageStore.t(.humidity)) \(day.humidityPercent)%")
                     .font(.caption)
-                Label("降水 \(day.precipitationProbabilityPercent)%", systemImage: "drop.fill")
+                Label(
+                    languageStore.t(.precipitationPercent(day.precipitationProbabilityPercent)),
+                    systemImage: "drop.fill"
+                )
                     .font(.caption)
             }
             .detailCardSecondaryText()
@@ -77,6 +81,7 @@ struct WeeklyForecastPanelView: View {
                 minTemperatureCelsius: 24,
                 maxTemperatureCelsius: 29,
                 condition: day % 2 == 0 ? "晴れ" : "くもり",
+                weatherCode: day % 2 == 0 ? 0 : 3,
                 humidityPercent: 70,
                 precipitationProbabilityPercent: 20
             )
@@ -84,4 +89,5 @@ struct WeeklyForecastPanelView: View {
     )
     .padding()
     .environment(\.detailPalette, DetailCardPalette.dark)
+    .environment(AppLanguageStore())
 }

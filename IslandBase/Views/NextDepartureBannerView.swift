@@ -15,6 +15,7 @@ struct NextDepartureBannerView: View {
     var accentColor: Color? = nil
 
     @Environment(\.detailPalette) private var palette
+    @Environment(AppLanguageStore.self) private var languageStore
 
     private var resolvedAccent: Color {
         accentColor ?? palette.accent
@@ -30,7 +31,7 @@ struct NextDepartureBannerView: View {
                         .foregroundStyle(resolvedAccent)
 
                     if showsTomorrowNote {
-                        Text("本日の出港便は終了しました。翌日の最初の便です。")
+                        Text(languageStore.t(.todayDeparturesFinishedTomorrowFirst))
                             .font(.caption)
                             .foregroundStyle(palette.warning)
                     }
@@ -105,12 +106,12 @@ struct NextDepartureBannerView: View {
         VStack(alignment: .trailing, spacing: 8) {
             if let countdownMinutes {
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text("あと")
+                    Text(languageStore.t(.countdownPrefix))
                         .font(.caption2)
                         .fontWeight(.semibold)
                         .foregroundStyle(isUrgent ? .red : palette.secondaryText)
 
-                    Text(NextDepartureHelper.formattedCountdown(countdownMinutes))
+                    Text(NextDepartureHelper.formattedCountdown(countdownMinutes, language: languageStore.mode))
                         .font(.title2)
                         .fontWeight(.bold)
                         .monospacedDigit()
@@ -120,12 +121,12 @@ struct NextDepartureBannerView: View {
 
             if let durationMinutes {
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text("所要")
+                    Text(languageStore.t(.durationPrefix))
                         .font(.caption2)
                         .fontWeight(.semibold)
                         .foregroundStyle(palette.secondaryText)
 
-                    Text(NextDepartureHelper.formattedDuration(durationMinutes))
+                    Text(NextDepartureHelper.formattedDuration(durationMinutes, language: languageStore.mode))
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .monospacedDigit()

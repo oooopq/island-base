@@ -207,21 +207,21 @@ enum NextDepartureHelper {
         return (24 * 60 - departureMinutes) + arrivalMinutes
     }
 
-    static func formattedCountdown(_ minutes: Int) -> String {
+    static func formattedCountdown(_ minutes: Int, language: AppLanguageMode = .japanese) -> String {
         if minutes < 60 {
-            return "\(minutes)分"
+            return AppText.durationMinutes(minutes).string(for: language)
         }
 
         let hours = minutes / 60
         let remainingMinutes = minutes % 60
         if remainingMinutes == 0 {
-            return "\(hours)時間"
+            return AppText.durationHours(hours).string(for: language)
         }
-        return "\(hours)時間\(remainingMinutes)分"
+        return AppText.durationHoursMinutes(hours, remainingMinutes).string(for: language)
     }
 
-    static func formattedDuration(_ minutes: Int) -> String {
-        formattedCountdown(minutes)
+    static func formattedDuration(_ minutes: Int, language: AppLanguageMode = .japanese) -> String {
+        formattedCountdown(minutes, language: language)
     }
 
     static func isDepartureUrgent(countdownMinutes: Int?, isTomorrow: Bool) -> Bool {

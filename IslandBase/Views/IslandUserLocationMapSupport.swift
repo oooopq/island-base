@@ -16,17 +16,18 @@ enum IslandUserLocationMapSupport {
         islandProfile: IslandProfile?,
         userCoordinate: CLLocationCoordinate2D?,
         palette: DetailCardPalette,
+        language: AppLanguageMode = .japanese,
         showsUserLocationAnnotation: Bool,
         onIslandTap: (() -> Void)? = nil,
         onPortTap: ((IslandPort) -> Void)? = nil
     ) -> some MapContent {
-        Annotation(island.nameJapanese, coordinate: island.coordinate) {
+        Annotation(island.primaryName(for: language), coordinate: island.coordinate) {
             if let onIslandTap {
                 Button(action: onIslandTap) {
                     islandMarker(palette: palette)
                 }
                 .buttonStyle(.plain)
-                .accessibilityHint("タップすると港を中心に島地図を表示します")
+                .accessibilityHint(AppText.tapIslandToCenterOnPortHint.string(for: language))
             } else {
                 islandMarker(palette: palette)
             }
@@ -41,7 +42,7 @@ enum IslandUserLocationMapSupport {
                         portMarker(palette: palette)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityHint("\(port.name)を中心に島地図を表示します")
+                    .accessibilityHint(AppText.centerMapOnPortHint(port.name).string(for: language))
                 } else {
                     portMarker(palette: palette)
                 }
@@ -49,7 +50,7 @@ enum IslandUserLocationMapSupport {
         }
 
         if showsUserLocationAnnotation, let userCoordinate {
-            Annotation("現在地", coordinate: userCoordinate) {
+            Annotation(AppText.currentLocationMapLabel.string(for: language), coordinate: userCoordinate) {
                 ZStack {
                     Circle()
                         .fill(Color.blue.opacity(0.25))

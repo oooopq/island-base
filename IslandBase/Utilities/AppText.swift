@@ -97,6 +97,56 @@ enum AppText {
     case themeToggleHint
     case languageToggleHint
 
+    // 現在地マップ
+    case yourCurrentLocation
+    case tapToOpenFullMapHint
+    case viewOnMap
+    case locationPermissionDenied
+    case locationPermissionChecking
+    case locationFetching
+    case onIsland
+    case offIslandDistance(String)
+    case currentLocationMapLabel
+    case centerMapOnPortHint(String)
+    case tapIslandToCenterOnPortHint
+    case returnToIslandDetailHint
+    case returnToIslandBase
+
+    // 次の便・ダイヤ時刻
+    case todayDeparturesFinishedTomorrowFirst
+    case countdownPrefix
+    case durationPrefix
+    case durationMinutes(Int)
+    case durationHours(Int)
+    case durationHoursMinutes(Int, Int)
+    case scheduleDepartureShort
+    case scheduleArrivalShort
+    case nextDayArrival
+
+    // 写真ビューア
+    case close
+    case deletePhotoMemo
+    case photoCannotOpen
+    case photoDataNotFound
+    case cameraSimulatorUnavailable
+
+    // 初回ヒント
+    case toolbarHintTitle
+    case hintLanguageTitle
+    case hintLanguageDetail
+    case hintBrightnessTitle
+    case hintBrightnessDetail
+    case hintAppearanceAndLanguage
+    case hintAppearanceAndLanguageFooter
+
+    // 天気表示
+    case nowTimeLabel
+    case precipitationPercent(Int)
+    case weeklyWeatherAccessibility
+    case tapToCollapse
+    case tapToExpandWeeklyWeather
+    case hourlyForecastAccessibility
+
     // キャッシュ
     case cachePrevious
     case cacheJustNow
@@ -280,6 +330,86 @@ enum AppText {
             return "画面の明るさを切り替えます"
         case .languageToggleHint:
             return "表示言語を切り替えます"
+        case .yourCurrentLocation:
+            return "あなたの現在地"
+        case .tapToOpenFullMapHint:
+            return "タップすると地図を開いて現在地を表示します"
+        case .viewOnMap:
+            return "地図で見る"
+        case .locationPermissionDenied:
+            return "位置情報が許可されていません。設定から許可すると地図に表示されます。"
+        case .locationPermissionChecking:
+            return "位置情報の許可を確認しています…"
+        case .locationFetching:
+            return "現在地を取得中…"
+        case .onIsland:
+            return "島内にいます"
+        case .offIslandDistance(let distance):
+            return "この島から \(distance) の位置にいます"
+        case .currentLocationMapLabel:
+            return "現在地"
+        case .centerMapOnPortHint(let portName):
+            return "\(portName)を中心に島地図を表示します"
+        case .tapIslandToCenterOnPortHint:
+            return "タップすると港を中心に島地図を表示します"
+        case .returnToIslandDetailHint:
+            return "島の詳細画面に戻ります"
+        case .returnToIslandBase:
+            return "Island Base に戻る"
+        case .todayDeparturesFinishedTomorrowFirst:
+            return "本日の出港便は終了しました。翌日の最初の便です。"
+        case .countdownPrefix:
+            return "あと"
+        case .durationPrefix:
+            return "所要"
+        case .durationMinutes(let minutes):
+            return "\(minutes)分"
+        case .durationHours(let hours):
+            return "\(hours)時間"
+        case .durationHoursMinutes(let hours, let minutes):
+            return "\(hours)時間\(minutes)分"
+        case .scheduleDepartureShort:
+            return "発"
+        case .scheduleArrivalShort:
+            return "着"
+        case .nextDayArrival:
+            return "翌日"
+        case .close:
+            return "閉じる"
+        case .deletePhotoMemo:
+            return "写真メモを削除"
+        case .photoCannotOpen:
+            return "写真を開けません"
+        case .photoDataNotFound:
+            return "保存データが見つかりませんでした"
+        case .cameraSimulatorUnavailable:
+            return "カメラがない端末、またはシミュレーターでは撮影できません。"
+        case .toolbarHintTitle:
+            return "画面右上のボタン"
+        case .hintLanguageTitle:
+            return "言語"
+        case .hintLanguageDetail:
+            return "日本語 / English"
+        case .hintBrightnessTitle:
+            return "明るさ"
+        case .hintBrightnessDetail:
+            return "ライト / ダーク"
+        case .hintAppearanceAndLanguage:
+            return "見た目と言葉を切り替えられます"
+        case .hintAppearanceAndLanguageFooter:
+            return "いつでも右上から切り替えられます。"
+        case .nowTimeLabel:
+            return "今"
+        case .precipitationPercent(let percent):
+            return "降水 \(percent)%"
+        case .weeklyWeatherAccessibility:
+            return "週間天気"
+        case .tapToCollapse:
+            return "タップで閉じる"
+        case .tapToExpandWeeklyWeather:
+            return "タップで週間天気を表示"
+        case .hourlyForecastAccessibility:
+            return "1時間ごとの気温グラフと予報"
         case .cachePrevious:
             return "前回取得したデータを表示中"
         case .cacheJustNow:
@@ -465,6 +595,86 @@ enum AppText {
             return "Toggle light or dark appearance"
         case .languageToggleHint:
             return "Toggle display language"
+        case .yourCurrentLocation:
+            return "Your location"
+        case .tapToOpenFullMapHint:
+            return "Opens the map and shows your location"
+        case .viewOnMap:
+            return "View map"
+        case .locationPermissionDenied:
+            return "Location access is off. Enable it in Settings to show your position on the map."
+        case .locationPermissionChecking:
+            return "Checking location permission…"
+        case .locationFetching:
+            return "Getting your location…"
+        case .onIsland:
+            return "You're on this island"
+        case .offIslandDistance(let distance):
+            return "About \(distance) from this island"
+        case .currentLocationMapLabel:
+            return "You"
+        case .centerMapOnPortHint(let portName):
+            return "Show island map centered on \(portName)"
+        case .tapIslandToCenterOnPortHint:
+            return "Tap to center the map on a port"
+        case .returnToIslandDetailHint:
+            return "Returns to the island detail screen"
+        case .returnToIslandBase:
+            return "Back to Island Base"
+        case .todayDeparturesFinishedTomorrowFirst:
+            return "Today's sailings have ended. Showing the first sailing tomorrow."
+        case .countdownPrefix:
+            return "In"
+        case .durationPrefix:
+            return "Duration"
+        case .durationMinutes(let minutes):
+            return "\(minutes) min"
+        case .durationHours(let hours):
+            return "\(hours) hr"
+        case .durationHoursMinutes(let hours, let minutes):
+            return "\(hours) hr \(minutes) min"
+        case .scheduleDepartureShort:
+            return "Dep"
+        case .scheduleArrivalShort:
+            return "Arr"
+        case .nextDayArrival:
+            return "Next day"
+        case .close:
+            return "Close"
+        case .deletePhotoMemo:
+            return "Delete photo note"
+        case .photoCannotOpen:
+            return "Couldn't open photo"
+        case .photoDataNotFound:
+            return "Saved image data was not found"
+        case .cameraSimulatorUnavailable:
+            return "Camera isn't available on this device or in the simulator."
+        case .toolbarHintTitle:
+            return "Buttons in the top-right corner"
+        case .hintLanguageTitle:
+            return "Language"
+        case .hintLanguageDetail:
+            return "Japanese / English"
+        case .hintBrightnessTitle:
+            return "Appearance"
+        case .hintBrightnessDetail:
+            return "Light / Dark"
+        case .hintAppearanceAndLanguage:
+            return "Switch appearance and language"
+        case .hintAppearanceAndLanguageFooter:
+            return "You can change these anytime from the top-right corner."
+        case .nowTimeLabel:
+            return "Now"
+        case .precipitationPercent(let percent):
+            return "Rain \(percent)%"
+        case .weeklyWeatherAccessibility:
+            return "7-day forecast"
+        case .tapToCollapse:
+            return "Tap to collapse"
+        case .tapToExpandWeeklyWeather:
+            return "Tap to show 7-day forecast"
+        case .hourlyForecastAccessibility:
+            return "Hourly temperature chart and forecast"
         case .cachePrevious:
             return "Showing previously saved data"
         case .cacheJustNow:

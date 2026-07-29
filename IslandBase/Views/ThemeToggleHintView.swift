@@ -2,7 +2,7 @@
 //  ThemeToggleHintView.swift
 //  Island Base
 //
-//  初回起動時：右上の外観・言語切り替えの説明（日本語固定）
+//  初回起動時：右上の外観・言語切り替えの説明
 //
 
 import SwiftUI
@@ -12,17 +12,18 @@ struct ThemeToggleHintView: View {
     let palette: DetailCardPalette
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(AppLanguageStore.self) private var languageStore
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("画面右上のボタン")
+            Text(languageStore.t(.toolbarHintTitle))
                 .font(.headline)
 
             HStack(spacing: 28) {
                 // 実ツールバーと同じ順：言語 → 明るさ（右端が明るさ）
                 hintItem(
-                    title: "言語",
-                    detail: "日本語 / English"
+                    title: languageStore.t(.hintLanguageTitle),
+                    detail: languageStore.t(.hintLanguageDetail)
                 ) {
                     Text("EN")
                         .font(.caption)
@@ -37,8 +38,8 @@ struct ThemeToggleHintView: View {
                 }
 
                 hintItem(
-                    title: "明るさ",
-                    detail: "ライト / ダーク"
+                    title: languageStore.t(.hintBrightnessTitle),
+                    detail: languageStore.t(.hintBrightnessDetail)
                 ) {
                     ThemeToggleIconView(
                         systemImage: mode.toggleSystemImage,
@@ -49,11 +50,11 @@ struct ThemeToggleHintView: View {
             }
 
             VStack(spacing: 8) {
-                Text("見た目と言葉を切り替えられます")
+                Text(languageStore.t(.hintAppearanceAndLanguage))
                     .font(.subheadline)
                     .fontWeight(.semibold)
 
-                Text("いつでも右上から切り替えられます。")
+                Text(languageStore.t(.hintAppearanceAndLanguageFooter))
                     .font(.caption)
                     .foregroundStyle(palette.secondaryText)
             }
@@ -99,4 +100,5 @@ struct ThemeToggleHintView: View {
 
 #Preview {
     ThemeToggleHintView(mode: .dark, palette: .dark)
+        .environment(AppLanguageStore())
 }

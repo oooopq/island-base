@@ -20,6 +20,7 @@ struct IslandUserLocationMapView: View {
     }
 
     @Environment(\.detailPalette) private var palette
+    @Environment(AppLanguageStore.self) private var languageStore
     @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var showsFullMap = false
 
@@ -27,7 +28,7 @@ struct IslandUserLocationMapView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("あなたの現在地", systemImage: "location.fill")
+            Label(languageStore.t(.yourCurrentLocation), systemImage: "location.fill")
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundStyle(palette.accent)
@@ -38,7 +39,7 @@ struct IslandUserLocationMapView: View {
                 miniMapPreview
             }
             .buttonStyle(.plain)
-            .accessibilityHint("タップすると地図を開いて現在地を表示します")
+            .accessibilityHint(languageStore.t(.tapToOpenFullMapHint))
 
             portAccessStatusView
         }
@@ -70,6 +71,7 @@ struct IslandUserLocationMapView: View {
                 islandProfile: islandProfile,
                 userCoordinate: userCoordinate,
                 palette: palette,
+                language: languageStore.mode,
                 showsUserLocationAnnotation: true
             )
         }
@@ -81,7 +83,7 @@ struct IslandUserLocationMapView: View {
                 .strokeBorder(palette.cardBorder, lineWidth: 1)
         }
         .overlay(alignment: .bottomTrailing) {
-            Label("地図で見る", systemImage: "arrow.up.left.and.arrow.down.right")
+            Label(languageStore.t(.viewOnMap), systemImage: "arrow.up.left.and.arrow.down.right")
                 .font(.caption2)
                 .fontWeight(.medium)
                 .padding(.horizontal, 8)
@@ -105,12 +107,12 @@ struct IslandUserLocationMapView: View {
     private var portAccessStatusView: some View {
         switch authorizationStatus {
         case .denied, .restricted:
-            Text("位置情報が許可されていません。設定から許可すると地図に表示されます。")
+            Text(languageStore.t(.locationPermissionDenied))
                 .font(.caption)
                 .foregroundStyle(palette.secondaryText)
 
         case .notDetermined:
-            Text("位置情報の許可を確認しています…")
+            Text(languageStore.t(.locationPermissionChecking))
                 .font(.caption)
                 .foregroundStyle(palette.secondaryText)
 
@@ -118,7 +120,7 @@ struct IslandUserLocationMapView: View {
             if let userCoordinate {
                 locationStatusContent(for: userCoordinate)
             } else {
-                Text("現在地を取得中…")
+                Text(languageStore.t(.locationFetching))
                     .font(.caption)
                     .foregroundStyle(palette.secondaryText)
             }
@@ -127,7 +129,7 @@ struct IslandUserLocationMapView: View {
 
     @ViewBuilder
     private func locationStatusContent(for userCoordinate: CLLocationCoordinate2D) -> some View {
-        let locationStatus = locationViewModel.status(for: userCoordinate)
+        let locationStatus = locationViewModel.status(for: userCoordinate, language: languageStore.mode)
 
         VStack(alignment: .leading, spacing: 4) {
             Text(locationStatus.summaryText)

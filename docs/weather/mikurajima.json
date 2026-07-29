@@ -1,27 +1,18 @@
 {
-  "updatedAt": "2026-07-29T20:21:23+09:00",
+  "updatedAt": "2026-07-29T21:29:54+09:00",
   "temperatureCelsius": 30,
   "apparentTemperatureCelsius": 33,
-  "condition": "晴れ",
-  "humidityPercent": 76,
-  "windSpeedKmh": 25,
-  "currentWaveHeightMeters": 1.56,
-  "todayMaxWaveHeightMeters": 1.8,
+  "weatherCode": 1,
+  "condition": "くもり",
+  "humidityPercent": 74,
+  "windSpeedKmh": 24,
+  "currentWaveHeightMeters": 1.42,
+  "todayMaxWaveHeightMeters": 1.82,
   "todayHourlyForecast": [
-    {
-      "id": "2026-07-29T20:00",
-      "timeLabel": "20時",
-      "temperatureCelsius": 30,
-      "apparentTemperatureCelsius": 33,
-      "condition": "晴れ",
-      "humidityPercent": 76,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 25
-    },
     {
       "id": "2026-07-29T21:00",
       "timeLabel": "21時",
+      "weatherCode": 1,
       "temperatureCelsius": 30,
       "apparentTemperatureCelsius": 33,
       "condition": "くもり",
@@ -33,6 +24,7 @@
     {
       "id": "2026-07-29T22:00",
       "timeLabel": "22時",
+      "weatherCode": 0,
       "temperatureCelsius": 30,
       "apparentTemperatureCelsius": 33,
       "condition": "晴れ",
@@ -44,6 +36,7 @@
     {
       "id": "2026-07-29T23:00",
       "timeLabel": "23時",
+      "weatherCode": 0,
       "temperatureCelsius": 30,
       "apparentTemperatureCelsius": 33,
       "condition": "晴れ",
@@ -55,6 +48,7 @@
     {
       "id": "2026-07-30T00:00",
       "timeLabel": "0時",
+      "weatherCode": 0,
       "temperatureCelsius": 30,
       "apparentTemperatureCelsius": 32,
       "condition": "晴れ",
@@ -66,6 +60,7 @@
     {
       "id": "2026-07-30T01:00",
       "timeLabel": "1時",
+      "weatherCode": 0,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "晴れ",
@@ -77,6 +72,7 @@
     {
       "id": "2026-07-30T02:00",
       "timeLabel": "2時",
+      "weatherCode": 0,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "晴れ",
@@ -88,6 +84,7 @@
     {
       "id": "2026-07-30T03:00",
       "timeLabel": "3時",
+      "weatherCode": 1,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "くもり",
@@ -99,6 +96,7 @@
     {
       "id": "2026-07-30T04:00",
       "timeLabel": "4時",
+      "weatherCode": 1,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "くもり",
@@ -110,6 +108,7 @@
     {
       "id": "2026-07-30T05:00",
       "timeLabel": "5時",
+      "weatherCode": 2,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "くもり",
@@ -121,6 +120,7 @@
     {
       "id": "2026-07-30T06:00",
       "timeLabel": "6時",
+      "weatherCode": 2,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 33,
       "condition": "くもり",
@@ -132,6 +132,7 @@
     {
       "id": "2026-07-30T07:00",
       "timeLabel": "7時",
+      "weatherCode": 2,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "くもり",
@@ -143,6 +144,7 @@
     {
       "id": "2026-07-30T08:00",
       "timeLabel": "8時",
+      "weatherCode": 3,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "くもり",
@@ -154,6 +156,7 @@
     {
       "id": "2026-07-30T09:00",
       "timeLabel": "9時",
+      "weatherCode": 3,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "くもり",
@@ -165,6 +168,7 @@
     {
       "id": "2026-07-30T10:00",
       "timeLabel": "10時",
+      "weatherCode": 1,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 31,
       "condition": "くもり",
@@ -176,6 +180,7 @@
     {
       "id": "2026-07-30T11:00",
       "timeLabel": "11時",
+      "weatherCode": 1,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "くもり",
@@ -187,6 +192,7 @@
     {
       "id": "2026-07-30T12:00",
       "timeLabel": "12時",
+      "weatherCode": 1,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 32,
       "condition": "くもり",
@@ -198,6 +204,7 @@
     {
       "id": "2026-07-30T13:00",
       "timeLabel": "13時",
+      "weatherCode": 1,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 33,
       "condition": "くもり",
@@ -209,6 +216,7 @@
     {
       "id": "2026-07-30T14:00",
       "timeLabel": "14時",
+      "weatherCode": 1,
       "temperatureCelsius": 29,
       "apparentTemperatureCelsius": 34,
       "condition": "くもり",
@@ -220,6 +228,7 @@
     {
       "id": "2026-07-30T15:00",
       "timeLabel": "15時",
+      "weatherCode": 0,
       "temperatureCelsius": 30,
       "apparentTemperatureCelsius": 34,
       "condition": "晴れ",
@@ -231,6 +240,7 @@
     {
       "id": "2026-07-30T16:00",
       "timeLabel": "16時",
+      "weatherCode": 1,
       "temperatureCelsius": 30,
       "apparentTemperatureCelsius": 33,
       "condition": "くもり",
@@ -242,6 +252,7 @@
     {
       "id": "2026-07-30T17:00",
       "timeLabel": "17時",
+      "weatherCode": 1,
       "temperatureCelsius": 30,
       "apparentTemperatureCelsius": 33,
       "condition": "くもり",
@@ -253,6 +264,7 @@
     {
       "id": "2026-07-30T18:00",
       "timeLabel": "18時",
+      "weatherCode": 1,
       "temperatureCelsius": 30,
       "apparentTemperatureCelsius": 33,
       "condition": "くもり",
@@ -264,6 +276,7 @@
     {
       "id": "2026-07-30T19:00",
       "timeLabel": "19時",
+      "weatherCode": 2,
       "temperatureCelsius": 30,
       "apparentTemperatureCelsius": 33,
       "condition": "くもり",
@@ -271,12 +284,25 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 30
+    },
+    {
+      "id": "2026-07-30T20:00",
+      "timeLabel": "20時",
+      "weatherCode": 1,
+      "temperatureCelsius": 30,
+      "apparentTemperatureCelsius": 34,
+      "condition": "くもり",
+      "humidityPercent": 84,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 28
     }
   ],
   "weeklyForecast": [
     {
       "id": "2026-07-29",
       "dateLabel": "7/29（水）",
+      "weatherCode": 2,
       "minTemperatureCelsius": 29,
       "maxTemperatureCelsius": 30,
       "condition": "くもり",
@@ -286,6 +312,7 @@
     {
       "id": "2026-07-30",
       "dateLabel": "7/30（木）",
+      "weatherCode": 3,
       "minTemperatureCelsius": 29,
       "maxTemperatureCelsius": 30,
       "condition": "くもり",
@@ -295,6 +322,7 @@
     {
       "id": "2026-07-31",
       "dateLabel": "7/31（金）",
+      "weatherCode": 3,
       "minTemperatureCelsius": 29,
       "maxTemperatureCelsius": 30,
       "condition": "くもり",
@@ -304,6 +332,7 @@
     {
       "id": "2026-08-01",
       "dateLabel": "8/1（土）",
+      "weatherCode": 3,
       "minTemperatureCelsius": 29,
       "maxTemperatureCelsius": 30,
       "condition": "くもり",
@@ -313,6 +342,7 @@
     {
       "id": "2026-08-02",
       "dateLabel": "8/2（日）",
+      "weatherCode": 3,
       "minTemperatureCelsius": 29,
       "maxTemperatureCelsius": 30,
       "condition": "くもり",
@@ -322,6 +352,7 @@
     {
       "id": "2026-08-03",
       "dateLabel": "8/3（月）",
+      "weatherCode": 51,
       "minTemperatureCelsius": 28,
       "maxTemperatureCelsius": 29,
       "condition": "小雨",
@@ -331,6 +362,7 @@
     {
       "id": "2026-08-04",
       "dateLabel": "8/4（火）",
+      "weatherCode": 51,
       "minTemperatureCelsius": 28,
       "maxTemperatureCelsius": 29,
       "condition": "小雨",

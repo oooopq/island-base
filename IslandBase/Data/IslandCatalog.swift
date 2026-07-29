@@ -103,7 +103,8 @@ enum IslandCatalog {
 
     static func portAccessInfos(
         from coordinate: CLLocationCoordinate2D,
-        islandID: String
+        islandID: String,
+        language: AppLanguageMode = .japanese
     ) -> [PortAccessInfo] {
         guard let profile = profile(for: islandID), profile.ports.isEmpty == false else {
             return []
@@ -118,7 +119,8 @@ enum IslandCatalog {
                 let meters = userLocation.distance(from: portLocation)
                 let direction = PortDirectionHelper.directionLabel(
                     from: islandCenter,
-                    to: port.coordinate
+                    to: port.coordinate,
+                    language: language
                 )
                 return PortAccessInfo(
                     port: port,
@@ -191,10 +193,11 @@ enum IslandCatalog {
     static func formattedPortAccessLines(
         from coordinate: CLLocationCoordinate2D,
         islandID: String,
-        includeWalkingTime: Bool = true
+        includeWalkingTime: Bool = true,
+        language: AppLanguageMode = .japanese
     ) -> [String] {
-        portAccessInfos(from: coordinate, islandID: islandID).map {
-            $0.formattedLine(includeWalkingTime: includeWalkingTime)
+        portAccessInfos(from: coordinate, islandID: islandID, language: language).map {
+            $0.formattedLine(includeWalkingTime: includeWalkingTime, language: language)
         }
     }
 }

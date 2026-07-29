@@ -14,6 +14,7 @@ struct HourlyWeatherForecast: Codable, Identifiable {
     /// Open-Meteo の体感温度（実温とほぼ同じときは表示しない）
     let apparentTemperatureCelsius: Int?
     let condition: String
+    let weatherCode: Int?
     let humidityPercent: Int
     let precipitationProbabilityPercent: Int
     /// 予想降水量（mm）
@@ -28,5 +29,22 @@ struct HourlyWeatherForecast: Codable, Identifiable {
             return nil
         }
         return apparentTemperatureCelsius
+    }
+
+    func localizedCondition(language: AppLanguageMode) -> String {
+        let code = WeatherConditionMapper.resolvedWeatherCode(storedCode: weatherCode, condition: condition)
+        if let code {
+            return WeatherConditionMapper.localizedCondition(for: code, language: language)
+        }
+        return condition
+    }
+
+    func localizedTimeLabel(language: AppLanguageMode, isNow: Bool) -> String {
+        WeatherLabelFormatter.hourlyTimeLabel(
+            from: id,
+            fallback: timeLabel,
+            language: language,
+            isNow: isNow
+        )
     }
 }

@@ -107,6 +107,7 @@ private struct WeatherCachePayload: Decodable {
     let temperatureCelsius: Int
     let apparentTemperatureCelsius: Int?
     let condition: String
+    let weatherCode: Int?
     let humidityPercent: Int
     let windSpeedKmh: Int
     let currentWaveHeightMeters: Double?
@@ -123,6 +124,7 @@ private struct WeatherCachePayload: Decodable {
             temperatureCelsius: temperatureCelsius,
             apparentTemperatureCelsius: apparentTemperatureCelsius,
             condition: condition,
+            weatherCode: weatherCode,
             humidityPercent: humidityPercent,
             windSpeedKmh: windSpeedKmh,
             currentWaveHeightMeters: currentWaveHeightMeters,

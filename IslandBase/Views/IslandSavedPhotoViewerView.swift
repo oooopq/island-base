@@ -31,7 +31,7 @@ struct IslandSavedPhotoViewerView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("閉じる") {
+                    Button(languageStore.t(.close)) {
                         saveNoteIfNeeded()
                         dismiss()
                     }
@@ -44,7 +44,7 @@ struct IslandSavedPhotoViewerView: View {
                     } label: {
                         Image(systemName: "trash")
                     }
-                    .accessibilityLabel("写真メモを削除")
+                    .accessibilityLabel(languageStore.t(.deletePhotoMemo))
                 }
 
                 ToolbarItemGroup(placement: .keyboard) {
@@ -82,9 +82,9 @@ struct IslandSavedPhotoViewerView: View {
             .scrollDismissesKeyboard(.interactively)
         } else if didFinishLoadingFullImage {
             ContentUnavailableView(
-                "写真を開けません",
+                languageStore.t(.photoCannotOpen),
                 systemImage: "photo",
-                description: Text("保存データが見つかりませんでした")
+                description: Text(languageStore.t(.photoDataNotFound))
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {

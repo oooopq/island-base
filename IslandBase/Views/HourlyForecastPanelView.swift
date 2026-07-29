@@ -10,6 +10,8 @@ import SwiftUI
 struct HourlyForecastPanelView: View {
     let forecast: [HourlyWeatherForecast]
 
+    @Environment(AppLanguageStore.self) private var languageStore
+
     private let slotWidth: CGFloat = 50
     private let slotSpacing: CGFloat = 4
 
@@ -42,7 +44,7 @@ struct HourlyForecastPanelView: View {
             .padding(.vertical, 2)
         }
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("1時間ごとの気温グラフと予報")
+        .accessibilityLabel(languageStore.t(.hourlyForecastAccessibility))
     }
 }
 
@@ -138,13 +140,13 @@ private struct HourlyForecastCompactSlotView: View {
 
     var body: some View {
         VStack(spacing: 2) {
-            Text(isNow ? "今" : slot.timeLabel)
+            Text(slot.localizedTimeLabel(language: languageStore.mode, isNow: isNow))
                 .font(.system(size: 10, weight: .semibold))
                 .foregroundStyle(isNow ? palette.accent : palette.secondaryText)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
 
-            WeatherIconView(condition: slot.condition, iconSize: 14)
+            WeatherIconView(weatherCode: slot.weatherCode, condition: slot.condition, iconSize: 14)
 
             Text("\(slot.temperatureCelsius)°")
                 .font(.system(size: 11, weight: .semibold))
@@ -182,12 +184,13 @@ private struct HourlyForecastCompactSlotView: View {
     }
 
     private var accessibilityText: String {
-        let time = isNow ? "現在" : slot.timeLabel
-        var text = "\(time) \(slot.condition) 気温\(slot.temperatureCelsius)度"
+        let time = slot.localizedTimeLabel(language: languageStore.mode, isNow: isNow)
+        let condition = slot.localizedCondition(language: languageStore.mode)
+        var text = "\(time) \(condition) \(slot.temperatureCelsius)°C"
         if let apparentCelsius = slot.displayApparentTemperatureCelsius {
-            text += " 体感\(apparentCelsius)度"
+            text += " feels \(apparentCelsius)°C"
         }
-        text += " 湿度\(slot.humidityPercent)パーセント 風速\(formattedWindSpeedMs(kmh: slot.windSpeedKmh))メートル毎秒 降水量\(formattedPrecipitation(slot.precipitationMillimeters))"
+        text += " humidity \(slot.humidityPercent)% wind \(formattedWindSpeedMs(kmh: slot.windSpeedKmh)) precip \(formattedPrecipitation(slot.precipitationMillimeters))"
         return text
     }
 
@@ -225,6 +228,7 @@ private struct HourlyForecastCompactSlotView: View {
                 temperatureCelsius: 8 + hour,
                 apparentTemperatureCelsius: hour % 2 == 0 ? 8 + hour + 3 : nil,
                 condition: hour % 3 == 0 ? "くもり" : "晴れ",
+                weatherCode: hour % 3 == 0 ? 3 : 0,
                 humidityPercent: 70 - hour,
                 precipitationProbabilityPercent: hour % 4 == 0 ? 30 : 5,
                 precipitationMillimeters: hour % 4 == 0 ? 1.2 : 0,
@@ -234,4 +238,5 @@ private struct HourlyForecastCompactSlotView: View {
     )
     .padding()
     .environment(\.detailPalette, DetailCardPalette.dark)
+    .environment(AppLanguageStore())
 }

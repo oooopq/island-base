@@ -19,7 +19,7 @@ struct IslandUserLocationViewModel {
     let island: Island
     let islandProfile: IslandProfile?
 
-    func status(for userCoordinate: CLLocationCoordinate2D) -> IslandUserLocationStatus {
+    func status(for userCoordinate: CLLocationCoordinate2D, language: AppLanguageMode) -> IslandUserLocationStatus {
         let distanceFromCenter = distanceFromIslandCenter(from: userCoordinate)
         let onIslandRadius = islandProfile?.onIslandRadiusMeters ?? IslandProfile.defaultOnIslandRadiusMeters
         let isOnIsland = distanceFromCenter <= onIslandRadius
@@ -27,18 +27,21 @@ struct IslandUserLocationViewModel {
         if isOnIsland {
             return IslandUserLocationStatus(
                 isOnIsland: true,
-                summaryText: "島内にいます",
+                summaryText: AppText.onIsland.string(for: language),
                 portAccessLines: IslandCatalog.formattedPortAccessLines(
                     from: userCoordinate,
                     islandID: island.id,
-                    includeWalkingTime: true
+                    includeWalkingTime: true,
+                    language: language
                 )
             )
         }
 
         return IslandUserLocationStatus(
             isOnIsland: false,
-            summaryText: "この島から \(IslandCatalog.formattedDistance(distanceFromCenter)) の位置にいます",
+            summaryText: AppText.offIslandDistance(
+                IslandCatalog.formattedDistance(distanceFromCenter)
+            ).string(for: language),
             portAccessLines: []
         )
     }

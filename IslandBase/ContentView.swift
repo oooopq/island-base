@@ -35,6 +35,7 @@ struct ContentView: View {
                 mode: themeStore.mode,
                 palette: themeStore.palette
             )
+            .environment(languageStore)
             .environment(\.detailPalette, themeStore.palette)
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)

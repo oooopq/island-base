@@ -178,6 +178,7 @@ def build_today_hourly_forecast(hourly: Dict[str, Any], now: datetime) -> List[D
             {
                 "id": time_string,
                 "timeLabel": f"{hour}時",
+                "weatherCode": int(weather_codes[index]),
                 "temperatureCelsius": int(round(temperatures[index])),
                 "apparentTemperatureCelsius": apparent_celsius,
                 "condition": japanese_condition(int(weather_codes[index])),
@@ -217,6 +218,7 @@ def build_weekly_forecast(daily: Dict[str, Any]) -> List[Dict[str, Any]]:
             {
                 "id": times[index],
                 "dateLabel": date_label(times[index]),
+                "weatherCode": int(weather_codes[index]),
                 "minTemperatureCelsius": int(round(min_temperatures[index])),
                 "maxTemperatureCelsius": int(round(max_temperatures[index])),
                 "condition": japanese_condition(int(weather_codes[index])),
@@ -269,11 +271,14 @@ def build_weather_payload(
 
     current_wave, today_max_wave = build_wave_height_data(marine_entry, now)
 
+    current_weather_code = int(current.get("weather_code", -1))
+
     return {
         "updatedAt": updated_at,
         "temperatureCelsius": int(round(current.get("temperature_2m", 0))),
         "apparentTemperatureCelsius": apparent_celsius,
-        "condition": japanese_condition(int(current.get("weather_code", -1))),
+        "weatherCode": current_weather_code,
+        "condition": japanese_condition(current_weather_code),
         "humidityPercent": int(current.get("relative_humidity_2m", 0)),
         "windSpeedKmh": int(round(current.get("wind_speed_10m", 0))),
         "currentWaveHeightMeters": current_wave,
@@ -288,6 +293,7 @@ def validate_weather_payload(island_id: str, payload: Dict[str, Any]) -> None:
     required_keys = (
         "updatedAt",
         "temperatureCelsius",
+        "weatherCode",
         "condition",
         "humidityPercent",
         "windSpeedKmh",
@@ -301,11 +307,22 @@ def validate_weather_payload(island_id: str, payload: Dict[str, Any]) -> None:
     if not payload["condition"]:
         raise ValueError(f"{island_id}: condition が空です")
 
+    if not isinstance(payload.get("weatherCode"), int):
+        raise ValueError(f"{island_id}: weatherCode が不正です")
+
     if not isinstance(payload["todayHourlyForecast"], list):
         raise ValueError(f"{island_id}: todayHourlyForecast が配列ではありません")
 
     if not isinstance(payload["weeklyForecast"], list) or len(payload["weeklyForecast"]) < 1:
         raise ValueError(f"{island_id}: weeklyForecast が空です")
+
+    for index, slot in enumerate(payload["todayHourlyForecast"]):
+        if not isinstance(slot.get("weatherCode"), int):
+            raise ValueError(f"{island_id}: todayHourlyForecast[{index}] の weatherCode が不正です")
+
+    for index, day in enumerate(payload["weeklyForecast"]):
+        if not isinstance(day.get("weatherCode"), int):
+            raise ValueError(f"{island_id}: weeklyForecast[{index}] の weatherCode が不正です")
 
     if payload["condition"] == "不明" and payload.get("temperatureCelsius") == 0:
         raise ValueError(f"{island_id}: 天気データが不正です")

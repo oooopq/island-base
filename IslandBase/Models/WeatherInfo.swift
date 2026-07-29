@@ -12,6 +12,8 @@ struct WeatherInfo: Codable {
     /// Open-Meteo の体感温度（実温とほぼ同じときは表示しない）
     let apparentTemperatureCelsius: Int?
     let condition: String
+    /// WMO 天気コード（英語表示・アイコン用。古いキャッシュには無い）
+    let weatherCode: Int?
     let humidityPercent: Int
     let windSpeedKmh: Int
     /// 現在の有義波高（メートル）。取得できない場合は nil
@@ -39,6 +41,7 @@ struct WeatherInfo: Codable {
         temperatureCelsius: Int,
         apparentTemperatureCelsius: Int? = nil,
         condition: String,
+        weatherCode: Int? = nil,
         humidityPercent: Int,
         windSpeedKmh: Int,
         currentWaveHeightMeters: Double?,
@@ -50,6 +53,7 @@ struct WeatherInfo: Codable {
         self.temperatureCelsius = temperatureCelsius
         self.apparentTemperatureCelsius = apparentTemperatureCelsius
         self.condition = condition
+        self.weatherCode = weatherCode
         self.humidityPercent = humidityPercent
         self.windSpeedKmh = windSpeedKmh
         self.currentWaveHeightMeters = currentWaveHeightMeters
@@ -57,5 +61,15 @@ struct WeatherInfo: Codable {
         self.todayHourlyForecast = todayHourlyForecast
         self.weeklyForecast = weeklyForecast
         self.fetchedAt = fetchedAt
+    }
+}
+
+extension WeatherInfo {
+    func localizedCondition(language: AppLanguageMode) -> String {
+        let code = WeatherConditionMapper.resolvedWeatherCode(storedCode: weatherCode, condition: condition)
+        if let code {
+            return WeatherConditionMapper.localizedCondition(for: code, language: language)
+        }
+        return condition
     }
 }

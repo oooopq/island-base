@@ -25,7 +25,7 @@ struct PlacesSectionView: View {
         let status = IslandUserLocationViewModel(
             island: island,
             islandProfile: IslandCatalog.profile(for: island)
-        ).status(for: userCoordinate)
+        ).status(for: userCoordinate, language: languageStore.mode)
         return status.isOnIsland
     }
 

@@ -115,7 +115,7 @@ struct WeatherSectionView: View {
     @ViewBuilder
     private func currentWeatherPrimaryBlock(_ weather: WeatherInfo) -> some View {
         HStack(alignment: .center, spacing: 10) {
-            WeatherIconView(condition: weather.condition, iconSize: 52)
+            WeatherIconView(weatherCode: weather.weatherCode, condition: weather.condition, iconSize: 52)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("\(weather.temperatureCelsius)°\u{2060}C")
@@ -133,7 +133,7 @@ struct WeatherSectionView: View {
                         .minimumScaleFactor(0.75)
                 }
 
-                Text(weather.condition)
+                Text(weather.localizedCondition(language: languageStore.mode))
                     .font(.subheadline.weight(.medium))
                     .detailCardSecondaryText()
                     .lineLimit(1)
@@ -278,8 +278,12 @@ struct WeatherSectionView: View {
                 .foregroundStyle(palette.text)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("週間天気")
-            .accessibilityHint(isWeeklyForecastExpanded ? "タップで閉じる" : "タップで週間天気を表示")
+            .accessibilityLabel(languageStore.t(.weeklyWeatherAccessibility))
+            .accessibilityHint(
+                isWeeklyForecastExpanded
+                    ? languageStore.t(.tapToCollapse)
+                    : languageStore.t(.tapToExpandWeeklyWeather)
+            )
 
             if isWeeklyForecastExpanded {
                 WeeklyForecastPanelView(forecast: forecast)
@@ -296,6 +300,7 @@ struct WeatherSectionView: View {
                 temperatureCelsius: 28,
                 apparentTemperatureCelsius: 35,
                 condition: "晴れ",
+                weatherCode: 0,
                 humidityPercent: 72,
                 windSpeedKmh: 14,
                 currentWaveHeightMeters: 1.1,
@@ -307,6 +312,7 @@ struct WeatherSectionView: View {
                         temperatureCelsius: 27,
                         apparentTemperatureCelsius: 31,
                         condition: "晴れ",
+                        weatherCode: 0,
                         humidityPercent: 72,
                         precipitationProbabilityPercent: 10,
                         precipitationMillimeters: 0,
@@ -320,6 +326,7 @@ struct WeatherSectionView: View {
                         minTemperatureCelsius: 24,
                         maxTemperatureCelsius: 29,
                         condition: "晴れ",
+                        weatherCode: 0,
                         humidityPercent: 72,
                         precipitationProbabilityPercent: 20
                     )

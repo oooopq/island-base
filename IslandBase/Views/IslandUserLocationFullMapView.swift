@@ -17,6 +17,7 @@ struct IslandUserLocationFullMapView: View {
 
     @Environment(\.detailPalette) private var palette
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(AppLanguageStore.self) private var languageStore
     @Environment(\.dismiss) private var dismiss
     @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var currentCameraDistance: CLLocationDistance = 0
@@ -45,6 +46,7 @@ struct IslandUserLocationFullMapView: View {
                 islandProfile: islandProfile,
                 userCoordinate: userCoordinate,
                 palette: palette,
+                language: languageStore.mode,
                 showsUserLocationAnnotation: false,
                 onIslandTap: { focusOnPrimaryPort() },
                 onPortTap: { port in focusOnPort(port) }
@@ -68,7 +70,7 @@ struct IslandUserLocationFullMapView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Label("Island Base に戻る", systemImage: "xmark.circle.fill")
+                    Label(languageStore.t(.returnToIslandBase), systemImage: "xmark.circle.fill")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundStyle(palette.text)
@@ -77,11 +79,11 @@ struct IslandUserLocationFullMapView: View {
                         .background(.ultraThinMaterial, in: Capsule())
                 }
                 .buttonStyle(.plain)
-                .accessibilityHint("島の詳細画面に戻ります")
+                .accessibilityHint(languageStore.t(.returnToIslandDetailHint))
 
                 Spacer(minLength: 0)
 
-                Text(island.nameJapanese)
+                Text(island.primaryName(for: languageStore.mode))
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(palette.text)

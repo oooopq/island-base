@@ -13,24 +13,38 @@ struct ScheduleDepartureArrivalView: View {
     var isDepartureUrgent: Bool = false
 
     @Environment(\.detailPalette) private var palette
+    @Environment(AppLanguageStore.self) private var languageStore
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             departureRow
-            timeRow(time: arrivalTime, label: "着", labelColor: palette.secondaryText, isUrgent: false)
+            timeRow(
+                time: arrivalTime,
+                label: languageStore.t(.scheduleArrivalShort),
+                labelColor: palette.secondaryText,
+                isUrgent: false,
+                isDeparture: false
+            )
         }
     }
 
     private var departureRow: some View {
         timeRow(
             time: departureTime,
-            label: "発",
+            label: languageStore.t(.scheduleDepartureShort),
             labelColor: isDepartureUrgent ? .red : palette.accent,
-            isUrgent: isDepartureUrgent
+            isUrgent: isDepartureUrgent,
+            isDeparture: true
         )
     }
 
-    private func timeRow(time: String, label: String, labelColor: Color, isUrgent: Bool) -> some View {
+    private func timeRow(
+        time: String,
+        label: String,
+        labelColor: Color,
+        isUrgent: Bool,
+        isDeparture: Bool
+    ) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
             Text(time)
                 .font(.title2)
@@ -38,16 +52,17 @@ struct ScheduleDepartureArrivalView: View {
                 .monospacedDigit()
                 .foregroundStyle(isUrgent ? .red : palette.text)
 
-            Text(label == "発" ? "発" : "着")
+            Text(label)
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundStyle(labelColor)
 
-            if label == "着", NextDepartureHelper.isNextDayArrival(
+            if isDeparture == false,
+               NextDepartureHelper.isNextDayArrival(
                 departureTime: departureTime,
                 arrivalTime: arrivalTime
             ) {
-                Text("翌日")
+                Text(languageStore.t(.nextDayArrival))
                     .font(.caption2)
                     .fontWeight(.semibold)
                     .foregroundStyle(palette.warning)
@@ -63,4 +78,5 @@ struct ScheduleDepartureArrivalView: View {
     }
     .padding()
     .detailSectionCard()
+    .environment(AppLanguageStore())
 }

@@ -184,7 +184,7 @@ struct IslandSavedPhotosSectionView: View {
         }
 
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-            cameraUnavailableMessage = "カメラがない端末、またはシミュレーターでは撮影できません。"
+            cameraUnavailableMessage = languageStore.t(.cameraSimulatorUnavailable)
             return
         }
         showingCamera = true
