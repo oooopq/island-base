@@ -24,14 +24,8 @@ struct GTFSFerryParser {
         let calendarDates = files["calendar_dates.txt"].map(parseCSV) ?? []
 
         let activeServiceIDs = activeServiceIDs(calendarRows: calendar, calendarDates: calendarDates)
-        let routesByID = Dictionary(uniqueKeysWithValues: routes.compactMap { row -> (String, [String: String])? in
-            guard let routeID = row["route_id"] else { return nil }
-            return (routeID, row)
-        })
-        let stopNameByID = Dictionary(uniqueKeysWithValues: stops.compactMap { row -> (String, String)? in
-            guard let stopID = row["stop_id"], let stopName = row["stop_name"] else { return nil }
-            return (stopID, stopName)
-        })
+        let routesByID = rowDictionary(rows: routes, idKey: "route_id")
+        let stopNameByID = stringDictionary(rows: stops, idKey: "stop_id", valueKey: "stop_name")
 
         let stopTimesByTrip = Dictionary(grouping: stopTimes) { $0["trip_id"] ?? "" }
 
@@ -86,6 +80,29 @@ struct GTFSFerryParser {
         let rows = parseCSV(feedInfoText)
         guard let endDate = rows.first?["feed_end_date"], endDate.isEmpty == false else { return nil }
         return formatFeedDate(endDate)
+    }
+
+    /// uniqueKeysWithValues は重複キーでクラッシュするため、先勝ちで辞書化する
+    private func rowDictionary(rows: [[String: String]], idKey: String) -> [String: [String: String]] {
+        var result: [String: [String: String]] = [:]
+        for row in rows {
+            guard let id = row[idKey], result[id] == nil else { continue }
+            result[id] = row
+        }
+        return result
+    }
+
+    private func stringDictionary(
+        rows: [[String: String]],
+        idKey: String,
+        valueKey: String
+    ) -> [String: String] {
+        var result: [String: String] = [:]
+        for row in rows {
+            guard let id = row[idKey], let value = row[valueKey], result[id] == nil else { continue }
+            result[id] = value
+        }
+        return result
     }
 
     private func parseCSV(_ text: String) -> [[String: String]] {

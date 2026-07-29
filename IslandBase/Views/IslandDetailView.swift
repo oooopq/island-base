@@ -132,12 +132,13 @@ struct IslandDetailView: View {
             if usesFerryGTFS {
                 async let ferryLoad: Void = loadFerrySchedules()
                 await loadWeather()
-                await prefetchPlaces()
                 _ = await ferryLoad
             } else {
                 await loadWeather()
-                await prefetchPlaces()
             }
+        }
+        .task(id: island.id) {
+            await prefetchPlaces()
         }
         .task(id: placeSearchTaskID) {
             guard selectedSection == .places else { return }
@@ -300,10 +301,12 @@ struct IslandDetailView: View {
         if usesFerryGTFS {
             async let ferryLoad: Void = loadFerrySchedules()
             await loadWeather()
-            await prefetchPlaces()
             _ = await ferryLoad
         } else {
             await loadWeather()
+        }
+
+        Task {
             await prefetchPlaces()
         }
 
@@ -393,7 +396,7 @@ struct IslandDetailView: View {
         }
 
         do {
-            let result = try await fetchFerryWithTimeout(hasCache: hasCache)
+            let result = try await fetchFerryWithTimeout()
             ferryState = .loaded(
                 result.schedules,
                 isFromCache: false,
@@ -495,11 +498,8 @@ struct IslandDetailView: View {
         }
     }
 
-    private func fetchFerryWithTimeout(hasCache: Bool) async throws -> FerryFetchResult {
-        if hasCache {
-            return try await ferryService.fetchSchedules(for: island)
-        }
-        return try await NetworkTimeout.withTimeout {
+    private func fetchFerryWithTimeout() async throws -> FerryFetchResult {
+        try await NetworkTimeout.withTimeout {
             try await ferryService.fetchSchedules(for: island)
         }
     }
