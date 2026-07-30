@@ -31,11 +31,17 @@ private struct ParsedFeedResult: Sendable {
 
 struct FerryService {
     private let cacheKeyPrefix = "ferry_cache_v2_"
+    private static let japanCalendar: Calendar = {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Asia/Tokyo") ?? .current
+        return calendar
+    }()
 
     func fetchSchedules(for island: Island) async throws -> FerryFetchResult {
         let feeds = feeds(for: island)
         var schedules: [FerryCompanySchedule] = []
         var validUntilTexts: [String] = []
+        var anyFeedSucceeded = false
 
         for feed in feeds {
             do {
@@ -50,6 +56,7 @@ struct FerryService {
                 }
 
                 let parsed = try await parseFeed(data: data, islandID: island.id, feed: feed)
+                anyFeedSucceeded = true
 
                 if let validUntil = parsed.validUntilText {
                     validUntilTexts.append(validUntil)
@@ -66,8 +73,18 @@ struct FerryService {
             }
         }
 
-        guard schedules.isEmpty == false else {
-            throw FerryServiceError.noTripsFound
+        if schedules.isEmpty {
+            guard anyFeedSucceeded else {
+                throw FerryServiceError.networkUnavailable
+            }
+
+            let emptyResult = FerryFetchResult(
+                schedules: [],
+                validUntilText: validUntilTexts.max(),
+                fetchedAt: Date()
+            )
+            saveCache(emptyResult, for: island.id)
+            return emptyResult
         }
 
         let result = FerryFetchResult(
@@ -79,6 +96,7 @@ struct FerryService {
         return result
     }
 
+    /// 当日（日本時間）に取得したキャッシュのみ返す。前日の便は表示しない
     func cachedSchedules(for islandID: String) -> FerryFetchResult? {
         let key = cacheKeyPrefix + islandID
         guard let data = UserDefaults.standard.data(forKey: key) else {
@@ -90,13 +108,17 @@ struct FerryService {
             return nil
         }
 
-        let hasTrips = result.schedules.contains { $0.trips.isEmpty == false }
-        guard hasTrips else {
+        guard isFetchedTodayJapan(result.fetchedAt) else {
             UserDefaults.standard.removeObject(forKey: key)
             return nil
         }
 
         return result
+    }
+
+    private func isFetchedTodayJapan(_ fetchedAt: Date?) -> Bool {
+        guard let fetchedAt else { return false }
+        return Self.japanCalendar.isDate(fetchedAt, inSameDayAs: Date())
     }
 
     private func feeds(for island: Island) -> [FerryGTFSFeed] {
@@ -134,5 +156,6 @@ struct FerryService {
 
 enum FerryServiceError: Error {
     case badResponse
-    case noTripsFound
+    /// GTFS の取得・解析にすべて失敗した（通信不良など）
+    case networkUnavailable
 }

@@ -69,6 +69,7 @@ enum AppText {
     case userDistanceCaption
     case placeUserDistance(String, String)
     case noTripsForDestination
+    case noFerryTripsToday
     case noFlightsForDestination
     case dataValidUntil(String)
     case representativeTimetableNote
@@ -89,6 +90,7 @@ enum AppText {
     case offlineWeather
     case weatherTimeout
     case offlineFerry
+    case ferryTimeout
     case offlineFerryFallback
     case offlinePlaces
     case creditsAndSources
@@ -276,6 +278,8 @@ enum AppText {
             return "現在地から \(distance)（\(walking)）"
         case .noTripsForDestination:
             return "この行き先のダイヤはありません"
+        case .noFerryTripsToday:
+            return "本日の運行便はありません"
         case .noFlightsForDestination:
             return "この行き先の便はありません"
         case .dataValidUntil(let text):
@@ -316,6 +320,8 @@ enum AppText {
             return "天気の取得がタイムアウトしました。しばらくしてから再度お試しください。"
         case .offlineFerry:
             return "電波がないためダイヤを取得できませんでした"
+        case .ferryTimeout:
+            return "ダイヤの取得がタイムアウトしました。しばらくしてから再度お試しください。"
         case .offlineFerryFallback:
             return "ダイヤを取得できませんでした。代表ダイヤ（参考）を表示しています。"
         case .offlinePlaces:
@@ -395,7 +401,7 @@ enum AppText {
         case .hintBrightnessDetail:
             return "ライト / ダーク"
         case .hintAppearanceAndLanguage:
-            return "見た目と言葉を切り替えられます"
+            return "見た目と言語を切り替えられます"
         case .hintAppearanceAndLanguageFooter:
             return "いつでも右上から切り替えられます。"
         case .nowTimeLabel:
@@ -541,6 +547,8 @@ enum AppText {
             return "\(distance) from you (\(walking))"
         case .noTripsForDestination:
             return "No sailings for this destination"
+        case .noFerryTripsToday:
+            return "No ferries running today"
         case .noFlightsForDestination:
             return "No flights for this destination"
         case .dataValidUntil(let text):
@@ -581,6 +589,8 @@ enum AppText {
             return "Weather request timed out. Please try again in a moment."
         case .offlineFerry:
             return "Couldn’t load schedules — little or no signal"
+        case .ferryTimeout:
+            return "Schedule request timed out. Please try again in a moment."
         case .offlineFerryFallback:
             return "Couldn’t load schedules. Showing representative timetable for reference."
         case .offlinePlaces:

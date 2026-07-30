@@ -89,6 +89,8 @@ struct FerryScheduleSectionView: View {
             destinationID: selectedDestinationID
         )
 
+        let totalTrips = schedules.reduce(0) { $0 + $1.trips.count }
+
         if destinations.isEmpty == false {
             destinationPicker(destinations: destinations)
         }
@@ -102,7 +104,11 @@ struct FerryScheduleSectionView: View {
             )
         }
 
-        if visibleSchedules.isEmpty {
+        if totalTrips == 0 {
+            Text(languageStore.t(.noFerryTripsToday))
+                .font(.subheadline)
+                .detailCardSecondaryText()
+        } else if visibleSchedules.isEmpty {
             Text(languageStore.t(.noTripsForDestination))
                 .font(.subheadline)
                 .detailCardSecondaryText()

@@ -40,13 +40,15 @@ struct IslandDetailView: View {
         islandProfile?.hasInAppFerryTrips == true
     }
 
-    /// GTFS 失敗かつキャッシュの便もないとき、公式リンクを併せて出す
+    /// GTFS 失敗・本日0便のとき、公式リンクを併せて出す
     private var shouldShowFerryLinksAlongsideGTFSFailure: Bool {
         switch ferryState {
         case .failed(_, let cachedSchedules, _):
             let hasTrips = cachedSchedules?.contains { $0.trips.isEmpty == false } == true
             return hasTrips == false
-        case .loading, .loaded:
+        case .loaded(let schedules, _, _, _):
+            return schedules.allSatisfy { $0.trips.isEmpty }
+        case .loading:
             return false
         }
     }
@@ -326,12 +328,7 @@ struct IslandDetailView: View {
 
         if usesFerryGTFS {
             if let cached = ferryService.cachedSchedules(for: island.id) {
-                ferryState = .loaded(
-                    cached.schedules,
-                    isFromCache: true,
-                    validUntilText: cached.validUntilText,
-                    fetchedAt: cached.fetchedAt
-                )
+                ferryState = ferryLoadedState(from: cached)
             } else {
                 ferryState = .loading
             }
@@ -384,19 +381,10 @@ struct IslandDetailView: View {
         guard usesFerryGTFS else { return }
 
         let hasCache = ferryService.cachedSchedules(for: island.id) != nil
-
-        if case .loading = ferryState,
-           let cached = ferryService.cachedSchedules(for: island.id) {
-            ferryState = .loaded(
-                cached.schedules,
-                isFromCache: true,
-                validUntilText: cached.validUntilText,
-                fetchedAt: cached.fetchedAt
-            )
-        }
+        ensureFerryShowsCacheIfAvailable()
 
         do {
-            let result = try await fetchFerryWithTimeout()
+            let result = try await fetchFerryWithTimeout(hasCache: hasCache)
             ferryState = .loaded(
                 result.schedules,
                 isFromCache: false,
@@ -404,25 +392,47 @@ struct IslandDetailView: View {
                 fetchedAt: result.fetchedAt
             )
         } catch is CancellationError {
-            return
+            applyFerryErrorFallback(useTimeoutMessage: false)
+        } catch NetworkTimeout.TimeoutError.timedOut {
+            applyFerryErrorFallback(useTimeoutMessage: true)
         } catch {
-            if let cached = ferryService.cachedSchedules(for: island.id) {
-                ferryState = .loaded(
-                    cached.schedules,
-                    isFromCache: true,
-                    validUntilText: cached.validUntilText,
-                    fetchedAt: cached.fetchedAt
-                )
-                return
-            }
-
-            // GTFS 取得失敗・キャッシュもない場合は代表ダイヤを出さない
-            ferryState = .failed(
-                message: languageStore.t(.offlineFerry),
-                cachedSchedules: nil,
-                fetchedAt: nil
-            )
+            applyFerryErrorFallback(useTimeoutMessage: false)
         }
+    }
+
+    /// キャッシュがあるときは loading に落とさず、先に表示を復元する
+    @MainActor
+    private func ensureFerryShowsCacheIfAvailable() {
+        guard let cached = ferryService.cachedSchedules(for: island.id) else { return }
+        ferryState = ferryLoadedState(from: cached)
+    }
+
+    @MainActor
+    private func ferryLoadedState(from cached: FerryFetchResult) -> FerryLoadState {
+        .loaded(
+            cached.schedules,
+            isFromCache: true,
+            validUntilText: cached.validUntilText,
+            fetchedAt: cached.fetchedAt
+        )
+    }
+
+    @MainActor
+    private func applyFerryErrorFallback(useTimeoutMessage: Bool) {
+        if let cached = ferryService.cachedSchedules(for: island.id) {
+            ferryState = ferryLoadedState(from: cached)
+            return
+        }
+
+        // GTFS 取得失敗・キャッシュもない場合は代表ダイヤを出さない
+        let message = useTimeoutMessage
+            ? languageStore.t(.ferryTimeout)
+            : languageStore.t(.offlineFerry)
+        ferryState = .failed(
+            message: message,
+            cachedSchedules: nil,
+            fetchedAt: nil
+        )
     }
 
     @MainActor
@@ -498,9 +508,18 @@ struct IslandDetailView: View {
         }
     }
 
-    private func fetchFerryWithTimeout() async throws -> FerryFetchResult {
-        try await NetworkTimeout.withTimeout {
-            try await ferryService.fetchSchedules(for: island)
+    private func fetchFerryWithTimeout(hasCache: Bool) async throws -> FerryFetchResult {
+        let fetch = {
+            try await NetworkTimeout.withTimeout {
+                try await ferryService.fetchSchedules(for: island)
+            }
+        }
+
+        do {
+            return try await fetch()
+        } catch NetworkTimeout.TimeoutError.timedOut where !hasCache {
+            // キャッシュがないときだけ 1 回再試行（キャッシュありは早めに諦めて表示を維持）
+            return try await fetch()
         }
     }
 

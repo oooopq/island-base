@@ -39,8 +39,8 @@ ISLANDS = [
     ("IslandBgTsurushima", "tsurushima.jpg", ["tsurushima ehime", "釣島 愛媛"], ["tsurushima", "釣島", "tsuru"], []),
     ("IslandBgAijima", "aijima.jpg", ["aijima ehime kutsuna", "安居島 愛媛"], ["aijima", "安居"], []),
     ("IslandBgShodoshima", "shodoshima.jpg", ["shodoshima kagawa", "小豆島"], ["shodoshima", "小豆"], ["naoshima", "直島"]),
-    ("IslandBgNaoshima", "naoshima.jpg", ["naoshima kagawa japan", "直島 香川"], ["naoshima", "直島"], ["shodoshima", "小豆", "teshima", "豊島"]),
-    ("IslandBgTeshima", "teshima.jpg", ["teshima art museum", "豊島 香川"], ["teshima", "豊島"], ["naoshima", "直島", "shodoshima"]),
+    ("IslandBgNaoshima", "naoshima.jpg", ["naoshima kagawa japan aerial", "直島 香川 空撮"], ["naoshima", "直島"], ["shodoshima", "小豆", "teshima", "豊島", "benesse", "かぼちゃ"]),
+    ("IslandBgTeshima", "teshima.jpg", ["teshima island aerial kagawa", "豊島 空撮"], ["teshima", "豊島"], ["naoshima", "直島", "shodoshima", "art museum"]),
     ("IslandBgShodoshimaNaoshima", "shodoshima_naoshima.jpg", ["shodoshima setouchi", "小豆島 瀬戸内"], ["shodoshima", "小豆", "setouchi", "kagawa"], ["naoshima", "直島"]),
 ]
 

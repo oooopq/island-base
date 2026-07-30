@@ -35,6 +35,13 @@ enum YaeyamaIslandProfiles {
         statusPageURL: "https://aneikankou.co.jp/condition"
     )
 
+    private static let fukuyamaKaiun = FerryCompany(
+        name: "福山海運株式会社",
+        websiteURL: "https://www.yonakuni-ferry.com/",
+        phoneNumber: "0980-87-2555",
+        statusPageURL: "https://www.yonakuni-ferry.com/"
+    )
+
     private static let irimoteJyosen = FerryCompany(
         name: "西表島交通株式会社",
         websiteURL: "https://yubujima.com/",
@@ -252,8 +259,8 @@ enum YaeyamaIslandProfiles {
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.fukuyama, FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
         sampleFerrySchedules: [
             FerryCompanySchedule(
-                id: "yonaguni-anei",
-                company: aneiKanko,
+                id: "yonaguni-fukuyama",
+                company: fukuyamaKaiun,
                 trips: []
             ),
         ],

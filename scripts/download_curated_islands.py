@@ -42,10 +42,11 @@ CURATED = [
     ("IslandBgFutagamijima", "futagamijima.jpg", "wiki", "Futagami_jima_Island_Aerial_photograph.2019.jpg", "Photo: 国土地理院 / Wikimedia Commons（二神島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加"),
     ("IslandBgTsurushima", "tsurushima.jpg", "wiki", "Tsurushima_20180814_162343.jpg", "Photo: Ka23 13 / Wikimedia Commons（釣島）／CC BY 4.0／表示時に暗色グラデーションを追加"),
     ("IslandBgAijima", "aijima.jpg", "wiki", "Aijima_Island,_Ehime,_Japan_26-May-2018.jpg", "Photo: 全樺連 / Wikimedia Commons（安居島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
-    # 小豆島・直島 — Unsplash
+    # 小豆島・直島諸島 — Unsplash + Wikimedia（空中写真）
     ("IslandBgShodoshima", "shodoshima.jpg", "unsplash_slug", "people-walking-on-beach-during-daytime-k6IxsXAObPo", "Photo: Yu / Unsplash（小豆島・香川）"),
-    ("IslandBgNaoshima", "naoshima.jpg", "unsplash_slug", "a-yellow-and-black-fruit-3ItvceJh4hY", "Photo: Rahil Chadha / Unsplash（直島）"),
-    ("IslandBgTeshima", "teshima.jpg", "unsplash_slug", "people-inside-building-with-large-roof-hole-dP9zGPDQi6w", "Photo: Denis Kovalev / Unsplash（豊島・豊島美術館）"),
+    ("IslandBgNaoshima", "naoshima.jpg", "unsplash_slug", "a-small-island-in-the-middle-of-a-body-of-water-0o_77PCpA8Q", "Photo: Hotaria N / Unsplash（直島・香川）"),
+    ("IslandBgTeshima", "teshima.jpg", "unsplash_slug", "green-trees-near-body-of-water-during-daytime-xkT72lieaW0", "Photo: Victor Lu / Unsplash（豊島・香川）"),
+    ("IslandBgInujima", "inujima.jpg", "local", "", "Photo: Tomoyuki Shidara（犬島）／表示時に暗色グラデーションを追加"),
     ("IslandBgShodoshimaNaoshima", "shodoshima_naoshima.jpg", "unsplash_slug", "people-walking-on-beach-during-daytime-k6IxsXAObPo", "Photo: Yu / Unsplash（小豆島・香川）"),
     # 地域カバー
     ("IslandBgIzu", "izu.jpg", "unsplash_slug", "green-and-brown-plant-on-gray-rock-formation-near-blue-sea-during-daytime-i8bg_aTGloQ", "Photo: Ice Tea / Unsplash（神津島・伊豆諸島）"),

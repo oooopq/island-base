@@ -45,7 +45,7 @@
 
 | asset | 結果 |
 |---|---|
-| **IslandBgNaoshima** | `naoshima.jpg` と Unsplash（Rahil Chadha / `a-yellow-and-black-fruit-3ItvceJh4hY`）を照合し **一致**。旧 fetch 候補（猫の写真）は未採用 |
+| **IslandBgNaoshima** | 2026-07-30: Unsplash（Hotaria N / `0o_77PCpA8Q`）に差し替え済み（直島・自然風景。ベネッセ作品を含まない） |
 | **IslandBgTsurushima** | `tsurushima.jpg` と Wikimedia（Ka23 13 / `Tsurushima_20180814_162343.jpg`）を照合し **一致**。旧 fetch 候補（Unsplash）は未採用 |
 
 ### B. 自作写真（開発者撮影）— 確認済み
@@ -55,7 +55,7 @@
 | IslandBgKuroshima | Tomoyuki Shidara | `verified`（台帳・クレジット画面に記載） |
 | IslandBgHateruma | Tomoyuki Shidara | 同上 |
 | IslandBgHachijojima | Tomoyuki Shidara | 同上 |
-| IslandBgInujima | Tomoyuki Shidara | 同上 |
+| IslandBgInujima | Tomoyuki Shidara | 同上（2026-07-30 開発者撮影に復帰） |
 
 島詳細のクレジットは `Photo: Tomoyuki Shidara（島名）`。アプリ内の「自作写真（開発者撮影）」セクションで説明。
 
@@ -110,7 +110,9 @@
 | IslandBgKozushima | [i8bg_aTGloQ](https://unsplash.com/photos/green-and-brown-plant-on-gray-rock-formation-near-blue-sea-during-daytime-i8bg_aTGloQ) | 神津島 |
 | IslandBgMiyakejima | [kCsD88x1AM8](https://unsplash.com/photos/brown-rock-formation-on-body-of-water-during-daytime-kCsD88x1AM8) | 三宅島 |
 | IslandBgShodoshima | [k6IxsXAObPo](https://unsplash.com/photos/people-walking-on-beach-during-daytime-k6IxsXAObPo) | 小豆島 |
-| IslandBgTeshima | [dP9zGPDQi6w](https://unsplash.com/photos/people-inside-building-with-large-roof-hole-dP9zGPDQi6w) | 豊島美術館 |
+| IslandBgNaoshima | [0o_77PCpA8Q](https://unsplash.com/photos/a-small-island-in-the-middle-of-a-body-of-water-0o_77PCpA8Q) | 直島・Hotaria N |
+| IslandBgTeshima | [xkT72lieaW0](https://unsplash.com/photos/green-trees-near-body-of-water-during-daytime-xkT72lieaW0) | 豊島・Victor Lu |
+| IslandBgInujima | （開発者撮影） | Tomoyuki Shidara・犬島 |
 | IslandBgShodoshimaNaoshima | 上と同一 slug | `shodoshima.jpg` と `shodoshima_naoshima.jpg` の同一性 |
 | IslandBgIzu | Kozushima と同一 slug | `kozushima.jpg` と `izu.jpg` の同一性 |
 
