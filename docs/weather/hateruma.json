@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-07-31T03:40:11+09:00",
+  "updatedAt": "2026-07-31T05:22:43+09:00",
   "temperatureCelsius": 29,
   "apparentTemperatureCelsius": 35,
-  "weatherCode": 51,
-  "condition": "小雨",
-  "humidityPercent": 81,
-  "windSpeedKmh": 4,
+  "weatherCode": 2,
+  "condition": "くもり",
+  "humidityPercent": 82,
+  "windSpeedKmh": 5,
   "currentWaveHeightMeters": 0.58,
   "todayMaxWaveHeightMeters": 0.62,
   "todayHourlyForecast": [
-    {
-      "id": "2026-07-31T03:00",
-      "timeLabel": "3時",
-      "weatherCode": 2,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 36,
-      "condition": "くもり",
-      "humidityPercent": 81,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 3
-    },
-    {
-      "id": "2026-07-31T04:00",
-      "timeLabel": "4時",
-      "weatherCode": 51,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 35,
-      "condition": "小雨",
-      "humidityPercent": 81,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.2,
-      "windSpeedKmh": 5
-    },
     {
       "id": "2026-07-31T05:00",
       "timeLabel": "5時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 6
+    },
+    {
+      "id": "2026-08-01T03:00",
+      "timeLabel": "3時",
+      "weatherCode": 1,
+      "temperatureCelsius": 29,
+      "apparentTemperatureCelsius": 35,
+      "condition": "くもり",
+      "humidityPercent": 76,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 3
+    },
+    {
+      "id": "2026-08-01T04:00",
+      "timeLabel": "4時",
+      "weatherCode": 1,
+      "temperatureCelsius": 29,
+      "apparentTemperatureCelsius": 35,
+      "condition": "くもり",
+      "humidityPercent": 77,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 2
     }
   ],
   "weeklyForecast": [
