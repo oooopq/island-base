@@ -125,7 +125,7 @@ enum IslandRegionCatalog {
     // ピンは見やすさのため北東へ（忽那と重ならないよう「小」がアイコンに被らない程度に東へ）
     static let shodoshimaNaoshima = IslandRegion(
         id: "shodoshima_naoshima",
-        displayNameJapanese: "小豆島・直島諸島",
+        displayNameJapanese: "小豆島・直島エリア",
         displayNameEnglish: "Shodoshima & Naoshima",
         mapLabelJapanese: "小豆・直島",
         mapLabelEnglish: "Shodo·Nao",
