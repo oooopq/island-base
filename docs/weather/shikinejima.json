@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-08-05T04:51:01+09:00",
+  "updatedAt": "2026-08-05T06:22:50+09:00",
   "temperatureCelsius": 26,
-  "apparentTemperatureCelsius": 25,
+  "apparentTemperatureCelsius": 24,
   "weatherCode": 1,
   "condition": "くもり",
-  "humidityPercent": 85,
-  "windSpeedKmh": 44,
-  "currentWaveHeightMeters": 2.86,
+  "humidityPercent": 86,
+  "windSpeedKmh": 46,
+  "currentWaveHeightMeters": 2.82,
   "todayMaxWaveHeightMeters": 2.92,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-05T04:00",
-      "timeLabel": "4時",
-      "weatherCode": 1,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 25,
-      "condition": "くもり",
-      "humidityPercent": 84,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 45
-    },
-    {
-      "id": "2026-08-05T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 1,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 25,
-      "condition": "くもり",
-      "humidityPercent": 85,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 45
-    },
     {
       "id": "2026-08-05T06:00",
       "timeLabel": "6時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.3,
       "windSpeedKmh": 26
+    },
+    {
+      "id": "2026-08-06T04:00",
+      "timeLabel": "4時",
+      "weatherCode": 51,
+      "temperatureCelsius": 27,
+      "apparentTemperatureCelsius": 31,
+      "condition": "小雨",
+      "humidityPercent": 92,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.2,
+      "windSpeedKmh": 27
+    },
+    {
+      "id": "2026-08-06T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 51,
+      "temperatureCelsius": 27,
+      "apparentTemperatureCelsius": 30,
+      "condition": "小雨",
+      "humidityPercent": 92,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.2,
+      "windSpeedKmh": 29
     }
   ],
   "weeklyForecast": [
