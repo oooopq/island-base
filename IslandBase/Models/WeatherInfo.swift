@@ -65,6 +65,11 @@ struct WeatherInfo: Codable {
 }
 
 extension WeatherInfo {
+    /// 週間予報の先頭（今日）の日次予報
+    var todayDailyForecast: DailyWeatherForecast? {
+        weeklyForecast.first
+    }
+
     func localizedCondition(language: AppLanguageMode) -> String {
         let code = WeatherConditionMapper.resolvedWeatherCode(storedCode: weatherCode, condition: condition)
         if let code {

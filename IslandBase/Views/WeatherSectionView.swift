@@ -133,6 +133,14 @@ struct WeatherSectionView: View {
                         .minimumScaleFactor(0.75)
                 }
 
+                if let today = weather.todayDailyForecast {
+                    Text("\(today.minTemperatureCelsius)° / \(today.maxTemperatureCelsius)°")
+                        .font(.caption.weight(.medium))
+                        .detailCardSecondaryText()
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+                }
+
                 Text(weather.localizedCondition(language: languageStore.mode))
                     .font(.subheadline.weight(.medium))
                     .detailCardSecondaryText()
