@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-08-07T16:37:45+09:00",
+  "updatedAt": "2026-08-07T18:12:04+09:00",
   "temperatureCelsius": 32,
-  "apparentTemperatureCelsius": 36,
+  "apparentTemperatureCelsius": 35,
   "weatherCode": 3,
   "condition": "くもり",
-  "humidityPercent": 66,
-  "windSpeedKmh": 20,
-  "currentWaveHeightMeters": 0.94,
+  "humidityPercent": 70,
+  "windSpeedKmh": 23,
+  "currentWaveHeightMeters": 1.0,
   "todayMaxWaveHeightMeters": 1.24,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-07T16:00",
-      "timeLabel": "16時",
-      "weatherCode": 3,
-      "temperatureCelsius": 32,
-      "apparentTemperatureCelsius": 36,
-      "condition": "くもり",
-      "humidityPercent": 66,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 18
-    },
-    {
-      "id": "2026-08-07T17:00",
-      "timeLabel": "17時",
-      "weatherCode": 3,
-      "temperatureCelsius": 32,
-      "apparentTemperatureCelsius": 35,
-      "condition": "くもり",
-      "humidityPercent": 67,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 23
-    },
     {
       "id": "2026-08-07T18:00",
       "timeLabel": "18時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 22
+    },
+    {
+      "id": "2026-08-08T16:00",
+      "timeLabel": "16時",
+      "weatherCode": 2,
+      "temperatureCelsius": 32,
+      "apparentTemperatureCelsius": 36,
+      "condition": "くもり",
+      "humidityPercent": 73,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 20
+    },
+    {
+      "id": "2026-08-08T17:00",
+      "timeLabel": "17時",
+      "weatherCode": 2,
+      "temperatureCelsius": 32,
+      "apparentTemperatureCelsius": 36,
+      "condition": "くもり",
+      "humidityPercent": 74,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 20
     }
   ],
   "weeklyForecast": [
