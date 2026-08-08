@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-08-08T17:54:36+09:00",
+  "updatedAt": "2026-08-08T18:49:50+09:00",
   "temperatureCelsius": 29,
   "apparentTemperatureCelsius": 26,
   "weatherCode": 61,
   "condition": "雨",
   "humidityPercent": 82,
-  "windSpeedKmh": 70,
+  "windSpeedKmh": 67,
   "currentWaveHeightMeters": 2.72,
   "todayMaxWaveHeightMeters": 2.76,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-08T17:00",
-      "timeLabel": "17時",
-      "weatherCode": 65,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 26,
-      "condition": "雨",
-      "humidityPercent": 83,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 8.0,
-      "windSpeedKmh": 67
-    },
     {
       "id": "2026-08-08T18:00",
       "timeLabel": "18時",
@@ -296,6 +284,18 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 43
+    },
+    {
+      "id": "2026-08-09T17:00",
+      "timeLabel": "17時",
+      "weatherCode": 2,
+      "temperatureCelsius": 31,
+      "apparentTemperatureCelsius": 33,
+      "condition": "くもり",
+      "humidityPercent": 79,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 44
     }
   ],
   "weeklyForecast": [
@@ -344,9 +344,9 @@
       "dateLabel": "8/12（水）",
       "weatherCode": 51,
       "minTemperatureCelsius": 30,
-      "maxTemperatureCelsius": 32,
+      "maxTemperatureCelsius": 31,
       "condition": "小雨",
-      "humidityPercent": 81,
+      "humidityPercent": 82,
       "precipitationProbabilityPercent": 0
     },
     {
@@ -356,13 +356,13 @@
       "minTemperatureCelsius": 30,
       "maxTemperatureCelsius": 31,
       "condition": "くもり",
-      "humidityPercent": 80,
+      "humidityPercent": 83,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-08-14",
       "dateLabel": "8/14（金）",
-      "weatherCode": 51,
+      "weatherCode": 53,
       "minTemperatureCelsius": 30,
       "maxTemperatureCelsius": 31,
       "condition": "小雨",
