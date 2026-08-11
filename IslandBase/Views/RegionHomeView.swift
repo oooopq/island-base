@@ -17,19 +17,23 @@ struct RegionHomeView: View {
     @State private var mapSelectedRegionID: String?
 
     var body: some View {
-        VStack(spacing: 0) {
-            header
-                .padding(.horizontal, 20)
-                .padding(.top, 8)
-                .padding(.bottom, 12)
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                header
+                    .padding(.horizontal, 20)
+                    .padding(.top, 8)
+                    .padding(.bottom, 12)
 
-            japanMap
+                japanMap
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .layoutPriority(1)
 
-            regionCoverCarousel
-                .padding(.top, 12)
-                .padding(.bottom, 16)
+                regionCoverCarousel
+                    .padding(.top, 12)
+                    .padding(.bottom, 16)
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .top)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(homeBackground)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
@@ -79,10 +83,16 @@ struct RegionHomeView: View {
                 Text(languageStore.t(.pickRegionOnMap))
                     .font(.subheadline)
                     .foregroundStyle(palette.secondaryText)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.85)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Text(languageStore.t(.tapPinOrList))
                     .font(.caption)
                     .foregroundStyle(palette.secondaryText.opacity(0.85))
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.85)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -136,7 +146,6 @@ struct RegionHomeView: View {
             try? await Task.sleep(for: .milliseconds(200))
             applyJapanHomeCamera()
         }
-        .frame(minHeight: 240, maxHeight: .infinity)
         .frame(maxWidth: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay {
@@ -144,6 +153,7 @@ struct RegionHomeView: View {
                 .strokeBorder(palette.cardBorder, lineWidth: 1)
         }
         .padding(.horizontal, 16)
+        .frame(minHeight: 200, maxHeight: .infinity)
     }
 
     private func applyJapanHomeCamera() {

@@ -432,9 +432,9 @@ enum AppText {
     private var english: String {
         switch self {
         case .pickRegionOnMap:
-            return "Pick an island group to check weather and ferries now"
+            return "Pick a region for weather & ferries"
         case .tapPinOrList:
-            return "Tap a map pin or a card below"
+            return "Tap a pin or card below"
         case .recentIslands:
             return "Recent islands"
         case .chooseRegion:
