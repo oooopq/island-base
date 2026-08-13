@@ -24,6 +24,7 @@ struct IslandSavedPhotoViewerView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 photoContent
+                    .layoutPriority(1)
                 memoEditor
             }
             .background(palette.cardBackground.ignoresSafeArea())
@@ -72,14 +73,11 @@ struct IslandSavedPhotoViewerView: View {
     @ViewBuilder
     private var photoContent: some View {
         if let fullImage {
-            ScrollView {
-                Image(uiImage: fullImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 8)
-            }
-            .scrollDismissesKeyboard(.interactively)
+            ZoomableImageView(image: fullImage)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.vertical, 8)
+                .accessibilityLabel(languageStore.t(.photoMemoLabel))
+                .accessibilityHint(languageStore.t(.photoMemoZoomHint))
         } else if didFinishLoadingFullImage {
             ContentUnavailableView(
                 languageStore.t(.photoCannotOpen),
