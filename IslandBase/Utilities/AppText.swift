@@ -87,6 +87,7 @@ enum AppText {
     case photoMemoLabel
     case photoMemoPlaceholder
     case photoMemoDone
+    case photoMemoZoomHint
     case offlineWeather
     case weatherTimeout
     case offlineFerry
@@ -314,6 +315,8 @@ enum AppText {
             return "運賃・便名・注意点などを入力"
         case .photoMemoDone:
             return "完了"
+        case .photoMemoZoomHint:
+            return "ピンチまたはダブルタップで拡大できます"
         case .offlineWeather:
             return "天気を取得できませんでした。通信状況をご確認ください。"
         case .weatherTimeout:
@@ -583,6 +586,8 @@ enum AppText {
             return "Fares, sailings, tips…"
         case .photoMemoDone:
             return "Done"
+        case .photoMemoZoomHint:
+            return "Pinch or double-tap to zoom"
         case .offlineWeather:
             return "Couldn't load weather. Check your connection."
         case .weatherTimeout:
