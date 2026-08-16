@@ -36,7 +36,7 @@ iOS WeatherService
 |----------|------|
 | `.github/workflows/weather-cache.yml` | 毎時 cron + workflow_dispatch |
 | `scripts/fetch_weather_cache.py` | バッチ取得・変換・検証 |
-| `scripts/weather_locations.json` | 天気地点座標の正本（33島） |
+| `scripts/weather_locations.json` | 天気地点座標の正本（35島） |
 | `docs/weather/{id}.json` | Actions が生成する静的キャッシュ |
 | `docs/weather/manifest.json` | 運用用メタデータ（アプリ必須取得ではない） |
 | `IslandBase/Services/WeatherService.swift` | 取得元を Pages JSON に差し替え |
@@ -77,7 +77,7 @@ iOS WeatherService
 
 ## Actions の失敗時ポリシー
 
-- 全33島の検証に合格した場合**のみ** `docs/weather/` を上書きして commit
+- 全35島の検証に合格した場合**のみ** `docs/weather/` を上書きして commit
 - 1島でも失敗 → **git を触らない**（前回の Pages 配信を維持）
 
 ## アプリ側キャッシュ対策

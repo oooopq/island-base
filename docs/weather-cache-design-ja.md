@@ -14,7 +14,7 @@ Cloud Agent で検討した内容のまとめです。Mac 上の Cursor で実�
 
 ```
 GitHub Actions（毎時 JST :10）
-  ├─ scripts/weather_locations.json を読む（33島の天気地点）
+  ├─ scripts/weather_locations.json を読む（35島の天気地点）
   ├─ Open-Meteo forecast API … 1回（全島バッチ）
   ├─ Open-Meteo marine API … 1回（全島バッチ）
   ├─ WeatherService.swift と同じ変換ロジックで JSON 化
@@ -40,7 +40,7 @@ iOS アプリ
 
 | 結果 | 動作 |
 |------|------|
-| 全33島の取得・変換・検証が成功 | `docs/weather/` を更新して commit |
+| 全35島の取得・変換・検証が成功 | `docs/weather/` を更新して commit |
 | 1島でも失敗 | **commit しない**（前回の Pages 配信を維持） |
 
 ### Open-Meteo コール数
@@ -50,7 +50,7 @@ iOS アプリ
 
 ## 座標の正本
 
-`scripts/weather_locations.json`（33島）
+`scripts/weather_locations.json`（35島）
 
 - 各島の `IslandProfile.resolvedWeatherLocation` と一致（現状は全島「先頭の港」）
 - `weatherLocation` 未設定の島は先頭港座標を使用

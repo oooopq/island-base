@@ -21,6 +21,8 @@ CURATED = [
     ("IslandBgKuroshima", "kuroshima.jpg", "local", "", "Photo: Tomoyuki Shidara（黒島）"),
     ("IslandBgHateruma", "hateruma.jpg", "local", "", "Photo: Tomoyuki Shidara（波照間島・西浜）"),
     ("IslandBgYonaguni", "yonaguni.jpg", "wiki", "Yonaguni_agarizaki.jpg", "Photo: Metatron / Wikimedia Commons（与那国島・東崎）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgKohama", "kohama.jpg", "wiki", "Yaeyama_kohama_tumaru_beach.jpg", "Photo: Paipateroma / Wikimedia Commons（小浜島・トゥマールビーチ）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
+    ("IslandBgHatoma", "hatoma.jpg", "wiki", "Hatoma_maenohama.jpg", "Photo: Paipateroma / Wikimedia Commons（鳩間島・前の浜）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
     # 佐渡
     ("IslandBgSado", "sado.jpg", "wiki", "矢島経島たらい舟_-_panoramio.jpg", "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
     # 伊豆 — Wikimedia

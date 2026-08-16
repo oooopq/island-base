@@ -346,8 +346,8 @@ def write_json(path: Path, payload: Dict[str, Any]) -> None:
 
 def main() -> int:
     locations = load_locations()
-    if len(locations) != 33:
-        print(f"警告: 座標は33島想定ですが {len(locations)} 件です", file=sys.stderr)
+    if len(locations) != 35:
+        print(f"警告: 座標は35島想定ですが {len(locations)} 件です", file=sys.stderr)
 
     now = datetime.now(JST)
     updated_at = now.isoformat(timespec="seconds")

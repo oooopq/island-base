@@ -13,9 +13,11 @@ enum YaeyamaIslandProfiles {
     static let all: [IslandProfile] = [
         ishigaki,
         taketomi,
+        kohama,
         kuroshima,
         hateruma,
         iriomote,
+        hatoma,
         yonaguni,
     ]
 
@@ -138,6 +140,44 @@ enum YaeyamaIslandProfiles {
         flightScheduleNote: nil,
     )
 
+    // MARK: - 小浜島
+
+    private static let kohama = IslandProfile(
+        island: Island(id: "kohama", nameJapanese: "小浜島", nameEnglish: "Kohama", latitude: 24.341111, longitude: 123.980833),
+        regionID: "yaeyama",
+        // 港座標: 海上保安庁「八重山列島の港」小浜（地方港湾）24°20′42″N 123°59′35″E。細崎漁港ではない
+        ports: [IslandPort(name: "小浜港", latitude: 24.345000, longitude: 123.993056)],
+        jmaMarineForecastArea: .okinawaSouth,
+        backgroundAssetName: "IslandBgKohama",
+        backgroundCredit: "Photo: Paipateroma / Wikimedia Commons（小浜島・トゥマールビーチ）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        placeSearchRadiusMeters: 6_000,
+        routeKeywords: ["小浜"],
+        ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
+        sampleFerrySchedules: [
+            FerryCompanySchedule(
+                id: "kohama-yaeyama",
+                company: yaeyamaFerry,
+                trips: []
+            ),
+            FerryCompanySchedule(
+                id: "kohama-anei",
+                company: aneiKanko,
+                trips: []
+            ),
+        ],
+        usefulInfo: [
+            UsefulInfo(id: "kohama-clinic", category: .medical, name: "県立小浜診療所", phoneNumber: "0980-85-3247", address: "沖縄県竹富町小浜30", websiteURL: "https://yaeyamaweb.hosp.pref.okinawa.jp/information/shinryou/kohama/", note: "平日診療（詳細は要確認）"),
+            UsefulInfo(id: "kohama-convenience", category: .convenience, name: "小浜港・集落周辺", phoneNumber: nil, address: "小浜港から徒歩圏内", websiteURL: nil, note: "港周辺に店舗あり。コンビニは少なめ"),
+            UsefulInfo(id: "kohama-tourism", category: .tourism, name: "竹富町観光協会（小浜島）", phoneNumber: "0980-85-2441", address: "沖縄県竹富町小浜", websiteURL: "https://www.taketomijima.jp/", note: "大岳展望台・ちゅらさんの島"),
+        ],
+        liveCameras: [],
+        youtubeRelatedLinks: [
+            yaeyamaYouTube(title: "八重山リアルタイム（小浜島周辺）"),
+        ],
+        flightSchedules: [],
+        flightScheduleNote: nil,
+    )
+
     // MARK: - 黒島
 
     private static let kuroshima = IslandProfile(
@@ -240,6 +280,44 @@ enum YaeyamaIslandProfiles {
         ],
         youtubeRelatedLinks: [
             yaeyamaYouTube(title: "八重山リアルタイム（西表島周辺）"),
+        ],
+        flightSchedules: [],
+        flightScheduleNote: nil,
+    )
+
+    // MARK: - 鳩間島
+
+    private static let hatoma = IslandProfile(
+        island: Island(id: "hatoma", nameJapanese: "鳩間島", nameEnglish: "Hatoma", latitude: 24.472780, longitude: 123.820000),
+        regionID: "yaeyama",
+        // 港座標: 海上保安庁「八重山列島の港」鳩間（地方港湾）24°28′03″N 123°49′16″E。島の南側
+        ports: [IslandPort(name: "鳩間港", latitude: 24.467500, longitude: 123.821111)],
+        jmaMarineForecastArea: .okinawaSouth,
+        backgroundAssetName: "IslandBgHatoma",
+        backgroundCredit: "Photo: Paipateroma / Wikimedia Commons（鳩間島・前の浜）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        placeSearchRadiusMeters: 3_000,
+        routeKeywords: ["鳩間"],
+        ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
+        sampleFerrySchedules: [
+            FerryCompanySchedule(
+                id: "hatoma-anei",
+                company: aneiKanko,
+                trips: []
+            ),
+            FerryCompanySchedule(
+                id: "hatoma-yaeyama",
+                company: yaeyamaFerry,
+                trips: []
+            ),
+        ],
+        usefulInfo: [
+            UsefulInfo(id: "hatoma-clinic", category: .medical, name: "常設診療所なし（西表・石垣へ）", phoneNumber: "0980-85-6268", address: "西表西部診療所（上原）", websiteURL: nil, note: "鳩間島に常設診療所はありません。急病時は西表西部診療所または石垣の八重山病院へ"),
+            UsefulInfo(id: "hatoma-convenience", category: .convenience, name: "鳩間港・集落周辺", phoneNumber: nil, address: "鳩間港付近", websiteURL: nil, note: "店舗は限られます。現金の用意を"),
+            UsefulInfo(id: "hatoma-tourism", category: .tourism, name: "竹富町観光協会（鳩間島）", phoneNumber: "0980-85-2441", address: "沖縄県竹富町鳩間", websiteURL: "https://www.taketomijima.jp/", note: "西表島の北、上原港からも就航"),
+        ],
+        liveCameras: [],
+        youtubeRelatedLinks: [
+            yaeyamaYouTube(title: "八重山リアルタイム（鳩間島周辺）"),
         ],
         flightSchedules: [],
         flightScheduleNote: nil,

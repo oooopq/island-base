@@ -71,14 +71,14 @@
 
 | グループ | asset（一覧） |
 |---|---|
-| 八重山 CC | IslandBgYonaguni |
+| 八重山 CC | IslandBgYonaguni, IslandBgKohama, IslandBgHatoma |
 | 佐渡 | IslandBgSado |
 | 伊豆 CC | IslandBgOshima, IslandBgToshima, IslandBgShikinejima, IslandBgMikurajima |
 | 忽那 CC | IslandBgNakajima, IslandBgGogoshima, IslandBgMuzukijima, IslandBgNogutsunajima, IslandBgTsurushima, IslandBgAijima, IslandBgKutsuna |
 | 忽那 GSI | IslandBgNuwajima, IslandBgTsuwajishima, IslandBgFutagamijima |
 | 五島 CC | IslandBgGoto, IslandBgFukue, IslandBgHisaka, IslandBgNaru, IslandBgWakamatsu, IslandBgNakadori |
 
-**照合結果**: 39/39 verified（2026-07-29 時点）。照合スクリプト: `python3 scripts/verify_image_provenance.py`
+**照合結果**: 41/41 verified（2026-08-16 時点。鳩間・小浜を追加）。照合スクリプト: `python3 scripts/verify_image_provenance.py`
 
 **五島の File 名（照合済み）**
 
