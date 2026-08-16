@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-08-16T10:53:39+09:00",
+  "updatedAt": "2026-08-16T12:09:14+09:00",
   "temperatureCelsius": 25,
-  "apparentTemperatureCelsius": 29,
-  "weatherCode": 63,
-  "condition": "雨",
-  "humidityPercent": 90,
-  "windSpeedKmh": 13,
+  "apparentTemperatureCelsius": 28,
+  "weatherCode": 55,
+  "condition": "小雨",
+  "humidityPercent": 87,
+  "windSpeedKmh": 14,
   "currentWaveHeightMeters": 0.94,
   "todayMaxWaveHeightMeters": 0.96,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-16T10:00",
-      "timeLabel": "10時",
-      "weatherCode": 63,
-      "temperatureCelsius": 25,
-      "apparentTemperatureCelsius": 29,
-      "condition": "雨",
-      "humidityPercent": 92,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 4.4,
-      "windSpeedKmh": 15
-    },
-    {
-      "id": "2026-08-16T11:00",
-      "timeLabel": "11時",
-      "weatherCode": 63,
-      "temperatureCelsius": 25,
-      "apparentTemperatureCelsius": 29,
-      "condition": "雨",
-      "humidityPercent": 89,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 3.3,
-      "windSpeedKmh": 13
-    },
     {
       "id": "2026-08-16T12:00",
       "timeLabel": "12時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 1.8,
       "windSpeedKmh": 12
+    },
+    {
+      "id": "2026-08-17T10:00",
+      "timeLabel": "10時",
+      "weatherCode": 55,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 31,
+      "condition": "小雨",
+      "humidityPercent": 90,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 1.0,
+      "windSpeedKmh": 11
+    },
+    {
+      "id": "2026-08-17T11:00",
+      "timeLabel": "11時",
+      "weatherCode": 51,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 31,
+      "condition": "小雨",
+      "humidityPercent": 90,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.3,
+      "windSpeedKmh": 11
     }
   ],
   "weeklyForecast": [
