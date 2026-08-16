@@ -73,11 +73,15 @@ struct IslandSavedPhotoViewerView: View {
     @ViewBuilder
     private var photoContent: some View {
         if let fullImage {
-            ZoomableImageView(image: fullImage)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding(.vertical, 8)
-                .accessibilityLabel(languageStore.t(.photoMemoLabel))
-                .accessibilityHint(languageStore.t(.photoMemoZoomHint))
+            GeometryReader { proxy in
+                ZoomableImageView(image: fullImage)
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.vertical, 8)
+            .clipped()
+            .accessibilityLabel(languageStore.t(.photoMemoLabel))
+            .accessibilityHint(languageStore.t(.photoMemoZoomHint))
         } else if didFinishLoadingFullImage {
             ContentUnavailableView(
                 languageStore.t(.photoCannotOpen),
