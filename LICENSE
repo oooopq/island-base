@@ -1,42 +1,79 @@
 Copyright (c) 2026 Tomoyuki Shidara. All Rights Reserved.
 
-本リポジトリおよび本リポジトリに含まれるすべてのソースコード、
-ドキュメント、画像、その他の素材（以下「本ソフトウェア」）の
-著作権は、Tomoyuki Shidara に帰属します。
+## 日本語
 
-本ソフトウェアは、All Rights Reserved（全著作権留保）です。
-Tomoyuki Shidara による事前の書面による許可なく、以下の行為を
-一切禁止します。
+### 本ライセンスの対象
+
+本リポジトリに含まれるソースコード、オリジナルのドキュメント、
+および Tomoyuki Shidara が制作・撮影した素材のうち、第三者素材として
+明示されていないもの（以下「本ソフトウェア」）の著作権は、
+Tomoyuki Shidara に帰属します。
+
+本ソフトウェアは All Rights Reserved（全著作権留保）です。
+Tomoyuki Shidara による事前の書面による許可なく、以下の行為を禁止します。
 
 1. 本ソフトウェアの利用（個人・商用を問わず）
 2. 本ソフトウェアの改変、翻案、または派生物の作成
 3. 本ソフトウェアの再配布、公開、または第三者への提供
-4. 本ソフトウェアを用いたアプリケーションのリリース、
-   配布、または公開（App Store 等を含むすべての手段）
+4. 本ソフトウェアを用いたアプリケーションのリリース、配布、または公開
+
+### 第三者素材・データ
+
+本リポジトリには、Wikimedia Commons、Unsplash、国土地理院、
+Open-Meteo その他の第三者が権利を有する画像・データ等が含まれます。
+これらの第三者素材・データは本ライセンスの対象外であり、
+それぞれの原ライセンスおよび利用条件が優先して適用されます。
+Tomoyuki Shidara がこれらの第三者素材・データの著作権を所有する、
+または利用・改変・再配布を一律に禁止するものではありません。
+
+背景画像等の権利者、原典およびライセンスは
+`docs/image-provenance.csv` とアプリ内の「クレジット・出典」を参照してください。
+`docs/weather/` の天気・海洋データは Open-Meteo のデータを基にしており、
+同サービスおよび原データの利用条件に従います。
+
+### 免責
 
 本ソフトウェアは「現状有姿」で提供されます。
 明示または黙示を問わず、いかなる保証も行いません。
-
 本ソフトウェアの利用または利用不能から生じる損害について、
-法令で認められる範囲を超えて、著作権者は一切の責任を負いません。
+法令で認められる範囲を超えて、著作権者は責任を負いません。
 
 ---
 
-Copyright (c) 2026 Tomoyuki Shidara. All Rights Reserved.
+## English
 
-All source code, documentation, images, and other materials in this
-repository (the "Software") are owned by Tomoyuki Shidara.
+### Scope of this license
 
-The Software is All Rights Reserved. Without prior written permission
-from Tomoyuki Shidara, you may not:
+Copyright in the source code, original documentation, and materials created
+or photographed by Tomoyuki Shidara that are not identified as third-party
+materials (the "Software") belongs to Tomoyuki Shidara.
 
-1. Use the Software (for any purpose, personal or commercial)
+The Software is All Rights Reserved. Without prior written permission from
+Tomoyuki Shidara, you may not:
+
+1. Use the Software for personal or commercial purposes
 2. Modify, adapt, or create derivative works of the Software
 3. Redistribute, publish, or provide the Software to any third party
-4. Release, distribute, or publish any application using the Software
-   (including via App Store or any other channel)
+4. Release, distribute, or publish an application using the Software
+
+### Third-party materials and data
+
+This repository includes images, data, and other materials owned by third
+parties, including Wikimedia Commons contributors, Unsplash contributors,
+the Geospatial Information Authority of Japan, and Open-Meteo data providers.
+Those materials are excluded from this license and remain subject to their
+respective source licenses and terms. This license does not claim that
+Tomoyuki Shidara owns their copyrights, nor does it impose the restrictions
+above on those third-party materials.
+
+See `docs/image-provenance.csv` and the in-app Credits & Sources screen for
+image authors, source information, and licenses. Weather and marine data in
+`docs/weather/` are derived from Open-Meteo data and remain subject to the
+applicable service and source-data terms.
+
+### Disclaimer
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
-TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT
-HOLDER SHALL NOT BE LIABLE FOR ANY DAMAGES ARISING FROM THE USE OR
-INABILITY TO USE THE SOFTWARE.
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT HOLDER
+SHALL NOT BE LIABLE FOR DAMAGES ARISING FROM THE USE OR INABILITY TO USE
+THE SOFTWARE.
