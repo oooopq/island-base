@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-08-17T20:35:16+09:00",
+  "updatedAt": "2026-08-17T22:02:19+09:00",
   "temperatureCelsius": 28,
   "apparentTemperatureCelsius": 31,
   "weatherCode": 2,
   "condition": "くもり",
   "humidityPercent": 83,
-  "windSpeedKmh": 22,
-  "currentWaveHeightMeters": 1.04,
-  "todayMaxWaveHeightMeters": 1.4,
+  "windSpeedKmh": 21,
+  "currentWaveHeightMeters": 1.0,
+  "todayMaxWaveHeightMeters": 1.56,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-17T20:00",
-      "timeLabel": "20時",
-      "weatherCode": 2,
-      "temperatureCelsius": 28,
-      "apparentTemperatureCelsius": 31,
-      "condition": "くもり",
-      "humidityPercent": 83,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 22
-    },
-    {
-      "id": "2026-08-17T21:00",
-      "timeLabel": "21時",
-      "weatherCode": 2,
-      "temperatureCelsius": 28,
-      "apparentTemperatureCelsius": 31,
-      "condition": "くもり",
-      "humidityPercent": 83,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 23
-    },
     {
       "id": "2026-08-17T22:00",
       "timeLabel": "22時",
@@ -120,13 +96,13 @@
     {
       "id": "2026-08-18T05:00",
       "timeLabel": "5時",
-      "weatherCode": 2,
+      "weatherCode": 51,
       "temperatureCelsius": 28,
       "apparentTemperatureCelsius": 31,
-      "condition": "くもり",
+      "condition": "小雨",
       "humidityPercent": 83,
       "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
+      "precipitationMillimeters": 0.1,
       "windSpeedKmh": 20
     },
     {
@@ -138,7 +114,7 @@
       "condition": "小雨",
       "humidityPercent": 87,
       "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.2,
+      "precipitationMillimeters": 0.1,
       "windSpeedKmh": 21
     },
     {
@@ -150,7 +126,7 @@
       "condition": "小雨",
       "humidityPercent": 88,
       "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.4,
+      "precipitationMillimeters": 0.1,
       "windSpeedKmh": 19
     },
     {
@@ -162,31 +138,31 @@
       "condition": "小雨",
       "humidityPercent": 87,
       "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.3,
+      "precipitationMillimeters": 0.1,
       "windSpeedKmh": 18
     },
     {
       "id": "2026-08-18T09:00",
       "timeLabel": "9時",
-      "weatherCode": 51,
+      "weatherCode": 1,
       "temperatureCelsius": 28,
       "apparentTemperatureCelsius": 32,
-      "condition": "小雨",
+      "condition": "くもり",
       "humidityPercent": 86,
       "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.4,
+      "precipitationMillimeters": 0.0,
       "windSpeedKmh": 19
     },
     {
       "id": "2026-08-18T10:00",
       "timeLabel": "10時",
-      "weatherCode": 51,
+      "weatherCode": 1,
       "temperatureCelsius": 28,
       "apparentTemperatureCelsius": 31,
-      "condition": "小雨",
+      "condition": "くもり",
       "humidityPercent": 86,
       "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.1,
+      "precipitationMillimeters": 0.0,
       "windSpeedKmh": 20
     },
     {
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 8
+    },
+    {
+      "id": "2026-08-18T20:00",
+      "timeLabel": "20時",
+      "weatherCode": 1,
+      "temperatureCelsius": 27,
+      "apparentTemperatureCelsius": 33,
+      "condition": "くもり",
+      "humidityPercent": 86,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 9
+    },
+    {
+      "id": "2026-08-18T21:00",
+      "timeLabel": "21時",
+      "weatherCode": 2,
+      "temperatureCelsius": 27,
+      "apparentTemperatureCelsius": 33,
+      "condition": "くもり",
+      "humidityPercent": 87,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 11
     }
   ],
   "weeklyForecast": [
