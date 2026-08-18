@@ -12,9 +12,8 @@ struct RegionHomeView: View {
     @Environment(\.detailPalette) private var palette
     @Environment(LastSelectedIslandStore.self) private var lastSelectedIslandStore
     @Environment(AppLanguageStore.self) private var languageStore
+    @Environment(\.navigateToRegion) private var navigateToRegion
     @State private var cameraPosition: MapCameraPosition = RegionMapSupport.japanHomeCameraPosition()
-    /// 地図ピンタップ用（Map 内の NavigationLink は実機で真っ暗になることがある）
-    @State private var mapSelectedRegionID: String?
 
     var body: some View {
         GeometryReader { geometry in
@@ -56,11 +55,6 @@ struct RegionHomeView: View {
             }
         }
         .navigationDestination(for: String.self) { regionID in
-            if let region = IslandRegionCatalog.region(for: regionID) {
-                RegionIslandsView(region: region)
-            }
-        }
-        .navigationDestination(item: $mapSelectedRegionID) { regionID in
             if let region = IslandRegionCatalog.region(for: regionID) {
                 RegionIslandsView(region: region)
             }
@@ -123,7 +117,8 @@ struct RegionHomeView: View {
             ForEach(IslandCatalog.regions) { region in
                 Annotation("", coordinate: region.mapCoordinate) {
                     Button {
-                        mapSelectedRegionID = region.id
+                        // Map 内の NavigationLink は実機で真っ暗になることがあるため path に追加する
+                        navigateToRegion(region.id)
                     } label: {
                         JapanRegionMarkerView(region: region)
                     }

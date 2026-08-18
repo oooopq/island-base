@@ -20,6 +20,9 @@ struct ContentView: View {
             RegionHomeView()
         }
         .environment(\.popToHome, { popToHome() })
+        .environment(\.navigateToRegion, { regionID in
+            navigationPath.append(regionID)
+        })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(red: 0.06, green: 0.08, blue: 0.12).ignoresSafeArea())
         .environment(themeStore)

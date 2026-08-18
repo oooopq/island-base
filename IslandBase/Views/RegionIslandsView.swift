@@ -14,7 +14,6 @@ struct RegionIslandsView: View {
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
     @State private var cameraPosition: MapCameraPosition = .automatic
-    @State private var selectedIsland: Island?
 
     private var islands: [Island] {
         IslandCatalog.islands(forRegionID: region.id)
@@ -27,9 +26,7 @@ struct RegionIslandsView: View {
 
                 VStack(spacing: 10) {
                     ForEach(islands) { island in
-                        Button {
-                            selectedIsland = island
-                        } label: {
+                        NavigationLink(value: island) {
                             IslandRowView(island: island)
                         }
                         .buttonStyle(.plain)
@@ -42,7 +39,7 @@ struct RegionIslandsView: View {
         .background(listBackground)
         .navigationTitle(region.displayName(for: languageStore.mode))
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(item: $selectedIsland) { island in
+        .navigationDestination(for: Island.self) { island in
             IslandDetailView(island: island)
         }
         .onAppear {
