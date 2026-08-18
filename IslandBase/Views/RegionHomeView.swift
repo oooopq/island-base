@@ -207,36 +207,26 @@ private struct JapanRegionMarkerView: View {
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
 
-    private var islandCount: Int {
-        IslandCatalog.islandCount(forRegionID: region.id)
-    }
+    private let pinSize: CGFloat = 38
 
     var body: some View {
-        VStack(spacing: 4) {
-            Image(systemName: "mountain.2.fill")
-                .font(.caption)
-                .padding(8)
-                .background(Circle().fill(palette.iconAccent))
-                .foregroundStyle(.white)
-                .shadow(color: .black.opacity(0.25), radius: 4, y: 2)
+        Text(region.mapMonogram(for: languageStore.mode))
+            .font(.system(size: monogramFontSize, weight: .bold, design: .rounded))
+            .foregroundStyle(.white)
+            .frame(width: pinSize, height: pinSize)
+            .background {
+                Circle()
+                    .fill(palette.iconAccent)
+                    .overlay {
+                        Circle()
+                            .strokeBorder(Color.white.opacity(0.28), lineWidth: 1)
+                    }
+                    .shadow(color: .black.opacity(0.22), radius: 4, y: 2)
+            }
+    }
 
-            Text(region.mapLabel(for: languageStore.mode))
-                .font(.caption2)
-                .fontWeight(.semibold)
-                .multilineTextAlignment(.center)
-                .lineLimit(1)
-                .frame(maxWidth: 72)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-
-            Text(languageStore.t(.islandCount(islandCount)))
-                .font(.caption2)
-                .foregroundStyle(palette.secondaryText)
-                .padding(.horizontal, 6)
-                .padding(.vertical, 2)
-                .background(palette.cardBackground.opacity(0.9), in: Capsule())
-        }
+    private var monogramFontSize: CGFloat {
+        languageStore.mode.isJapanese ? 17 : 18
     }
 }
 

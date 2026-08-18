@@ -15,6 +15,9 @@ struct IslandRegion: Identifiable, Hashable {
     /// 日本地図ホームのピン用の短い名前（長い正式名は下の一覧に残す）
     let mapLabelJapanese: String
     let mapLabelEnglish: String
+    /// 日本地図ホームのモノグラム・ピン用の1文字（自動抽出ではなく手定義）
+    let mapMonogramJapanese: String
+    let mapMonogramEnglish: String
     /// 日本地図ホームのピン位置（見やすさのため実座標から少しずらす場合あり）
     let mapAnnotationLatitude: Double
     let mapAnnotationLongitude: Double
@@ -46,6 +49,10 @@ struct IslandRegion: Identifiable, Hashable {
     func mapLabel(for language: AppLanguageMode) -> String {
         language.isJapanese ? mapLabelJapanese : mapLabelEnglish
     }
+
+    func mapMonogram(for language: AppLanguageMode) -> String {
+        language.isJapanese ? mapMonogramJapanese : mapMonogramEnglish
+    }
 }
 
 enum IslandRegionCatalog {
@@ -55,6 +62,8 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Yaeyama Islands",
         mapLabelJapanese: "八重山",
         mapLabelEnglish: "Yaeyama",
+        mapMonogramJapanese: "八",
+        mapMonogramEnglish: "Y",
         mapAnnotationLatitude: 24.432805,
         mapAnnotationLongitude: 124.205319,
         coverAssetName: "IslandBgIshigaki",
@@ -69,7 +78,9 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Sado",
         mapLabelJapanese: "佐渡",
         mapLabelEnglish: "Sado",
-        // ピンは見やすさのため北へ（伊豆ピンと「1島」バッジが重ならないように）
+        mapMonogramJapanese: "佐",
+        mapMonogramEnglish: "S",
+        // ピンは見やすさのため北へ（伊豆ピンと重ならないように）
         mapAnnotationLatitude: 38.35,
         mapAnnotationLongitude: 138.437949,
         coverAssetName: "IslandBgSado",
@@ -84,7 +95,9 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Izu Islands",
         mapLabelJapanese: "伊豆",
         mapLabelEnglish: "Izu",
-        // ピンは見やすさのため南へ（佐渡の「1島」バッジと重ならないように）
+        mapMonogramJapanese: "伊",
+        mapMonogramEnglish: "I",
+        // ピンは見やすさのため南へ（佐渡ピンと重ならないように）
         mapAnnotationLatitude: 33.7,
         mapAnnotationLongitude: 139.55,
         coverAssetName: "IslandBgIzu",
@@ -99,6 +112,8 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Goto Islands",
         mapLabelJapanese: "五島",
         mapLabelEnglish: "Goto",
+        mapMonogramJapanese: "五",
+        mapMonogramEnglish: "G",
         mapAnnotationLatitude: 32.686123,
         mapAnnotationLongitude: 128.747749,
         coverAssetName: "IslandBgGoto",
@@ -114,6 +129,8 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Kutsuna Islands",
         mapLabelJapanese: "忽那",
         mapLabelEnglish: "Kutsuna",
+        mapMonogramJapanese: "忽",
+        mapMonogramEnglish: "K",
         mapAnnotationLatitude: 33.45,
         mapAnnotationLongitude: 131.95,
         coverAssetName: "IslandBgKutsuna",
@@ -122,13 +139,15 @@ enum IslandRegionCatalog {
         ferryValidUntilSuffix: nil
     )
 
-    // ピンは見やすさのため北東へ（忽那と重ならないよう「小」がアイコンに被らない程度に東へ）
+    // ピンは見やすさのため北東へ（忽那ピンと重ならないように）
     static let shodoshimaNaoshima = IslandRegion(
         id: "shodoshima_naoshima",
         displayNameJapanese: "小豆島・直島エリア",
         displayNameEnglish: "Shodoshima & Naoshima",
         mapLabelJapanese: "小豆・直島",
         mapLabelEnglish: "Shodo·Nao",
+        mapMonogramJapanese: "豆",
+        mapMonogramEnglish: "D",
         mapAnnotationLatitude: 34.95,
         mapAnnotationLongitude: 135.5,
         coverAssetName: "IslandBgShodoshimaNaoshima",

@@ -2,7 +2,7 @@
 //  RegionCoverCardView.swift
 //  Island Base
 //
-//  ホーム画面の諸島群カード（カバー写真＋短い名前）
+//  ホーム画面の諸島群カード（カバー写真＋正式名＋島数）
 //
 
 import SwiftUI
@@ -26,11 +26,11 @@ struct RegionCoverCardView: View {
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
 
-            Text(region.mapLabel(for: languageStore.mode))
+            Text(region.displayName(for: languageStore.mode))
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundStyle(palette.text)
-                .lineLimit(1)
+                .lineLimit(2)
                 .minimumScaleFactor(0.85)
 
             Text(languageStore.t(.islandCount(islandCount)))
