@@ -116,6 +116,7 @@ struct IslandDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 HStack(spacing: 8) {
+                    PopToHomeToolbarButton()
                     AppLanguageToggleButton()
                     AppThemeToggleButton()
                 }

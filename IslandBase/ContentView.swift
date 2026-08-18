@@ -11,13 +11,15 @@ struct ContentView: View {
     @State private var themeStore = AppThemeStore()
     @State private var languageStore = AppLanguageStore()
     @State private var lastSelectedIslandStore = LastSelectedIslandStore()
+    @State private var navigationPath = NavigationPath()
     @State private var showsToolbarHint = false
     @State private var didScheduleToolbarHint = false
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             RegionHomeView()
         }
+        .environment(\.popToHome, { popToHome() })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(red: 0.06, green: 0.08, blue: 0.12).ignoresSafeArea())
         .environment(themeStore)
@@ -53,6 +55,12 @@ struct ContentView: View {
         try? await Task.sleep(for: .milliseconds(500))
         guard themeStore.shouldShowToolbarHint else { return }
         showsToolbarHint = true
+    }
+
+    private func popToHome() {
+        withAnimation {
+            navigationPath = NavigationPath()
+        }
     }
 }
 
