@@ -35,13 +35,13 @@ enum IslandDetailSection: String, CaseIterable, Identifiable {
     var systemImage: String {
         switch self {
         case .weather:
-            return "cloud.sun.fill"
+            return "cloud.sun"
         case .schedule:
-            return "ferry.fill"
+            return "calendar.badge.clock"
         case .places:
-            return "bag.fill"
+            return "storefront"
         case .savedPhotos:
-            return "doc.viewfinder"
+            return "photo.on.rectangle"
         }
     }
 
