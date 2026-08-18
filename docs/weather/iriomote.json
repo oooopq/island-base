@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-08-18T10:46:18+09:00",
+  "updatedAt": "2026-08-18T12:04:47+09:00",
   "temperatureCelsius": 30,
-  "apparentTemperatureCelsius": 33,
+  "apparentTemperatureCelsius": 34,
   "weatherCode": 1,
   "condition": "くもり",
-  "humidityPercent": 78,
-  "windSpeedKmh": 27,
+  "humidityPercent": 76,
+  "windSpeedKmh": 25,
   "currentWaveHeightMeters": 1.2,
   "todayMaxWaveHeightMeters": 1.2,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-18T10:00",
-      "timeLabel": "10時",
-      "weatherCode": 1,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 32,
-      "condition": "くもり",
-      "humidityPercent": 78,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 27
-    },
-    {
-      "id": "2026-08-18T11:00",
-      "timeLabel": "11時",
-      "weatherCode": 1,
-      "temperatureCelsius": 30,
-      "apparentTemperatureCelsius": 33,
-      "condition": "くもり",
-      "humidityPercent": 78,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 27
-    },
     {
       "id": "2026-08-18T12:00",
       "timeLabel": "12時",
@@ -295,6 +271,30 @@
       "humidityPercent": 88,
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.4,
+      "windSpeedKmh": 22
+    },
+    {
+      "id": "2026-08-19T10:00",
+      "timeLabel": "10時",
+      "weatherCode": 55,
+      "temperatureCelsius": 28,
+      "apparentTemperatureCelsius": 33,
+      "condition": "小雨",
+      "humidityPercent": 88,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 1.1,
+      "windSpeedKmh": 22
+    },
+    {
+      "id": "2026-08-19T11:00",
+      "timeLabel": "11時",
+      "weatherCode": 61,
+      "temperatureCelsius": 28,
+      "apparentTemperatureCelsius": 33,
+      "condition": "雨",
+      "humidityPercent": 88,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 1.6,
       "windSpeedKmh": 22
     }
   ],
