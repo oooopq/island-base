@@ -1,0 +1,17 @@
+{
+  "name": "Island Base",
+  "install": "python3 --version && command -v curl && command -v file",
+  "terminals": [
+    {
+      "name": "docs-preview",
+      "command": "python3 -m http.server 8000 --directory docs",
+      "description": "Serves the /docs GitHub Pages site (legal pages + cached weather JSON) at http://localhost:8000 for local preview."
+    }
+  ],
+  "ports": [
+    {
+      "name": "docs-preview",
+      "port": 8000
+    }
+  ]
+}
