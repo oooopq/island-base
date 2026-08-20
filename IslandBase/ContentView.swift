@@ -33,13 +33,8 @@ struct ContentView: View {
         .preferredColorScheme(themeStore.colorScheme)
         .overlay {
             if showsLaunchSplash {
-                LaunchSplashOverlayView {
-                    showsLaunchSplash = false
-                }
+                LaunchSplashOverlayView(onFinished: handleSplashFinished)
             }
-        }
-        .task {
-            await presentToolbarHintIfNeeded()
         }
         .sheet(isPresented: $showsToolbarHint, onDismiss: {
             themeStore.markToolbarHintShown()
@@ -55,16 +50,18 @@ struct ContentView: View {
         }
     }
 
+    /// スプラッシュ終了後に初回ヒントを出す（ループ待ちはしない）
+    private func handleSplashFinished() {
+        showsLaunchSplash = false
+        Task { await presentToolbarHintIfNeeded() }
+    }
+
     @MainActor
     private func presentToolbarHintIfNeeded() async {
         guard didScheduleToolbarHint == false else { return }
         guard themeStore.shouldShowToolbarHint else { return }
 
         didScheduleToolbarHint = true
-
-        while showsLaunchSplash {
-            try? await Task.sleep(for: .milliseconds(50))
-        }
 
         // NavigationStack の初回レイアウト後に sheet を出す（onAppear だけだと出ないことがある）
         try? await Task.sleep(for: .milliseconds(400))
