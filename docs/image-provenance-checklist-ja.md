@@ -72,7 +72,7 @@
 | グループ | asset（一覧） |
 |---|---|
 | 八重山 CC | IslandBgYonaguni, IslandBgKohama, IslandBgHatoma |
-| 佐渡 | IslandBgSado |
+| 佐渡島 | IslandBgSado |
 | 伊豆 CC | IslandBgOshima, IslandBgToshima, IslandBgShikinejima, IslandBgMikurajima |
 | 忽那 CC | IslandBgNakajima, IslandBgGogoshima, IslandBgMuzukijima, IslandBgNogutsunajima, IslandBgTsurushima, IslandBgAijima, IslandBgKutsuna |
 | 忽那 GSI | IslandBgNuwajima, IslandBgTsuwajishima, IslandBgFutagamijima |

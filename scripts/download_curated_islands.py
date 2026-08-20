@@ -23,8 +23,8 @@ CURATED = [
     ("IslandBgYonaguni", "yonaguni.jpg", "wiki", "Yonaguni_agarizaki.jpg", "Photo: Metatron / Wikimedia Commons（与那国島・東崎）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
     ("IslandBgKohama", "kohama.jpg", "wiki", "Yaeyama_kohama_tumaru_beach.jpg", "Photo: Paipateroma / Wikimedia Commons（小浜島・トゥマールビーチ）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
     ("IslandBgHatoma", "hatoma.jpg", "wiki", "Hatoma_maenohama.jpg", "Photo: Paipateroma / Wikimedia Commons（鳩間島・前の浜）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
-    # 佐渡
-    ("IslandBgSado", "sado.jpg", "wiki", "矢島経島たらい舟_-_panoramio.jpg", "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
+    # 佐渡島
+    ("IslandBgSado", "sado.jpg", "wiki", "矢島経島たらい舟_-_panoramio.jpg", "Photo: 伊藤善行 / Wikimedia Commons（佐渡島・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加"),
     # 伊豆 — Wikimedia
     ("IslandBgOshima", "oshima.jpg", "wiki", "Izu-Oshima-IMG_4759.jpg", "Photo: Donners / Wikimedia Commons（伊豆大島）／CC BY-SA 1.0／表示時に暗色グラデーションを追加"),
     ("IslandBgToshima", "toshima.jpg", "wiki", "Toshima_Island_from_offshore,_Tokyo,_Japan.JPG", "Photo: User: (WT-shared) Shoestring / Wikimedia Commons（利島・東京）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),

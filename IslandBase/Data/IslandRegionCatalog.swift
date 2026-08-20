@@ -2,7 +2,7 @@
 //  IslandRegionCatalog.swift
 //  Island Base
 //
-//  地域（八重山・佐渡・伊豆など）の表示名とフェリー取得元の注記
+//  地域（八重山・佐渡島・伊豆など）の表示名とフェリー取得元の注記
 //
 
 import CoreLocation
@@ -96,16 +96,16 @@ enum IslandRegionCatalog {
 
     static let sado = IslandRegion(
         id: "sado",
-        displayNameJapanese: "佐渡",
-        displayNameEnglish: "Sado",
-        mapLabelJapanese: "佐渡",
-        mapLabelEnglish: "Sado",
+        displayNameJapanese: "佐渡島",
+        displayNameEnglish: "Sado Island",
+        mapLabelJapanese: "佐渡島",
+        mapLabelEnglish: "Sado Island",
         homeMap: HomeMapLayout(
             labelOffsetX: -58,
             labelOffsetY: -18
         ),
         coverAssetName: "IslandBgSado",
-        coverAssetCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        coverAssetCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡島・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: nil,
         ferryValidUntilSuffix: nil
     )
@@ -117,8 +117,9 @@ enum IslandRegionCatalog {
         mapLabelJapanese: "伊豆諸島",
         mapLabelEnglish: "Izu Islands",
         homeMap: HomeMapLayout(
-            labelOffsetX: 72,
-            labelOffsetY: 10
+            // 19時（7時）方向。右端で名前が切れないよう地図の内側へ
+            labelOffsetX: -36,
+            labelOffsetY: 62
         ),
         coverAssetName: "IslandBgIzu",
         coverAssetCredit: "Photo: Ice Tea / Unsplash（神津島・伊豆諸島）",
@@ -133,8 +134,9 @@ enum IslandRegionCatalog {
         mapLabelJapanese: "五島列島",
         mapLabelEnglish: "Goto Islands",
         homeMap: HomeMapLayout(
-            labelOffsetX: -70,
-            labelOffsetY: 8
+            // 1時方向。左端で名前が切れないよう地図の内側へ
+            labelOffsetX: 36,
+            labelOffsetY: -62
         ),
         coverAssetName: "IslandBgGoto",
         coverAssetCredit: "Photo: Nami-ja / Wikimedia Commons（五島市玉之浦町・頓泊海水浴場）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
@@ -149,8 +151,9 @@ enum IslandRegionCatalog {
         mapLabelJapanese: "忽那諸島",
         mapLabelEnglish: "Kutsuna Islands",
         homeMap: HomeMapLayout(
-            labelOffsetX: -62,
-            labelOffsetY: 34
+            // 6時方向（ピンの真下）
+            labelOffsetX: 0,
+            labelOffsetY: 44
         ),
         coverAssetName: "IslandBgKutsuna",
         coverAssetCredit: "Photo: KUNIO MIURA / Wikimedia Commons（興居島沖合）／CC BY 3.0／表示時に暗色グラデーションを追加",
@@ -165,8 +168,9 @@ enum IslandRegionCatalog {
         mapLabelJapanese: "小豆島・直島",
         mapLabelEnglish: "Shodoshima & Naoshima",
         homeMap: HomeMapLayout(
-            labelOffsetX: 70,
-            labelOffsetY: -28
+            // 英語ラベルがピンにかぶらないよう、少し右上へ
+            labelOffsetX: 86,
+            labelOffsetY: -38
         ),
         coverAssetName: "IslandBgShodoshimaNaoshima",
         coverAssetCredit: "Photo: Yu / Unsplash（小豆島・香川）",

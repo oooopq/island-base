@@ -278,9 +278,9 @@ private struct JapanRegionMarkerView: View {
 
     @Environment(AppLanguageStore.self) private var languageStore
 
-    private let pinWidth: CGFloat = 16
-    private let pinHeight: CGFloat = 22
-    private let pinStroke = Color(red: 0.90, green: 0.16, blue: 0.14)
+    private let pinWidth: CGFloat = 22
+    private let pinHeight: CGFloat = 30
+    private let pinStroke = Color(red: 0.70, green: 0.03, blue: 0.05)
 
     static func annotationAnchor(for region: IslandRegion, compact: Bool = false) -> UnitPoint {
         let canvas = markerCanvas(for: region, compact: compact)
@@ -325,17 +325,35 @@ private struct JapanRegionMarkerView: View {
                     to: CGPoint(x: tip.x + offset.width, y: tip.y + offset.height)
                 )
             }
-            .stroke(Color.primary.opacity(0.45), lineWidth: 1)
+            .stroke(
+                Color.primary.opacity(0.70),
+                style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round)
+            )
             .allowsHitTesting(false)
 
             HomeMapPinShape()
-                .fill(Color.white)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color(red: 1.00, green: 0.15, blue: 0.17),
+                            Color(red: 0.86, green: 0.02, blue: 0.04),
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
                 .overlay {
                     HomeMapPinShape()
-                        .stroke(pinStroke, lineWidth: 1.5)
+                        .stroke(pinStroke, lineWidth: 1.2)
+                }
+                .overlay(alignment: .top) {
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 9, height: 9)
+                        .padding(.top, 5)
                 }
                 .frame(width: pinWidth, height: pinHeight)
-                .shadow(color: .black.opacity(0.28), radius: 1.5, y: 1)
+                .shadow(color: .black.opacity(0.32), radius: 2, y: 1.5)
                 .position(x: tip.x, y: tip.y - pinHeight / 2)
                 .onTapGesture(perform: onSelect)
 
@@ -363,7 +381,7 @@ private struct JapanRegionMarkerView: View {
     }
 }
 
-/// アプリアイコンに近いドロップ型ピン（白塗り・赤枠）
+/// アプリアイコン中央の赤いドロップ型ピン
 private struct HomeMapPinShape: Shape {
     func path(in rect: CGRect) -> Path {
         let stemX = rect.midX

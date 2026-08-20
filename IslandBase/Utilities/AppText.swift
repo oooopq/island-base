@@ -169,7 +169,7 @@ enum AppText {
         case .tapPinOrList:
             return "地図のピンか、下のカードから選ぶ"
         case .homeMapInsetCaption:
-            return "別枠"
+            return "拡大図"
         case .recentIslands:
             return "最近見た島"
         case .chooseRegion:
