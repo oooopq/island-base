@@ -13,13 +13,16 @@ struct IslandArtIntro {
     let holdSeconds: Double
     /// ズームアウトにかける秒数
     let zoomOutSeconds: Double
+    /// オーバーレイをフェードアウトする秒数
+    let fadeSeconds: Double
     /// 開始時の拡大率（1より大きいほど「寄り」から始まる）
     let startScale: CGFloat
 
     /// 写真フルスクリーン → ズームアウトで通常画面へ
     static let fullscreenZoomOut = IslandArtIntro(
-        holdSeconds: 0.3,
-        zoomOutSeconds: 0.6,
+        holdSeconds: 0.15,
+        zoomOutSeconds: 0.40,
+        fadeSeconds: 0.10,
         startScale: 1.4
     )
 }
