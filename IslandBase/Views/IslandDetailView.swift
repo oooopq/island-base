@@ -20,13 +20,35 @@ struct IslandDetailView: View {
     @State private var selectedPlaceCategory: PlaceCategory = .restaurant
     @State private var savedPhotoStore = IslandSavedPhotoStore()
     @State private var locationService = UserLocationService()
-    @State private var isArtIntroActive = false
-    @State private var detailContentVisible = true
-    @State private var blurBackgroundForReadability = false
+    @State private var detailContentVisible: Bool
+    @State private var photoScale: CGFloat
+    @State private var photoBlurRadius: CGFloat
+    @State private var gradientTopOpacity: Double
+    @State private var gradientBottomOpacity: Double
 
     private let weatherService = WeatherService()
     private let ferryService = FerryService()
     private let placesSearchService = PlacesSearchService()
+
+    init(island: Island) {
+        self.island = island
+        let artIntro = IslandCatalog.profile(for: island)?.artIntro
+        _detailContentVisible = State(initialValue: artIntro == nil)
+        _photoScale = State(initialValue: artIntro?.startScale ?? 1)
+        _photoBlurRadius = State(
+            initialValue: artIntro == nil ? IslandHeroPhotoChrome.readabilityBlurRadius : 0
+        )
+        _gradientTopOpacity = State(
+            initialValue: artIntro == nil
+                ? IslandHeroPhotoChrome.settledGradientTop
+                : IslandHeroPhotoChrome.holdGradientTop
+        )
+        _gradientBottomOpacity = State(
+            initialValue: artIntro == nil
+                ? IslandHeroPhotoChrome.settledGradientBottom
+                : IslandHeroPhotoChrome.holdGradientBottom
+        )
+    }
 
     private var islandProfile: IslandProfile? {
         IslandCatalog.profile(for: island)
@@ -89,26 +111,20 @@ struct IslandDetailView: View {
 
     var body: some View {
         ZStack {
+            IslandBackgroundView(
+                islandID: island.id,
+                photoScale: photoScale,
+                zoomHeadroom: photoZoomHeadroom,
+                blurRadius: photoBlurRadius,
+                gradientTopOpacity: gradientTopOpacity,
+                gradientBottomOpacity: gradientBottomOpacity
+            )
+            .allowsHitTesting(false)
+
             detailContent
                 .opacity(detailContentVisible ? 1 : 0)
-
-            if isArtIntroActive, let artIntro = islandProfile?.artIntro {
-                IslandArtIntroOverlayView(
-                    assetName: islandProfile?.backgroundAssetName ?? IslandCatalog.defaultBackgroundAssetName,
-                    artIntro: artIntro,
-                    onZoomOutStart: {
-                        withAnimation(.easeInOut(duration: artIntro.zoomOutSeconds)) {
-                            detailContentVisible = true
-                        }
-                    },
-                    onFinished: {
-                        isArtIntroActive = false
-                        withAnimation(.easeInOut(duration: 0.5)) {
-                            blurBackgroundForReadability = true
-                        }
-                    }
-                )
-            }
+                .allowsHitTesting(detailContentVisible)
+                .accessibilityHidden(!detailContentVisible)
         }
         .scrollContentBackground(.hidden)
         .navigationBarTitleDisplayMode(.inline)
@@ -126,7 +142,9 @@ struct IslandDetailView: View {
             await refreshAllData()
         }
         .task(id: island.id) {
-            prepareArtIntro(for: island)
+            await runArtIntroIfNeeded()
+        }
+        .task(id: island.id) {
             selectedSection = .weather
             selectedPlaceCategory = .restaurant
             placesState = .loading
@@ -192,12 +210,6 @@ struct IslandDetailView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .background {
-            IslandBackgroundView(
-                islandID: island.id,
-                blurForReadability: blurBackgroundForReadability
-            )
-        }
     }
 
     private var regionDisplayName: String? {
@@ -205,11 +217,52 @@ struct IslandDetailView: View {
         return IslandRegionCatalog.displayName(for: regionID, language: languageStore.mode)
     }
 
-    private func prepareArtIntro(for island: Island) {
-        let shouldShowIntro = IslandCatalog.profile(for: island)?.artIntro != nil
-        isArtIntroActive = shouldShowIntro
-        detailContentVisible = shouldShowIntro == false
-        blurBackgroundForReadability = shouldShowIntro == false
+    private var photoZoomHeadroom: CGFloat {
+        max(islandProfile?.artIntro?.startScale ?? 1, 1)
+    }
+
+    private func applyHeroPhotoState(for island: Island) {
+        if let artIntro = IslandCatalog.profile(for: island)?.artIntro {
+            photoScale = artIntro.startScale
+            photoBlurRadius = 0
+            gradientTopOpacity = IslandHeroPhotoChrome.holdGradientTop
+            gradientBottomOpacity = IslandHeroPhotoChrome.holdGradientBottom
+            detailContentVisible = false
+        } else {
+            photoScale = 1
+            photoBlurRadius = IslandHeroPhotoChrome.readabilityBlurRadius
+            gradientTopOpacity = IslandHeroPhotoChrome.settledGradientTop
+            gradientBottomOpacity = IslandHeroPhotoChrome.settledGradientBottom
+            detailContentVisible = true
+        }
+    }
+
+    @MainActor
+    private func runArtIntroIfNeeded() async {
+        applyHeroPhotoState(for: island)
+        guard let artIntro = IslandCatalog.profile(for: island)?.artIntro else { return }
+
+        do {
+            try await Task.sleep(for: .seconds(artIntro.holdSeconds))
+
+            withAnimation(.easeInOut(duration: artIntro.zoomOutSeconds)) {
+                photoScale = 1.0
+                gradientTopOpacity = IslandHeroPhotoChrome.afterZoomGradientTop
+                gradientBottomOpacity = IslandHeroPhotoChrome.afterZoomGradientBottom
+                detailContentVisible = true
+            }
+
+            try await Task.sleep(for: .seconds(artIntro.zoomOutSeconds))
+            try await Task.sleep(for: .seconds(artIntro.fadeSeconds))
+
+            withAnimation(.easeInOut(duration: IslandHeroPhotoChrome.readabilityBlurDuration)) {
+                photoBlurRadius = IslandHeroPhotoChrome.readabilityBlurRadius
+                gradientTopOpacity = IslandHeroPhotoChrome.settledGradientTop
+                gradientBottomOpacity = IslandHeroPhotoChrome.settledGradientBottom
+            }
+        } catch {
+            return
+        }
     }
 
     @ViewBuilder
