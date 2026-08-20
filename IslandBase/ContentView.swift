@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var navigationPath = NavigationPath()
     @State private var showsToolbarHint = false
     @State private var didScheduleToolbarHint = false
+    @State private var showsLaunchSplash = true
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -30,6 +31,13 @@ struct ContentView: View {
         .environment(lastSelectedIslandStore)
         .environment(\.detailPalette, themeStore.palette)
         .preferredColorScheme(themeStore.colorScheme)
+        .overlay {
+            if showsLaunchSplash {
+                LaunchSplashOverlayView {
+                    showsLaunchSplash = false
+                }
+            }
+        }
         .task {
             await presentToolbarHintIfNeeded()
         }
@@ -54,8 +62,12 @@ struct ContentView: View {
 
         didScheduleToolbarHint = true
 
+        while showsLaunchSplash {
+            try? await Task.sleep(for: .milliseconds(50))
+        }
+
         // NavigationStack の初回レイアウト後に sheet を出す（onAppear だけだと出ないことがある）
-        try? await Task.sleep(for: .milliseconds(500))
+        try? await Task.sleep(for: .milliseconds(400))
         guard themeStore.shouldShowToolbarHint else { return }
         showsToolbarHint = true
     }
