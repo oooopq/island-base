@@ -19,10 +19,10 @@ enum RegionMapSupport {
         japanHomeMapEnvelope()
     }
 
-    /// トップ地図のカメラ制限（起動画角と同じ範囲に固定）
+    /// トップ地図のカメラ制限（起動画角と同じ範囲に固定。パン・ズームなし）
     static var japanMapCameraBounds: MapCameraBounds {
         let envelope = japanHomeMapEnvelope()
-        let distance = cameraDistanceToFit(region: envelope)
+        let distance = cameraDistanceToFit(region: envelope, multiplier: 1.4)
         return MapCameraBounds(
             centerCoordinateBounds: envelope,
             minimumDistance: distance,
@@ -30,13 +30,52 @@ enum RegionMapSupport {
         )
     }
 
-    /// ホーム地図の画角。登録済み地域ピンだけから計算し、地域追加で自動拡張する
+    /// ホーム本図のピン座標。上書きがなければ登録島の平均（諸島の中心）
+    static func homeMapPinCoordinate(for region: IslandRegion) -> CLLocationCoordinate2D {
+        if let latitude = region.homeMap.pinLatitude, let longitude = region.homeMap.pinLongitude {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+
+        let islands = IslandCatalog.islands(forRegionID: region.id)
+        guard islands.isEmpty == false else {
+            return CLLocationCoordinate2D(latitude: 36.5, longitude: 137.5)
+        }
+
+        let latitude = islands.map(\.latitude).reduce(0, +) / Double(islands.count)
+        let longitude = islands.map(\.longitude).reduce(0, +) / Double(islands.count)
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
+    static func homeMapInsetCameraPosition(for region: IslandRegion) -> MapCameraPosition {
+        .region(homeMapInsetRegion(for: region))
+    }
+
+    static func homeMapInsetCameraBounds(for region: IslandRegion) -> MapCameraBounds {
+        let envelope = homeMapInsetRegion(for: region)
+        let distance = cameraDistanceToFit(region: envelope, multiplier: 1.55)
+        return MapCameraBounds(
+            centerCoordinateBounds: envelope,
+            minimumDistance: distance,
+            maximumDistance: distance
+        )
+    }
+
+    /// 別枠用の固定画角（島群＋ラベル用の余白）
+    private static func homeMapInsetRegion(for region: IslandRegion) -> MKCoordinateRegion {
+        boundingRegion(
+            for: IslandCatalog.islands(forRegionID: region.id).map(\.coordinate),
+            minimumPadding: 0.14,
+            paddingRatio: 0.55
+        )
+    }
+
+    /// ホーム本図の画角。別枠地域は含めず、本図ピンだけから計算する
     private static func japanHomeMapEnvelope() -> MKCoordinateRegion {
-        let pins = IslandRegionCatalog.all.map(\.mapCoordinate)
+        let pins = IslandRegionCatalog.homeMapMainRegions.map(homeMapPinCoordinate(for:))
         guard pins.isEmpty == false else {
             return MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: 36.5, longitude: 137.5),
-                span: MKCoordinateSpan(latitudeDelta: 14, longitudeDelta: 14)
+                span: MKCoordinateSpan(latitudeDelta: 8, longitudeDelta: 10)
             )
         }
 
@@ -48,14 +87,11 @@ enum RegionMapSupport {
         let latSpan = max(maxLat - minLat, 1.0)
         let lonSpan = max(maxLon - minLon, 1.0)
 
-        // ピン範囲に対する比率で余白（南控えめ・北多めでラベル用。大陸・フィリピンは入れない）
-        minLat -= max(latSpan * 0.08, 1.0)
-        maxLat += max(latSpan * 0.22, 3.0)
-        minLon -= max(lonSpan * 0.12, 2.0)
-        maxLon += max(lonSpan * 0.12, 2.0)
-
-        let latitudeDelta = max(maxLat - minLat, 14)
-        let longitudeDelta = max(maxLon - minLon, 14)
+        // ラベル用の余白（別枠に出した遠方地域は入れない）
+        minLat -= max(latSpan * 0.14, 0.9)
+        maxLat += max(latSpan * 0.28, 1.1)
+        minLon -= max(lonSpan * 0.16, 1.1)
+        maxLon += max(lonSpan * 0.18, 1.2)
 
         return MKCoordinateRegion(
             center: CLLocationCoordinate2D(
@@ -63,17 +99,20 @@ enum RegionMapSupport {
                 longitude: (minLon + maxLon) / 2
             ),
             span: MKCoordinateSpan(
-                latitudeDelta: latitudeDelta,
-                longitudeDelta: longitudeDelta
+                latitudeDelta: maxLat - minLat,
+                longitudeDelta: maxLon - minLon
             )
         )
     }
 
-    private static func cameraDistanceToFit(region: MKCoordinateRegion) -> CLLocationDistance {
+    private static func cameraDistanceToFit(
+        region: MKCoordinateRegion,
+        multiplier: Double = 2.2
+    ) -> CLLocationDistance {
         let latRadians = region.center.latitude * .pi / 180
         let latMeters = region.span.latitudeDelta * 111_000
         let lonMeters = region.span.longitudeDelta * 111_000 * max(cos(latRadians), 0.35)
-        return max(latMeters, lonMeters) * 2.2
+        return max(latMeters, lonMeters) * multiplier
     }
 
     static func cameraPosition(for islands: [Island]) -> MapCameraPosition {

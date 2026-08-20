@@ -8,19 +8,48 @@
 import CoreLocation
 import Foundation
 
+/// ホーム日本地図のピン配置（本図 / 別枠）とラベルの微調整
+struct HomeMapLayout: Hashable {
+    enum Placement: Hashable {
+        /// 本図の実座標にピンを置く
+        case mainMap
+        /// 本図の画角から外し、地図内の別枠に実地図を出す（八重山・将来の小笠原など）
+        case inset
+    }
+
+    var placement: Placement
+    /// ピン位置の上書き（緯度）。nil なら登録島の座標平均
+    var pinLatitude: Double?
+    /// ピン位置の上書き（経度）。nil なら登録島の座標平均
+    var pinLongitude: Double?
+    /// ピン先端からのラベルオフセット（ポイント）。+x 右、+y 下
+    var labelOffsetX: Double
+    var labelOffsetY: Double
+
+    init(
+        placement: Placement = .mainMap,
+        pinLatitude: Double? = nil,
+        pinLongitude: Double? = nil,
+        labelOffsetX: Double,
+        labelOffsetY: Double
+    ) {
+        self.placement = placement
+        self.pinLatitude = pinLatitude
+        self.pinLongitude = pinLongitude
+        self.labelOffsetX = labelOffsetX
+        self.labelOffsetY = labelOffsetY
+    }
+}
+
 struct IslandRegion: Identifiable, Hashable {
     let id: String
     let displayNameJapanese: String
     let displayNameEnglish: String
-    /// 日本地図ホームのピン用の短い名前（長い正式名は下の一覧に残す）
+    /// ホーム日本地図のピン用ラベル（カードの正式名とは別。地図専用）
     let mapLabelJapanese: String
     let mapLabelEnglish: String
-    /// 日本地図ホームのピン用略称（日本語は漢字2字、英語は1文字。自動抽出ではなく手定義）
-    let mapMonogramJapanese: String
-    let mapMonogramEnglish: String
-    /// 日本地図ホームのピン位置（見やすさのため実座標から少しずらす場合あり）
-    let mapAnnotationLatitude: Double
-    let mapAnnotationLongitude: Double
+    /// ホーム地図のピン位置・別枠・ラベルずれ
+    let homeMap: HomeMapLayout
     /// ホーム画面カード用の背景画像（Assets）
     let coverAssetName: String
     /// 地域カバー画像の出典表記（Unsplash 等）
@@ -38,20 +67,12 @@ struct IslandRegion: Identifiable, Hashable {
         hasher.combine(id)
     }
 
-    var mapCoordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: mapAnnotationLatitude, longitude: mapAnnotationLongitude)
-    }
-
     func displayName(for language: AppLanguageMode) -> String {
         language.isJapanese ? displayNameJapanese : displayNameEnglish
     }
 
     func mapLabel(for language: AppLanguageMode) -> String {
         language.isJapanese ? mapLabelJapanese : mapLabelEnglish
-    }
-
-    func mapMonogram(for language: AppLanguageMode) -> String {
-        language.isJapanese ? mapMonogramJapanese : mapMonogramEnglish
     }
 }
 
@@ -60,12 +81,13 @@ enum IslandRegionCatalog {
         id: "yaeyama",
         displayNameJapanese: "八重山諸島",
         displayNameEnglish: "Yaeyama Islands",
-        mapLabelJapanese: "八重山",
-        mapLabelEnglish: "Yaeyama",
-        mapMonogramJapanese: "八重",
-        mapMonogramEnglish: "Y",
-        mapAnnotationLatitude: 24.432805,
-        mapAnnotationLongitude: 124.205319,
+        mapLabelJapanese: "八重山諸島",
+        mapLabelEnglish: "Yaeyama Islands",
+        homeMap: HomeMapLayout(
+            placement: .inset,
+            labelOffsetX: 0,
+            labelOffsetY: 32
+        ),
         coverAssetName: "IslandBgIshigaki",
         coverAssetCredit: "Photo: Roméo A. / Unsplash（石垣島・川平湾）",
         ferryDataSourceNote: "OTTOP 公開 GTFS を改変して表示（CC BY 4.0）。詳細は出典・クレジット参照",
@@ -78,11 +100,10 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Sado",
         mapLabelJapanese: "佐渡",
         mapLabelEnglish: "Sado",
-        mapMonogramJapanese: "佐渡",
-        mapMonogramEnglish: "S",
-        // ピンは見やすさのため北へ（伊豆ピンと重ならないように）
-        mapAnnotationLatitude: 38.35,
-        mapAnnotationLongitude: 138.437949,
+        homeMap: HomeMapLayout(
+            labelOffsetX: -58,
+            labelOffsetY: -18
+        ),
         coverAssetName: "IslandBgSado",
         coverAssetCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: nil,
@@ -93,13 +114,12 @@ enum IslandRegionCatalog {
         id: "izu",
         displayNameJapanese: "伊豆諸島",
         displayNameEnglish: "Izu Islands",
-        mapLabelJapanese: "伊豆",
-        mapLabelEnglish: "Izu",
-        mapMonogramJapanese: "伊豆",
-        mapMonogramEnglish: "I",
-        // ピンは見やすさのため南へ（佐渡ピンと重ならないように）
-        mapAnnotationLatitude: 33.7,
-        mapAnnotationLongitude: 139.55,
+        mapLabelJapanese: "伊豆諸島",
+        mapLabelEnglish: "Izu Islands",
+        homeMap: HomeMapLayout(
+            labelOffsetX: 72,
+            labelOffsetY: 10
+        ),
         coverAssetName: "IslandBgIzu",
         coverAssetCredit: "Photo: Ice Tea / Unsplash（神津島・伊豆諸島）",
         ferryDataSourceNote: "ダイヤ・運航状況は東海汽船の公式サイトでご確認ください。",
@@ -110,46 +130,44 @@ enum IslandRegionCatalog {
         id: "goto",
         displayNameJapanese: "五島列島",
         displayNameEnglish: "Goto Islands",
-        mapLabelJapanese: "五島",
-        mapLabelEnglish: "Goto",
-        mapMonogramJapanese: "五島",
-        mapMonogramEnglish: "G",
-        mapAnnotationLatitude: 32.686123,
-        mapAnnotationLongitude: 128.747749,
+        mapLabelJapanese: "五島列島",
+        mapLabelEnglish: "Goto Islands",
+        homeMap: HomeMapLayout(
+            labelOffsetX: -70,
+            labelOffsetY: 8
+        ),
         coverAssetName: "IslandBgGoto",
         coverAssetCredit: "Photo: Nami-ja / Wikimedia Commons（五島市玉之浦町・頓泊海水浴場）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: "ダイヤ・運航状況は五島旅客船・木口汽船・九州商船等の公式サイトでご確認ください。",
         ferryValidUntilSuffix: nil
     )
 
-    // ピンは見やすさのため南西へ（小豆・直島と重ならないように）
     static let kutsuna = IslandRegion(
         id: "kutsuna",
         displayNameJapanese: "忽那諸島",
         displayNameEnglish: "Kutsuna Islands",
-        mapLabelJapanese: "忽那",
-        mapLabelEnglish: "Kutsuna",
-        mapMonogramJapanese: "忽那",
-        mapMonogramEnglish: "K",
-        mapAnnotationLatitude: 33.45,
-        mapAnnotationLongitude: 131.95,
+        mapLabelJapanese: "忽那諸島",
+        mapLabelEnglish: "Kutsuna Islands",
+        homeMap: HomeMapLayout(
+            labelOffsetX: -62,
+            labelOffsetY: 34
+        ),
         coverAssetName: "IslandBgKutsuna",
         coverAssetCredit: "Photo: KUNIO MIURA / Wikimedia Commons（興居島沖合）／CC BY 3.0／表示時に暗色グラデーションを追加",
         ferryDataSourceNote: "ダイヤ・運航状況は中島汽船・ごごしま等の公式サイトでご確認ください。",
         ferryValidUntilSuffix: nil
     )
 
-    // ピンは見やすさのため北東へ（忽那ピンと重ならないように）
     static let shodoshimaNaoshima = IslandRegion(
         id: "shodoshima_naoshima",
         displayNameJapanese: "小豆島・直島エリア",
         displayNameEnglish: "Shodoshima & Naoshima",
-        mapLabelJapanese: "小豆・直島",
-        mapLabelEnglish: "Shodo·Nao",
-        mapMonogramJapanese: "小豆",
-        mapMonogramEnglish: "D",
-        mapAnnotationLatitude: 34.95,
-        mapAnnotationLongitude: 135.5,
+        mapLabelJapanese: "小豆島・直島",
+        mapLabelEnglish: "Shodoshima & Naoshima",
+        homeMap: HomeMapLayout(
+            labelOffsetX: 70,
+            labelOffsetY: -28
+        ),
         coverAssetName: "IslandBgShodoshimaNaoshima",
         coverAssetCredit: "Photo: Yu / Unsplash（小豆島・香川）",
         ferryDataSourceNote: "四国フェリー・小豆島豊島フェリー・四国汽船等の公式サイトからご確認ください。",
@@ -157,6 +175,14 @@ enum IslandRegionCatalog {
     )
 
     static let all: [IslandRegion] = [yaeyama, sado, izu, goto, kutsuna, shodoshimaNaoshima]
+
+    static var homeMapMainRegions: [IslandRegion] {
+        all.filter { $0.homeMap.placement == .mainMap }
+    }
+
+    static var homeMapInsetRegions: [IslandRegion] {
+        all.filter { $0.homeMap.placement == .inset }
+    }
 
     static func region(for regionID: String) -> IslandRegion? {
         all.first { $0.id == regionID }
