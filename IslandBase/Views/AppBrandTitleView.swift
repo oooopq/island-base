@@ -11,6 +11,7 @@ struct AppBrandTitleView: View {
     enum Style {
         case hero
         case compact
+        case splash
     }
 
     let style: Style
@@ -21,6 +22,8 @@ struct AppBrandTitleView: View {
             return 48
         case .compact:
             return 28
+        case .splash:
+            return 108
         }
     }
 
@@ -30,6 +33,8 @@ struct AppBrandTitleView: View {
             return 11
         case .compact:
             return 6
+        case .splash:
+            return 24
         }
     }
 
@@ -64,4 +69,10 @@ struct AppBrandTitleView: View {
         .padding()
         .background(Color.black)
         .environment(\.detailPalette, DetailCardPalette.dark)
+}
+
+#Preview("Splash") {
+    AppBrandTitleView(style: .splash)
+        .padding()
+        .background(Color(red: 0.06, green: 0.08, blue: 0.12))
 }
