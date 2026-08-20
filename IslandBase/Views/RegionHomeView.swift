@@ -202,26 +202,32 @@ private struct JapanRegionMarkerView: View {
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
 
-    private let pinSize: CGFloat = 38
+    private let pinHeight: CGFloat = 38
 
     var body: some View {
         Text(region.mapMonogram(for: languageStore.mode))
             .font(.system(size: monogramFontSize, weight: .bold, design: .rounded))
             .foregroundStyle(.white)
-            .frame(width: pinSize, height: pinSize)
+            .tracking(languageStore.mode.isJapanese ? -0.8 : 0)
+            .frame(width: pinWidth, height: pinHeight)
             .background {
-                Circle()
+                Capsule()
                     .fill(palette.iconAccent)
                     .overlay {
-                        Circle()
+                        Capsule()
                             .strokeBorder(Color.white.opacity(0.28), lineWidth: 1)
                     }
                     .shadow(color: .black.opacity(0.22), radius: 4, y: 2)
             }
     }
 
+    /// 日本語の二字は横長カプセル、英語の1文字は円（高さと同じ幅）
+    private var pinWidth: CGFloat {
+        languageStore.mode.isJapanese ? 54 : pinHeight
+    }
+
     private var monogramFontSize: CGFloat {
-        languageStore.mode.isJapanese ? 17 : 18
+        languageStore.mode.isJapanese ? 15 : 18
     }
 }
 

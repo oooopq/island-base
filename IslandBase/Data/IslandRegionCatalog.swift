@@ -15,7 +15,7 @@ struct IslandRegion: Identifiable, Hashable {
     /// 日本地図ホームのピン用の短い名前（長い正式名は下の一覧に残す）
     let mapLabelJapanese: String
     let mapLabelEnglish: String
-    /// 日本地図ホームのモノグラム・ピン用の1文字（自動抽出ではなく手定義）
+    /// 日本地図ホームのピン用略称（日本語は漢字2字、英語は1文字。自動抽出ではなく手定義）
     let mapMonogramJapanese: String
     let mapMonogramEnglish: String
     /// 日本地図ホームのピン位置（見やすさのため実座標から少しずらす場合あり）
@@ -62,7 +62,7 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Yaeyama Islands",
         mapLabelJapanese: "八重山",
         mapLabelEnglish: "Yaeyama",
-        mapMonogramJapanese: "八",
+        mapMonogramJapanese: "八重",
         mapMonogramEnglish: "Y",
         mapAnnotationLatitude: 24.432805,
         mapAnnotationLongitude: 124.205319,
@@ -78,7 +78,7 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Sado",
         mapLabelJapanese: "佐渡",
         mapLabelEnglish: "Sado",
-        mapMonogramJapanese: "佐",
+        mapMonogramJapanese: "佐渡",
         mapMonogramEnglish: "S",
         // ピンは見やすさのため北へ（伊豆ピンと重ならないように）
         mapAnnotationLatitude: 38.35,
@@ -95,7 +95,7 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Izu Islands",
         mapLabelJapanese: "伊豆",
         mapLabelEnglish: "Izu",
-        mapMonogramJapanese: "伊",
+        mapMonogramJapanese: "伊豆",
         mapMonogramEnglish: "I",
         // ピンは見やすさのため南へ（佐渡ピンと重ならないように）
         mapAnnotationLatitude: 33.7,
@@ -112,7 +112,7 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Goto Islands",
         mapLabelJapanese: "五島",
         mapLabelEnglish: "Goto",
-        mapMonogramJapanese: "五",
+        mapMonogramJapanese: "五島",
         mapMonogramEnglish: "G",
         mapAnnotationLatitude: 32.686123,
         mapAnnotationLongitude: 128.747749,
@@ -129,7 +129,7 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Kutsuna Islands",
         mapLabelJapanese: "忽那",
         mapLabelEnglish: "Kutsuna",
-        mapMonogramJapanese: "忽",
+        mapMonogramJapanese: "忽那",
         mapMonogramEnglish: "K",
         mapAnnotationLatitude: 33.45,
         mapAnnotationLongitude: 131.95,
@@ -146,7 +146,7 @@ enum IslandRegionCatalog {
         displayNameEnglish: "Shodoshima & Naoshima",
         mapLabelJapanese: "小豆・直島",
         mapLabelEnglish: "Shodo·Nao",
-        mapMonogramJapanese: "豆",
+        mapMonogramJapanese: "小豆",
         mapMonogramEnglish: "D",
         mapAnnotationLatitude: 34.95,
         mapAnnotationLongitude: 135.5,
