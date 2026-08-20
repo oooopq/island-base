@@ -7,37 +7,48 @@
 
 import SwiftUI
 
+enum IslandHeroPhotoChrome {
+    static let holdGradientTop = 0.0
+    static let holdGradientBottom = 0.0
+    static let afterZoomGradientTop = 0.10
+    static let afterZoomGradientBottom = 0.50
+    static let settledGradientTop = 0.18
+    static let settledGradientBottom = 0.58
+    static let readabilityBlurRadius: CGFloat = 10
+    static let readabilityBlurDuration = 0.5
+}
+
 struct IslandBackgroundView: View {
     let islandID: String
-    /// 入場演出後は true にして、天気・ダイヤを読みやすくぼかす
-    var blurForReadability: Bool = false
-
-    private let readabilityBlurRadius: CGFloat = 10
+    var photoScale: CGFloat = 1.0
+    var zoomHeadroom: CGFloat = 1.0
+    var blurRadius: CGFloat = IslandHeroPhotoChrome.readabilityBlurRadius
+    var gradientTopOpacity: Double = IslandHeroPhotoChrome.settledGradientTop
+    var gradientBottomOpacity: Double = IslandHeroPhotoChrome.settledGradientBottom
 
     private var backgroundAssetName: String {
         IslandCatalog.profile(for: islandID)?.backgroundAssetName ?? IslandCatalog.defaultBackgroundAssetName
     }
 
     var body: some View {
-        IslandFullscreenPhotoView(assetName: backgroundAssetName)
-            .blur(radius: blurForReadability ? readabilityBlurRadius : 0)
-            .overlay {
-                LinearGradient(
-                    colors: blurForReadability
-                        ? [
-                            Color.black.opacity(0.18),
-                            Color.black.opacity(0.58),
-                        ]
-                        : [
-                            Color.black.opacity(0.10),
-                            Color.black.opacity(0.50),
-                        ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-            }
-            .animation(.easeInOut(duration: 0.5), value: blurForReadability)
+        IslandFullscreenPhotoView(
+            assetName: backgroundAssetName,
+            scale: photoScale,
+            zoomHeadroom: zoomHeadroom
+        )
+        .blur(radius: blurRadius)
+        .overlay {
+            LinearGradient(
+                colors: [
+                    Color.black.opacity(gradientTopOpacity),
+                    Color.black.opacity(gradientBottomOpacity),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
+        }
     }
 }
 

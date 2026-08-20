@@ -13,7 +13,7 @@ struct IslandArtIntro {
     let holdSeconds: Double
     /// ズームアウトにかける秒数
     let zoomOutSeconds: Double
-    /// オーバーレイをフェードアウトする秒数
+    /// ズームアウト後、読みやすさブラーへ移るまでの秒数
     let fadeSeconds: Double
     /// 開始時の拡大率（1より大きいほど「寄り」から始まる）
     let startScale: CGFloat
