@@ -11,6 +11,7 @@ enum AppText {
     // ホーム
     case pickRegionOnMap
     case tapPinOrList
+    case homeMapInsetCaption
     case recentIslands
     case chooseRegion
     case islandCount(Int)
@@ -167,6 +168,8 @@ enum AppText {
             return "諸島を選んで、いまの天気・船便を確認"
         case .tapPinOrList:
             return "地図のピンか、下のカードから選ぶ"
+        case .homeMapInsetCaption:
+            return "別枠"
         case .recentIslands:
             return "最近見た島"
         case .chooseRegion:
@@ -438,6 +441,8 @@ enum AppText {
             return "Pick a region for weather & ferries"
         case .tapPinOrList:
             return "Tap a pin or card below"
+        case .homeMapInsetCaption:
+            return "Inset"
         case .recentIslands:
             return "Recent islands"
         case .chooseRegion:

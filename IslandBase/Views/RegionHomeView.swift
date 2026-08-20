@@ -109,32 +109,42 @@ struct RegionHomeView: View {
     }
 
     private var japanMap: some View {
-        Map(
-            position: $cameraPosition,
-            bounds: RegionMapSupport.japanMapCameraBounds,
-            interactionModes: []
-        ) {
-            ForEach(IslandCatalog.regions) { region in
-                Annotation("", coordinate: region.mapCoordinate) {
-                    Button {
-                        // Map 内の NavigationLink は実機で真っ暗になることがあるため path に追加する
-                        navigateToRegion(region.id)
-                    } label: {
-                        JapanRegionMarkerView(region: region)
+        ZStack(alignment: .topLeading) {
+            Map(
+                position: $cameraPosition,
+                bounds: RegionMapSupport.japanMapCameraBounds,
+                interactionModes: []
+            ) {
+                ForEach(IslandRegionCatalog.homeMapMainRegions) { region in
+                    Annotation(
+                        "",
+                        coordinate: RegionMapSupport.homeMapPinCoordinate(for: region),
+                        anchor: JapanRegionMarkerView.annotationAnchor(for: region)
+                    ) {
+                        JapanRegionMarkerView(region: region) {
+                            navigateToRegion(region.id)
+                        }
+                        .accessibilityLabel(
+                            "\(region.displayName(for: languageStore.mode)) \(languageStore.t(.islandCount(IslandCatalog.islandCount(forRegionID: region.id))))"
+                        )
+                        .accessibilityAddTraits(.isButton)
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(
-                        "\(region.displayName(for: languageStore.mode)) \(languageStore.t(.islandCount(IslandCatalog.islandCount(forRegionID: region.id))))"
-                    )
                 }
             }
+            .mapStyle(.standard(elevation: .flat, pointsOfInterest: .excludingAll))
+
+            VStack(alignment: .leading, spacing: 8) {
+                ForEach(IslandRegionCatalog.homeMapInsetRegions) { region in
+                    HomeMapInsetMapView(region: region)
+                }
+            }
+            .padding(10)
         }
-        .mapStyle(.standard(elevation: .flat))
         .onAppear {
             applyJapanHomeCamera()
         }
         .task {
-            // レイアウト確定のたびに、全諸島が収まる基準画角へ戻す
+            // レイアウト確定のたびに、本図の基準画角へ戻す
             applyJapanHomeCamera()
             try? await Task.sleep(for: .milliseconds(50))
             applyJapanHomeCamera()
@@ -196,38 +206,188 @@ struct RegionHomeView: View {
     }
 }
 
-private struct JapanRegionMarkerView: View {
+private struct HomeMapInsetMapView: View {
     let region: IslandRegion
 
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
+    @Environment(\.navigateToRegion) private var navigateToRegion
+    @State private var cameraPosition: MapCameraPosition
 
-    private let pinHeight: CGFloat = 38
+    init(region: IslandRegion) {
+        self.region = region
+        _cameraPosition = State(
+            initialValue: RegionMapSupport.homeMapInsetCameraPosition(for: region)
+        )
+    }
 
     var body: some View {
-        Text(region.mapMonogram(for: languageStore.mode))
-            .font(.system(size: monogramFontSize, weight: .bold, design: .rounded))
-            .foregroundStyle(.white)
-            .tracking(languageStore.mode.isJapanese ? -0.8 : 0)
-            .frame(width: pinWidth, height: pinHeight)
-            .background {
-                Capsule()
-                    .fill(palette.iconAccent)
-                    .overlay {
-                        Capsule()
-                            .strokeBorder(Color.white.opacity(0.28), lineWidth: 1)
+        VStack(alignment: .leading, spacing: 4) {
+            Text(languageStore.t(.homeMapInsetCaption))
+                .font(.system(size: 9, weight: .semibold))
+                .foregroundStyle(palette.secondaryText)
+                .padding(.horizontal, 4)
+
+            Map(
+                position: $cameraPosition,
+                bounds: RegionMapSupport.homeMapInsetCameraBounds(for: region),
+                interactionModes: []
+            ) {
+                Annotation(
+                    "",
+                    coordinate: RegionMapSupport.homeMapPinCoordinate(for: region),
+                    anchor: JapanRegionMarkerView.annotationAnchor(for: region, compact: true)
+                ) {
+                    JapanRegionMarkerView(region: region, usesCompactLabel: true) {
+                        navigateToRegion(region.id)
                     }
-                    .shadow(color: .black.opacity(0.22), radius: 4, y: 2)
+                    .accessibilityLabel(
+                        "\(region.displayName(for: languageStore.mode)) \(languageStore.t(.islandCount(IslandCatalog.islandCount(forRegionID: region.id))))"
+                    )
+                    .accessibilityAddTraits(.isButton)
+                }
             }
+            .mapStyle(.standard(elevation: .flat, pointsOfInterest: .excludingAll))
+            .frame(width: 172, height: 140)
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .strokeBorder(palette.cardBorder, lineWidth: 1.5)
+            }
+            .onAppear {
+                cameraPosition = RegionMapSupport.homeMapInsetCameraPosition(for: region)
+            }
+        }
+        .padding(6)
+        .background {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(.ultraThinMaterial)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .onTapGesture {
+            navigateToRegion(region.id)
+        }
+    }
+}
+
+private struct JapanRegionMarkerView: View {
+    let region: IslandRegion
+    var usesCompactLabel: Bool = false
+    var onSelect: () -> Void
+
+    @Environment(AppLanguageStore.self) private var languageStore
+
+    private let pinWidth: CGFloat = 16
+    private let pinHeight: CGFloat = 22
+    private let pinStroke = Color(red: 0.90, green: 0.16, blue: 0.14)
+
+    static func annotationAnchor(for region: IslandRegion, compact: Bool = false) -> UnitPoint {
+        let canvas = markerCanvas(for: region, compact: compact)
+        return UnitPoint(
+            x: canvas.tip.x / canvas.size.width,
+            y: canvas.tip.y / canvas.size.height
+        )
     }
 
-    /// 日本語の二字は横長カプセル、英語の1文字は円（高さと同じ幅）
-    private var pinWidth: CGFloat {
-        languageStore.mode.isJapanese ? 54 : pinHeight
+    fileprivate struct MarkerCanvas {
+        var size: CGSize
+        var tip: CGPoint
     }
 
-    private var monogramFontSize: CGFloat {
-        languageStore.mode.isJapanese ? 15 : 18
+    fileprivate static func markerCanvas(for region: IslandRegion, compact: Bool) -> MarkerCanvas {
+        let offsetX = region.homeMap.labelOffsetX
+        let offsetY = region.homeMap.labelOffsetY
+        let edge: CGFloat = compact ? 36 : 48
+        let labelPad: CGFloat = compact ? 44 : 64
+        let width = abs(offsetX) + edge + labelPad
+        let height = abs(offsetY) + edge + 26
+        let tipX = offsetX >= 0 ? edge : width - edge
+        let tipY = offsetY >= 0 ? edge : height - edge
+        return MarkerCanvas(
+            size: CGSize(width: width, height: height),
+            tip: CGPoint(x: tipX, y: tipY)
+        )
+    }
+
+    var body: some View {
+        let offset = CGSize(
+            width: region.homeMap.labelOffsetX,
+            height: region.homeMap.labelOffsetY
+        )
+        let canvas = Self.markerCanvas(for: region, compact: usesCompactLabel)
+        let tip = canvas.tip
+
+        ZStack(alignment: .topLeading) {
+            Path { path in
+                path.move(to: CGPoint(x: tip.x, y: tip.y - 3))
+                path.addLine(
+                    to: CGPoint(x: tip.x + offset.width, y: tip.y + offset.height)
+                )
+            }
+            .stroke(Color.primary.opacity(0.45), lineWidth: 1)
+            .allowsHitTesting(false)
+
+            HomeMapPinShape()
+                .fill(Color.white)
+                .overlay {
+                    HomeMapPinShape()
+                        .stroke(pinStroke, lineWidth: 1.5)
+                }
+                .frame(width: pinWidth, height: pinHeight)
+                .shadow(color: .black.opacity(0.28), radius: 1.5, y: 1)
+                .position(x: tip.x, y: tip.y - pinHeight / 2)
+                .onTapGesture(perform: onSelect)
+
+            label
+                .position(x: tip.x + offset.width, y: tip.y + offset.height)
+                .onTapGesture(perform: onSelect)
+        }
+        .frame(width: canvas.size.width, height: canvas.size.height)
+    }
+
+    private var label: some View {
+        Text(region.mapLabel(for: languageStore.mode))
+            .font(.system(size: usesCompactLabel ? 10 : 11, weight: .semibold))
+            .foregroundStyle(Color.primary.opacity(0.92))
+            .lineLimit(1)
+            .fixedSize()
+            .padding(.horizontal, 7)
+            .padding(.vertical, 4)
+            .background(.ultraThinMaterial, in: Capsule())
+            .overlay {
+                Capsule()
+                    .strokeBorder(Color.black.opacity(0.14), lineWidth: 0.6)
+            }
+            .shadow(color: .black.opacity(0.16), radius: 1.5, y: 1)
+    }
+}
+
+/// アプリアイコンに近いドロップ型ピン（白塗り・赤枠）
+private struct HomeMapPinShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        let stemX = rect.midX
+        let circleSide = min(rect.width, rect.height * 0.64)
+        let circle = CGRect(
+            x: stemX - circleSide / 2,
+            y: rect.minY + 0.4,
+            width: circleSide,
+            height: circleSide
+        )
+
+        var path = Path()
+        path.addEllipse(in: circle)
+        path.move(to: CGPoint(x: circle.minX + circleSide * 0.16, y: circle.midY + circleSide * 0.18))
+        path.addQuadCurve(
+            to: CGPoint(x: stemX, y: rect.maxY),
+            control: CGPoint(x: circle.minX + circleSide * 0.12, y: circle.maxY + circleSide * 0.12)
+        )
+        path.addQuadCurve(
+            to: CGPoint(x: circle.maxX - circleSide * 0.16, y: circle.midY + circleSide * 0.18),
+            control: CGPoint(x: circle.maxX - circleSide * 0.12, y: circle.maxY + circleSide * 0.12)
+        )
+        path.closeSubpath()
+        return path
     }
 }
 
