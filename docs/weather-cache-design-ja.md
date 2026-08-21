@@ -33,7 +33,7 @@ iOS アプリ
 ### ワークフロー
 
 - ファイル: `.github/workflows/weather-cache.yml`（未作成）
-- スケジュール: `cron: '10 * * * *'` + `timezone: Asia/Tokyo`（毎時 10 分。`:00` は Open-Meteo 更新との競合を避ける）
+- スケジュール: `cron: '10 * * * *'`（UTC。毎時 :10 UTC = 毎時 :10 JST。`:00` は Open-Meteo 更新との競合を避ける。`timezone` キーは GitHub cron では無効）
 - 手動実行: `workflow_dispatch`（初回・デバッグ用）
 
 ### 失敗時ポリシー
