@@ -28,6 +28,8 @@ GitHub ユーザー **oooopq** / リポジトリ **island-base** / Source: **Dep
 
 **重要:** `docs/*.html` を更新したら GitHub にプッシュし、Pages が最新になるまでブラウザで確認してください。
 
+提出手順は [submission-checklist-ja.md](./submission-checklist-ja.md) を上から消化してください（2026-08-21 評価: コード・法務は準備完了、残は Connect メタデータ・プライバシー申告・スクショ・実機スモーク）。
+
 ## 免責
 
 これらの文案はテンプレートです。個別の事業形態・地域・機能追加により要件が変わる場合があります。
