@@ -4,10 +4,11 @@ name: 天気キャッシュ更新
 
 on:
   schedule:
-    # GitHub cron は UTC。毎時 :10 UTC = 毎時 :10 JST。
+    # GitHub cron は UTC。毎時 :10 と :40（UTC = JST）。
     # Open-Meteo の :00 更新との競合を避ける。
-    # schedule は遅延・欠落しうるため、失敗時は下の明示ステップと GitHub 通知で検知する。
+    # :40 は :10 の遅延・欠落を拾う。失敗時は下の明示ステップと GitHub 通知で検知する。
     - cron: "10 * * * *"
+    - cron: "40 * * * *"
   workflow_dispatch:
 
 permissions:

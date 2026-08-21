@@ -63,12 +63,12 @@ class ValidateWeatherPayloadTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             weather.validate_weather_payload("aijima", payload)
 
-    def test_rejects_unknown_weather_code(self):
+    def test_accepts_unknown_weather_code_as_unknown_condition(self):
         payload = valid_payload()
-        payload["todayHourlyForecast"][0]["weatherCode"] = -1
+        payload["todayHourlyForecast"][0]["weatherCode"] = 86
+        payload["todayHourlyForecast"][0]["condition"] = "不明"
 
-        with self.assertRaises(ValueError):
-            weather.validate_weather_payload("aijima", payload)
+        weather.validate_weather_payload("aijima", payload)
 
     def test_rejects_missing_hourly_forecast(self):
         payload = valid_payload()
@@ -77,9 +77,15 @@ class ValidateWeatherPayloadTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             weather.validate_weather_payload("aijima", payload)
 
-    def test_rejects_weekly_forecast_not_exactly_seven_days(self):
+    def test_accepts_weekly_forecast_with_six_days(self):
         payload = valid_payload()
         payload["weeklyForecast"].pop()
+
+        weather.validate_weather_payload("aijima", payload)
+
+    def test_rejects_empty_weekly_forecast(self):
+        payload = valid_payload()
+        payload["weeklyForecast"] = []
 
         with self.assertRaises(ValueError):
             weather.validate_weather_payload("aijima", payload)
@@ -195,6 +201,77 @@ class BuildWeatherPayloadTests(unittest.TestCase):
                 weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00"),
             )
 
+    def test_rejects_missing_current_weather_code(self):
+        forecast = complete_forecast()
+        del forecast["current"]["weather_code"]
+
+        with self.assertRaises(ValueError):
+            weather.build_weather_payload(
+                forecast,
+                None,
+                "2026-08-21T08:35:15+09:00",
+                weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00"),
+            )
+
+    def test_treats_null_humidity_and_wind_as_zero(self):
+        forecast = complete_forecast()
+        forecast["current"]["relative_humidity_2m"] = None
+        forecast["current"]["wind_speed_10m"] = None
+        forecast["hourly"]["relative_humidity_2m"] = [None, 80]
+        forecast["hourly"]["wind_speed_10m"] = [None, 5.0]
+        now = weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00")
+
+        payload = weather.build_weather_payload(
+            forecast,
+            None,
+            "2026-08-21T08:35:15+09:00",
+            now,
+        )
+
+        weather.validate_weather_payload("aijima", payload)
+        self.assertEqual(payload["humidityPercent"], 0)
+        self.assertEqual(payload["windSpeedKmh"], 0)
+        self.assertEqual(payload["todayHourlyForecast"][0]["humidityPercent"], 0)
+        self.assertEqual(payload["todayHourlyForecast"][0]["windSpeedKmh"], 0)
+
+    def test_maps_unknown_weather_code_to_unknown_condition(self):
+        forecast = complete_forecast()
+        forecast["current"]["weather_code"] = 86
+        forecast["hourly"]["weather_code"] = [86, 0]
+        now = weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00")
+
+        payload = weather.build_weather_payload(
+            forecast,
+            None,
+            "2026-08-21T08:35:15+09:00",
+            now,
+        )
+
+        weather.validate_weather_payload("aijima", payload)
+        self.assertEqual(payload["weatherCode"], 86)
+        self.assertEqual(payload["condition"], "不明")
+        self.assertEqual(payload["todayHourlyForecast"][0]["condition"], "不明")
+
+    def test_truncates_weekly_forecast_to_seven_days(self):
+        forecast = complete_forecast()
+        forecast["daily"]["time"].append("2026-08-28")
+        forecast["daily"]["weather_code"].append(1)
+        forecast["daily"]["temperature_2m_max"].append(29.0)
+        forecast["daily"]["temperature_2m_min"].append(24.0)
+        forecast["daily"]["relative_humidity_2m_mean"].append(85.0)
+        forecast["daily"]["precipitation_probability_max"].append(10)
+        now = weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00")
+
+        payload = weather.build_weather_payload(
+            forecast,
+            None,
+            "2026-08-21T08:35:15+09:00",
+            now,
+        )
+
+        weather.validate_weather_payload("aijima", payload)
+        self.assertEqual(len(payload["weeklyForecast"]), 7)
+
     def test_rejects_mismatched_hourly_source_arrays(self):
         forecast = {
             "current": {
@@ -223,6 +300,51 @@ class BuildWeatherPayloadTests(unittest.TestCase):
                 "2026-08-21T08:35:15+09:00",
                 weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00"),
             )
+
+
+class FetchJsonRetryTests(unittest.TestCase):
+    def test_retries_then_succeeds(self):
+        from unittest.mock import MagicMock, patch
+
+        good = MagicMock()
+        good.read.return_value = b'{"ok": true}'
+        good.__enter__.return_value = good
+        good.__exit__.return_value = False
+        error = weather.urllib.error.URLError("timed out")
+
+        with patch("scripts.fetch_weather_cache.urllib.request.urlopen", side_effect=[error, error, good]):
+            with patch("scripts.fetch_weather_cache.time.sleep"):
+                data = weather.fetch_json("https://example.invalid/forecast")
+
+        self.assertEqual(data, {"ok": True})
+
+    def test_raises_after_all_attempts_fail(self):
+        from unittest.mock import patch
+
+        error = weather.urllib.error.URLError("timed out")
+        with patch("scripts.fetch_weather_cache.urllib.request.urlopen", side_effect=error):
+            with patch("scripts.fetch_weather_cache.time.sleep"):
+                with self.assertRaises(RuntimeError):
+                    weather.fetch_json("https://example.invalid/forecast")
+
+
+class StaleCacheWarningTests(unittest.TestCase):
+    def test_warns_when_manifest_is_older_than_90_minutes(self):
+        import io
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        from unittest.mock import patch
+
+        now = weather.datetime.fromisoformat("2026-08-21T12:00:00+09:00")
+        with TemporaryDirectory() as tmp:
+            path = Path(tmp) / "manifest.json"
+            path.write_text('{"updatedAt": "2026-08-21T08:00:00+09:00"}\n', encoding="utf-8")
+            stderr = io.StringIO()
+            with patch.object(weather, "WEATHER_DIR", Path(tmp)):
+                with patch("sys.stderr", stderr):
+                    weather.warn_if_existing_cache_is_stale(now)
+            self.assertIn("::error::", stderr.getvalue())
+            self.assertIn("240 分", stderr.getvalue())
 
 
 if __name__ == "__main__":
