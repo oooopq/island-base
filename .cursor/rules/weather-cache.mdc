@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## 目的
 
-- ユーザー数に関わらず Open-Meteo への実コールを **48 HTTP リクエスト/日**（forecast 1 + marine 1 × 24 回）に固定
+- ユーザー数に関わらず Open-Meteo への実コールを **通常 96 HTTP リクエスト/日**（forecast 1 + marine 1 × 48 回。失敗時の再試行で最大 288）に固定
 - アプリは GitHub Pages 上の静的 JSON を取得する（Open-Meteo を直接叩かない）
 - **既存の天気 UI・`WeatherInfo` モデルは変更しない**（取得元のみ差し替え）
 - サードパーティ依存は追加しない（iOS: Foundation のみ、Actions: Python 標準ライブラリ）
@@ -18,7 +18,7 @@ alwaysApply: false
 ## アーキテクチャ
 
 ```
-GitHub Actions（毎時 JST :10）
+GitHub Actions（毎時 JST :10 と :40）
   → scripts/fetch_weather_cache.py
   → Open-Meteo forecast + marine を各1回のバッチ取得（全島）
   → docs/weather/{island-id}.json を生成
