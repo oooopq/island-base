@@ -85,35 +85,43 @@ class ValidateWeatherPayloadTests(unittest.TestCase):
             weather.validate_weather_payload("aijima", payload)
 
 
+def complete_forecast(*, precipitation_probabilities=None, daily_precipitation=None):
+    if precipitation_probabilities is None:
+        precipitation_probabilities = [0, 10]
+    if daily_precipitation is None:
+        daily_precipitation = [10] * 7
+    return {
+        "current": {
+            "temperature_2m": 26.4,
+            "apparent_temperature": 27.1,
+            "weather_code": 1,
+            "relative_humidity_2m": 90,
+            "wind_speed_10m": 4.4,
+        },
+        "hourly": {
+            "time": ["2026-08-21T08:00", "2026-08-21T09:00"],
+            "temperature_2m": [26.0, 27.0],
+            "apparent_temperature": [27.0, 28.0],
+            "weather_code": [1, 0],
+            "precipitation_probability": precipitation_probabilities,
+            "relative_humidity_2m": [90, 80],
+            "wind_speed_10m": [4.0, 5.0],
+            "precipitation": [0.0, 0.2],
+        },
+        "daily": {
+            "time": [f"2026-08-{day:02d}" for day in range(21, 28)],
+            "weather_code": [1] * 7,
+            "temperature_2m_max": [29.0] * 7,
+            "temperature_2m_min": [24.0] * 7,
+            "relative_humidity_2m_mean": [85.0] * 7,
+            "precipitation_probability_max": daily_precipitation,
+        },
+    }
+
+
 class BuildWeatherPayloadTests(unittest.TestCase):
     def test_builds_payload_from_complete_source_data(self):
-        forecast = {
-            "current": {
-                "temperature_2m": 26.4,
-                "apparent_temperature": 27.1,
-                "weather_code": 1,
-                "relative_humidity_2m": 90,
-                "wind_speed_10m": 4.4,
-            },
-            "hourly": {
-                "time": ["2026-08-21T08:00", "2026-08-21T09:00"],
-                "temperature_2m": [26.0, 27.0],
-                "apparent_temperature": [27.0, 28.0],
-                "weather_code": [1, 0],
-                "precipitation_probability": [0, 10],
-                "relative_humidity_2m": [90, 80],
-                "wind_speed_10m": [4.0, 5.0],
-                "precipitation": [0.0, 0.2],
-            },
-            "daily": {
-                "time": [f"2026-08-{day:02d}" for day in range(21, 28)],
-                "weather_code": [1] * 7,
-                "temperature_2m_max": [29.0] * 7,
-                "temperature_2m_min": [24.0] * 7,
-                "relative_humidity_2m_mean": [85.0] * 7,
-                "precipitation_probability_max": [10] * 7,
-            },
-        }
+        forecast = complete_forecast()
         now = weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00")
 
         payload = weather.build_weather_payload(
@@ -127,6 +135,46 @@ class BuildWeatherPayloadTests(unittest.TestCase):
         self.assertEqual(payload["temperatureCelsius"], 26)
         self.assertEqual(len(payload["todayHourlyForecast"]), 2)
         self.assertEqual(len(payload["weeklyForecast"]), 7)
+
+    def test_treats_null_precipitation_probability_as_zero(self):
+        forecast = complete_forecast(precipitation_probabilities=[None, 20])
+        now = weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00")
+
+        payload = weather.build_weather_payload(
+            forecast,
+            None,
+            "2026-08-21T08:35:15+09:00",
+            now,
+        )
+
+        weather.validate_weather_payload("aijima", payload)
+        self.assertEqual(payload["todayHourlyForecast"][0]["precipitationProbabilityPercent"], 0)
+        self.assertEqual(payload["todayHourlyForecast"][1]["precipitationProbabilityPercent"], 20)
+
+    def test_treats_null_daily_precipitation_probability_as_zero(self):
+        forecast = complete_forecast(daily_precipitation=[None] + [10] * 6)
+        now = weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00")
+
+        payload = weather.build_weather_payload(
+            forecast,
+            None,
+            "2026-08-21T08:35:15+09:00",
+            now,
+        )
+
+        weather.validate_weather_payload("aijima", payload)
+        self.assertEqual(payload["weeklyForecast"][0]["precipitationProbabilityPercent"], 0)
+
+    def test_rejects_non_numeric_precipitation_probability(self):
+        forecast = complete_forecast(precipitation_probabilities=["unknown", 10])
+
+        with self.assertRaises(ValueError):
+            weather.build_weather_payload(
+                forecast,
+                None,
+                "2026-08-21T08:35:15+09:00",
+                weather.datetime.fromisoformat("2026-08-21T08:35:15+09:00"),
+            )
 
     def test_rejects_missing_current_temperature(self):
         forecast = {

@@ -41,6 +41,16 @@ def require_number(source: Dict[str, Any], key: str, context: str) -> float:
     return float(value)
 
 
+def optional_number_or_zero(source: Dict[str, Any], key: str, context: str) -> float:
+    """Open-Meteo が null を返す任意数値。欠損は 0、不正型は拒否する。"""
+    value = source.get(key)
+    if value is None:
+        return 0.0
+    if not is_finite_number(value):
+        raise ValueError(f"{context}: {key} が数値ではありません")
+    return float(value)
+
+
 def require_weather_code(source: Dict[str, Any], key: str, context: str) -> int:
     value = source.get(key)
     if not isinstance(value, int) or isinstance(value, bool) or value not in VALID_WEATHER_CODES:
@@ -214,12 +224,16 @@ def build_today_hourly_forecast(hourly: Dict[str, Any], now: datetime) -> List[D
         temperature = require_number({"value": temperatures[index]}, "value", f"hourly[{index}].temperature_2m")
         weather_code = require_weather_code({"value": weather_codes[index]}, "value", f"hourly[{index}].weather_code")
         humidity = require_number({"value": humidities[index]}, "value", f"hourly[{index}].relative_humidity_2m")
-        precipitation_prob = require_number(
+        precipitation_prob = optional_number_or_zero(
             {"value": precipitation_probabilities[index]},
             "value",
             f"hourly[{index}].precipitation_probability",
         )
-        precipitation = require_number({"value": precipitations[index]}, "value", f"hourly[{index}].precipitation")
+        precipitation = optional_number_or_zero(
+            {"value": precipitations[index]},
+            "value",
+            f"hourly[{index}].precipitation",
+        )
         wind_speed = require_number({"value": wind_speeds[index]}, "value", f"hourly[{index}].wind_speed_10m")
         hour = slot_date.hour
 
@@ -273,7 +287,7 @@ def build_weekly_forecast(daily: Dict[str, Any]) -> List[Dict[str, Any]]:
         max_temperature = require_number({"value": max_temperatures[index]}, "value", f"daily[{index}].temperature_2m_max")
         min_temperature = require_number({"value": min_temperatures[index]}, "value", f"daily[{index}].temperature_2m_min")
         humidity = require_number({"value": mean_humidities[index]}, "value", f"daily[{index}].relative_humidity_2m_mean")
-        precipitation = require_number(
+        precipitation = optional_number_or_zero(
             {"value": precipitation_max[index]},
             "value",
             f"daily[{index}].precipitation_probability_max",
