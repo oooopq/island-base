@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-21T23:50:50+09:00",
+  "updatedAt": "2026-08-22T00:07:26+09:00",
   "temperatureCelsius": 29,
   "apparentTemperatureCelsius": 32,
   "weatherCode": 53,
@@ -7,20 +7,8 @@
   "humidityPercent": 83,
   "windSpeedKmh": 24,
   "currentWaveHeightMeters": 2.82,
-  "todayMaxWaveHeightMeters": 2.82,
+  "todayMaxWaveHeightMeters": 3.36,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-21T23:00",
-      "timeLabel": "23時",
-      "weatherCode": 61,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 33,
-      "condition": "雨",
-      "humidityPercent": 83,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 2.1,
-      "windSpeedKmh": 25
-    },
     {
       "id": "2026-08-22T00:00",
       "timeLabel": "0時",
@@ -296,19 +284,21 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 22.5,
       "windSpeedKmh": 65
+    },
+    {
+      "id": "2026-08-22T23:00",
+      "timeLabel": "23時",
+      "weatherCode": 65,
+      "temperatureCelsius": 28,
+      "apparentTemperatureCelsius": 26,
+      "condition": "雨",
+      "humidityPercent": 86,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 20.2,
+      "windSpeedKmh": 66
     }
   ],
   "weeklyForecast": [
-    {
-      "id": "2026-08-21",
-      "dateLabel": "8/21（金）",
-      "weatherCode": 63,
-      "minTemperatureCelsius": 28,
-      "maxTemperatureCelsius": 29,
-      "condition": "雨",
-      "humidityPercent": 85,
-      "precipitationProbabilityPercent": 0
-    },
     {
       "id": "2026-08-22",
       "dateLabel": "8/22（土）",
@@ -363,6 +353,16 @@
       "id": "2026-08-27",
       "dateLabel": "8/27（木）",
       "weatherCode": 51,
+      "minTemperatureCelsius": 29,
+      "maxTemperatureCelsius": 30,
+      "condition": "小雨",
+      "humidityPercent": 83,
+      "precipitationProbabilityPercent": 0
+    },
+    {
+      "id": "2026-08-28",
+      "dateLabel": "8/28（金）",
+      "weatherCode": 53,
       "minTemperatureCelsius": 29,
       "maxTemperatureCelsius": 30,
       "condition": "小雨",
