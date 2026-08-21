@@ -70,7 +70,10 @@ struct IslandProfile: Identifiable {
     let liveCameras: [LiveCamera]
     /// ライブカメラがない島向けの YouTube 関連リンク
     let youtubeRelatedLinks: [LiveCamera]
+    /// ライブカメラ注記（日本語）。英語は `liveCameraFootnoteEnglish`
     let liveCameraFootnote: String?
+    /// 英語モード用。未設定時は日本語注記をそのまま出す
+    let liveCameraFootnoteEnglish: String?
     let flightSchedules: [FlightAirlineSchedule]
     let flightScheduleNote: String?
     /// 詳細画面を開いた直後のアート演出（nil で無効）
@@ -166,6 +169,7 @@ struct IslandProfile: Identifiable {
         liveCameras: [LiveCamera],
         youtubeRelatedLinks: [LiveCamera] = [],
         liveCameraFootnote: String? = nil,
+        liveCameraFootnoteEnglish: String? = nil,
         flightSchedules: [FlightAirlineSchedule],
         flightScheduleNote: String?,
         artIntro: IslandArtIntro? = .fullscreenZoomOut
@@ -186,9 +190,18 @@ struct IslandProfile: Identifiable {
         self.liveCameras = liveCameras
         self.youtubeRelatedLinks = youtubeRelatedLinks
         self.liveCameraFootnote = liveCameraFootnote
+        self.liveCameraFootnoteEnglish = liveCameraFootnoteEnglish
         self.flightSchedules = flightSchedules
         self.flightScheduleNote = flightScheduleNote
         self.artIntro = artIntro
+    }
+
+    /// 表示言語に合わせたライブカメラ注記
+    func liveCameraFootnote(for language: AppLanguageMode) -> String? {
+        if language.isJapanese {
+            return liveCameraFootnote
+        }
+        return liveCameraFootnoteEnglish ?? liveCameraFootnote
     }
 
     func matchesRoute(_ routeLongName: String) -> Bool {

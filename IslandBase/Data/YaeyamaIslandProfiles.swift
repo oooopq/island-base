@@ -348,13 +348,15 @@ enum YaeyamaIslandProfiles {
             UsefulInfo(id: "yonaguni-tourism", category: .tourism, name: "与那国町観光協会", phoneNumber: "0980-87-2441", address: "沖縄県与那国町与那国", websiteURL: "https://welcome-yonaguni.jp/", note: "最西端の碑・ダイビング等"),
         ],
         liveCameras: [
+            // YouTube を先に置く（海上保安庁ページは iPhone で真っ白になりやすい）
             LiveCamera(title: "八重山リアルタイム（ライブ配信）", urlString: "https://www.youtube.com/@YAEYAMALIVE/live"),
             LiveCamera(title: "西埼灯台（海上保安庁・公式ページ）", urlString: "https://www6.kaiho.mlit.go.jp/11kanku/ishigaki/irisaki_lt/livecamera/index.html"),
         ],
         youtubeRelatedLinks: [
             yaeyamaYouTube(title: "八重山リアルタイム"),
         ],
-        liveCameraFootnote: "※ 海上保安庁の灯台カメラはスマホで真っ白になることがあります。上のYouTubeリンクをお試しください。",
+        liveCameraFootnote: "※ 西埼灯台（海上保安庁）の公式ページは、iPhone では真っ白・非表示になることがあります。上の「八重山リアルタイム」リンクをご利用ください。",
+        liveCameraFootnoteEnglish: "※ The Japan Coast Guard Irizaki Lighthouse page may appear blank on iPhone. Please use the Yaeyama Realtime YouTube live link above.",
         flightSchedules: yonaguniLineFlightSchedules,
         flightScheduleNote: nil,
     )
