@@ -180,7 +180,7 @@ def build_today_hourly_forecast(hourly: Dict[str, Any], now: datetime) -> List[D
         "relative_humidity_2m": require_list(hourly, "relative_humidity_2m", "hourly"),
         "wind_speed_10m": require_list(hourly, "wind_speed_10m", "hourly"),
         "precipitation": require_list(hourly, "precipitation", "hourly"),
-    )
+    }
     safe_count = require_matching_lengths(arrays, "hourly")
     times = arrays["time"]
     temperatures = arrays["temperature_2m"]
@@ -252,7 +252,7 @@ def build_weekly_forecast(daily: Dict[str, Any]) -> List[Dict[str, Any]]:
         "temperature_2m_min": require_list(daily, "temperature_2m_min", "daily"),
         "relative_humidity_2m_mean": require_list(daily, "relative_humidity_2m_mean", "daily"),
         "precipitation_probability_max": require_list(daily, "precipitation_probability_max", "daily"),
-    )
+    }
     safe_count = require_matching_lengths(arrays, "daily")
     times = arrays["time"]
     weather_codes = arrays["weather_code"]
