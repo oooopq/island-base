@@ -31,7 +31,7 @@
 
 ## C. App Store Connect メタデータ
 
-文案は [`app-store-ja.md`](./app-store-ja.md) をコピーする（**2026年8月21日版**）。
+文案は [`connect-submit-copy-ja.md`](./connect-submit-copy-ja.md) をコピーする（**2026年8月21日版**）。詳細解説は [`app-store-ja.md`](./app-store-ja.md)。
 
 - [ ] アプリ名 / サブタイトル / 説明文 / キーワードを貼り付けた
 - [ ] **「代表ダイヤをアプリ内に表示」と書いていない**（八重山 GTFS のみアプリ内、他は公式リンク）
@@ -111,7 +111,8 @@
 提出前に「変わっていないこと」を確認:
 
 - [x] `NSLocationWhenInUseUsageDescription`（地図の現在地）
-- [x] `NSCameraUsageDescription` / `NSPhotoLibraryUsageDescription`（写真メモ）
+- [x] `NSCameraUsageDescription` / `NSLocationWhenInUseUsageDescription`（`ja.lproj` と `en.lproj`）
+- [x] フォトライブラリ全体の許可キーなし（写真選択は `PhotosPicker`）
 - [x] `PrivacyInfo.xcprivacy`（Tracking なし、UserDefaults CA92.1）
 - [x] `ITSAppUsesNonExemptEncryption = NO`
 - [x] ATS 例外なし・HTTPS のみ・不要な権限キーなし（2026-08-21 評価）
