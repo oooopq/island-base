@@ -468,8 +468,8 @@ struct ImageCreditsView: View {
 
     private var gsiBody: String {
         isJapanese
-            ? "二神島・怒和島・津和地島の空中写真は、Wikimedia Commons 経由で国土地理院の出典表示条件に従って利用しています。該当する画像クレジットには「出典：国土地理院」と明記しています。"
-            : "Aerial photos of Futagami, Nuwa, and Tsuwaji are used via Wikimedia Commons under GSI attribution rules. Credits include “出典：国土地理院”."
+            ? "怒和島・津和地島の空中写真は、Wikimedia Commons 経由で国土地理院の出典表示条件に従って利用しています。該当する画像クレジットには「出典：国土地理院」と明記しています。"
+            : "Aerial photos of Nuwa and Tsuwaji are used via Wikimedia Commons under GSI attribution rules. Credits include “出典：国土地理院”."
     }
 
     private var providedPhotoTitle: String {
@@ -478,8 +478,8 @@ struct ImageCreditsView: View {
 
     private var providedPhotoBody: String {
         isJapanese
-            ? "黒島・波照間島・八丈島・犬島の背景画像は、アプリ開発者（Tomoyuki Shidara）が撮影したものです。第三者の画像素材は使用していません。"
-            : "Backgrounds for Kuroshima, Hateruma, Hachijojima, and Inujima were taken by the app developer (Tomoyuki Shidara). No third-party image assets are used for these islands."
+            ? "黒島・波照間島・八丈島・犬島・二神島の背景画像は、アプリ開発者（Tomoyuki Shidara）が撮影したものです。第三者の画像素材は使用していません。"
+            : "Backgrounds for Kuroshima, Hateruma, Hachijojima, Inujima, and Futagamijima were taken by the app developer (Tomoyuki Shidara). No third-party image assets are used for these islands."
     }
 
     private var photoNotesTitle: String {

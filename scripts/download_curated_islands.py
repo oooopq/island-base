@@ -41,7 +41,7 @@ CURATED = [
     ("IslandBgNogutsunajima", "nogutsunajima.jpg", "wiki", "Nogutsuna_Island,_Ehime,_Japan_26-May-2018.jpg", "Photo: 全樺連 / Wikimedia Commons（野忽那島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
     ("IslandBgNuwajima", "nuwajima.jpg", "wiki", "Nuwa_jima_Island_Aerial_photograph.2019.jpg", "Photo: 国土地理院 / Wikimedia Commons（怒和島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加"),
     ("IslandBgTsuwajishima", "tsuwajishima.jpg", "wiki", "Tsuwaji_jima_Island_Aerial_photograph.2019.jpg", "Photo: 国土地理院 / Wikimedia Commons（津和地島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加"),
-    ("IslandBgFutagamijima", "futagamijima.jpg", "wiki", "Futagami_jima_Island_Aerial_photograph.2019.jpg", "Photo: 国土地理院 / Wikimedia Commons（二神島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加"),
+    ("IslandBgFutagamijima", "futagamijima.jpg", "local", "", "Photo: Tomoyuki Shidara（二神島）"),
     ("IslandBgTsurushima", "tsurushima.jpg", "wiki", "Tsurushima_20180814_162343.jpg", "Photo: Ka23 13 / Wikimedia Commons（釣島）／CC BY 4.0／表示時に暗色グラデーションを追加"),
     ("IslandBgAijima", "aijima.jpg", "wiki", "Aijima_Island,_Ehime,_Japan_26-May-2018.jpg", "Photo: 全樺連 / Wikimedia Commons（安居島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加"),
     # 小豆島・直島諸島 — Unsplash + Wikimedia（空中写真）

@@ -56,6 +56,7 @@
 | IslandBgHateruma | Tomoyuki Shidara | 同上 |
 | IslandBgHachijojima | Tomoyuki Shidara | 同上 |
 | IslandBgInujima | Tomoyuki Shidara | 同上（2026-07-30 開発者撮影に復帰） |
+| IslandBgFutagamijima | Tomoyuki Shidara | 同上（2026-08-22 開発者撮影に差し替え） |
 
 島詳細のクレジットは `Photo: Tomoyuki Shidara（島名）`。アプリ内の「自作写真（開発者撮影）」セクションで説明。
 
@@ -75,7 +76,7 @@
 | 佐渡島 | IslandBgSado |
 | 伊豆 CC | IslandBgOshima, IslandBgToshima, IslandBgShikinejima, IslandBgMikurajima |
 | 忽那 CC | IslandBgNakajima, IslandBgGogoshima, IslandBgMuzukijima, IslandBgNogutsunajima, IslandBgTsurushima, IslandBgAijima, IslandBgKutsuna |
-| 忽那 GSI | IslandBgNuwajima, IslandBgTsuwajishima, IslandBgFutagamijima |
+| 忽那 GSI | IslandBgNuwajima, IslandBgTsuwajishima |
 | 五島 CC | IslandBgGoto, IslandBgFukue, IslandBgHisaka, IslandBgNaru, IslandBgWakamatsu, IslandBgNakadori |
 
 **照合結果**: 41/41 verified（2026-08-16 時点。鳩間・小浜を追加）。照合スクリプト: `python3 scripts/verify_image_provenance.py`

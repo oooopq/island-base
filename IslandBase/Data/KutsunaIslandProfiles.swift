@@ -340,7 +340,7 @@ enum KutsunaIslandProfiles {
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgFutagamijima",
-        backgroundCredit: "Photo: 国土地理院 / Wikimedia Commons（二神島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加",
+        backgroundCredit: "Photo: Tomoyuki Shidara（二神島）",
         placeSearchRadiusMeters: 3_000,
         routeKeywords: ["二神", "二神島"],
         ferryGTFSFeeds: [],
