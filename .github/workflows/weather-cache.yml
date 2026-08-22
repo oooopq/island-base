@@ -4,9 +4,11 @@ name: 天気キャッシュ更新
 
 on:
   schedule:
-    # Open-Meteo 更新（:00 JST）との競合を避け、毎時 10 分（JST）に実行
+    # GitHub cron は UTC。毎時 :10 と :40（UTC = JST）。
+    # Open-Meteo の :00 更新との競合を避ける。
+    # :40 は :10 の遅延・欠落を拾う。失敗時は下の明示ステップと GitHub 通知で検知する。
     - cron: "10 * * * *"
-      timezone: Asia/Tokyo
+    - cron: "40 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -30,6 +32,11 @@ jobs:
 
       - name: 天気キャッシュを取得・生成
         run: python3 scripts/fetch_weather_cache.py
+
+      - name: 更新失敗を明示する
+        if: failure()
+        run: |
+          echo "::error::天気キャッシュの更新に失敗しました。docs/weather は前回の配信を維持しています。ログを確認し、必要なら workflow_dispatch で再実行してください。"
 
       - name: 変更があれば commit して push
         run: |

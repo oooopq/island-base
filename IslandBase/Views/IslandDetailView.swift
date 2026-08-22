@@ -318,7 +318,7 @@ struct IslandDetailView: View {
                 LiveCameraSectionView(
                     liveCameras: islandProfile.liveCameras,
                     relatedLinks: islandProfile.youtubeRelatedLinks,
-                    footnote: islandProfile.liveCameraFootnote
+                    footnote: islandProfile.liveCameraFootnote(for: languageStore.mode)
                 )
             }
 

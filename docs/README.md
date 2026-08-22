@@ -4,8 +4,9 @@ App Store 公開と法的表記用の文案です。
 
 | ファイル | 用途 |
 |---|---|
-| [submission-checklist-ja.md](./submission-checklist-ja.md) | **提出前チェックリスト（必読）** |
-| [app-store-ja.md](./app-store-ja.md) | App Store Connect の説明文・キーワード・審査メモ |
+| [connect-submit-copy-ja.md](./connect-submit-copy-ja.md) | **明日の Connect 転記用（URL・プライバシー申告・説明文・審査メモ）** |
+| [submission-checklist-ja.md](./submission-checklist-ja.md) | 提出前チェックリスト |
+| [app-store-ja.md](./app-store-ja.md) | App Store Connect の説明文・キーワード・審査メモ（解説つき） |
 | [connect-app-privacy-ja.md](./connect-app-privacy-ja.md) | Connect「App のプライバシー」入力手順 |
 | [privacy-policy-ja.md](./privacy-policy-ja.md) | プライバシーポリシー（原稿・Markdown） |
 | [terms-of-service-ja.md](./terms-of-service-ja.md) | 利用規約（原稿・Markdown） |
@@ -27,6 +28,8 @@ GitHub ユーザー **oooopq** / リポジトリ **island-base** / Source: **Dep
 アプリ内の `AppLegalInfo.swift` も上記 URL を参照しています。ユーザー名やリポジトリ名を変えた場合は、HTML 公開後に `AppLegalInfo`・本 README・App Store Connect を合わせて更新してください。
 
 **重要:** `docs/*.html` を更新したら GitHub にプッシュし、Pages が最新になるまでブラウザで確認してください。
+
+提出手順は [submission-checklist-ja.md](./submission-checklist-ja.md) を上から消化してください（2026-08-21 評価: コード・法務は準備完了、残は Connect メタデータ・プライバシー申告・スクショ・実機スモーク）。
 
 ## 免責
 

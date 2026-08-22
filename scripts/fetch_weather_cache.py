@@ -7,7 +7,9 @@
 from __future__ import annotations
 
 import json
+import math
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -26,6 +28,55 @@ FORECAST_MODELS = "jma_seamless"
 JST = timezone(timedelta(hours=9))
 WEEKDAYS_JA = ("月", "火", "水", "木", "金", "土", "日")
 USER_AGENT = "IslandBase-weather-cache/1.0"
+FETCH_ATTEMPTS = 3
+STALE_AFTER = timedelta(minutes=90)
+MAX_WEEKLY_FORECAST_DAYS = 7
+
+
+def is_finite_number(value: Any) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def require_number(source: Dict[str, Any], key: str, context: str) -> float:
+    value = source.get(key)
+    if not is_finite_number(value):
+        raise ValueError(f"{context}: {key} が数値ではありません")
+    return float(value)
+
+
+def optional_number_or_zero(source: Dict[str, Any], key: str, context: str) -> float:
+    """Open-Meteo が null を返す任意数値。欠損は 0、不正型は拒否する。"""
+    value = source.get(key)
+    if value is None:
+        return 0.0
+    if not is_finite_number(value):
+        raise ValueError(f"{context}: {key} が数値ではありません")
+    return float(value)
+
+
+def parse_weather_code(value: Any, context: str, *, required: bool) -> Optional[int]:
+    """天気コードを整数化する。未知コードは許容し、欠損は required のときだけ失敗する。"""
+    if value is None:
+        if required:
+            raise ValueError(f"{context}: weather_code がありません")
+        return None
+    if isinstance(value, bool) or not is_finite_number(value):
+        raise ValueError(f"{context}: weather_code が数値ではありません")
+    return int(round(float(value)))
+
+
+def require_list(source: Dict[str, Any], key: str, context: str) -> List[Any]:
+    value = source.get(key)
+    if not isinstance(value, list):
+        raise ValueError(f"{context}: {key} が配列ではありません")
+    return value
+
+
+def require_matching_lengths(values: Dict[str, List[Any]], context: str) -> int:
+    lengths = {key: len(value) for key, value in values.items()}
+    if len(set(lengths.values())) != 1:
+        raise ValueError(f"{context}: 配列件数が不一致です ({lengths})")
+    return next(iter(lengths.values()), 0)
 
 
 def load_locations() -> List[Dict[str, Any]]:
@@ -36,8 +87,10 @@ def load_locations() -> List[Dict[str, Any]]:
     return locations
 
 
-def japanese_condition(code: int) -> str:
-    """WMO 天気コード → 日本語（WeatherConditionMapper と同一）"""
+def japanese_condition(code: Optional[int]) -> str:
+    """WMO 天気コード → 日本語（WeatherConditionMapper と同一）。未知・欠損は不明。"""
+    if code is None:
+        return "不明"
     if code == 0:
         return "晴れ"
     if code in (1, 2, 3):
@@ -86,16 +139,30 @@ def start_of_current_hour(now: datetime) -> datetime:
 
 
 def fetch_json(url: str) -> Any:
-    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    try:
-        with urllib.request.urlopen(request, timeout=120) as response:
-            body = response.read()
-    except urllib.error.HTTPError as error:
-        raise RuntimeError(f"HTTP {error.code}: {url}") from error
-    except urllib.error.URLError as error:
-        raise RuntimeError(f"ネットワークエラー: {error.reason}") from error
+    last_error: Optional[BaseException] = None
+    message = f"取得に失敗しました: {url}"
+    for attempt in range(1, FETCH_ATTEMPTS + 1):
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                body = response.read()
+            return json.loads(body)
+        except urllib.error.HTTPError as error:
+            last_error = error
+            message = f"HTTP {error.code}: {url}"
+        except urllib.error.URLError as error:
+            last_error = error
+            message = f"ネットワークエラー: {error.reason}"
+        except json.JSONDecodeError as error:
+            last_error = error
+            message = f"JSONの解析に失敗しました: {url}"
 
-    return json.loads(body)
+        if attempt < FETCH_ATTEMPTS:
+            delay = 2 ** (attempt - 1)
+            print(f"再試行 {attempt}/{FETCH_ATTEMPTS} — {delay}s 後: {message}", file=sys.stderr)
+            time.sleep(delay)
+
+    raise RuntimeError(message) from last_error
 
 
 def build_forecast_url(locations: List[Dict[str, Any]]) -> str:
@@ -137,55 +204,74 @@ def build_marine_url(locations: List[Dict[str, Any]]) -> str:
 
 
 def build_today_hourly_forecast(hourly: Dict[str, Any], now: datetime) -> List[Dict[str, Any]]:
-    times = hourly.get("time") or []
-    temperatures = hourly.get("temperature_2m") or []
-    apparent_temperatures = hourly.get("apparent_temperature") or []
-    weather_codes = hourly.get("weather_code") or []
-    precipitation_probabilities = hourly.get("precipitation_probability") or []
-    humidities = hourly.get("relative_humidity_2m") or []
-    wind_speeds = hourly.get("wind_speed_10m") or []
-    precipitations = hourly.get("precipitation") or []
-
-    safe_count = min(
-        len(times),
-        len(temperatures),
-        len(apparent_temperatures),
-        len(weather_codes),
-        len(precipitation_probabilities),
-        len(humidities),
-        len(wind_speeds),
-        len(precipitations),
-    )
+    arrays = {
+        "time": require_list(hourly, "time", "hourly"),
+        "temperature_2m": require_list(hourly, "temperature_2m", "hourly"),
+        "apparent_temperature": require_list(hourly, "apparent_temperature", "hourly"),
+        "weather_code": require_list(hourly, "weather_code", "hourly"),
+        "precipitation_probability": require_list(hourly, "precipitation_probability", "hourly"),
+        "relative_humidity_2m": require_list(hourly, "relative_humidity_2m", "hourly"),
+        "wind_speed_10m": require_list(hourly, "wind_speed_10m", "hourly"),
+        "precipitation": require_list(hourly, "precipitation", "hourly"),
+    }
+    safe_count = require_matching_lengths(arrays, "hourly")
+    times = arrays["time"]
+    temperatures = arrays["temperature_2m"]
+    apparent_temperatures = arrays["apparent_temperature"]
+    weather_codes = arrays["weather_code"]
+    precipitation_probabilities = arrays["precipitation_probability"]
+    humidities = arrays["relative_humidity_2m"]
+    wind_speeds = arrays["wind_speed_10m"]
+    precipitations = arrays["precipitation"]
 
     start_hour = start_of_current_hour(now)
     forecasts: List[Dict[str, Any]] = []
 
     for index in range(safe_count):
         time_string = times[index]
+        if not isinstance(time_string, str):
+            raise ValueError(f"hourly[{index}]: time が文字列ではありません")
         slot_date = parse_open_meteo_hour(time_string)
-        if slot_date is None or slot_date < start_hour:
+        if slot_date is None:
+            raise ValueError(f"hourly[{index}]: time がISO日時ではありません")
+        if slot_date < start_hour:
             continue
 
         apparent_value = apparent_temperatures[index]
         apparent_celsius = None
         if apparent_value is not None:
+            if not is_finite_number(apparent_value):
+                raise ValueError(f"hourly[{index}]: apparent_temperature が数値ではありません")
             apparent_celsius = int(round(apparent_value))
 
-        precipitation_prob = precipitation_probabilities[index] or 0
+        temperature = require_number({"value": temperatures[index]}, "value", f"hourly[{index}].temperature_2m")
+        weather_code = parse_weather_code(weather_codes[index], f"hourly[{index}].weather_code", required=False)
+        humidity = optional_number_or_zero({"value": humidities[index]}, "value", f"hourly[{index}].relative_humidity_2m")
+        precipitation_prob = optional_number_or_zero(
+            {"value": precipitation_probabilities[index]},
+            "value",
+            f"hourly[{index}].precipitation_probability",
+        )
+        precipitation = optional_number_or_zero(
+            {"value": precipitations[index]},
+            "value",
+            f"hourly[{index}].precipitation",
+        )
+        wind_speed = optional_number_or_zero({"value": wind_speeds[index]}, "value", f"hourly[{index}].wind_speed_10m")
         hour = slot_date.hour
 
         forecasts.append(
             {
                 "id": time_string,
                 "timeLabel": f"{hour}時",
-                "weatherCode": int(weather_codes[index]),
-                "temperatureCelsius": int(round(temperatures[index])),
+                "weatherCode": weather_code,
+                "temperatureCelsius": int(round(temperature)),
                 "apparentTemperatureCelsius": apparent_celsius,
-                "condition": japanese_condition(int(weather_codes[index])),
-                "humidityPercent": int(humidities[index]),
-                "precipitationProbabilityPercent": max(0, int(precipitation_prob)),
-                "precipitationMillimeters": max(0.0, float(precipitations[index])),
-                "windSpeedKmh": int(round(wind_speeds[index])),
+                "condition": japanese_condition(weather_code),
+                "humidityPercent": int(humidity),
+                "precipitationProbabilityPercent": int(precipitation_prob),
+                "precipitationMillimeters": precipitation,
+                "windSpeedKmh": int(round(wind_speed)),
             }
         )
 
@@ -196,36 +282,53 @@ def build_today_hourly_forecast(hourly: Dict[str, Any], now: datetime) -> List[D
 
 
 def build_weekly_forecast(daily: Dict[str, Any]) -> List[Dict[str, Any]]:
-    times = daily.get("time") or []
-    weather_codes = daily.get("weather_code") or []
-    max_temperatures = daily.get("temperature_2m_max") or []
-    min_temperatures = daily.get("temperature_2m_min") or []
-    mean_humidities = daily.get("relative_humidity_2m_mean") or []
-    precipitation_max = daily.get("precipitation_probability_max") or []
-
-    safe_count = min(
-        len(times),
-        len(weather_codes),
-        len(max_temperatures),
-        len(min_temperatures),
-        len(mean_humidities),
-        len(precipitation_max),
-    )
+    arrays = {
+        "time": require_list(daily, "time", "daily"),
+        "weather_code": require_list(daily, "weather_code", "daily"),
+        "temperature_2m_max": require_list(daily, "temperature_2m_max", "daily"),
+        "temperature_2m_min": require_list(daily, "temperature_2m_min", "daily"),
+        "relative_humidity_2m_mean": require_list(daily, "relative_humidity_2m_mean", "daily"),
+        "precipitation_probability_max": require_list(daily, "precipitation_probability_max", "daily"),
+    }
+    safe_count = require_matching_lengths(arrays, "daily")
+    times = arrays["time"]
+    weather_codes = arrays["weather_code"]
+    max_temperatures = arrays["temperature_2m_max"]
+    min_temperatures = arrays["temperature_2m_min"]
+    mean_humidities = arrays["relative_humidity_2m_mean"]
+    precipitation_max = arrays["precipitation_probability_max"]
 
     weekly: List[Dict[str, Any]] = []
     for index in range(safe_count):
+        if not isinstance(times[index], str):
+            raise ValueError(f"daily[{index}]: time が文字列ではありません")
+        try:
+            datetime.strptime(times[index], "%Y-%m-%d")
+        except ValueError as error:
+            raise ValueError(f"daily[{index}]: time がISO日付ではありません") from error
+        weather_code = parse_weather_code(weather_codes[index], f"daily[{index}].weather_code", required=False)
+        max_temperature = require_number({"value": max_temperatures[index]}, "value", f"daily[{index}].temperature_2m_max")
+        min_temperature = require_number({"value": min_temperatures[index]}, "value", f"daily[{index}].temperature_2m_min")
+        humidity = optional_number_or_zero({"value": mean_humidities[index]}, "value", f"daily[{index}].relative_humidity_2m_mean")
+        precipitation = optional_number_or_zero(
+            {"value": precipitation_max[index]},
+            "value",
+            f"daily[{index}].precipitation_probability_max",
+        )
         weekly.append(
             {
                 "id": times[index],
                 "dateLabel": date_label(times[index]),
-                "weatherCode": int(weather_codes[index]),
-                "minTemperatureCelsius": int(round(min_temperatures[index])),
-                "maxTemperatureCelsius": int(round(max_temperatures[index])),
-                "condition": japanese_condition(int(weather_codes[index])),
-                "humidityPercent": int(round(mean_humidities[index])),
-                "precipitationProbabilityPercent": max(0, int(precipitation_max[index] or 0)),
+                "weatherCode": weather_code,
+                "minTemperatureCelsius": int(round(min_temperature)),
+                "maxTemperatureCelsius": int(round(max_temperature)),
+                "condition": japanese_condition(weather_code),
+                "humidityPercent": int(round(humidity)),
+                "precipitationProbabilityPercent": int(precipitation),
             }
         )
+        if len(weekly) >= MAX_WEEKLY_FORECAST_DAYS:
+            break
     return weekly
 
 
@@ -260,27 +363,38 @@ def build_weather_payload(
     updated_at: str,
     now: datetime,
 ) -> Dict[str, Any]:
-    current = forecast_entry.get("current") or {}
-    hourly = forecast_entry.get("hourly") or {}
-    daily = forecast_entry.get("daily") or {}
+    current = forecast_entry.get("current")
+    hourly = forecast_entry.get("hourly")
+    daily = forecast_entry.get("daily")
+    if not isinstance(current, dict):
+        raise ValueError("current がオブジェクトではありません")
+    if not isinstance(hourly, dict):
+        raise ValueError("hourly がオブジェクトではありません")
+    if not isinstance(daily, dict):
+        raise ValueError("daily がオブジェクトではありません")
 
     apparent_value = current.get("apparent_temperature")
     apparent_celsius = None
     if apparent_value is not None:
+        if not is_finite_number(apparent_value):
+            raise ValueError("current.apparent_temperature が数値ではありません")
         apparent_celsius = int(round(apparent_value))
 
     current_wave, today_max_wave = build_wave_height_data(marine_entry, now)
 
-    current_weather_code = int(current.get("weather_code", -1))
+    current_weather_code = parse_weather_code(current.get("weather_code"), "current", required=True)
+    temperature = require_number(current, "temperature_2m", "current")
+    humidity = optional_number_or_zero(current, "relative_humidity_2m", "current")
+    wind_speed = optional_number_or_zero(current, "wind_speed_10m", "current")
 
     return {
         "updatedAt": updated_at,
-        "temperatureCelsius": int(round(current.get("temperature_2m", 0))),
+        "temperatureCelsius": int(round(temperature)),
         "apparentTemperatureCelsius": apparent_celsius,
         "weatherCode": current_weather_code,
         "condition": japanese_condition(current_weather_code),
-        "humidityPercent": int(current.get("relative_humidity_2m", 0)),
-        "windSpeedKmh": int(round(current.get("wind_speed_10m", 0))),
+        "humidityPercent": int(humidity),
+        "windSpeedKmh": int(round(wind_speed)),
         "currentWaveHeightMeters": current_wave,
         "todayMaxWaveHeightMeters": today_max_wave,
         "todayHourlyForecast": build_today_hourly_forecast(hourly, now),
@@ -304,28 +418,122 @@ def validate_weather_payload(island_id: str, payload: Dict[str, Any]) -> None:
         if key not in payload:
             raise ValueError(f"{island_id}: 必須キー {key} がありません")
 
-    if not payload["condition"]:
+    updated_at = payload["updatedAt"]
+    if not isinstance(updated_at, str):
+        raise ValueError(f"{island_id}: updatedAt が文字列ではありません")
+    try:
+        parsed_updated_at = datetime.fromisoformat(updated_at)
+    except ValueError as error:
+        raise ValueError(f"{island_id}: updatedAt がISO 8601ではありません") from error
+    if parsed_updated_at.tzinfo is None:
+        raise ValueError(f"{island_id}: updatedAt にタイムゾーンがありません")
+
+    if not isinstance(payload["condition"], str) or not payload["condition"]:
         raise ValueError(f"{island_id}: condition が空です")
 
-    if not isinstance(payload.get("weatherCode"), int):
-        raise ValueError(f"{island_id}: weatherCode が不正です")
+    validate_weather_code_value(payload.get("weatherCode"), f"{island_id}: weatherCode", required=True)
 
-    if not isinstance(payload["todayHourlyForecast"], list):
-        raise ValueError(f"{island_id}: todayHourlyForecast が配列ではありません")
+    validate_number(payload["temperatureCelsius"], f"{island_id}: temperatureCelsius", minimum=-90, maximum=70, integer=True)
+    validate_number(payload["humidityPercent"], f"{island_id}: humidityPercent", minimum=0, maximum=100, integer=True)
+    validate_number(payload["windSpeedKmh"], f"{island_id}: windSpeedKmh", minimum=0, maximum=400, integer=True)
+    validate_optional_number(payload.get("apparentTemperatureCelsius"), f"{island_id}: apparentTemperatureCelsius", minimum=-90, maximum=70, integer=True)
+    validate_optional_number(payload.get("currentWaveHeightMeters"), f"{island_id}: currentWaveHeightMeters", minimum=0, maximum=100)
+    validate_optional_number(payload.get("todayMaxWaveHeightMeters"), f"{island_id}: todayMaxWaveHeightMeters", minimum=0, maximum=100)
 
-    if not isinstance(payload["weeklyForecast"], list) or len(payload["weeklyForecast"]) < 1:
-        raise ValueError(f"{island_id}: weeklyForecast が空です")
+    hourly = payload["todayHourlyForecast"]
+    weekly = payload["weeklyForecast"]
+    if not isinstance(hourly, list) or not hourly:
+        raise ValueError(f"{island_id}: todayHourlyForecast が空です")
+    if not isinstance(weekly, list) or not (1 <= len(weekly) <= MAX_WEEKLY_FORECAST_DAYS):
+        raise ValueError(f"{island_id}: weeklyForecast は1〜{MAX_WEEKLY_FORECAST_DAYS}件必要です")
 
-    for index, slot in enumerate(payload["todayHourlyForecast"]):
-        if not isinstance(slot.get("weatherCode"), int):
-            raise ValueError(f"{island_id}: todayHourlyForecast[{index}] の weatherCode が不正です")
+    validate_hourly_forecasts(island_id, hourly)
+    validate_weekly_forecasts(island_id, weekly)
 
-    for index, day in enumerate(payload["weeklyForecast"]):
-        if not isinstance(day.get("weatherCode"), int):
-            raise ValueError(f"{island_id}: weeklyForecast[{index}] の weatherCode が不正です")
 
-    if payload["condition"] == "不明" and payload.get("temperatureCelsius") == 0:
-        raise ValueError(f"{island_id}: 天気データが不正です")
+def validate_weather_code_value(value: Any, context: str, *, required: bool) -> None:
+    if value is None:
+        if required:
+            raise ValueError(f"{context} がありません")
+        return
+    if not isinstance(value, int) or isinstance(value, bool):
+        raise ValueError(f"{context} が不正です")
+
+
+def validate_number(
+    value: Any,
+    context: str,
+    *,
+    minimum: float,
+    maximum: float,
+    integer: bool = False,
+) -> None:
+    if not is_finite_number(value) or value < minimum or value > maximum:
+        raise ValueError(f"{context} が許容範囲外です")
+    if integer and not isinstance(value, int):
+        raise ValueError(f"{context} が整数ではありません")
+
+
+def validate_optional_number(
+    value: Any,
+    context: str,
+    *,
+    minimum: float,
+    maximum: float,
+    integer: bool = False,
+) -> None:
+    if value is not None:
+        validate_number(value, context, minimum=minimum, maximum=maximum, integer=integer)
+
+
+def validate_hourly_forecasts(island_id: str, forecasts: List[Any]) -> None:
+    seen_ids = set()
+    for index, slot in enumerate(forecasts):
+        context = f"{island_id}: todayHourlyForecast[{index}]"
+        if not isinstance(slot, dict):
+            raise ValueError(f"{context} がオブジェクトではありません")
+        for key in ("id", "timeLabel", "condition"):
+            if not isinstance(slot.get(key), str) or not slot[key]:
+                raise ValueError(f"{context}: {key} が不正です")
+        try:
+            parsed_id = datetime.strptime(slot["id"], "%Y-%m-%dT%H:%M")
+        except ValueError as error:
+            raise ValueError(f"{context}: id がISO日時ではありません") from error
+        if slot["id"] in seen_ids:
+            raise ValueError(f"{context}: id が重複しています")
+        seen_ids.add(slot["id"])
+        validate_weather_code_value(slot.get("weatherCode"), f"{context}: weatherCode", required=False)
+        validate_number(slot.get("temperatureCelsius"), f"{context}: temperatureCelsius", minimum=-90, maximum=70, integer=True)
+        validate_optional_number(slot.get("apparentTemperatureCelsius"), f"{context}: apparentTemperatureCelsius", minimum=-90, maximum=70, integer=True)
+        validate_number(slot.get("humidityPercent"), f"{context}: humidityPercent", minimum=0, maximum=100, integer=True)
+        validate_number(slot.get("precipitationProbabilityPercent"), f"{context}: precipitationProbabilityPercent", minimum=0, maximum=100, integer=True)
+        validate_number(slot.get("precipitationMillimeters"), f"{context}: precipitationMillimeters", minimum=0, maximum=1000)
+        validate_number(slot.get("windSpeedKmh"), f"{context}: windSpeedKmh", minimum=0, maximum=400, integer=True)
+
+
+def validate_weekly_forecasts(island_id: str, forecasts: List[Any]) -> None:
+    seen_ids = set()
+    for index, day in enumerate(forecasts):
+        context = f"{island_id}: weeklyForecast[{index}]"
+        if not isinstance(day, dict):
+            raise ValueError(f"{context} がオブジェクトではありません")
+        for key in ("id", "dateLabel", "condition"):
+            if not isinstance(day.get(key), str) or not day[key]:
+                raise ValueError(f"{context}: {key} が不正です")
+        try:
+            datetime.strptime(day["id"], "%Y-%m-%d")
+        except ValueError as error:
+            raise ValueError(f"{context}: id がISO日付ではありません") from error
+        if day["id"] in seen_ids:
+            raise ValueError(f"{context}: id が重複しています")
+        seen_ids.add(day["id"])
+        validate_weather_code_value(day.get("weatherCode"), f"{context}: weatherCode", required=False)
+        validate_number(day.get("minTemperatureCelsius"), f"{context}: minTemperatureCelsius", minimum=-90, maximum=70, integer=True)
+        validate_number(day.get("maxTemperatureCelsius"), f"{context}: maxTemperatureCelsius", minimum=-90, maximum=70, integer=True)
+        if day["minTemperatureCelsius"] > day["maxTemperatureCelsius"]:
+            raise ValueError(f"{context}: 最低気温が最高気温を上回っています")
+        validate_number(day.get("humidityPercent"), f"{context}: humidityPercent", minimum=0, maximum=100, integer=True)
+        validate_number(day.get("precipitationProbabilityPercent"), f"{context}: precipitationProbabilityPercent", minimum=0, maximum=100, integer=True)
 
 
 def ensure_response_list(data: Any, api_name: str) -> List[Dict[str, Any]]:
@@ -344,6 +552,27 @@ def write_json(path: Path, payload: Dict[str, Any]) -> None:
         file.write("\n")
 
 
+def warn_if_existing_cache_is_stale(now: datetime) -> None:
+    path = WEATHER_DIR / "manifest.json"
+    if not path.exists():
+        return
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        updated_at = datetime.fromisoformat(str(data["updatedAt"]))
+    except (OSError, KeyError, TypeError, ValueError):
+        return
+    if updated_at.tzinfo is None:
+        return
+    age = now - updated_at
+    if age < STALE_AFTER:
+        return
+    minutes = int(age.total_seconds() // 60)
+    print(
+        f"::error::前回の天気キャッシュ更新から {minutes} 分経過しています（updatedAt={updated_at.isoformat()}）。",
+        file=sys.stderr,
+    )
+
+
 def main() -> int:
     locations = load_locations()
     if len(locations) != 35:
@@ -351,6 +580,7 @@ def main() -> int:
 
     now = datetime.now(JST)
     updated_at = now.isoformat(timespec="seconds")
+    warn_if_existing_cache_is_stale(now)
 
     print("Forecast API を取得中…")
     forecast_data = ensure_response_list(

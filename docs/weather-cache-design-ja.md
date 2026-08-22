@@ -7,13 +7,13 @@ Cloud Agent で検討した内容のまとめです。Mac 上の Cursor で実�
 | 現状 | 改修後 |
 |------|--------|
 | アプリが島ごとに Open-Meteo を直接呼び出し | GitHub Actions が全島をバッチ取得し GitHub Pages に静的 JSON 配信 |
-| ユーザー数に比例して API コールが増える | Open-Meteo への実コールを **48 HTTP リクエスト/日**に固定 |
-| — | 既存の天気 UI・`WeatherInfo` は変更せず、取得元のみ差し替え |
+| ユーザー数に比例して API コールが増える | Open-Meteo への実コールを通常 **96 HTTP リクエスト/日**に固定（失敗時の再試行で最大 288） |
+| — | 既存の天気 UI・`WeatherInfo` は変更せず、取得元のみ差し替え。Open-Meteo への実コールは通常 **96 HTTP リクエスト/日** |
 
 ## アーキテクチャ
 
 ```
-GitHub Actions（毎時 JST :10）
+GitHub Actions（毎時 JST :10 と :40）
   ├─ scripts/weather_locations.json を読む（35島の天気地点）
   ├─ Open-Meteo forecast API … 1回（全島バッチ）
   ├─ Open-Meteo marine API … 1回（全島バッチ）
@@ -33,7 +33,7 @@ iOS アプリ
 ### ワークフロー
 
 - ファイル: `.github/workflows/weather-cache.yml`（未作成）
-- スケジュール: `cron: '10 * * * *'` + `timezone: Asia/Tokyo`（毎時 10 分。`:00` は Open-Meteo 更新との競合を避ける）
+- スケジュール: `cron: '10 * * * *'` と `cron: '40 * * * *'`（UTC。毎時 :10/:40 UTC = JST。`:00` は Open-Meteo 更新との競合を避ける。`:40` は `:10` の遅延・欠落を拾う）
 - 手動実行: `workflow_dispatch`（初回・デバッグ用）
 
 ### 失敗時ポリシー
@@ -45,8 +45,10 @@ iOS アプリ
 
 ### Open-Meteo コール数
 
-- 1実行あたり 2 HTTP リクエスト（forecast + marine）
-- 24 回/日 × 2 = **48 リクエスト/日**（無料枠 10,000/日 に対して十分余裕）
+- 1実行あたり 2 HTTP リクエスト（forecast + marine）。失敗時は最大3回まで再試行
+- 通常: 48 実行/日 × 2 = **96 リクエスト/日**
+- 最大（毎回失敗して再試行し切る）: 48 × 2 × 3 = **288 リクエスト/日**
+- 無料枠 10,000/日 に対して十分余裕
 
 ## 座標の正本
 

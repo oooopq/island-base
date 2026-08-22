@@ -73,7 +73,6 @@ enum AppText {
     case noFerryTripsToday
     case noFlightsForDestination
     case dataValidUntil(String)
-    case representativeTimetableNote
     case showAllTrips(Int)
     case hideAllTrips
     case highSpeedAndOvernightNote
@@ -93,7 +92,6 @@ enum AppText {
     case weatherTimeout
     case offlineFerry
     case ferryTimeout
-    case offlineFerryFallback
     case offlinePlaces
     case creditsAndSources
     case jmaMarineForecastLink(String)
@@ -288,8 +286,6 @@ enum AppText {
             return "この行き先の便はありません"
         case .dataValidUntil(let text):
             return "データ有効期限: \(text)"
-        case .representativeTimetableNote:
-            return "代表ダイヤ（参考情報）です。出発前に必ず各社公式サイトでご確認ください。"
         case .showAllTrips(let count):
             return "全ダイヤを見る（\(count)便）"
         case .hideAllTrips:
@@ -328,8 +324,6 @@ enum AppText {
             return "電波がないためダイヤを取得できませんでした"
         case .ferryTimeout:
             return "ダイヤの取得がタイムアウトしました。しばらくしてから再度お試しください。"
-        case .offlineFerryFallback:
-            return "ダイヤを取得できませんでした。代表ダイヤ（参考）を表示しています。"
         case .offlinePlaces:
             return "電波がないためスポットを取得できませんでした"
         case .creditsAndSources:
@@ -561,8 +555,6 @@ enum AppText {
             return "No flights for this destination"
         case .dataValidUntil(let text):
             return "Data valid until: \(text)"
-        case .representativeTimetableNote:
-            return "Representative timetable for reference. Always check the operator’s official site before departure."
         case .showAllTrips(let count):
             return "Show all sailings (\(count))"
         case .hideAllTrips:
@@ -601,8 +593,6 @@ enum AppText {
             return "Couldn’t load schedules — little or no signal"
         case .ferryTimeout:
             return "Schedule request timed out. Please try again in a moment."
-        case .offlineFerryFallback:
-            return "Couldn’t load schedules. Showing representative timetable for reference."
         case .offlinePlaces:
             return "Couldn’t load places — little or no signal"
         case .creditsAndSources:
