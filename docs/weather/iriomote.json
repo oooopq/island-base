@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-08-24T05:56:46+09:00",
+  "updatedAt": "2026-08-24T06:33:48+09:00",
   "temperatureCelsius": 29,
   "apparentTemperatureCelsius": 31,
-  "weatherCode": 51,
-  "condition": "小雨",
-  "humidityPercent": 81,
+  "weatherCode": 2,
+  "condition": "くもり",
+  "humidityPercent": 80,
   "windSpeedKmh": 29,
-  "currentWaveHeightMeters": 2.14,
+  "currentWaveHeightMeters": 2.12,
   "todayMaxWaveHeightMeters": 2.26,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-24T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 2,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 31,
-      "condition": "くもり",
-      "humidityPercent": 81,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 30
-    },
     {
       "id": "2026-08-24T06:00",
       "timeLabel": "6時",
@@ -296,6 +284,18 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 10
+    },
+    {
+      "id": "2026-08-25T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 2,
+      "temperatureCelsius": 29,
+      "apparentTemperatureCelsius": 34,
+      "condition": "くもり",
+      "humidityPercent": 79,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 9
     }
   ],
   "weeklyForecast": [
