@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-24T23:56:22+09:00",
+  "updatedAt": "2026-08-25T00:20:47+09:00",
   "temperatureCelsius": 27,
   "apparentTemperatureCelsius": 30,
   "weatherCode": 0,
@@ -7,20 +7,8 @@
   "humidityPercent": 86,
   "windSpeedKmh": 26,
   "currentWaveHeightMeters": 1.6,
-  "todayMaxWaveHeightMeters": 1.56,
+  "todayMaxWaveHeightMeters": 1.8,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-24T23:00",
-      "timeLabel": "23時",
-      "weatherCode": 0,
-      "temperatureCelsius": 27,
-      "apparentTemperatureCelsius": 30,
-      "condition": "晴れ",
-      "humidityPercent": 86,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 26
-    },
     {
       "id": "2026-08-25T00:00",
       "timeLabel": "0時",
@@ -296,19 +284,21 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 31
+    },
+    {
+      "id": "2026-08-25T23:00",
+      "timeLabel": "23時",
+      "weatherCode": 0,
+      "temperatureCelsius": 27,
+      "apparentTemperatureCelsius": 30,
+      "condition": "晴れ",
+      "humidityPercent": 89,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 32
     }
   ],
   "weeklyForecast": [
-    {
-      "id": "2026-08-24",
-      "dateLabel": "8/24（月）",
-      "weatherCode": 51,
-      "minTemperatureCelsius": 26,
-      "maxTemperatureCelsius": 27,
-      "condition": "小雨",
-      "humidityPercent": 88,
-      "precipitationProbabilityPercent": 0
-    },
     {
       "id": "2026-08-25",
       "dateLabel": "8/25（火）",
@@ -367,6 +357,16 @@
       "maxTemperatureCelsius": 28,
       "condition": "くもり",
       "humidityPercent": 82,
+      "precipitationProbabilityPercent": 0
+    },
+    {
+      "id": "2026-08-31",
+      "dateLabel": "8/31（月）",
+      "weatherCode": 2,
+      "minTemperatureCelsius": 27,
+      "maxTemperatureCelsius": 28,
+      "condition": "くもり",
+      "humidityPercent": 89,
       "precipitationProbabilityPercent": 0
     }
   ]

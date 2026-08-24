@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-24T23:56:22+09:00",
+  "updatedAt": "2026-08-25T00:20:47+09:00",
   "temperatureCelsius": 28,
   "apparentTemperatureCelsius": 32,
   "weatherCode": 0,
@@ -7,20 +7,8 @@
   "humidityPercent": 77,
   "windSpeedKmh": 16,
   "currentWaveHeightMeters": 2.44,
-  "todayMaxWaveHeightMeters": 2.42,
+  "todayMaxWaveHeightMeters": 2.44,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-24T23:00",
-      "timeLabel": "23時",
-      "weatherCode": 1,
-      "temperatureCelsius": 28,
-      "apparentTemperatureCelsius": 32,
-      "condition": "くもり",
-      "humidityPercent": 78,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 17
-    },
     {
       "id": "2026-08-25T00:00",
       "timeLabel": "0時",
@@ -296,19 +284,21 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 23
+    },
+    {
+      "id": "2026-08-25T23:00",
+      "timeLabel": "23時",
+      "weatherCode": 1,
+      "temperatureCelsius": 28,
+      "apparentTemperatureCelsius": 32,
+      "condition": "くもり",
+      "humidityPercent": 85,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 23
     }
   ],
   "weeklyForecast": [
-    {
-      "id": "2026-08-24",
-      "dateLabel": "8/24（月）",
-      "weatherCode": 1,
-      "minTemperatureCelsius": 27,
-      "maxTemperatureCelsius": 28,
-      "condition": "くもり",
-      "humidityPercent": 82,
-      "precipitationProbabilityPercent": 0
-    },
     {
       "id": "2026-08-25",
       "dateLabel": "8/25（火）",
@@ -367,6 +357,16 @@
       "maxTemperatureCelsius": 28,
       "condition": "くもり",
       "humidityPercent": 81,
+      "precipitationProbabilityPercent": 0
+    },
+    {
+      "id": "2026-08-31",
+      "dateLabel": "8/31（月）",
+      "weatherCode": 2,
+      "minTemperatureCelsius": 28,
+      "maxTemperatureCelsius": 28,
+      "condition": "くもり",
+      "humidityPercent": 86,
       "precipitationProbabilityPercent": 0
     }
   ]
