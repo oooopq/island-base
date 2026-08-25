@@ -288,7 +288,8 @@ enum YaeyamaIslandProfiles {
     // MARK: - 鳩間島
 
     private static let hatoma = IslandProfile(
-        island: Island(id: "hatoma", nameJapanese: "鳩間島", nameEnglish: "Hatoma", latitude: 24.472780, longitude: 123.820000),
+        // 島中心: OSM relation 4858189（鳩間島）の out center
+        island: Island(id: "hatoma", nameJapanese: "鳩間島", nameEnglish: "Hatoma", latitude: 24.472156, longitude: 123.820048),
         regionID: "yaeyama",
         // 港座標: 海上保安庁「八重山列島の港」鳩間（地方港湾）24°28′03″N 123°49′16″E。島の南側
         ports: [IslandPort(name: "鳩間港", latitude: 24.467500, longitude: 123.821111)],
@@ -313,7 +314,7 @@ enum YaeyamaIslandProfiles {
         usefulInfo: [
             UsefulInfo(id: "hatoma-clinic", category: .medical, name: "常設診療所なし（西表・石垣へ）", phoneNumber: "0980-85-6268", address: "西表西部診療所（竹富町西表694）", websiteURL: "https://yaeyamaweb.hosp.pref.okinawa.jp/information/shinryou/seibu/", note: "鳩間島に常設診療所はありません。急病時は119番または関係機関へ連絡し、西表・石垣への移動を含め案内に従ってください"),
             UsefulInfo(id: "hatoma-convenience", category: .convenience, name: "鳩間港・集落周辺", phoneNumber: nil, address: "鳩間港付近", websiteURL: nil, note: "店舗は限られます。現金の用意を"),
-            UsefulInfo(id: "hatoma-tourism", category: .tourism, name: "竹富町観光協会（鳩間島）", phoneNumber: "0980-85-2441", address: "沖縄県竹富町鳩間", websiteURL: "https://www.taketomijima.jp/", note: "西表島の北、上原港からも就航"),
+            UsefulInfo(id: "hatoma-tourism", category: .tourism, name: "竹富町観光協会（鳩間島）", phoneNumber: "0980-85-2441", address: "沖縄県竹富町鳩間", websiteURL: "https://painusima.com/category/sima/hatomajima/", note: "西表島の北。上原航路の経由便のため、上原欠航時は鳩間便も欠航します"),
         ],
         liveCameras: [],
         youtubeRelatedLinks: [

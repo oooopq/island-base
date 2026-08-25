@@ -47,27 +47,12 @@ struct GTFSFerryParser {
                 Int($0["stop_sequence"] ?? "0") ?? 0 < Int($1["stop_sequence"] ?? "0") ?? 0
             }
 
-            guard let first = sortedStops.first,
-                  let last = sortedStops.last,
-                  let departureRaw = first["departure_time"],
-                  let arrivalRaw = last["arrival_time"],
-                  let fromStopID = first["stop_id"],
-                  let toStopID = last["stop_id"],
-                  let fromName = stopNameByID[fromStopID],
-                  let toName = stopNameByID[toStopID] else {
-                continue
-            }
-
-            let departureTime = formatTime(departureRaw)
-            let arrivalTime = formatTime(arrivalRaw)
-            let routeName = "\(fromName) → \(toName)"
-
             ferryTrips.append(
-                FerryTrip(
-                    id: tripID,
-                    routeName: routeName,
-                    departureTime: departureTime,
-                    arrivalTime: arrivalTime
+                contentsOf: tripsTouchingIsland(
+                    tripID: tripID,
+                    sortedStops: sortedStops,
+                    stopNameByID: stopNameByID,
+                    islandID: islandID
                 )
             )
         }
@@ -207,6 +192,73 @@ struct GTFSFerryParser {
             eligibleRows
                 .filter { Int($0["end_date"] ?? "") == latestEndDate }
                 .compactMap { $0["service_id"] }
+        )
+    }
+
+    /// 今見ている島の港が途中停泊なら、その港を発着に付け替える。
+    /// 八重山観光フェリーの「石垣→鳩間→上原」を鳩間画面で 石垣→鳩間 / 鳩間→上原 と出すため。
+    /// 終着が島の港（西表の上原など）なら、従来どおり始発→終着のまま。
+    private func tripsTouchingIsland(
+        tripID: String,
+        sortedStops: [[String: String]],
+        stopNameByID: [String: String],
+        islandID: String
+    ) -> [FerryTrip] {
+        let calls = stopCalls(from: sortedStops, stopNameByID: stopNameByID)
+        guard calls.count >= 2 else { return [] }
+
+        let islandIndices = calls.indices.filter { index in
+            IslandCatalog.profile(for: islandID)?.matchesPlaceName(calls[index].name) == true
+        }
+
+        if let islandIndex = islandIndices.first,
+           islandIndex > 0,
+           islandIndex < calls.count - 1 {
+            return [
+                ferryTrip(id: "\(tripID)-in", from: calls[islandIndex - 1], to: calls[islandIndex]),
+                ferryTrip(id: "\(tripID)-out", from: calls[islandIndex], to: calls[islandIndex + 1]),
+            ].compactMap { $0 }
+        }
+
+        return [
+            ferryTrip(id: tripID, from: calls[0], to: calls[calls.count - 1])
+        ].compactMap { $0 }
+    }
+
+    private struct StopCall {
+        let id: String
+        let name: String
+        let arrivalTime: String
+        let departureTime: String
+    }
+
+    private func stopCalls(
+        from sortedStops: [[String: String]],
+        stopNameByID: [String: String]
+    ) -> [StopCall] {
+        sortedStops.compactMap { row in
+            guard let stopID = row["stop_id"],
+                  let name = stopNameByID[stopID] else {
+                return nil
+            }
+            let arrival = row["arrival_time"].flatMap { $0.isEmpty ? nil : $0 }
+                ?? row["departure_time"]
+                ?? ""
+            let departure = row["departure_time"].flatMap { $0.isEmpty ? nil : $0 }
+                ?? row["arrival_time"]
+                ?? ""
+            guard arrival.isEmpty == false, departure.isEmpty == false else { return nil }
+            return StopCall(id: stopID, name: name, arrivalTime: arrival, departureTime: departure)
+        }
+    }
+
+    private func ferryTrip(id: String, from: StopCall, to: StopCall) -> FerryTrip? {
+        guard from.id != to.id else { return nil }
+        return FerryTrip(
+            id: id,
+            routeName: "\(from.name) → \(to.name)",
+            departureTime: formatTime(from.departureTime),
+            arrivalTime: formatTime(to.arrivalTime)
         )
     }
 
