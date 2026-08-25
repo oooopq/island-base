@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-08-25T12:29:28+09:00",
-  "temperatureCelsius": 29,
+  "updatedAt": "2026-08-25T13:21:43+09:00",
+  "temperatureCelsius": 30,
   "apparentTemperatureCelsius": 37,
   "weatherCode": 0,
   "condition": "晴れ",
-  "humidityPercent": 76,
-  "windSpeedKmh": 7,
+  "humidityPercent": 78,
+  "windSpeedKmh": 9,
   "currentWaveHeightMeters": 0.06,
   "todayMaxWaveHeightMeters": 0.18,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-25T12:00",
-      "timeLabel": "12時",
-      "weatherCode": 0,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 37,
-      "condition": "晴れ",
-      "humidityPercent": 76,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 6
-    },
     {
       "id": "2026-08-25T13:00",
       "timeLabel": "13時",
@@ -296,6 +284,18 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 8
+    },
+    {
+      "id": "2026-08-26T12:00",
+      "timeLabel": "12時",
+      "weatherCode": 0,
+      "temperatureCelsius": 29,
+      "apparentTemperatureCelsius": 36,
+      "condition": "晴れ",
+      "humidityPercent": 81,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 9
     }
   ],
   "weeklyForecast": [
@@ -332,19 +332,19 @@
     {
       "id": "2026-08-28",
       "dateLabel": "8/28（金）",
-      "weatherCode": 61,
-      "minTemperatureCelsius": 26,
-      "maxTemperatureCelsius": 30,
-      "condition": "雨",
-      "humidityPercent": 84,
+      "weatherCode": 53,
+      "minTemperatureCelsius": 27,
+      "maxTemperatureCelsius": 28,
+      "condition": "小雨",
+      "humidityPercent": 85,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-08-29",
       "dateLabel": "8/29（土）",
-      "weatherCode": 55,
+      "weatherCode": 53,
       "minTemperatureCelsius": 26,
-      "maxTemperatureCelsius": 28,
+      "maxTemperatureCelsius": 29,
       "condition": "小雨",
       "humidityPercent": 86,
       "precipitationProbabilityPercent": 0
@@ -354,9 +354,9 @@
       "dateLabel": "8/30（日）",
       "weatherCode": 53,
       "minTemperatureCelsius": 27,
-      "maxTemperatureCelsius": 29,
+      "maxTemperatureCelsius": 30,
       "condition": "小雨",
-      "humidityPercent": 85,
+      "humidityPercent": 84,
       "precipitationProbabilityPercent": 0
     },
     {
