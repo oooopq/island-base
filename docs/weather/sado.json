@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-08-27T04:17:09+09:00",
+  "updatedAt": "2026-08-27T06:12:25+09:00",
   "temperatureCelsius": 26,
-  "apparentTemperatureCelsius": 31,
+  "apparentTemperatureCelsius": 32,
   "weatherCode": 63,
   "condition": "雨",
   "humidityPercent": 92,
-  "windSpeedKmh": 15,
-  "currentWaveHeightMeters": 0.6,
+  "windSpeedKmh": 10,
+  "currentWaveHeightMeters": 0.62,
   "todayMaxWaveHeightMeters": 1.22,
   "todayHourlyForecast": [
-    {
-      "id": "2026-08-27T04:00",
-      "timeLabel": "4時",
-      "weatherCode": 63,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 31,
-      "condition": "雨",
-      "humidityPercent": 92,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 4.1,
-      "windSpeedKmh": 16
-    },
-    {
-      "id": "2026-08-27T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 63,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 31,
-      "condition": "雨",
-      "humidityPercent": 93,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 3.3,
-      "windSpeedKmh": 12
-    },
     {
       "id": "2026-08-27T06:00",
       "timeLabel": "6時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 8.2,
       "windSpeedKmh": 11
+    },
+    {
+      "id": "2026-08-28T04:00",
+      "timeLabel": "4時",
+      "weatherCode": 65,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 31,
+      "condition": "雨",
+      "humidityPercent": 91,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 8.0,
+      "windSpeedKmh": 10
+    },
+    {
+      "id": "2026-08-28T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 63,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 30,
+      "condition": "雨",
+      "humidityPercent": 88,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 3.8,
+      "windSpeedKmh": 10
     }
   ],
   "weeklyForecast": [
