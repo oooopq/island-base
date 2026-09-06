@@ -34,16 +34,16 @@ struct IslandDetailSectionPickerView: View {
     private var pickerBackground: some View {
         if isLightStyle {
             RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .fill(Color.white.opacity(0.96))
+                .fill(Color(uiColor: .systemGray6))
                 .background {
                     RoundedRectangle(cornerRadius: 18, style: .continuous)
                         .fill(.regularMaterial)
                 }
                 .overlay {
                     RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .strokeBorder(lightModePickerBorderGradient, lineWidth: 1.5)
+                        .strokeBorder(Self.lightPickerBorder, lineWidth: 1)
                 }
-                .shadow(color: palette.cardShadow, radius: 10, y: 4)
+                .shadow(color: palette.cardShadow, radius: 8, y: 3)
         } else {
             RoundedRectangle(cornerRadius: 18, style: .continuous)
                 .fill(palette.cardBackground.opacity(0.72))
@@ -53,31 +53,17 @@ struct IslandDetailSectionPickerView: View {
                 }
                 .overlay {
                     RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .strokeBorder(rainbowBorderGradient, lineWidth: 1.5)
+                        .strokeBorder(palette.cardBorder, lineWidth: 1)
                 }
                 .shadow(color: palette.cardShadow, radius: 12, y: 5)
         }
     }
 
-    private var rainbowBorderGradient: LinearGradient {
-        LinearGradient(
-            colors: IslandDetailSection.allCases.map(\.iconColor),
-            startPoint: .leading,
-            endPoint: .trailing
-        )
-    }
-
-    private var lightModePickerBorderGradient: LinearGradient {
-        LinearGradient(
-            colors: IslandDetailSection.allCases.map { $0.resolvedIconColor(isLightMode: true) },
-            startPoint: .leading,
-            endPoint: .trailing
-        )
-    }
+    /// Light Mode タブグループ外周（neutral）
+    private static let lightPickerBorder = Color.black.opacity(0.10)
 
     private func sectionButton(_ section: IslandDetailSection) -> some View {
         let isSelected = selection == section
-        let iconColor = section.resolvedIconColor(isLightMode: isLightStyle)
 
         return Button {
             withAnimation(.spring(response: 0.34, dampingFraction: 0.78)) {
@@ -94,10 +80,12 @@ struct IslandDetailSectionPickerView: View {
                         .font(.system(size: 16, weight: .bold))
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(
-                            isSelected ? Color.white : iconColor,
                             isSelected
-                                ? Color.white.opacity(0.75)
-                                : section.unselectedIconSecondaryColor(isLightMode: isLightStyle)
+                                ? Color.white
+                                : unselectedIconPrimaryColor(section: section),
+                            isSelected
+                                ? Color.white.opacity(0.82)
+                                : unselectedIconSecondaryColor(section: section)
                         )
                         .scaleEffect(isSelected ? 1.08 : 1.0)
                 }
@@ -127,39 +115,47 @@ struct IslandDetailSectionPickerView: View {
                 .fill(section.resolvedTabGradient(isLightMode: isLightStyle))
                 .overlay {
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .strokeBorder(Color.white.opacity(isLightStyle ? 0.35 : 0.28), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(isLightStyle ? 0.48 : 0.36), lineWidth: 1)
                 }
                 .shadow(
-                    color: section.resolvedIconColor(isLightMode: isLightStyle).opacity(isLightStyle ? 0.38 : 0.55),
-                    radius: 8,
-                    y: 3
+                    color: section.resolvedIconColor(isLightMode: isLightStyle).opacity(isLightStyle ? 0.46 : 0.58),
+                    radius: isLightStyle ? 5 : 6,
+                    y: 2
                 )
                 .matchedGeometryEffect(id: "sectionTabPill", in: selectionNamespace)
         } else if isLightStyle {
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(section.unselectedTabBackground(isLightMode: true))
+                .fill(IslandDetailSection.lightUnselectedSurface)
                 .overlay {
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .strokeBorder(
-                            section.unselectedTabBorder(isLightMode: true),
-                            lineWidth: 1.25
-                        )
+                        .fill(section.lightModeUnselectedCategoryTint())
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .strokeBorder(IslandDetailSection.lightUnselectedBorder, lineWidth: 1)
                 }
         } else {
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(section.iconColor.opacity(0.12))
+                .fill(palette.hourlySlotBackground)
                 .overlay {
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .strokeBorder(section.iconColor.opacity(0.28), lineWidth: 1)
+                        .fill(section.darkModeUnselectedTabBackground())
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .strokeBorder(section.darkModeUnselectedTabBorder(), lineWidth: 1)
                 }
         }
     }
 
     private func iconCircleFill(section: IslandDetailSection, isSelected: Bool) -> AnyShapeStyle {
         if isSelected {
-            return AnyShapeStyle(Color.white.opacity(isLightStyle ? 0.28 : 0.22))
+            return AnyShapeStyle(Color.white.opacity(isLightStyle ? 0.34 : 0.26))
         }
-        return AnyShapeStyle(section.unselectedIconCircleFill(isLightMode: isLightStyle))
+        if isLightStyle {
+            return AnyShapeStyle(section.lightModeUnselectedIconCircleFill())
+        }
+        return AnyShapeStyle(section.darkModeUnselectedIconCircleFill())
     }
 
     private func labelColor(section: IslandDetailSection, isSelected: Bool) -> Color {
@@ -167,9 +163,23 @@ struct IslandDetailSectionPickerView: View {
             return Color.white
         }
         if isLightStyle {
-            return section.resolvedIconColor(isLightMode: true)
+            return section.lightModeUnselectedForegroundColor()
         }
-        return section.iconColor.opacity(0.92)
+        return section.darkModeUnselectedForegroundColor()
+    }
+
+    private func unselectedIconPrimaryColor(section: IslandDetailSection) -> Color {
+        if isLightStyle {
+            return section.lightModeUnselectedForegroundColor()
+        }
+        return section.darkModeUnselectedForegroundColor()
+    }
+
+    private func unselectedIconSecondaryColor(section: IslandDetailSection) -> Color {
+        if isLightStyle {
+            return section.lightModeUnselectedIconSecondaryColor()
+        }
+        return section.darkModeUnselectedIconSecondaryColor()
     }
 }
 

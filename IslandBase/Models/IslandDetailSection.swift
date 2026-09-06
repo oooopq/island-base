@@ -165,19 +165,53 @@ enum IslandDetailSection: String, CaseIterable, Identifiable {
         isLightMode ? lightModeTabGradient : tabGradient
     }
 
-    func unselectedTabBackground(isLightMode: Bool) -> Color {
-        resolvedIconColor(isLightMode: isLightMode).opacity(isLightMode ? 0.16 : 0.12)
+    // MARK: - Light Mode（未選択）
+
+    /// 未選択タブの neutral 下地（systemGray5 相当）
+    static let lightUnselectedSurface = Color(uiColor: .systemGray5)
+
+    /// 未選択タブのカテゴリ色ヒント（背景）
+    func lightModeUnselectedCategoryTint() -> Color {
+        resolvedIconColor(isLightMode: true).opacity(0.025)
     }
 
-    func unselectedTabBorder(isLightMode: Bool) -> Color {
-        resolvedIconColor(isLightMode: isLightMode).opacity(isLightMode ? 0.52 : 0.28)
+    /// 未選択タブの border（neutral 基本）
+    static let lightUnselectedBorder = Color.black.opacity(0.10)
+
+    /// 未選択アイコン円（カテゴリ色ヒント）
+    func lightModeUnselectedIconCircleFill() -> Color {
+        resolvedIconColor(isLightMode: true).opacity(0.10)
     }
 
-    func unselectedIconCircleFill(isLightMode: Bool) -> Color {
-        resolvedIconColor(isLightMode: isLightMode).opacity(isLightMode ? 0.28 : 0.22)
+    /// 未選択アイコン第2色
+    func lightModeUnselectedIconSecondaryColor() -> Color {
+        resolvedIconColor(isLightMode: true).opacity(0.36)
     }
 
-    func unselectedIconSecondaryColor(isLightMode: Bool) -> Color {
-        resolvedIconColor(isLightMode: isLightMode).opacity(isLightMode ? 0.72 : 0.55)
+    /// 未選択アイコン・ラベル（彩度を少し落とす）
+    func lightModeUnselectedForegroundColor() -> Color {
+        resolvedIconColor(isLightMode: true).opacity(0.66)
+    }
+
+    // MARK: - Dark Mode（未選択）
+
+    func darkModeUnselectedTabBackground() -> Color {
+        iconColor.opacity(0.04)
+    }
+
+    func darkModeUnselectedTabBorder() -> Color {
+        iconColor.opacity(0.22)
+    }
+
+    func darkModeUnselectedIconCircleFill() -> Color {
+        iconColor.opacity(0.12)
+    }
+
+    func darkModeUnselectedIconSecondaryColor() -> Color {
+        iconColor.opacity(0.30)
+    }
+
+    func darkModeUnselectedForegroundColor() -> Color {
+        iconColor.opacity(0.70)
     }
 }
