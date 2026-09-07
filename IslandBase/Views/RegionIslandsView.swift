@@ -181,12 +181,10 @@ private enum IslandListThumbnailCache {
             return cached
         }
 
-        let pixel = pixelSize(displayScale: displayScale)
-        let thumbnailSize = CGSize(width: pixel, height: pixel)
-
         let source = await MainActor.run { UIImage(named: assetName) }
         guard let source else { return nil }
 
+        let thumbnailSize = coverThumbnailSize(for: source, displayScale: displayScale)
         let thumbnail = await Task.detached(priority: .userInitiated) {
             source.preparingThumbnail(of: thumbnailSize)
         }.value
@@ -206,6 +204,19 @@ private enum IslandListThumbnailCache {
 
     private static func pixelSize(displayScale: CGFloat) -> Int {
         max(Int((pointSize * max(displayScale, 1)).rounded()), 1)
+    }
+
+    /// `preparingThumbnail` は指定サイズに内接させる。正方形へ aspect-fill したとき短辺が欠けない大きさにする。
+    private static func coverThumbnailSize(for image: UIImage, displayScale: CGFloat) -> CGSize {
+        let pixel = CGFloat(pixelSize(displayScale: displayScale))
+        let sourcePixels = CGSize(
+            width: max(image.size.width * image.scale, 1),
+            height: max(image.size.height * image.scale, 1)
+        )
+        let shortSide = min(sourcePixels.width, sourcePixels.height)
+        let requestedPixels = pixel * max(sourcePixels.width, sourcePixels.height) / shortSide
+        let requestedPoints = requestedPixels / max(image.scale, 1)
+        return CGSize(width: requestedPoints, height: requestedPoints)
     }
 }
 
