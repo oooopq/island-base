@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-09-08T05:32:47+09:00",
+  "updatedAt": "2026-09-08T06:46:06+09:00",
   "temperatureCelsius": 29,
   "apparentTemperatureCelsius": 33,
   "weatherCode": 1,
   "condition": "くもり",
-  "humidityPercent": 82,
-  "windSpeedKmh": 25,
-  "currentWaveHeightMeters": 2.5,
+  "humidityPercent": 83,
+  "windSpeedKmh": 26,
+  "currentWaveHeightMeters": 2.46,
   "todayMaxWaveHeightMeters": 2.86,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-08T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 1,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 33,
-      "condition": "くもり",
-      "humidityPercent": 82,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 25
-    },
     {
       "id": "2026-09-08T06:00",
       "timeLabel": "6時",
@@ -296,6 +284,18 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 37
+    },
+    {
+      "id": "2026-09-09T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 1,
+      "temperatureCelsius": 30,
+      "apparentTemperatureCelsius": 31,
+      "condition": "くもり",
+      "humidityPercent": 80,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 38
     }
   ],
   "weeklyForecast": [
@@ -333,7 +333,7 @@
       "id": "2026-09-11",
       "dateLabel": "9/11（金）",
       "weatherCode": 53,
-      "minTemperatureCelsius": 29,
+      "minTemperatureCelsius": 28,
       "maxTemperatureCelsius": 29,
       "condition": "小雨",
       "humidityPercent": 84,
@@ -356,7 +356,7 @@
       "minTemperatureCelsius": 28,
       "maxTemperatureCelsius": 29,
       "condition": "小雨",
-      "humidityPercent": 83,
+      "humidityPercent": 80,
       "precipitationProbabilityPercent": 0
     },
     {
@@ -366,7 +366,7 @@
       "minTemperatureCelsius": 28,
       "maxTemperatureCelsius": 29,
       "condition": "小雨",
-      "humidityPercent": 77,
+      "humidityPercent": 76,
       "precipitationProbabilityPercent": 0
     }
   ]
