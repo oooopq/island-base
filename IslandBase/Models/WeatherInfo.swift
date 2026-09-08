@@ -77,4 +77,42 @@ extension WeatherInfo {
         }
         return condition
     }
+
+    /// いまの時刻の24時間枠を現在天気に使い、過去の時間枠は除く
+    func displayedAsOf(now: Date) -> WeatherInfo {
+        let remaining = HourlyForecastClock.remainingSlots(todayHourlyForecast, now: now)
+        guard let slot = HourlyForecastClock.currentHourSlot(todayHourlyForecast, now: now) else {
+            return replacingHourlyForecast(remaining)
+        }
+
+        return WeatherInfo(
+            temperatureCelsius: slot.temperatureCelsius,
+            apparentTemperatureCelsius: slot.apparentTemperatureCelsius,
+            condition: slot.condition,
+            weatherCode: slot.weatherCode,
+            humidityPercent: slot.humidityPercent,
+            windSpeedKmh: slot.windSpeedKmh,
+            currentWaveHeightMeters: currentWaveHeightMeters,
+            todayMaxWaveHeightMeters: todayMaxWaveHeightMeters,
+            todayHourlyForecast: remaining,
+            weeklyForecast: weeklyForecast,
+            fetchedAt: fetchedAt
+        )
+    }
+
+    private func replacingHourlyForecast(_ remaining: [HourlyWeatherForecast]) -> WeatherInfo {
+        WeatherInfo(
+            temperatureCelsius: temperatureCelsius,
+            apparentTemperatureCelsius: apparentTemperatureCelsius,
+            condition: condition,
+            weatherCode: weatherCode,
+            humidityPercent: humidityPercent,
+            windSpeedKmh: windSpeedKmh,
+            currentWaveHeightMeters: currentWaveHeightMeters,
+            todayMaxWaveHeightMeters: todayMaxWaveHeightMeters,
+            todayHourlyForecast: remaining,
+            weeklyForecast: weeklyForecast,
+            fetchedAt: fetchedAt
+        )
+    }
 }

@@ -27,36 +27,14 @@ struct WeatherSectionView: View {
                     .detailCardSecondaryText()
 
             case .loaded(let weather, let isFromCache):
-                currentWeatherContent(weather)
-                todayHourlyForecastContent(weather.todayHourlyForecast)
-                weeklyForecastContent(weather.weeklyForecast)
-                if let cacheText = CacheAgeText.displayText(
-                    fetchedAt: weather.fetchedAt,
-                    isFromCache: isFromCache,
-                    language: languageStore.mode
-                ) {
-                    Text(cacheText)
-                        .font(.caption)
-                        .detailCardSecondaryText()
-                }
+                weatherSnapshotContent(weather, isFromCache: isFromCache)
 
             case .failed(let message, let cachedWeather):
                 Text(message)
                     .font(.subheadline)
                     .foregroundStyle(palette.warning)
                 if let cachedWeather {
-                    currentWeatherContent(cachedWeather)
-                    todayHourlyForecastContent(cachedWeather.todayHourlyForecast)
-                    weeklyForecastContent(cachedWeather.weeklyForecast)
-                    if let cacheText = CacheAgeText.displayText(
-                        fetchedAt: cachedWeather.fetchedAt,
-                        isFromCache: true,
-                        language: languageStore.mode
-                    ) {
-                        Text(cacheText)
-                            .font(.caption)
-                            .detailCardSecondaryText()
-                    }
+                    weatherSnapshotContent(cachedWeather, isFromCache: true)
                 }
             }
 
@@ -77,6 +55,28 @@ struct WeatherSectionView: View {
                     .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .padding(.top, 4)
+        }
+    }
+
+    /// 1分ごとに「今」の枠を実時刻へ合わせる
+    @ViewBuilder
+    private func weatherSnapshotContent(_ weather: WeatherInfo, isFromCache: Bool) -> some View {
+        TimelineView(.periodic(from: .now, by: 60)) { timeline in
+            let display = weather.displayedAsOf(now: timeline.date)
+            VStack(alignment: .leading, spacing: 12) {
+                currentWeatherContent(display)
+                todayHourlyForecastContent(display.todayHourlyForecast, now: timeline.date)
+                weeklyForecastContent(weather.weeklyForecast)
+                if let cacheText = CacheAgeText.displayText(
+                    fetchedAt: weather.fetchedAt,
+                    isFromCache: isFromCache,
+                    language: languageStore.mode
+                ) {
+                    Text(cacheText)
+                        .font(.caption)
+                        .detailCardSecondaryText()
+                }
+            }
         }
     }
 
@@ -249,7 +249,7 @@ struct WeatherSectionView: View {
     }
 
     @ViewBuilder
-    private func todayHourlyForecastContent(_ forecast: [HourlyWeatherForecast]) -> some View {
+    private func todayHourlyForecastContent(_ forecast: [HourlyWeatherForecast], now: Date) -> some View {
         if forecast.isEmpty == false {
             Divider()
                 .padding(.vertical, 4)
@@ -258,7 +258,7 @@ struct WeatherSectionView: View {
                 .font(.subheadline)
                 .detailCardSecondaryText()
 
-            HourlyForecastPanelView(forecast: forecast)
+            HourlyForecastPanelView(forecast: forecast, now: now)
         }
     }
 

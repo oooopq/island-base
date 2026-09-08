@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HourlyForecastPanelView: View {
     let forecast: [HourlyWeatherForecast]
+    var now: Date = Date()
 
     @Environment(AppLanguageStore.self) private var languageStore
 
@@ -26,16 +27,17 @@ struct HourlyForecastPanelView: View {
             VStack(alignment: .leading, spacing: 6) {
                 HourlyTemperatureLineChart(
                     temperatures: forecast.map(\.temperatureCelsius),
+                    nowIndexes: nowIndexes,
                     slotWidth: slotWidth,
                     slotSpacing: slotSpacing
                 )
                 .frame(width: panelWidth, height: 56)
 
                 HStack(spacing: slotSpacing) {
-                    ForEach(Array(forecast.enumerated()), id: \.element.id) { index, slot in
+                    ForEach(forecast) { slot in
                         HourlyForecastCompactSlotView(
                             slot: slot,
-                            isNow: index == 0
+                            isNow: HourlyForecastClock.isCurrentHour(slot, now: now)
                         )
                         .frame(width: slotWidth)
                     }
@@ -45,6 +47,14 @@ struct HourlyForecastPanelView: View {
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(languageStore.t(.hourlyForecastAccessibility))
+    }
+
+    private var nowIndexes: Set<Int> {
+        Set(
+            forecast.indices.filter { index in
+                HourlyForecastClock.isCurrentHour(forecast[index], now: now)
+            }
+        )
     }
 }
 
@@ -69,6 +79,7 @@ private enum TemperatureChartColor {
 // 時間軸に沿った気温の折れ線グラフ（区間ごとに色が変わる）
 private struct HourlyTemperatureLineChart: View {
     let temperatures: [Int]
+    let nowIndexes: Set<Int>
     let slotWidth: CGFloat
     let slotSpacing: CGFloat
 
@@ -116,7 +127,7 @@ private struct HourlyTemperatureLineChart: View {
 
             // 各時間の点（気温帯の色）
             for (index, point) in points.enumerated() {
-                let isNow = index == 0
+                let isNow = nowIndexes.contains(index)
                 let radius: CGFloat = isNow ? 4 : 2.5
                 let dotColor = TemperatureChartColor.color(for: temperatures[index])
                 let dotRect = CGRect(
