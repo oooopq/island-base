@@ -7,13 +7,13 @@ Cloud Agent で検討した内容のまとめです。Mac 上の Cursor で実�
 | 現状 | 改修後 |
 |------|--------|
 | アプリが島ごとに Open-Meteo を直接呼び出し | GitHub Actions が全島をバッチ取得し GitHub Pages に静的 JSON 配信 |
-| ユーザー数に比例して API コールが増える | Open-Meteo への実コールを通常 **48 HTTP リクエスト/日**に固定（失敗時の再試行で最大 144） |
-| — | 既存の天気 UI・`WeatherInfo` は変更せず、取得元のみ差し替え。Open-Meteo への実コールは通常 **48 HTTP リクエスト/日** |
+| ユーザー数に比例して API コールが増える | Open-Meteo への実コールを通常 **96 HTTP リクエスト/日**に固定（失敗時の再試行で最大 288） |
+| — | 既存の天気 UI・`WeatherInfo` は変更せず、取得元のみ差し替え。Open-Meteo への実コールは通常 **96 HTTP リクエスト/日** |
 
 ## アーキテクチャ
 
 ```
-GitHub Actions（毎時 JST :17）
+GitHub Actions（毎時 JST :17 と :47）
   ├─ scripts/weather_locations.json を読む（35島の天気地点）
   ├─ Open-Meteo forecast API … 1回（全島バッチ）
   ├─ Open-Meteo marine API … 1回（全島バッチ）
@@ -21,9 +21,9 @@ GitHub Actions（毎時 JST :17）
   ├─ 全島検証 OK → docs/weather/{island-id}.json を書き込み
   └─ main に push → GitHub Pages 配信
 
-GitHub Actions 監視（毎時 JST :47）
+GitHub Actions 監視（毎時 JST :07 / :27 / :47）
   ├─ docs/weather/manifest.json の updatedAt を確認
-  └─ 75分以上古ければ天気キャッシュ更新を自動再トリガー
+  └─ 50分以上古ければ天気キャッシュ更新を自動再トリガー
 
 iOS アプリ
   ├─ GET https://oooopq.github.io/island-base/weather/{id}.json?h=YYYYMMDDHH
@@ -37,11 +37,11 @@ iOS アプリ
 ### ワークフロー
 
 - 更新: `.github/workflows/weather-cache.yml`
-  - スケジュール: `cron: '17 * * * *'` + `timezone: Asia/Tokyo`（毎時 JST :17）
+  - スケジュール: `cron: '17 * * * *'` と `'47 * * * *'` + `timezone: Asia/Tokyo`（毎時 JST :17 / :47）
   - 手動実行: `workflow_dispatch`（デバッグ用）
 - 監視: `.github/workflows/weather-cache-watchdog.yml`
-  - スケジュール: `cron: '47 * * * *'` + `timezone: Asia/Tokyo`（毎時 JST :47）
-  - `manifest.json` の `updatedAt` が **75分以上**古い場合、更新ワークフローを自動再トリガー
+  - スケジュール: `cron: '7 * * * *'` / `'27 * * * *'` / `'47 * * * *'` + `timezone: Asia/Tokyo`
+  - `manifest.json` の `updatedAt` が **50分以上**古い場合、更新ワークフローを自動再トリガー
   - 更新ワークフローが実行中のときは重複起動をスキップ
 
 ### 失敗時ポリシー
@@ -54,8 +54,8 @@ iOS アプリ
 ### Open-Meteo コール数
 
 - 1実行あたり 2 HTTP リクエスト（forecast + marine）。失敗時は最大3回まで再試行
-- 通常: 24 実行/日 × 2 = **48 リクエスト/日**
-- 最大（毎回失敗して再試行し切る）: 24 × 2 × 3 = **144 リクエスト/日**
+- 通常: 48 実行/日 × 2 = **96 リクエスト/日**
+- 最大（毎回失敗して再試行し切る）: 48 × 2 × 3 = **288 リクエスト/日**
 - 無料枠 10,000/日 に対して十分余裕
 
 ## 座標の正本
@@ -145,7 +145,7 @@ Open-Meteo への直接フォールバックは入れない（コール数固定
 
 ```swift
 static let weatherCacheBaseURL = "https://oooopq.github.io/island-base/weather"
-static let weatherCacheUpdateIntervalSeconds = 3600
+static let weatherCacheUpdateIntervalSeconds = 1800
 ```
 
 ## 文案・審査

@@ -56,10 +56,10 @@ class CheckWeatherCacheStaleTests(unittest.TestCase):
             with patch.object(stale_check, "MANIFEST_PATH", manifest):
                 self.assertEqual(stale_check.main(), 2)
 
-    def test_threshold_is_75_minutes(self):
+    def test_threshold_is_50_minutes(self):
         now = datetime.fromisoformat("2026-09-08T10:00:00+09:00")
-        borderline_fresh = now - timedelta(minutes=74, seconds=59)
-        borderline_stale = now - timedelta(minutes=75)
+        borderline_fresh = now - timedelta(minutes=49, seconds=59)
+        borderline_stale = now - timedelta(minutes=50)
         self.assertFalse(stale_check.is_cache_stale(now, borderline_fresh))
         self.assertTrue(stale_check.is_cache_stale(now, borderline_stale))
 

@@ -16,8 +16,8 @@ from typing import Optional
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "docs" / "weather" / "manifest.json"
 JST = timezone(timedelta(hours=9))
-# fetch_weather_cache.py の STALE_AFTER（90分）より少し早めに復旧する
-STALE_TRIGGER_AFTER = timedelta(minutes=75)
+# 通常更新は30分間隔。1枠欠けても次の監視で拾えるよう 50分で再トリガーする
+STALE_TRIGGER_AFTER = timedelta(minutes=50)
 
 
 def parse_updated_at(text: str) -> Optional[datetime]:

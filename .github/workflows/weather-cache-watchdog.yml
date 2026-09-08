@@ -3,7 +3,11 @@ name: 天気キャッシュ監視
 
 on:
   schedule:
-    # 通常更新（JST :17）の約30分後。欠落時のみ再トリガーする。
+    # 約20分ごと。更新（:17 / :47）が欠けたとき早く拾う。:00/:30 の混雑は避ける。
+    - cron: "7 * * * *"
+      timezone: "Asia/Tokyo"
+    - cron: "27 * * * *"
+      timezone: "Asia/Tokyo"
     - cron: "47 * * * *"
       timezone: "Asia/Tokyo"
   workflow_dispatch:
