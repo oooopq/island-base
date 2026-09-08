@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-09-09T04:52:14+09:00",
-  "temperatureCelsius": 26,
-  "apparentTemperatureCelsius": 27,
+  "updatedAt": "2026-09-09T06:14:28+09:00",
+  "temperatureCelsius": 27,
+  "apparentTemperatureCelsius": 28,
   "weatherCode": 3,
   "condition": "くもり",
-  "humidityPercent": 83,
+  "humidityPercent": 79,
   "windSpeedKmh": 31,
   "currentWaveHeightMeters": 0.6,
   "todayMaxWaveHeightMeters": 0.74,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-09T04:00",
-      "timeLabel": "4時",
-      "weatherCode": 51,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 27,
-      "condition": "小雨",
-      "humidityPercent": 84,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.1,
-      "windSpeedKmh": 31
-    },
-    {
-      "id": "2026-09-09T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 51,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 27,
-      "condition": "小雨",
-      "humidityPercent": 82,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.1,
-      "windSpeedKmh": 31
-    },
     {
       "id": "2026-09-09T06:00",
       "timeLabel": "6時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 38
+    },
+    {
+      "id": "2026-09-10T04:00",
+      "timeLabel": "4時",
+      "weatherCode": 1,
+      "temperatureCelsius": 24,
+      "apparentTemperatureCelsius": 21,
+      "condition": "くもり",
+      "humidityPercent": 70,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 38
+    },
+    {
+      "id": "2026-09-10T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 2,
+      "temperatureCelsius": 24,
+      "apparentTemperatureCelsius": 21,
+      "condition": "くもり",
+      "humidityPercent": 69,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 39
     }
   ],
   "weeklyForecast": [
