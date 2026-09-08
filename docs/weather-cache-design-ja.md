@@ -21,6 +21,10 @@ GitHub Actions（毎時 JST :17）
   ├─ 全島検証 OK → docs/weather/{island-id}.json を書き込み
   └─ main に push → GitHub Pages 配信
 
+GitHub Actions 監視（毎時 JST :47）
+  ├─ docs/weather/manifest.json の updatedAt を確認
+  └─ 75分以上古ければ天気キャッシュ更新を自動再トリガー
+
 iOS アプリ
   ├─ GET https://oooopq.github.io/island-base/weather/{id}.json?h=YYYYMMDDHH
   ├─ updatedAt → WeatherInfo.fetchedAt にマッピング
@@ -32,9 +36,13 @@ iOS アプリ
 
 ### ワークフロー
 
-- ファイル: `.github/workflows/weather-cache.yml`（未作成）
-- スケジュール: `cron: '17 * * * *'` + `timezone: Asia/Tokyo`（毎時 JST :17。`:00` / `:30` 付近の Actions 混雑と Open-Meteo 更新との競合を避ける）
-- 手動実行: `workflow_dispatch`（初回・デバッグ用）
+- 更新: `.github/workflows/weather-cache.yml`
+  - スケジュール: `cron: '17 * * * *'` + `timezone: Asia/Tokyo`（毎時 JST :17）
+  - 手動実行: `workflow_dispatch`（デバッグ用）
+- 監視: `.github/workflows/weather-cache-watchdog.yml`
+  - スケジュール: `cron: '47 * * * *'` + `timezone: Asia/Tokyo`（毎時 JST :47）
+  - `manifest.json` の `updatedAt` が **75分以上**古い場合、更新ワークフローを自動再トリガー
+  - 更新ワークフローが実行中のときは重複起動をスキップ
 
 ### 失敗時ポリシー
 
