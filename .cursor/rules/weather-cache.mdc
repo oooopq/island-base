@@ -1,6 +1,6 @@
 ---
 description: 天気キャッシュ（GitHub Actions + GitHub Pages）の実装方針
-globs: IslandBase/Services/WeatherService.swift,IslandBase/Utilities/AppLegalInfo.swift,IslandBase/Views/IslandDetailView.swift,.github/workflows/weather-cache.yml,scripts/fetch_weather_cache.py,scripts/weather_locations.json,docs/weather/**
+globs: IslandBase/Services/WeatherService.swift,IslandBase/Utilities/AppLegalInfo.swift,IslandBase/Views/IslandDetailView.swift,.github/workflows/weather-cache.yml,.github/workflows/weather-cache-watchdog.yml,scripts/fetch_weather_cache.py,scripts/check_weather_cache_stale.py,scripts/weather_locations.json,docs/weather/**
 alwaysApply: false
 ---
 
@@ -24,6 +24,10 @@ GitHub Actions（毎時 JST :17）
   → docs/weather/{island-id}.json を生成
   → 成功時のみ main に commit → GitHub Pages 配信
 
+GitHub Actions 監視（毎時 JST :47）
+  → docs/weather/manifest.json の updatedAt を確認
+  → 75分以上古ければ天気キャッシュ更新を自動再トリガー
+
 iOS WeatherService
   → https://oooopq.github.io/island-base/weather/{id}.json?h=YYYYMMDDHH
   → デコードして UserDefaults に保存
@@ -35,6 +39,8 @@ iOS WeatherService
 | ファイル | 役割 |
 |----------|------|
 | `.github/workflows/weather-cache.yml` | 毎時 JST :17 cron + workflow_dispatch |
+| `.github/workflows/weather-cache-watchdog.yml` | 毎時 JST :47 に stale 監視・自動再トリガー |
+| `scripts/check_weather_cache_stale.py` | manifest の経過時間判定（監視用） |
 | `scripts/fetch_weather_cache.py` | バッチ取得・変換・検証 |
 | `scripts/weather_locations.json` | 天気地点座標の正本（35島） |
 | `docs/weather/{id}.json` | Actions が生成する静的キャッシュ |

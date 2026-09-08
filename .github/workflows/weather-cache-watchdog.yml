@@ -1,0 +1,54 @@
+# 天気キャッシュが古いとき、更新ワークフローを自動で再トリガーする。
+name: 天気キャッシュ監視
+
+on:
+  schedule:
+    # 通常更新（JST :17）の約30分後。欠落時のみ再トリガーする。
+    - cron: "47 * * * *"
+      timezone: "Asia/Tokyo"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  check-and-retrigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: キャッシュの経過時間を確認
+        id: stale
+        run: |
+          set +e
+          python3 scripts/check_weather_cache_stale.py
+          status=$?
+          set -e
+          if [ "$status" -eq 0 ]; then
+            echo "needs_retrigger=false" >> "$GITHUB_OUTPUT"
+          elif [ "$status" -eq 1 ]; then
+            echo "needs_retrigger=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::manifest の確認に失敗しました（exit $status）"
+            exit "$status"
+          fi
+
+      - name: 更新ワークフローを再トリガー
+        if: steps.stale.outputs.needs_retrigger == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          running_count=$(gh run list \
+            --workflow=weather-cache.yml \
+            --status=in_progress \
+            --limit 1 \
+            --json databaseId \
+            --jq 'length')
+          if [ "$running_count" -gt 0 ]; then
+            echo "天気キャッシュ更新が実行中のため再トリガーをスキップします"
+            exit 0
+          fi
+          gh workflow run weather-cache.yml --ref main
+          echo "天気キャッシュ更新を再トリガーしました"

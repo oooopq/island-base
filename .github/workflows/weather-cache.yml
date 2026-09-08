@@ -5,7 +5,7 @@ name: 天気キャッシュ更新
 on:
   schedule:
     # JST 毎時 :17（1日24回）。:00/:30 付近の Actions 混雑と Open-Meteo の :00 更新を避ける。
-    # schedule は正確な時刻保証がないため、欠落時は workflow_dispatch で手動再実行する。
+    # schedule は正確な時刻保証がないため、欠落時は weather-cache-watchdog が自動再トリガーする。
     - cron: "17 * * * *"
       timezone: "Asia/Tokyo"
   workflow_dispatch:
