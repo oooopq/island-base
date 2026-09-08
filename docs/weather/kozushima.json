@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-09-09T00:21:49+09:00",
+  "updatedAt": "2026-09-09T01:33:44+09:00",
   "temperatureCelsius": 29,
   "apparentTemperatureCelsius": 31,
   "weatherCode": 1,
   "condition": "くもり",
-  "humidityPercent": 84,
-  "windSpeedKmh": 36,
-  "currentWaveHeightMeters": 2.54,
+  "humidityPercent": 85,
+  "windSpeedKmh": 38,
+  "currentWaveHeightMeters": 2.64,
   "todayMaxWaveHeightMeters": 2.88,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-09T00:00",
-      "timeLabel": "0時",
-      "weatherCode": 1,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 31,
-      "condition": "くもり",
-      "humidityPercent": 84,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 36
-    },
     {
       "id": "2026-09-09T01:00",
       "timeLabel": "1時",
@@ -296,6 +284,18 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 23
+    },
+    {
+      "id": "2026-09-10T00:00",
+      "timeLabel": "0時",
+      "weatherCode": 2,
+      "temperatureCelsius": 25,
+      "apparentTemperatureCelsius": 26,
+      "condition": "くもり",
+      "humidityPercent": 83,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 22
     }
   ],
   "weeklyForecast": [
@@ -326,7 +326,7 @@
       "minTemperatureCelsius": 24,
       "maxTemperatureCelsius": 27,
       "condition": "雨",
-      "humidityPercent": 89,
+      "humidityPercent": 88,
       "precipitationProbabilityPercent": 0
     },
     {
@@ -336,14 +336,14 @@
       "minTemperatureCelsius": 26,
       "maxTemperatureCelsius": 27,
       "condition": "小雨",
-      "humidityPercent": 90,
+      "humidityPercent": 91,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-09-13",
       "dateLabel": "9/13（日）",
-      "weatherCode": 53,
-      "minTemperatureCelsius": 26,
+      "weatherCode": 51,
+      "minTemperatureCelsius": 27,
       "maxTemperatureCelsius": 27,
       "condition": "小雨",
       "humidityPercent": 88,
