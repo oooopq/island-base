@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-09-09T21:55:45+09:00",
+  "updatedAt": "2026-09-09T23:39:24+09:00",
   "temperatureCelsius": 26,
   "apparentTemperatureCelsius": 25,
-  "weatherCode": 1,
-  "condition": "くもり",
-  "humidityPercent": 74,
-  "windSpeedKmh": 38,
-  "currentWaveHeightMeters": 1.48,
+  "weatherCode": 0,
+  "condition": "晴れ",
+  "humidityPercent": 71,
+  "windSpeedKmh": 35,
+  "currentWaveHeightMeters": 1.42,
   "todayMaxWaveHeightMeters": 1.64,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-09T21:00",
-      "timeLabel": "21時",
-      "weatherCode": 1,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 24,
-      "condition": "くもり",
-      "humidityPercent": 74,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 39
-    },
-    {
-      "id": "2026-09-09T22:00",
-      "timeLabel": "22時",
-      "weatherCode": 1,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 25,
-      "condition": "くもり",
-      "humidityPercent": 74,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 38
-    },
     {
       "id": "2026-09-09T23:00",
       "timeLabel": "23時",
@@ -295,6 +271,30 @@
       "humidityPercent": 76,
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.1,
+      "windSpeedKmh": 21
+    },
+    {
+      "id": "2026-09-10T21:00",
+      "timeLabel": "21時",
+      "weatherCode": 2,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 27,
+      "condition": "くもり",
+      "humidityPercent": 77,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 21
+    },
+    {
+      "id": "2026-09-10T22:00",
+      "timeLabel": "22時",
+      "weatherCode": 2,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 28,
+      "condition": "くもり",
+      "humidityPercent": 77,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
       "windSpeedKmh": 21
     }
   ],

@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-09-09T21:55:45+09:00",
+  "updatedAt": "2026-09-09T23:39:24+09:00",
   "temperatureCelsius": 28,
   "apparentTemperatureCelsius": 34,
-  "weatherCode": 63,
+  "weatherCode": 65,
   "condition": "雨",
-  "humidityPercent": 92,
-  "windSpeedKmh": 13,
-  "currentWaveHeightMeters": 2.4,
+  "humidityPercent": 93,
+  "windSpeedKmh": 11,
+  "currentWaveHeightMeters": 2.38,
   "todayMaxWaveHeightMeters": 3.02,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-09T21:00",
-      "timeLabel": "21時",
-      "weatherCode": 63,
-      "temperatureCelsius": 28,
-      "apparentTemperatureCelsius": 34,
-      "condition": "雨",
-      "humidityPercent": 92,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 2.9,
-      "windSpeedKmh": 12
-    },
-    {
-      "id": "2026-09-09T22:00",
-      "timeLabel": "22時",
-      "weatherCode": 63,
-      "temperatureCelsius": 28,
-      "apparentTemperatureCelsius": 34,
-      "condition": "雨",
-      "humidityPercent": 92,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 3.0,
-      "windSpeedKmh": 14
-    },
     {
       "id": "2026-09-09T23:00",
       "timeLabel": "23時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 21
+    },
+    {
+      "id": "2026-09-10T21:00",
+      "timeLabel": "21時",
+      "weatherCode": 2,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 29,
+      "condition": "くもり",
+      "humidityPercent": 83,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 18
+    },
+    {
+      "id": "2026-09-10T22:00",
+      "timeLabel": "22時",
+      "weatherCode": 2,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 30,
+      "condition": "くもり",
+      "humidityPercent": 83,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 17
     }
   ],
   "weeklyForecast": [
