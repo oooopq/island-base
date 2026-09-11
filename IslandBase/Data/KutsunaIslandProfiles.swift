@@ -23,13 +23,25 @@ enum KutsunaIslandProfiles {
 
     // MARK: - 共有データ
 
-    // 中島汽船は公式 HTTPS がないため、松山観光港ターミナルの乗船案内へ誘導する
-    private static let nakajimaKisen = FerryCompany(
-        name: "松山観光港（中島汽船便）",
-        websiteURL: "https://www.kankoko.com/contents/timetable.html",
-        phoneNumber: "089-997-1221",
-        homePageURL: "https://www.kankoko.com/"
-    )
+    // 中島汽船に公式 HTTPS サイトがないため、愛媛県公式の航路案内と電話案内にする。
+    // HTTP の中島汽船サイトや松山観光港はリンクしない。
+    private static let nakajimaKisenPhoneNumber = "089-997-1221"
+
+    private static func nakajimaKisen(ehimePageID: String) -> FerryCompany {
+        FerryCompany(
+            name: "中島汽船",
+            websiteURL: "https://www.pref.ehime.jp/site/chuyo/\(ehimePageID).html",
+            phoneNumber: nakajimaKisenPhoneNumber
+        )
+    }
+
+    private static let nakajimaKisenNakajima = nakajimaKisen(ehimePageID: "4786")
+    private static let nakajimaKisenMuzukijima = nakajimaKisen(ehimePageID: "4784")
+    private static let nakajimaKisenNogutsunajima = nakajimaKisen(ehimePageID: "4790")
+    private static let nakajimaKisenNuwajima = nakajimaKisen(ehimePageID: "4792")
+    private static let nakajimaKisenTsuwajishima = nakajimaKisen(ehimePageID: "4796")
+    private static let nakajimaKisenFutagamijima = nakajimaKisen(ehimePageID: "4777")
+    private static let nakajimaKisenTsurushima = nakajimaKisen(ehimePageID: "4794")
 
     private static let gogoshimaFerry = FerryCompany(
         name: "株式会社ごごしま",
@@ -79,12 +91,12 @@ enum KutsunaIslandProfiles {
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "nakajima-kisen-ferry-east",
-                company: nakajimaKisen,
+                company: nakajimaKisenNakajima,
                 trips: []
             ),
             FerryCompanySchedule(
                 id: "nakajima-kisen-hs-east",
-                company: nakajimaKisen,
+                company: nakajimaKisenNakajima,
                 trips: [],
                 serviceKind: .highSpeedBoat
             ),
@@ -170,12 +182,12 @@ enum KutsunaIslandProfiles {
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "muzuki-kisen-ferry",
-                company: nakajimaKisen,
+                company: nakajimaKisenMuzukijima,
                 trips: []
             ),
             FerryCompanySchedule(
                 id: "muzuki-kisen-hs",
-                company: nakajimaKisen,
+                company: nakajimaKisenMuzukijima,
                 trips: [],
                 serviceKind: .highSpeedBoat
             ),
@@ -214,12 +226,12 @@ enum KutsunaIslandProfiles {
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "nogutsuna-kisen-ferry",
-                company: nakajimaKisen,
+                company: nakajimaKisenNogutsunajima,
                 trips: []
             ),
             FerryCompanySchedule(
                 id: "nogutsuna-kisen-hs",
-                company: nakajimaKisen,
+                company: nakajimaKisenNogutsunajima,
                 trips: [],
                 serviceKind: .highSpeedBoat
             ),
@@ -259,12 +271,12 @@ enum KutsunaIslandProfiles {
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "nuwa-kisen-ferry",
-                company: nakajimaKisen,
+                company: nakajimaKisenNuwajima,
                 trips: []
             ),
             FerryCompanySchedule(
                 id: "nuwa-kisen-hs",
-                company: nakajimaKisen,
+                company: nakajimaKisenNuwajima,
                 trips: [],
                 serviceKind: .highSpeedBoat
             ),
@@ -303,12 +315,12 @@ enum KutsunaIslandProfiles {
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "tsuwaji-kisen-ferry",
-                company: nakajimaKisen,
+                company: nakajimaKisenTsuwajishima,
                 trips: []
             ),
             FerryCompanySchedule(
                 id: "tsuwaji-kisen-hs",
-                company: nakajimaKisen,
+                company: nakajimaKisenTsuwajishima,
                 trips: [],
                 serviceKind: .highSpeedBoat
             ),
@@ -347,12 +359,12 @@ enum KutsunaIslandProfiles {
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "futagami-kisen-ferry",
-                company: nakajimaKisen,
+                company: nakajimaKisenFutagamijima,
                 trips: []
             ),
             FerryCompanySchedule(
                 id: "futagami-kisen-hs",
-                company: nakajimaKisen,
+                company: nakajimaKisenFutagamijima,
                 trips: [],
                 serviceKind: .highSpeedBoat
             ),
@@ -391,7 +403,7 @@ enum KutsunaIslandProfiles {
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "tsurushima-kisen-ferry",
-                company: nakajimaKisen,
+                company: nakajimaKisenTsurushima,
                 trips: []
             ),
         ],
