@@ -77,6 +77,10 @@ enum AppText {
     case hideAllTrips
     case highSpeedAndOvernightNote
     case ferryCheckOfficialSites
+    case routesAndTimetable
+    case callToConfirm
+    case nakajimaKisen
+    case nakajimaKisenFerryGuidance
     case flightCheckOfficialSites
     case liveCameraFootnote
     case usefulInfoDisclaimer
@@ -294,6 +298,14 @@ enum AppText {
             return "この路線には高速船（日中）と大型客船（夜航）があります。"
         case .ferryCheckOfficialSites:
             return "ダイヤ・運航状況は各社公式サイトでご確認ください。"
+        case .routesAndTimetable:
+            return "航路・時刻表"
+        case .callToConfirm:
+            return "電話で確認"
+        case .nakajimaKisen:
+            return "中島汽船"
+        case .nakajimaKisenFerryGuidance:
+            return "航路・時刻表は愛媛県公式情報をご確認ください。運航状況・乗船については中島汽船へお問い合わせください。"
         case .flightCheckOfficialSites:
             return "ダイヤ・運航状況は各航空会社の公式サイトでご確認ください。"
         case .liveCameraFootnote:
@@ -563,6 +575,14 @@ enum AppText {
             return "This route has daytime high-speed boats and overnight ferries."
         case .ferryCheckOfficialSites:
             return "Check timetables and service status on each operator’s official site."
+        case .routesAndTimetable:
+            return "Routes & Timetable"
+        case .callToConfirm:
+            return "Call"
+        case .nakajimaKisen:
+            return "Nakajima Kisen"
+        case .nakajimaKisenFerryGuidance:
+            return "Check the official Ehime Prefecture page for routes and timetables. For current service information, contact Nakajima Kisen."
         case .flightCheckOfficialSites:
             return "Check timetables and service status on each airline’s official site."
         case .liveCameraFootnote:
