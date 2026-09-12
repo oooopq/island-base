@@ -2,17 +2,21 @@
 //  PlaceCategoryMatching.swift
 //  Island Base
 //
-//  忽那諸島の店舗タブ向け：自然言語検索の結果をカテゴリに合うものだけ残す
+//  忽那諸島の店舗タブ向け：民宿などの名前は優先し、Apple の種別はあと
 //
 
 import MapKit
 
 extension PlaceCategory {
-    /// 自然言語検索の1件が、このタブ（飲食・宿・商店）に合うか
-    func matchesNaturalLanguageResult(_ mapItem: MKMapItem) -> Bool {
+    /// 検索1件が、このタブ（飲食・宿・商店）に合うか
+    func matchesSearchResult(_ mapItem: MKMapItem) -> Bool {
         let name = mapItem.name ?? ""
         if containsExcludedName(name) {
             return false
+        }
+
+        if let nameMatch = matchesByPlaceName(name) {
+            return nameMatch
         }
 
         if let poiCategory = mapItem.pointOfInterestCategory {
@@ -26,6 +30,26 @@ extension PlaceCategory {
         }
 
         return containsAllowedName(name)
+    }
+
+    /// 宿らしい名前なら宿タブに残す。商店でも宿のことがあるので店名では外さない
+    private func matchesByPlaceName(_ name: String) -> Bool? {
+        switch self {
+        case .lodging:
+            if containsLodgingName(name) { return true }
+            return nil
+        case .shop:
+            if containsLodgingName(name) { return false }
+            return nil
+        case .restaurant:
+            return nil
+        }
+    }
+
+    /// 民宿・ホテルなど（短い「宿」は使わない）
+    private func containsLodgingName(_ name: String) -> Bool {
+        let hints = ["民宿", "旅館", "ホテル", "ゲストハウス", "ペンション", "民泊"]
+        return hints.contains { name.contains($0) }
     }
 
     /// 郵便局・診療所など、店舗タブに出さない名前
@@ -70,7 +94,7 @@ extension PlaceCategory {
         case .lodging:
             return [
                 "民宿", "旅館", "ホテル", "ゲストハウス", "ペンション",
-                "宿", "民泊", "hotel", "inn", "lodge", "pension",
+                "民泊", "hotel", "inn", "lodge", "pension",
             ]
         case .shop:
             return [

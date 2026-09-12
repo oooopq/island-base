@@ -16,8 +16,8 @@ struct PlacesCacheEntry: Codable {
 }
 
 struct PlacesSearchService {
-    /// v8: 忽那諸島は住所（県・市＋町名のいずれか）で島内判定する
-    private let cacheKeyPrefix = "places_cache_v8_"
+    /// v10: 商店でも宿のことがあるので、店名だけで宿から外さない
+    private let cacheKeyPrefix = "places_cache_v10_"
 
     // 島付近でカテゴリに合うスポットを検索する
     func searchPlaces(for island: Island, category: PlaceCategory) async throws -> PlacesCacheEntry {
@@ -31,14 +31,14 @@ struct PlacesSearchService {
             island: island,
             region: region
         )
-        let usableQueryItems = filteredNaturalLanguageItems(
-            queryItems,
+        let usableItems = filteredCategoryItems(
+            poiItems + queryItems,
             island: island,
             category: category
         )
 
         let places = mergePlaces(
-            poiItems + usableQueryItems,
+            usableItems,
             categoryLabel: category.rawValue
         )
 
@@ -110,8 +110,8 @@ struct PlacesSearchService {
         return items
     }
 
-    /// 忽那諸島だけ、民宿検索で郵便局などが出ないよう絞り込む
-    private func filteredNaturalLanguageItems(
+    /// 忽那諸島だけ、名前と種別でタブに合うものに絞り込む
+    private func filteredCategoryItems(
         _ items: [MKMapItem],
         island: Island,
         category: PlaceCategory
@@ -119,7 +119,7 @@ struct PlacesSearchService {
         guard IslandCatalog.profile(for: island.id)?.regionID == "kutsuna" else {
             return items
         }
-        return items.filter { category.matchesNaturalLanguageResult($0) }
+        return items.filter { category.matchesSearchResult($0) }
     }
 
     private func mergePlaces(_ mapItems: [MKMapItem], categoryLabel: String) -> [PlaceInfo] {
