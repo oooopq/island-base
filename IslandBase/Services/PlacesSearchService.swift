@@ -16,8 +16,8 @@ struct PlacesCacheEntry: Codable {
 }
 
 struct PlacesSearchService {
-    /// v5: 宿の自然言語検索に旅館・ゲストハウス・ペンションを追加
-    private let cacheKeyPrefix = "places_cache_v5_"
+    /// v8: 忽那諸島は住所（県・市＋町名のいずれか）で島内判定する
+    private let cacheKeyPrefix = "places_cache_v8_"
 
     // 島付近でカテゴリに合うスポットを検索する
     func searchPlaces(for island: Island, category: PlaceCategory) async throws -> PlacesCacheEntry {
@@ -31,9 +31,14 @@ struct PlacesSearchService {
             island: island,
             region: region
         )
+        let usableQueryItems = filteredNaturalLanguageItems(
+            queryItems,
+            island: island,
+            category: category
+        )
 
         let places = mergePlaces(
-            poiItems + queryItems,
+            poiItems + usableQueryItems,
             categoryLabel: category.rawValue
         )
 
@@ -105,6 +110,18 @@ struct PlacesSearchService {
         return items
     }
 
+    /// 忽那諸島だけ、民宿検索で郵便局などが出ないよう絞り込む
+    private func filteredNaturalLanguageItems(
+        _ items: [MKMapItem],
+        island: Island,
+        category: PlaceCategory
+    ) -> [MKMapItem] {
+        guard IslandCatalog.profile(for: island.id)?.regionID == "kutsuna" else {
+            return items
+        }
+        return items.filter { category.matchesNaturalLanguageResult($0) }
+    }
+
     private func mergePlaces(_ mapItems: [MKMapItem], categoryLabel: String) -> [PlaceInfo] {
         var seenKeys: Set<String> = []
         var places: [PlaceInfo] = []
@@ -128,12 +145,17 @@ struct PlacesSearchService {
         return "\(place.name)-\(lat)-\(lon)"
     }
 
-    /// この島の店舗か（港からの距離で判定。離島同士の誤判定を減らす）
+    /// この島の店舗か。住所があれば県・市＋町名、なければ港からの距離
     private func belongsToIsland(
         _ place: PlaceInfo,
         island: Island,
         radius: CLLocationDistance
     ) -> Bool {
+        if let profile = IslandCatalog.profile(for: island.id),
+           let matchedByAddress = matchesByRequiredAddress(place, profile: profile) {
+            return matchedByAddress
+        }
+
         let ports = IslandCatalog.ports(for: island.id)
         if ports.isEmpty {
             return belongsToIslandByCenter(place, island: island, radius: radius)
@@ -155,6 +177,23 @@ struct PlacesSearchService {
 
         let nearestIslandID = nearestPortIslandID(for: place, profiles: regionProfiles)
         return nearestIslandID == island.id
+    }
+
+    /// 住所判定がある島。住所ありなら一致判定、なしなら距離判定へ
+    private func matchesByRequiredAddress(_ place: PlaceInfo, profile: IslandProfile) -> Bool? {
+        guard profile.usesPlaceAddressMatching else { return nil }
+        guard let address = usablePlaceAddress(place) else { return nil }
+        return profile.matchesPlaceAddress(address)
+    }
+
+    /// 店名だけの title は住所なし扱い
+    private func usablePlaceAddress(_ place: PlaceInfo) -> String? {
+        guard let address = place.address?.trimmingCharacters(in: .whitespacesAndNewlines),
+              address.isEmpty == false,
+              address != place.name else {
+            return nil
+        }
+        return address
     }
 
     /// 港がない島向けの従来ロジック（島中心＋最寄り島）

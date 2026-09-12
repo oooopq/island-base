@@ -66,6 +66,9 @@ enum KutsunaIslandProfiles {
         LiveCamera(title: title, urlString: kutsunaTourismURL)
     }
 
+    /// 店舗の住所判定：県・市は必須
+    private static let ehimeMatsuyamaRequired = ["愛媛県", "松山市"]
+
     // MARK: - 中島
 
     private static let nakajima = IslandProfile(
@@ -85,7 +88,23 @@ enum KutsunaIslandProfiles {
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNakajima",
         backgroundCredit: "Photo: melvil / Wikimedia Commons（中島・網明海岸）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
-        placeSearchRadiusMeters: 10_000,
+        placeSearchRadiusMeters: 5_000,
+        onIslandRadiusMeters: 10_000,
+        placeAddressRequiredTokens: ehimeMatsuyamaRequired,
+        placeAddressAnyTokens: [
+            "中島",
+            "中島大浦",
+            "中島粟井",
+            "神浦",
+            "長師",
+            "宮野",
+            "宇和間",
+            "熊田",
+            "吉木",
+            "饒",
+            "畑里",
+            "小浜",
+        ],
         routeKeywords: ["中島", "大浦", "神浦", "忽那"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [
@@ -132,7 +151,15 @@ enum KutsunaIslandProfiles {
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgGogoshima",
         backgroundCredit: "Photo: Reggaeman / Wikimedia Commons（興居島）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
-        placeSearchRadiusMeters: 6_000,
+        placeSearchRadiusMeters: 2_000,
+        onIslandRadiusMeters: 6_000,
+        placeAddressRequiredTokens: ehimeMatsuyamaRequired,
+        placeAddressAnyTokens: [
+            "興居島",
+            "由良町",
+            "泊町",
+            "門田町",
+        ],
         routeKeywords: ["興居", "興居島", "由良", "泊", "ごごしま"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [
@@ -176,7 +203,10 @@ enum KutsunaIslandProfiles {
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgMuzukijima",
         backgroundCredit: "Photo: melvil / Wikimedia Commons（睦月島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
-        placeSearchRadiusMeters: 5_000,
+        placeSearchRadiusMeters: 2_000,
+        onIslandRadiusMeters: 5_000,
+        placeAddressRequiredTokens: ehimeMatsuyamaRequired,
+        placeAddressAnyTokens: ["睦月", "睦月島"],
         routeKeywords: ["睦月", "睦月島"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [
@@ -220,7 +250,10 @@ enum KutsunaIslandProfiles {
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNogutsunajima",
         backgroundCredit: "Photo: 全樺連 / Wikimedia Commons（野忽那島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
-        placeSearchRadiusMeters: 4_000,
+        placeSearchRadiusMeters: 2_000,
+        onIslandRadiusMeters: 4_000,
+        placeAddressRequiredTokens: ehimeMatsuyamaRequired,
+        placeAddressAnyTokens: ["野忽那", "野忽那島"],
         routeKeywords: ["野忽那", "野忽那島"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [
@@ -265,7 +298,10 @@ enum KutsunaIslandProfiles {
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNuwajima",
         backgroundCredit: "Photo: 国土地理院 / Wikimedia Commons（怒和島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加",
-        placeSearchRadiusMeters: 5_000,
+        placeSearchRadiusMeters: 2_500,
+        onIslandRadiusMeters: 5_000,
+        placeAddressRequiredTokens: ehimeMatsuyamaRequired,
+        placeAddressAnyTokens: ["上怒和", "元怒和", "怒和島", "怒和"],
         routeKeywords: ["怒和", "怒和島", "上怒和", "元怒和"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [
@@ -309,7 +345,10 @@ enum KutsunaIslandProfiles {
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgTsuwajishima",
         backgroundCredit: "Photo: 国土地理院 / Wikimedia Commons（津和地島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加",
-        placeSearchRadiusMeters: 4_000,
+        placeSearchRadiusMeters: 2_000,
+        onIslandRadiusMeters: 4_000,
+        placeAddressRequiredTokens: ehimeMatsuyamaRequired,
+        placeAddressAnyTokens: ["津和地", "津和地島"],
         routeKeywords: ["津和地", "津和地島"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [
@@ -353,7 +392,10 @@ enum KutsunaIslandProfiles {
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgFutagamijima",
         backgroundCredit: "Photo: Tomoyuki Shidara（二神島）",
-        placeSearchRadiusMeters: 3_000,
+        placeSearchRadiusMeters: 2_000,
+        onIslandRadiusMeters: 3_000,
+        placeAddressRequiredTokens: ehimeMatsuyamaRequired,
+        placeAddressAnyTokens: ["二神", "二神島"],
         routeKeywords: ["二神", "二神島"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [
@@ -398,6 +440,8 @@ enum KutsunaIslandProfiles {
         backgroundAssetName: "IslandBgTsurushima",
         backgroundCredit: "Photo: Ka23 13 / Wikimedia Commons（釣島）／CC BY 4.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 2_000,
+        placeAddressRequiredTokens: ehimeMatsuyamaRequired,
+        placeAddressAnyTokens: ["釣島"],
         routeKeywords: ["釣島", "釣"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [
@@ -436,6 +480,8 @@ enum KutsunaIslandProfiles {
         backgroundAssetName: "IslandBgAijima",
         backgroundCredit: "Photo: 全樺連 / Wikimedia Commons（安居島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
         placeSearchRadiusMeters: 2_000,
+        placeAddressRequiredTokens: ehimeMatsuyamaRequired,
+        placeAddressAnyTokens: ["安居島"],
         routeKeywords: ["安居", "安居島"],
         ferryGTFSFeeds: [],
         sampleFerrySchedules: [

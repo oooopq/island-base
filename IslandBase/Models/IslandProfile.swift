@@ -62,6 +62,10 @@ struct IslandProfile: Identifiable {
     let placeSearchRadiusMeters: CLLocationDistance
     /// 現在地が「島内にいます」と判定される中心からの距離
     let onIslandRadiusMeters: CLLocationDistance
+    /// 住所判定の必須語（例: 県名・市名）。空なら住所判定しない
+    let placeAddressRequiredTokens: [String]
+    /// 住所判定の町名など。どれか1つ含まれれば島内（空なら住所判定しない）
+    let placeAddressAnyTokens: [String]
     /// 航路名・港名の判定用（例: 「石垣」「大原」）
     let routeKeywords: [String]
     let ferryGTFSFeeds: [FerryGTFSFeed]
@@ -162,6 +166,8 @@ struct IslandProfile: Identifiable {
         backgroundCredit: String,
         placeSearchRadiusMeters: CLLocationDistance,
         onIslandRadiusMeters: CLLocationDistance? = nil,
+        placeAddressRequiredTokens: [String] = [],
+        placeAddressAnyTokens: [String] = [],
         routeKeywords: [String],
         ferryGTFSFeeds: [FerryGTFSFeed],
         sampleFerrySchedules: [FerryCompanySchedule],
@@ -183,6 +189,8 @@ struct IslandProfile: Identifiable {
         self.backgroundCredit = backgroundCredit
         self.placeSearchRadiusMeters = placeSearchRadiusMeters
         self.onIslandRadiusMeters = onIslandRadiusMeters ?? placeSearchRadiusMeters
+        self.placeAddressRequiredTokens = placeAddressRequiredTokens
+        self.placeAddressAnyTokens = placeAddressAnyTokens
         self.routeKeywords = routeKeywords
         self.ferryGTFSFeeds = ferryGTFSFeeds
         self.sampleFerrySchedules = sampleFerrySchedules
@@ -206,6 +214,19 @@ struct IslandProfile: Identifiable {
 
     func matchesRoute(_ routeLongName: String) -> Bool {
         routeKeywords.contains { routeLongName.contains($0) }
+    }
+
+    /// 県・市は必須、町名はどれか1つ（未設定の島は使わない）
+    var usesPlaceAddressMatching: Bool {
+        placeAddressRequiredTokens.isEmpty == false && placeAddressAnyTokens.isEmpty == false
+    }
+
+    /// MapKit の住所が、この島の必須語＋町名のどれかに合うか
+    func matchesPlaceAddress(_ address: String) -> Bool {
+        guard usesPlaceAddressMatching else { return false }
+        let hasRequired = placeAddressRequiredTokens.allSatisfy { address.contains($0) }
+        guard hasRequired else { return false }
+        return placeAddressAnyTokens.contains { address.contains($0) }
     }
 
     func matchesPlaceName(_ placeName: String) -> Bool {
