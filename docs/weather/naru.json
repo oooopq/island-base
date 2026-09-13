@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-09-13T21:51:34+09:00",
+  "updatedAt": "2026-09-13T23:29:04+09:00",
   "temperatureCelsius": 25,
   "apparentTemperatureCelsius": 29,
-  "weatherCode": 61,
-  "condition": "雨",
-  "humidityPercent": 89,
-  "windSpeedKmh": 12,
+  "weatherCode": 53,
+  "condition": "小雨",
+  "humidityPercent": 88,
+  "windSpeedKmh": 11,
   "currentWaveHeightMeters": 0.22,
   "todayMaxWaveHeightMeters": 0.38,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-13T21:00",
-      "timeLabel": "21時",
-      "weatherCode": 51,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 30,
-      "condition": "小雨",
-      "humidityPercent": 88,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.3,
-      "windSpeedKmh": 12
-    },
-    {
-      "id": "2026-09-13T22:00",
-      "timeLabel": "22時",
-      "weatherCode": 63,
-      "temperatureCelsius": 25,
-      "apparentTemperatureCelsius": 29,
-      "condition": "雨",
-      "humidityPercent": 89,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 2.5,
-      "windSpeedKmh": 12
-    },
     {
       "id": "2026-09-13T23:00",
       "timeLabel": "23時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 15
+    },
+    {
+      "id": "2026-09-14T21:00",
+      "timeLabel": "21時",
+      "weatherCode": 2,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 28,
+      "condition": "くもり",
+      "humidityPercent": 74,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 15
+    },
+    {
+      "id": "2026-09-14T22:00",
+      "timeLabel": "22時",
+      "weatherCode": 1,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 28,
+      "condition": "くもり",
+      "humidityPercent": 74,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 13
     }
   ],
   "weeklyForecast": [
