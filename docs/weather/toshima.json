@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-09-15T04:26:47+09:00",
+  "updatedAt": "2026-09-15T06:03:58+09:00",
   "temperatureCelsius": 26,
-  "apparentTemperatureCelsius": 31,
+  "apparentTemperatureCelsius": 30,
   "weatherCode": 63,
   "condition": "雨",
-  "humidityPercent": 90,
-  "windSpeedKmh": 12,
+  "humidityPercent": 88,
+  "windSpeedKmh": 15,
   "currentWaveHeightMeters": 1.14,
   "todayMaxWaveHeightMeters": 1.16,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-15T04:00",
-      "timeLabel": "4時",
-      "weatherCode": 63,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 30,
-      "condition": "雨",
-      "humidityPercent": 91,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 5.2,
-      "windSpeedKmh": 13
-    },
-    {
-      "id": "2026-09-15T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 63,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 31,
-      "condition": "雨",
-      "humidityPercent": 86,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 4.3,
-      "windSpeedKmh": 13
-    },
     {
       "id": "2026-09-15T06:00",
       "timeLabel": "6時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.7,
       "windSpeedKmh": 11
+    },
+    {
+      "id": "2026-09-16T04:00",
+      "timeLabel": "4時",
+      "weatherCode": 51,
+      "temperatureCelsius": 27,
+      "apparentTemperatureCelsius": 32,
+      "condition": "小雨",
+      "humidityPercent": 94,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.4,
+      "windSpeedKmh": 11
+    },
+    {
+      "id": "2026-09-16T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 53,
+      "temperatureCelsius": 27,
+      "apparentTemperatureCelsius": 32,
+      "condition": "小雨",
+      "humidityPercent": 95,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.9,
+      "windSpeedKmh": 9
     }
   ],
   "weeklyForecast": [

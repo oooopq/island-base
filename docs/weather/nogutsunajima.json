@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-09-15T04:26:47+09:00",
+  "updatedAt": "2026-09-15T06:03:58+09:00",
   "temperatureCelsius": 24,
   "apparentTemperatureCelsius": 27,
-  "weatherCode": 1,
-  "condition": "くもり",
-  "humidityPercent": 93,
-  "windSpeedKmh": 15,
-  "currentWaveHeightMeters": 0.08,
+  "weatherCode": 51,
+  "condition": "小雨",
+  "humidityPercent": 92,
+  "windSpeedKmh": 14,
+  "currentWaveHeightMeters": 0.1,
   "todayMaxWaveHeightMeters": 0.18,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-15T04:00",
-      "timeLabel": "4時",
-      "weatherCode": 53,
-      "temperatureCelsius": 24,
-      "apparentTemperatureCelsius": 28,
-      "condition": "小雨",
-      "humidityPercent": 93,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.6,
-      "windSpeedKmh": 15
-    },
-    {
-      "id": "2026-09-15T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 51,
-      "temperatureCelsius": 24,
-      "apparentTemperatureCelsius": 27,
-      "condition": "小雨",
-      "humidityPercent": 93,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.1,
-      "windSpeedKmh": 15
-    },
     {
       "id": "2026-09-15T06:00",
       "timeLabel": "6時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.8,
       "windSpeedKmh": 33
+    },
+    {
+      "id": "2026-09-16T04:00",
+      "timeLabel": "4時",
+      "weatherCode": 53,
+      "temperatureCelsius": 23,
+      "apparentTemperatureCelsius": 22,
+      "condition": "小雨",
+      "humidityPercent": 85,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.9,
+      "windSpeedKmh": 35
+    },
+    {
+      "id": "2026-09-16T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 53,
+      "temperatureCelsius": 23,
+      "apparentTemperatureCelsius": 22,
+      "condition": "小雨",
+      "humidityPercent": 85,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.7,
+      "windSpeedKmh": 37
     }
   ],
   "weeklyForecast": [
