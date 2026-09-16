@@ -38,7 +38,7 @@ enum ShodoshimaNaoshimaIslandProfiles {
         name: "四国汽船株式会社",
         websiteURL: "https://www.shikokukisen.com/routes/",
         phoneNumber: "087-821-5100",
-        statusPageURL: "https://www.shikokukisen.com/news/traffic-info/",
+        statusPageURL: "https://shikokukisen.com/traffic-info/",
         homePageURL: "https://www.shikokukisen.com/"
     )
 
