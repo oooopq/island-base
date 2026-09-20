@@ -274,7 +274,7 @@ struct ImageCreditsView: View {
             }
             .creditCardStyle(palette: palette)
 
-            licenseNote(title: gsiTitle, body: gsiBody)
+            licenseNote(title: kutsunaProvidedPhotoTitle, body: kutsunaProvidedPhotoBody)
             licenseNote(title: providedPhotoTitle, body: providedPhotoBody)
             licenseNote(title: photoNotesTitle, body: photoNotesBody)
             licenseNote(title: appIconTitle, body: appIconBody)
@@ -462,14 +462,14 @@ struct ImageCreditsView: View {
             : "Images follow the Creative Commons, public domain, or attribution terms shown for each file. A dark gradient may be overlaid for readability (noted in each island credit)."
     }
 
-    private var gsiTitle: String {
-        isJapanese ? "国土地理院" : "Geospatial Information Authority of Japan"
+    private var kutsunaProvidedPhotoTitle: String {
+        isJapanese ? "忽那諸島　写真提供" : "Kutsuna Islands photo credit"
     }
 
-    private var gsiBody: String {
+    private var kutsunaProvidedPhotoBody: String {
         isJapanese
-            ? "怒和島・津和地島の空中写真は、Wikimedia Commons 経由で国土地理院の出典表示条件に従って利用しています。該当する画像クレジットには「出典：国土地理院」と明記しています。"
-            : "Aerial photos of Nuwa and Tsuwaji are used via Wikimedia Commons under GSI attribution rules. Credits include “出典：国土地理院”."
+            ? "松山市　まちづくり推進課\n（愛媛県離島振興協議会ウェブサイト掲載写真）"
+            : "Matsuyama City, Community Development Promotion Division\n(Photos published on the Ehime Prefecture Remote Island Promotion Council website)"
     }
 
     private var providedPhotoTitle: String {

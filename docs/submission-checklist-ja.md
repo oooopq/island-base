@@ -126,7 +126,8 @@
 - [x] **IslandBgTeshima** — Unsplash（Victor Lu）に差し替え（2026-07-30）
 - [x] **IslandBgInujima** — 開発者撮影に復帰・台帳更新（2026-07-30）
 - [x] **IslandBgTsurushima** — 実ファイルと Wikimedia（Ka23 13）が一致（2026-07-26 照合）
-- [x] 自作写真（黒島・波照間・八丈・犬島）— 開発者撮影として台帳・クレジット画面に記載済み
+- [x] 自作写真（黒島・波照間・八丈・犬島・二神）— 開発者撮影として台帳・クレジット画面に記載済み
+- [x] 忽那4島（安居・怒和・野忽那・津和地）— 松山市まちづくり推進課提供としてクレジット記載済み
 - [x] 五島・地域カバー（IslandBgGoto 等）— Commons File 名を台帳に追記済み
 - [x] **IslandBgNakadori** — Commons `Aosagaura Church.JPG`（Sapphire123 / CC BY-SA 3.0）と一致。クレジットを「青砂ヶ浦教会」に修正（2026-07-29）
 - [ ] 詳細手順: [image-provenance-checklist-ja.md](./image-provenance-checklist-ja.md)

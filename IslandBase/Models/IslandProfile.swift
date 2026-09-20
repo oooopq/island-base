@@ -1,3 +1,5 @@
+// xcode: set sdk=iOS
+
 //
 //  IslandProfile.swift
 //  Island Base

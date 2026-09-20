@@ -220,7 +220,7 @@ def verify_row(row: dict, cache_dir: Path) -> Tuple[str, str, str]:
     source_type = row.get("source_type", "")
     if source_type == "original":
         return "verified", "オリジナル素材（照合対象外）", VERIFY_DATE
-    if source_type in ("own_photo",):
+    if source_type in ("own_photo", "provided_local"):
         if status == "verified":
             return status, row.get("verification_notes", ""), row.get("verified_on", VERIFY_DATE)
         return status, row.get("verification_notes", ""), row.get("verified_on", "")

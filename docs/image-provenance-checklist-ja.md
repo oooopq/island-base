@@ -60,6 +60,17 @@
 
 島詳細のクレジットは `Photo: Tomoyuki Shidara（島名）`。アプリ内の「自作写真（開発者撮影）」セクションで説明。
 
+### B2. 忽那諸島　写真提供（松山市まちづくり推進課）
+
+| asset | 提供 | 状態 |
+|---|---|---|
+| IslandBgAijima | 松山市　まちづくり推進課 | 2026-09-20 差し替え。愛媛県離島振興協議会ウェブサイト掲載写真 |
+| IslandBgNuwajima | 同上 | 同上 |
+| IslandBgNogutsunajima | 同上 | 同上 |
+| IslandBgTsuwajishima | 同上 | 同上 |
+
+島詳細のクレジットは `Photo: 松山市　まちづくり推進課（島名）`。アプリ内の「忽那諸島　写真提供」セクションで説明。
+
 ### C. Wikimedia Commons（CC / GSI）— 作者・ライセンス・ファイル一致
 
 **共通手順（各画像 5〜10 分）**
@@ -75,8 +86,7 @@
 | 八重山 CC | IslandBgYonaguni, IslandBgKohama, IslandBgHatoma |
 | 佐渡島 | IslandBgSado |
 | 伊豆 CC | IslandBgOshima, IslandBgToshima, IslandBgShikinejima, IslandBgMikurajima |
-| 忽那 CC | IslandBgNakajima, IslandBgGogoshima, IslandBgMuzukijima, IslandBgNogutsunajima, IslandBgTsurushima, IslandBgAijima, IslandBgKutsuna |
-| 忽那 GSI | IslandBgNuwajima, IslandBgTsuwajishima |
+| 忽那 CC | IslandBgNakajima, IslandBgGogoshima, IslandBgMuzukijima, IslandBgTsurushima, IslandBgKutsuna |
 | 五島 CC | IslandBgGoto, IslandBgFukue, IslandBgHisaka, IslandBgNaru, IslandBgWakamatsu, IslandBgNakadori |
 
 **照合結果**: 41/41 verified（2026-08-16 時点。鳩間・小浜を追加）。照合スクリプト: `python3 scripts/verify_image_provenance.py`

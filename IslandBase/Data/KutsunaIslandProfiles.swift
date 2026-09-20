@@ -69,6 +69,11 @@ enum KutsunaIslandProfiles {
     /// 店舗の住所判定：県・市は必須
     private static let ehimeMatsuyamaRequired = ["愛媛県", "松山市"]
 
+    /// 安居・怒和・野忽那・津和地の背景写真クレジット
+    private static func matsuyamaMachizukuriCredit(_ islandName: String) -> String {
+        "Photo: 松山市　まちづくり推進課（\(islandName)）"
+    }
+
     // MARK: - 中島
 
     private static let nakajima = IslandProfile(
@@ -249,7 +254,7 @@ enum KutsunaIslandProfiles {
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNogutsunajima",
-        backgroundCredit: "Photo: 全樺連 / Wikimedia Commons（野忽那島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: matsuyamaMachizukuriCredit("野忽那島"),
         placeSearchRadiusMeters: 2_000,
         onIslandRadiusMeters: 4_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -297,7 +302,7 @@ enum KutsunaIslandProfiles {
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNuwajima",
-        backgroundCredit: "Photo: 国土地理院 / Wikimedia Commons（怒和島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加",
+        backgroundCredit: matsuyamaMachizukuriCredit("怒和島"),
         placeSearchRadiusMeters: 2_500,
         onIslandRadiusMeters: 5_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -344,7 +349,7 @@ enum KutsunaIslandProfiles {
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgTsuwajishima",
-        backgroundCredit: "Photo: 国土地理院 / Wikimedia Commons（津和地島・愛媛）／出典：国土地理院／表示時に暗色グラデーションを追加",
+        backgroundCredit: matsuyamaMachizukuriCredit("津和地島"),
         placeSearchRadiusMeters: 2_000,
         onIslandRadiusMeters: 4_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -478,7 +483,7 @@ enum KutsunaIslandProfiles {
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgAijima",
-        backgroundCredit: "Photo: 全樺連 / Wikimedia Commons（安居島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: matsuyamaMachizukuriCredit("安居島"),
         placeSearchRadiusMeters: 2_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
         placeAddressAnyTokens: ["安居島"],
