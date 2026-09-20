@@ -60,10 +60,20 @@ enum IslandCatalog {
     struct BackgroundCreditEntry: Identifiable {
         let islandID: String
         let islandNameJapanese: String
+        let islandNameEnglish: String
         let regionNameJapanese: String
+        let regionNameEnglish: String
         let credit: String
 
         var id: String { islandID }
+
+        func islandName(for language: AppLanguageMode) -> String {
+            language.isJapanese ? islandNameJapanese : islandNameEnglish
+        }
+
+        func regionName(for language: AppLanguageMode) -> String {
+            language.isJapanese ? regionNameJapanese : regionNameEnglish
+        }
     }
 
     /// 公開・法務向け：全島の背景画像クレジット一覧
@@ -73,7 +83,12 @@ enum IslandCatalog {
                 BackgroundCreditEntry(
                     islandID: profile.id,
                     islandNameJapanese: profile.island.nameJapanese,
+                    islandNameEnglish: profile.island.nameEnglish,
                     regionNameJapanese: profile.regionDisplayName,
+                    regionNameEnglish: IslandRegionCatalog.displayName(
+                        for: profile.regionID,
+                        language: .english
+                    ),
                     credit: profile.backgroundCredit
                 )
             }

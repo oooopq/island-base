@@ -138,6 +138,9 @@ struct IslandSavedPhotoViewerView: View {
     }
 
     private func formattedDate(_ date: Date) -> String {
-        date.formatted(date: .abbreviated, time: .shortened)
+        date.formatted(
+            Date.FormatStyle(date: .abbreviated, time: .shortened)
+                .locale(languageStore.mode.locale)
+        )
     }
 }

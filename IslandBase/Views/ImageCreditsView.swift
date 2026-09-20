@@ -64,7 +64,7 @@ struct ImageCreditsView: View {
                 title: jmaMarineTitle,
                 credit: jmaMarineCredit,
                 note: jmaMarineNote,
-                linkTitle: "jma.go.jp（海上警報・予報）",
+                linkTitle: jmaMarineLinkTitle,
                 urlString: "https://www.jma.go.jp/bosai/seawarning/"
             )
 
@@ -187,12 +187,12 @@ struct ImageCreditsView: View {
 
             ForEach(entries) { entry in
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(entry.islandNameJapanese)
+                    Text(entry.islandName(for: languageStore.mode))
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundStyle(palette.text)
 
-                    Text(entry.regionNameJapanese)
+                    Text(entry.regionName(for: languageStore.mode))
                         .font(.caption)
                         .foregroundStyle(palette.secondaryText)
 
@@ -348,6 +348,10 @@ struct ImageCreditsView: View {
 
     private var jmaMarineTitle: String {
         isJapanese ? "海上予報（気象庁）" : "Marine forecast (JMA)"
+    }
+
+    private var jmaMarineLinkTitle: String {
+        isJapanese ? "jma.go.jp（海上警報・予報）" : "jma.go.jp (marine warnings & forecasts)"
     }
 
     private var jmaMarineCredit: String {

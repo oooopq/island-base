@@ -42,7 +42,9 @@ struct UsefulInfoSectionView: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(languageStore.t(.usefulInfo))
-            .accessibilityHint(isExpanded ? "タップで閉じる" : "タップでお役立ち情報を表示")
+            .accessibilityHint(
+                languageStore.t(isExpanded ? .tapToCollapse : .tapToExpandUsefulInfo)
+            )
 
             if isExpanded {
                 expandedContent

@@ -62,6 +62,7 @@ enum AppText {
     case showFewerPlaces
     case appleMapsData
     case openWebsite
+    case openExternalLink(String)
     case openNavigation
     case openNavigationUnavailable
     case openInGoogleMaps
@@ -88,6 +89,7 @@ enum AppText {
     case photoNotesLimitReached(Int)
     case photoNotesCount(Int, Int)
     case noPhotoNotesYet
+    case photoNoteForDate(String)
     case photoMemoLabel
     case photoMemoPlaceholder
     case photoMemoDone
@@ -117,6 +119,8 @@ enum AppText {
     case tapIslandToCenterOnPortHint
     case returnToIslandDetailHint
     case returnToIslandBase
+    case backToIslandDetails
+    case closeFullScreenMapHint
 
     // 次の便・ダイヤ時刻
     case todayDeparturesFinishedTomorrowFirst
@@ -151,6 +155,7 @@ enum AppText {
     case weeklyWeatherAccessibility
     case tapToCollapse
     case tapToExpandWeeklyWeather
+    case tapToExpandUsefulInfo
     case hourlyForecastAccessibility
 
     // キャッシュ
@@ -268,6 +273,8 @@ enum AppText {
             return "Apple マップのデータを表示しています"
         case .openWebsite:
             return "Webサイト"
+        case .openExternalLink(let title):
+            return "\(title)を開く"
         case .openNavigation:
             return "ナビ"
         case .openNavigationUnavailable:
@@ -320,6 +327,8 @@ enum AppText {
             return "\(count)/\(max)枚"
         case .noPhotoNotesYet:
             return "まだ写真メモがありません"
+        case .photoNoteForDate(let date):
+            return "\(date)の写真メモ"
         case .photoMemoLabel:
             return "メモ"
         case .photoMemoPlaceholder:
@@ -374,6 +383,10 @@ enum AppText {
             return "島の詳細画面に戻ります"
         case .returnToIslandBase:
             return "Island Base に戻る"
+        case .backToIslandDetails:
+            return "島の詳細に戻る"
+        case .closeFullScreenMapHint:
+            return "全画面地図を閉じます"
         case .todayDeparturesFinishedTomorrowFirst:
             return "本日の出港便は終了しました。翌日の最初の便です。"
         case .countdownPrefix:
@@ -426,6 +439,8 @@ enum AppText {
             return "タップで閉じる"
         case .tapToExpandWeeklyWeather:
             return "タップで週間天気を表示"
+        case .tapToExpandUsefulInfo:
+            return "タップでお役立ち情報を表示"
         case .hourlyForecastAccessibility:
             return "1時間ごとの気温グラフと予報"
         case .cachePrevious:
@@ -518,7 +533,7 @@ enum AppText {
         case .liveCameraRelatedHeader:
             return "Live camera & links"
         case .takePhoto:
-            return "Camera"
+            return "Take photo"
         case .choosePhoto:
             return "Choose photo"
         case .cameraUnavailableTitle:
@@ -545,6 +560,8 @@ enum AppText {
             return "Showing Apple Maps data"
         case .openWebsite:
             return "Website"
+        case .openExternalLink(let title):
+            return "Open \(title)"
         case .openNavigation:
             return "Directions"
         case .openNavigationUnavailable:
@@ -597,6 +614,8 @@ enum AppText {
             return "\(count)/\(max)"
         case .noPhotoNotesYet:
             return "No photo notes yet"
+        case .photoNoteForDate(let date):
+            return "Photo note from \(date)"
         case .photoMemoLabel:
             return "Note"
         case .photoMemoPlaceholder:
@@ -651,6 +670,10 @@ enum AppText {
             return "Returns to the island detail screen"
         case .returnToIslandBase:
             return "Back to Island Base"
+        case .backToIslandDetails:
+            return "Back to island details"
+        case .closeFullScreenMapHint:
+            return "Closes the full-screen map."
         case .todayDeparturesFinishedTomorrowFirst:
             return "Today's sailings have ended. Showing the first sailing tomorrow."
         case .countdownPrefix:
@@ -703,6 +726,8 @@ enum AppText {
             return "Tap to collapse"
         case .tapToExpandWeeklyWeather:
             return "Tap to show 7-day forecast"
+        case .tapToExpandUsefulInfo:
+            return "Tap to show useful information"
         case .hourlyForecastAccessibility:
             return "Hourly temperature chart and forecast"
         case .cachePrevious:

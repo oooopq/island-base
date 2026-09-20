@@ -163,7 +163,7 @@ struct IslandSavedPhotosSectionView: View {
             }
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("\(formattedDate(photo.createdAt))の写真メモ")
+        .accessibilityLabel(languageStore.t(.photoNoteForDate(formattedDate(photo.createdAt))))
     }
 
     private var showCameraAlertBinding: Binding<Bool> {
@@ -211,7 +211,10 @@ struct IslandSavedPhotosSectionView: View {
     }
 
     private func formattedDate(_ date: Date) -> String {
-        date.formatted(date: .abbreviated, time: .shortened)
+        date.formatted(
+            Date.FormatStyle(date: .abbreviated, time: .shortened)
+                .locale(languageStore.mode.locale)
+        )
     }
 }
 

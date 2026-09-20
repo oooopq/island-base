@@ -83,7 +83,7 @@ struct LiveCameraSectionView: View {
                         .foregroundStyle(palette.accent)
                         .background(palette.accent.opacity(0.16), in: Circle())
                 }
-                .accessibilityLabel("\(camera.title)を開く")
+                .accessibilityLabel(languageStore.t(.openExternalLink(camera.title)))
             }
         }
     }

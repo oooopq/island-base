@@ -70,7 +70,7 @@ struct IslandUserLocationFullMapView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Label(languageStore.t(.returnToIslandBase), systemImage: "xmark.circle.fill")
+                    Label(languageStore.t(.backToIslandDetails), systemImage: "xmark.circle.fill")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundStyle(palette.text)
@@ -79,7 +79,7 @@ struct IslandUserLocationFullMapView: View {
                         .background(.ultraThinMaterial, in: Capsule())
                 }
                 .buttonStyle(.plain)
-                .accessibilityHint(languageStore.t(.returnToIslandDetailHint))
+                .accessibilityHint(languageStore.t(.closeFullScreenMapHint))
 
                 Spacer(minLength: 0)
 

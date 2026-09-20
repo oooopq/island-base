@@ -13,6 +13,14 @@ enum AppLanguageMode: String, CaseIterable {
 
     var isJapanese: Bool { self == .japanese }
 
+    /// アプリ内の日付表示にも使う固定ロケール
+    var locale: Locale {
+        switch self {
+        case .japanese: return Locale(identifier: "ja_JP")
+        case .english: return Locale(identifier: "en_US")
+        }
+    }
+
     /// 切り替え後に表示する言語の短いラベル（ボタン用）
     var toggleButtonLabel: String {
         switch self {
