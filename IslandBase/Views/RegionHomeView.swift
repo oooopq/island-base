@@ -133,7 +133,6 @@ struct RegionHomeView: View {
         ZStack(alignment: .topLeading) {
             Map(
                 position: $cameraPosition,
-                bounds: RegionMapSupport.japanMapCameraBounds,
                 interactionModes: []
             ) {
                 ForEach(IslandRegionCatalog.homeMapMainRegions) { region in

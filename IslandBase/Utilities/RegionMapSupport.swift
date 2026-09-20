@@ -19,17 +19,6 @@ enum RegionMapSupport {
         japanHomeMapEnvelope()
     }
 
-    /// トップ地図のカメラ制限（起動画角と同じ範囲に固定。パン・ズームなし）
-    static var japanMapCameraBounds: MapCameraBounds {
-        let envelope = japanHomeMapEnvelope()
-        let distance = cameraDistanceToFit(region: envelope, multiplier: 1.4)
-        return MapCameraBounds(
-            centerCoordinateBounds: envelope,
-            minimumDistance: distance,
-            maximumDistance: distance
-        )
-    }
-
     /// ホーム本図のピン座標。上書きがなければ登録島の平均（諸島の中心）
     static func homeMapPinCoordinate(for region: IslandRegion) -> CLLocationCoordinate2D {
         if let latitude = region.homeMap.pinLatitude, let longitude = region.homeMap.pinLongitude {
