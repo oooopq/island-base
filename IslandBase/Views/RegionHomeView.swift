@@ -71,6 +71,9 @@ struct RegionHomeView: View {
         VStack(alignment: .leading, spacing: 14) {
             if lastSelectedIslandStore.islands.isEmpty == false {
                 recentIslandsSection
+            } else {
+                // 初回表示でも地図の高さを履歴ありの状態と揃える
+                recentIslandsPlaceholder
             }
 
             VStack(alignment: .leading, spacing: 6) {
@@ -92,6 +95,12 @@ struct RegionHomeView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    private var recentIslandsPlaceholder: some View {
+        recentIslandsSection
+            .hidden()
+            .accessibilityHidden(true)
+    }
+
     private var recentIslandsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(languageStore.t(.recentIslands))
@@ -100,12 +109,24 @@ struct RegionHomeView: View {
                 .foregroundStyle(palette.secondaryText)
 
             HStack(spacing: 12) {
-                ForEach(lastSelectedIslandStore.islands) { island in
+                ForEach(recentIslandsForLayout) { island in
                     LastSelectedIslandShortcutView(island: island)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .center)
         }
+    }
+
+    private var recentIslandsForLayout: [Island] {
+        if lastSelectedIslandStore.islands.isEmpty == false {
+            return lastSelectedIslandStore.islands
+        }
+
+        guard let placeholderIsland = IslandCatalog.islands.first else {
+            return []
+        }
+
+        return [placeholderIsland]
     }
 
     private var japanMap: some View {
