@@ -15,6 +15,7 @@ struct PlacesSectionView: View {
     let state: PlacesLoadState
     /// 詳細画面で取得した現在地（無いときは港基準のまま）
     var userCoordinate: CLLocationCoordinate2D? = nil
+    var onRetry: () -> Void = {}
 
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
@@ -90,6 +91,7 @@ struct PlacesSectionView: View {
                 Text(message)
                     .font(.subheadline)
                     .foregroundStyle(palette.warning)
+                FetchRetryButton(action: onRetry)
 
                 if let cachedPlaces, cachedPlaces.isEmpty == false {
                     placesListContent(cachedPlaces)

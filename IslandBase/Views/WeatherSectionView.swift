@@ -10,6 +10,7 @@ import SwiftUI
 struct WeatherSectionView: View {
     let state: WeatherLoadState
     let jmaMarineForecastArea: JMAMarineForecastArea
+    var onRetry: () -> Void = {}
 
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
@@ -33,6 +34,7 @@ struct WeatherSectionView: View {
                 Text(message)
                     .font(.subheadline)
                     .foregroundStyle(palette.warning)
+                FetchRetryButton(action: onRetry)
                 if let cachedWeather {
                     weatherSnapshotContent(cachedWeather, isFromCache: true)
                 }

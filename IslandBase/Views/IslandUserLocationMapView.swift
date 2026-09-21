@@ -110,6 +110,10 @@ struct IslandUserLocationMapView: View {
             Text(languageStore.t(.locationPermissionDenied))
                 .font(.caption)
                 .foregroundStyle(palette.secondaryText)
+            Button(languageStore.t(.openSettings)) {
+                SystemSettings.open()
+            }
+            .font(.caption.weight(.semibold))
 
         case .notDetermined:
             Text(languageStore.t(.locationPermissionChecking))

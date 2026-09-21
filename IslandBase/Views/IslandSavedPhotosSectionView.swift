@@ -5,6 +5,7 @@
 //  港や案内所で撮影したダイヤ写真を、端末内だけに保存して表示する
 //
 
+import AVFoundation
 import PhotosUI
 import SwiftUI
 
@@ -21,6 +22,7 @@ struct IslandSavedPhotosSectionView: View {
     @State private var cameraUnavailableMessage: String?
     @State private var showingPhotoLimitAlert = false
     @State private var showingPhotoSaveFailedAlert = false
+    @State private var showsCameraSettingsButton = false
 
     private let thumbnailHeight: CGFloat = 90
     private let gridSpacing: CGFloat = 8
@@ -74,7 +76,12 @@ struct IslandSavedPhotosSectionView: View {
                 .environment(\.detailPalette, palette)
         }
         .alert(languageStore.t(.cameraUnavailableTitle), isPresented: showCameraAlertBinding) {
-            Button("OK", role: .cancel) {}
+            if showsCameraSettingsButton {
+                Button(languageStore.t(.openSettings)) {
+                    SystemSettings.open()
+                }
+            }
+            Button(languageStore.t(.close), role: .cancel) {}
         } message: {
             Text(cameraUnavailableMessage ?? languageStore.t(.cameraUnavailableBody))
         }
@@ -178,6 +185,7 @@ struct IslandSavedPhotosSectionView: View {
             set: { isPresented in
                 if isPresented == false {
                     cameraUnavailableMessage = nil
+                    showsCameraSettingsButton = false
                 }
             }
         )
@@ -193,7 +201,30 @@ struct IslandSavedPhotosSectionView: View {
             cameraUnavailableMessage = languageStore.t(.cameraSimulatorUnavailable)
             return
         }
-        showingCamera = true
+
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            showingCamera = true
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                Task { @MainActor in
+                    if granted {
+                        showingCamera = true
+                    } else {
+                        showCameraPermissionDenied()
+                    }
+                }
+            }
+        case .denied, .restricted:
+            showCameraPermissionDenied()
+        @unknown default:
+            cameraUnavailableMessage = languageStore.t(.cameraUnavailableBody)
+        }
+    }
+
+    private func showCameraPermissionDenied() {
+        showsCameraSettingsButton = true
+        cameraUnavailableMessage = languageStore.t(.cameraPermissionDenied)
     }
 
     private func importPhoto(from item: PhotosPickerItem) async {

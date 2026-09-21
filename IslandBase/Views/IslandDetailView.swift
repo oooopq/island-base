@@ -271,7 +271,8 @@ struct IslandDetailView: View {
         case .weather:
             WeatherSectionView(
                 state: weatherState,
-                jmaMarineForecastArea: islandProfile?.jmaMarineForecastArea ?? .setonaikai
+                jmaMarineForecastArea: islandProfile?.jmaMarineForecastArea ?? .setonaikai,
+                onRetry: { Task { await retryWeather() } }
             )
 
         case .schedule:
@@ -289,7 +290,11 @@ struct IslandDetailView: View {
             }
 
             if hasInAppFerryTrips {
-                FerryScheduleSectionView(island: island, state: ferryState)
+                FerryScheduleSectionView(
+                    island: island,
+                    state: ferryState,
+                    onRetry: { Task { await retryFerry() } }
+                )
 
                 // GTFS 取得失敗で時刻がないときは、公式リンクへ誘導する
                 if shouldShowFerryLinksAlongsideGTFSFailure,
@@ -329,7 +334,8 @@ struct IslandDetailView: View {
                 island: island,
                 selectedCategory: $selectedPlaceCategory,
                 state: placesState,
-                userCoordinate: locationService.coordinate
+                userCoordinate: locationService.coordinate,
+                onRetry: { Task { await retryPlaces() } }
             )
 
         case .savedPhotos:
@@ -392,6 +398,31 @@ struct IslandDetailView: View {
         if let cached = placesSearchService.cachedPlaces(for: island.id, category: .restaurant) {
             placesState = .loaded(cached.places, isFromCache: true, fetchedAt: cached.fetchedAt)
         }
+    }
+
+    @MainActor
+    private func retryWeather() async {
+        if weatherService.cachedWeather(for: island.id) == nil {
+            weatherState = .loading
+        }
+        await loadWeather()
+    }
+
+    @MainActor
+    private func retryFerry() async {
+        guard usesFerryGTFS else { return }
+        if ferryService.cachedSchedules(for: island.id) == nil {
+            ferryState = .loading
+        }
+        await loadFerrySchedules()
+    }
+
+    @MainActor
+    private func retryPlaces() async {
+        if placesSearchService.cachedPlaces(for: island.id, category: selectedPlaceCategory) == nil {
+            placesState = .loading
+        }
+        await loadPlaces()
     }
 
     @MainActor

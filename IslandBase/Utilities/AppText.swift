@@ -142,6 +142,9 @@ enum AppText {
     case cancel
     case photoSaveFailedTitle
     case photoSaveFailedBody
+    case retryFetch
+    case openSettings
+    case cameraPermissionDenied
     case photoCannotOpen
     case photoDataNotFound
     case cameraSimulatorUnavailable
@@ -427,6 +430,12 @@ enum AppText {
             return "写真を保存できませんでした"
         case .photoSaveFailedBody:
             return "端末の空き容量を確認して、もう一度お試しください。"
+        case .retryFetch:
+            return "再試行"
+        case .openSettings:
+            return "設定を開く"
+        case .cameraPermissionDenied:
+            return "カメラが許可されていません。設定から許可すると撮影できます。"
         case .photoCannotOpen:
             return "写真を開けません"
         case .photoDataNotFound:
@@ -726,6 +735,12 @@ enum AppText {
             return "Couldn't save the photo"
         case .photoSaveFailedBody:
             return "Check free space on this device and try again."
+        case .retryFetch:
+            return "Try again"
+        case .openSettings:
+            return "Open Settings"
+        case .cameraPermissionDenied:
+            return "Camera access is off. Enable it in Settings to take photos."
         case .photoCannotOpen:
             return "Couldn't open photo"
         case .photoDataNotFound:

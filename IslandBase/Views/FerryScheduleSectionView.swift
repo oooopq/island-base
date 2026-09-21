@@ -10,6 +10,7 @@ import SwiftUI
 struct FerryScheduleSectionView: View {
     let island: Island
     let state: FerryLoadState
+    var onRetry: () -> Void = {}
 
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
@@ -53,6 +54,7 @@ struct FerryScheduleSectionView: View {
                     Text(message)
                         .font(.subheadline)
                         .foregroundStyle(palette.warning)
+                    FetchRetryButton(action: onRetry)
 
                     if let cachedSchedules {
                         scheduleContent(
