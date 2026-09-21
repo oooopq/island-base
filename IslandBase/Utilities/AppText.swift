@@ -30,6 +30,7 @@ enum AppText {
     case photoNotes
     case liveCamera
     case destinations
+    case allDestinations
     case current
     case hourlyForecast
     case weeklyWeather
@@ -218,6 +219,8 @@ enum AppText {
             return "ライブカメラ"
         case .destinations:
             return "行き先"
+        case .allDestinations:
+            return "すべて"
         case .current:
             return "現在"
         case .hourlyForecast:
@@ -523,6 +526,8 @@ enum AppText {
             return "Live camera"
         case .destinations:
             return "Destinations"
+        case .allDestinations:
+            return "All"
         case .current:
             return "Now"
         case .hourlyForecast:

@@ -152,7 +152,7 @@ struct FerryScheduleSectionView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     destinationChip(
-                        title: "すべて",
+                        title: languageStore.t(.allDestinations),
                         isSelected: selectedDestinationID == FerryRouteHelper.allDestinationsID
                     ) {
                         selectedDestinationID = FerryRouteHelper.allDestinationsID

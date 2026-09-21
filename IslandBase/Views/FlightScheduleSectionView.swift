@@ -91,7 +91,7 @@ struct FlightScheduleSectionView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     destinationChip(
-                        title: "すべて",
+                        title: languageStore.t(.allDestinations),
                         isSelected: selectedDestinationID == FlightRouteHelper.allDestinationsID
                     ) {
                         selectedDestinationID = FlightRouteHelper.allDestinationsID
