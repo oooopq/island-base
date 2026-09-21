@@ -136,6 +136,12 @@ enum AppText {
     // 写真ビューア
     case close
     case deletePhotoMemo
+    case deletePhotoMemoConfirmTitle
+    case deletePhotoMemoConfirmBody
+    case deletePhotoMemoConfirm
+    case cancel
+    case photoSaveFailedTitle
+    case photoSaveFailedBody
     case photoCannotOpen
     case photoDataNotFound
     case cameraSimulatorUnavailable
@@ -409,6 +415,18 @@ enum AppText {
             return "閉じる"
         case .deletePhotoMemo:
             return "写真メモを削除"
+        case .deletePhotoMemoConfirmTitle:
+            return "写真メモを削除しますか？"
+        case .deletePhotoMemoConfirmBody:
+            return "この端末から削除され、元に戻せません。"
+        case .deletePhotoMemoConfirm:
+            return "削除する"
+        case .cancel:
+            return "キャンセル"
+        case .photoSaveFailedTitle:
+            return "写真を保存できませんでした"
+        case .photoSaveFailedBody:
+            return "端末の空き容量を確認して、もう一度お試しください。"
         case .photoCannotOpen:
             return "写真を開けません"
         case .photoDataNotFound:
@@ -696,6 +714,18 @@ enum AppText {
             return "Close"
         case .deletePhotoMemo:
             return "Delete photo note"
+        case .deletePhotoMemoConfirmTitle:
+            return "Delete this photo note?"
+        case .deletePhotoMemoConfirmBody:
+            return "This removes it from this device. You can't undo this."
+        case .deletePhotoMemoConfirm:
+            return "Delete"
+        case .cancel:
+            return "Cancel"
+        case .photoSaveFailedTitle:
+            return "Couldn't save the photo"
+        case .photoSaveFailedBody:
+            return "Check free space on this device and try again."
         case .photoCannotOpen:
             return "Couldn't open photo"
         case .photoDataNotFound:

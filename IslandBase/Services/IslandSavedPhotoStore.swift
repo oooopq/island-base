@@ -8,6 +8,13 @@
 import Foundation
 import UIKit
 
+/// 写真メモの保存結果。上限と書き込み失敗を画面側で分けて出す
+enum PhotoSaveResult {
+    case saved
+    case limitReached
+    case failed
+}
+
 @Observable
 @MainActor
 final class IslandSavedPhotoStore {
@@ -48,8 +55,8 @@ final class IslandSavedPhotoStore {
     }
 
     @discardableResult
-    func addPhoto(_ image: UIImage, for islandID: String) -> Bool {
-        guard canAddPhoto else { return false }
+    func addPhoto(_ image: UIImage, for islandID: String) -> PhotoSaveResult {
+        guard canAddPhoto else { return .limitReached }
 
         ensureStorageDirectoryExists()
 
@@ -60,10 +67,16 @@ final class IslandSavedPhotoStore {
         let thumbURL = photoFileURL(islandID: islandID, fileName: thumbFileName)
 
         let resizedFull = Self.resize(image, maxLongEdge: Self.maxFullImageLongEdge)
-        guard let data = resizedFull.jpegData(compressionQuality: Self.fullJPEGQuality) else { return false }
+        guard let data = resizedFull.jpegData(compressionQuality: Self.fullJPEGQuality) else {
+            AppLog.photoError("photo save failed reason=jpeg island=\(islandID)")
+            return .failed
+        }
 
         let thumb = Self.resize(resizedFull, maxLongEdge: Self.maxThumbnailLongEdge)
-        guard let thumbData = thumb.jpegData(compressionQuality: Self.thumbnailJPEGQuality) else { return false }
+        guard let thumbData = thumb.jpegData(compressionQuality: Self.thumbnailJPEGQuality) else {
+            AppLog.photoError("photo save failed reason=thumbnail island=\(islandID)")
+            return .failed
+        }
 
         do {
             try fileManager.createDirectory(at: islandPhotosDirectory(islandID: islandID), withIntermediateDirectories: true)
@@ -82,11 +95,12 @@ final class IslandSavedPhotoStore {
             try saveManifest(manifest, for: islandID)
             photos = manifest.sorted { $0.createdAt > $1.createdAt }
             thumbnailCache.setObject(thumb, forKey: photoID as NSString)
-            return true
+            return .saved
         } catch {
             try? fileManager.removeItem(at: fileURL)
             try? fileManager.removeItem(at: thumbURL)
-            return false
+            AppLog.photoError("photo save failed reason=write island=\(islandID)")
+            return .failed
         }
     }
 

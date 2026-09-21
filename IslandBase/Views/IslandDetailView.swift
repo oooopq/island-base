@@ -410,6 +410,7 @@ struct IslandDetailView: View {
         } catch is CancellationError {
             return
         } catch NetworkTimeout.TimeoutError.timedOut {
+            AppLog.networkError("weather timeout island=\(island.id)")
             if let cached = weatherService.cachedWeather(for: island.id) {
                 weatherState = .loaded(cached, isFromCache: true)
                 return
@@ -419,6 +420,7 @@ struct IslandDetailView: View {
                 cachedWeather: nil
             )
         } catch {
+            AppLog.networkError("weather failed island=\(island.id)")
             if let cached = weatherService.cachedWeather(for: island.id) {
                 weatherState = .loaded(cached, isFromCache: true)
                 return
@@ -448,8 +450,10 @@ struct IslandDetailView: View {
         } catch is CancellationError {
             applyFerryErrorFallback(useTimeoutMessage: false)
         } catch NetworkTimeout.TimeoutError.timedOut {
+            AppLog.networkError("ferry timeout island=\(island.id)")
             applyFerryErrorFallback(useTimeoutMessage: true)
         } catch {
+            AppLog.networkError("ferry failed island=\(island.id)")
             applyFerryErrorFallback(useTimeoutMessage: false)
         }
     }
@@ -512,6 +516,7 @@ struct IslandDetailView: View {
         } catch is CancellationError {
             return
         } catch {
+            AppLog.networkError("places failed island=\(island.id)")
             if let cachedEntry {
                 placesState = .loaded(cachedEntry.places, isFromCache: true, fetchedAt: cachedEntry.fetchedAt)
                 return

@@ -18,6 +18,7 @@ struct IslandSavedPhotoViewerView: View {
     @State private var noteText: String = ""
     @State private var fullImage: UIImage?
     @State private var didFinishLoadingFullImage = false
+    @State private var showingDeleteConfirm = false
     @FocusState private var isNoteFocused: Bool
 
     var body: some View {
@@ -40,8 +41,7 @@ struct IslandSavedPhotoViewerView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(role: .destructive) {
-                        store.deletePhoto(photo)
-                        dismiss()
+                        showingDeleteConfirm = true
                     } label: {
                         Image(systemName: "trash")
                     }
@@ -66,6 +66,19 @@ struct IslandSavedPhotoViewerView: View {
             }
             .onDisappear {
                 saveNoteIfNeeded()
+            }
+            .confirmationDialog(
+                languageStore.t(.deletePhotoMemoConfirmTitle),
+                isPresented: $showingDeleteConfirm,
+                titleVisibility: .visible
+            ) {
+                Button(languageStore.t(.deletePhotoMemoConfirm), role: .destructive) {
+                    store.deletePhoto(photo)
+                    dismiss()
+                }
+                Button(languageStore.t(.cancel), role: .cancel) {}
+            } message: {
+                Text(languageStore.t(.deletePhotoMemoConfirmBody))
             }
         }
     }

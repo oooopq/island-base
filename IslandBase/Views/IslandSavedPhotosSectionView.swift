@@ -20,6 +20,7 @@ struct IslandSavedPhotosSectionView: View {
     @State private var viewingPhoto: IslandSavedPhoto?
     @State private var cameraUnavailableMessage: String?
     @State private var showingPhotoLimitAlert = false
+    @State private var showingPhotoSaveFailedAlert = false
 
     private let thumbnailHeight: CGFloat = 90
     private let gridSpacing: CGFloat = 8
@@ -81,6 +82,11 @@ struct IslandSavedPhotosSectionView: View {
             Button("OK", role: .cancel) {}
         } message: {
             Text(languageStore.t(.photoNotesLimitReached(IslandSavedPhotoStore.maxPhotosPerIsland)))
+        }
+        .alert(languageStore.t(.photoSaveFailedTitle), isPresented: $showingPhotoSaveFailedAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(languageStore.t(.photoSaveFailedBody))
         }
     }
 
@@ -198,15 +204,21 @@ struct IslandSavedPhotosSectionView: View {
 
         guard let data = try? await item.loadTransferable(type: Data.self),
               let image = UIImage(data: data) else {
+            AppLog.photoError("photo import failed reason=unreadable island=\(islandID)")
+            showingPhotoSaveFailedAlert = true
             return
         }
         addPhoto(image)
     }
 
     private func addPhoto(_ image: UIImage) {
-        let added = store.addPhoto(image, for: islandID)
-        if added == false {
+        switch store.addPhoto(image, for: islandID) {
+        case .saved:
+            break
+        case .limitReached:
             showingPhotoLimitAlert = true
+        case .failed:
+            showingPhotoSaveFailedAlert = true
         }
     }
 
