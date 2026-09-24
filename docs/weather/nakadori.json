@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-24T23:57:48+09:00",
+  "updatedAt": "2026-09-25T00:13:32+09:00",
   "temperatureCelsius": 24,
   "apparentTemperatureCelsius": 26,
   "weatherCode": 2,
@@ -7,20 +7,8 @@
   "humidityPercent": 74,
   "windSpeedKmh": 8,
   "currentWaveHeightMeters": 0.32,
-  "todayMaxWaveHeightMeters": 0.48,
+  "todayMaxWaveHeightMeters": 0.38,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-24T23:00",
-      "timeLabel": "23時",
-      "weatherCode": 2,
-      "temperatureCelsius": 24,
-      "apparentTemperatureCelsius": 27,
-      "condition": "くもり",
-      "humidityPercent": 75,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 8
-    },
     {
       "id": "2026-09-25T00:00",
       "timeLabel": "0時",
@@ -296,19 +284,21 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 4
+    },
+    {
+      "id": "2026-09-25T23:00",
+      "timeLabel": "23時",
+      "weatherCode": 2,
+      "temperatureCelsius": 24,
+      "apparentTemperatureCelsius": 27,
+      "condition": "くもり",
+      "humidityPercent": 80,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 4
     }
   ],
   "weeklyForecast": [
-    {
-      "id": "2026-09-24",
-      "dateLabel": "9/24（木）",
-      "weatherCode": 2,
-      "minTemperatureCelsius": 23,
-      "maxTemperatureCelsius": 26,
-      "condition": "くもり",
-      "humidityPercent": 71,
-      "precipitationProbabilityPercent": 0
-    },
     {
       "id": "2026-09-25",
       "dateLabel": "9/25（金）",
@@ -367,6 +357,16 @@
       "maxTemperatureCelsius": 24,
       "condition": "小雨",
       "humidityPercent": 88,
+      "precipitationProbabilityPercent": 0
+    },
+    {
+      "id": "2026-10-01",
+      "dateLabel": "10/1（木）",
+      "weatherCode": 2,
+      "minTemperatureCelsius": 21,
+      "maxTemperatureCelsius": 23,
+      "condition": "くもり",
+      "humidityPercent": 61,
       "precipitationProbabilityPercent": 0
     }
   ]

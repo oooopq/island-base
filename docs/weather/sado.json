@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-24T23:57:48+09:00",
+  "updatedAt": "2026-09-25T00:13:32+09:00",
   "temperatureCelsius": 20,
   "apparentTemperatureCelsius": 22,
   "weatherCode": 2,
@@ -7,20 +7,8 @@
   "humidityPercent": 81,
   "windSpeedKmh": 5,
   "currentWaveHeightMeters": 0.32,
-  "todayMaxWaveHeightMeters": 0.58,
+  "todayMaxWaveHeightMeters": 0.8,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-24T23:00",
-      "timeLabel": "23時",
-      "weatherCode": 1,
-      "temperatureCelsius": 20,
-      "apparentTemperatureCelsius": 22,
-      "condition": "くもり",
-      "humidityPercent": 82,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 4
-    },
     {
       "id": "2026-09-25T00:00",
       "timeLabel": "0時",
@@ -296,19 +284,21 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 9
+    },
+    {
+      "id": "2026-09-25T23:00",
+      "timeLabel": "23時",
+      "weatherCode": 3,
+      "temperatureCelsius": 20,
+      "apparentTemperatureCelsius": 21,
+      "condition": "くもり",
+      "humidityPercent": 70,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 9
     }
   ],
   "weeklyForecast": [
-    {
-      "id": "2026-09-24",
-      "dateLabel": "9/24（木）",
-      "weatherCode": 55,
-      "minTemperatureCelsius": 20,
-      "maxTemperatureCelsius": 25,
-      "condition": "小雨",
-      "humidityPercent": 78,
-      "precipitationProbabilityPercent": 0
-    },
     {
       "id": "2026-09-25",
       "dateLabel": "9/25（金）",
@@ -367,6 +357,16 @@
       "maxTemperatureCelsius": 21,
       "condition": "雨",
       "humidityPercent": 95,
+      "precipitationProbabilityPercent": 0
+    },
+    {
+      "id": "2026-10-01",
+      "dateLabel": "10/1（木）",
+      "weatherCode": 61,
+      "minTemperatureCelsius": 17,
+      "maxTemperatureCelsius": 21,
+      "condition": "雨",
+      "humidityPercent": 84,
       "precipitationProbabilityPercent": 0
     }
   ]
