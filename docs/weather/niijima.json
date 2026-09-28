@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-09-29T06:52:38+09:00",
-  "temperatureCelsius": 25,
+  "updatedAt": "2026-09-29T08:21:14+09:00",
+  "temperatureCelsius": 26,
   "apparentTemperatureCelsius": 28,
-  "weatherCode": 1,
+  "weatherCode": 3,
   "condition": "くもり",
   "humidityPercent": 78,
   "windSpeedKmh": 16,
-  "currentWaveHeightMeters": 1.64,
+  "currentWaveHeightMeters": 1.6,
   "todayMaxWaveHeightMeters": 1.66,
   "todayHourlyForecast": [
-    {
-      "id": "2026-09-29T06:00",
-      "timeLabel": "6時",
-      "weatherCode": 2,
-      "temperatureCelsius": 25,
-      "apparentTemperatureCelsius": 28,
-      "condition": "くもり",
-      "humidityPercent": 78,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 16
-    },
-    {
-      "id": "2026-09-29T07:00",
-      "timeLabel": "7時",
-      "weatherCode": 1,
-      "temperatureCelsius": 25,
-      "apparentTemperatureCelsius": 28,
-      "condition": "くもり",
-      "humidityPercent": 78,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 16
-    },
     {
       "id": "2026-09-29T08:00",
       "timeLabel": "8時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.9,
       "windSpeedKmh": 30
+    },
+    {
+      "id": "2026-09-30T06:00",
+      "timeLabel": "6時",
+      "weatherCode": 61,
+      "temperatureCelsius": 22,
+      "apparentTemperatureCelsius": 21,
+      "condition": "雨",
+      "humidityPercent": 87,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 1.5,
+      "windSpeedKmh": 32
+    },
+    {
+      "id": "2026-09-30T07:00",
+      "timeLabel": "7時",
+      "weatherCode": 61,
+      "temperatureCelsius": 22,
+      "apparentTemperatureCelsius": 21,
+      "condition": "雨",
+      "humidityPercent": 87,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 1.5,
+      "windSpeedKmh": 32
     }
   ],
   "weeklyForecast": [
