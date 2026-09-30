@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-10-01T05:51:20+09:00",
+  "updatedAt": "2026-10-01T06:02:05+09:00",
   "temperatureCelsius": 22,
   "apparentTemperatureCelsius": 25,
   "weatherCode": 1,
   "condition": "くもり",
-  "humidityPercent": 85,
+  "humidityPercent": 86,
   "windSpeedKmh": 5,
   "currentWaveHeightMeters": 0.28,
   "todayMaxWaveHeightMeters": 0.58,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-01T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 1,
-      "temperatureCelsius": 22,
-      "apparentTemperatureCelsius": 25,
-      "condition": "くもり",
-      "humidityPercent": 81,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 4
-    },
     {
       "id": "2026-10-01T06:00",
       "timeLabel": "6時",
@@ -293,6 +281,18 @@
       "apparentTemperatureCelsius": 22,
       "condition": "晴れ",
       "humidityPercent": 58,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 11
+    },
+    {
+      "id": "2026-10-02T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 0,
+      "temperatureCelsius": 22,
+      "apparentTemperatureCelsius": 21,
+      "condition": "晴れ",
+      "humidityPercent": 59,
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 11
