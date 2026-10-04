@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-04T23:59:25+09:00",
+  "updatedAt": "2026-10-05T00:24:40+09:00",
   "temperatureCelsius": 22,
   "apparentTemperatureCelsius": 19,
   "weatherCode": 2,
@@ -7,20 +7,8 @@
   "humidityPercent": 79,
   "windSpeedKmh": 41,
   "currentWaveHeightMeters": 2.42,
-  "todayMaxWaveHeightMeters": 2.4,
+  "todayMaxWaveHeightMeters": 2.8,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-04T23:00",
-      "timeLabel": "23時",
-      "weatherCode": 2,
-      "temperatureCelsius": 22,
-      "apparentTemperatureCelsius": 19,
-      "condition": "くもり",
-      "humidityPercent": 77,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 41
-    },
     {
       "id": "2026-10-05T00:00",
       "timeLabel": "0時",
@@ -296,19 +284,21 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 35
+    },
+    {
+      "id": "2026-10-05T23:00",
+      "timeLabel": "23時",
+      "weatherCode": 0,
+      "temperatureCelsius": 23,
+      "apparentTemperatureCelsius": 22,
+      "condition": "晴れ",
+      "humidityPercent": 83,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 36
     }
   ],
   "weeklyForecast": [
-    {
-      "id": "2026-10-04",
-      "dateLabel": "10/4（日）",
-      "weatherCode": 2,
-      "minTemperatureCelsius": 22,
-      "maxTemperatureCelsius": 23,
-      "condition": "くもり",
-      "humidityPercent": 64,
-      "precipitationProbabilityPercent": 0
-    },
     {
       "id": "2026-10-05",
       "dateLabel": "10/5（月）",
@@ -363,6 +353,16 @@
       "id": "2026-10-10",
       "dateLabel": "10/10（土）",
       "weatherCode": 2,
+      "minTemperatureCelsius": 22,
+      "maxTemperatureCelsius": 24,
+      "condition": "くもり",
+      "humidityPercent": 77,
+      "precipitationProbabilityPercent": 0
+    },
+    {
+      "id": "2026-10-11",
+      "dateLabel": "10/11（日）",
+      "weatherCode": 1,
       "minTemperatureCelsius": 22,
       "maxTemperatureCelsius": 24,
       "condition": "くもり",

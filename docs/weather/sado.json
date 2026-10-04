@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-10-04T23:59:25+09:00",
+  "updatedAt": "2026-10-05T00:24:40+09:00",
   "temperatureCelsius": 19,
   "apparentTemperatureCelsius": 20,
   "weatherCode": 0,
   "condition": "晴れ",
-  "humidityPercent": 79,
+  "humidityPercent": 78,
   "windSpeedKmh": 6,
   "currentWaveHeightMeters": 0.58,
-  "todayMaxWaveHeightMeters": 0.94,
+  "todayMaxWaveHeightMeters": 0.58,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-04T23:00",
-      "timeLabel": "23時",
-      "weatherCode": 0,
-      "temperatureCelsius": 19,
-      "apparentTemperatureCelsius": 21,
-      "condition": "晴れ",
-      "humidityPercent": 78,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 4
-    },
     {
       "id": "2026-10-05T00:00",
       "timeLabel": "0時",
@@ -296,19 +284,21 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 9
+    },
+    {
+      "id": "2026-10-05T23:00",
+      "timeLabel": "23時",
+      "weatherCode": 1,
+      "temperatureCelsius": 22,
+      "apparentTemperatureCelsius": 23,
+      "condition": "くもり",
+      "humidityPercent": 78,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 10
     }
   ],
   "weeklyForecast": [
-    {
-      "id": "2026-10-04",
-      "dateLabel": "10/4（日）",
-      "weatherCode": 3,
-      "minTemperatureCelsius": 18,
-      "maxTemperatureCelsius": 20,
-      "condition": "くもり",
-      "humidityPercent": 69,
-      "precipitationProbabilityPercent": 0
-    },
     {
       "id": "2026-10-05",
       "dateLabel": "10/5（月）",
@@ -365,6 +355,16 @@
       "weatherCode": 51,
       "minTemperatureCelsius": 19,
       "maxTemperatureCelsius": 25,
+      "condition": "小雨",
+      "humidityPercent": 79,
+      "precipitationProbabilityPercent": 0
+    },
+    {
+      "id": "2026-10-11",
+      "dateLabel": "10/11（日）",
+      "weatherCode": 51,
+      "minTemperatureCelsius": 19,
+      "maxTemperatureCelsius": 23,
       "condition": "小雨",
       "humidityPercent": 79,
       "precipitationProbabilityPercent": 0
