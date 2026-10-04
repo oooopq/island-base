@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-10-05T04:41:37+09:00",
+  "updatedAt": "2026-10-05T06:19:31+09:00",
   "temperatureCelsius": 29,
   "apparentTemperatureCelsius": 33,
-  "weatherCode": 0,
-  "condition": "晴れ",
-  "humidityPercent": 75,
-  "windSpeedKmh": 14,
-  "currentWaveHeightMeters": 1.18,
+  "weatherCode": 1,
+  "condition": "くもり",
+  "humidityPercent": 74,
+  "windSpeedKmh": 13,
+  "currentWaveHeightMeters": 1.2,
   "todayMaxWaveHeightMeters": 1.96,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-05T04:00",
-      "timeLabel": "4時",
-      "weatherCode": 0,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 32,
-      "condition": "晴れ",
-      "humidityPercent": 75,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 15
-    },
-    {
-      "id": "2026-10-05T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 0,
-      "temperatureCelsius": 29,
-      "apparentTemperatureCelsius": 33,
-      "condition": "晴れ",
-      "humidityPercent": 74,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 14
-    },
     {
       "id": "2026-10-05T06:00",
       "timeLabel": "6時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 42
+    },
+    {
+      "id": "2026-10-06T04:00",
+      "timeLabel": "4時",
+      "weatherCode": 2,
+      "temperatureCelsius": 29,
+      "apparentTemperatureCelsius": 28,
+      "condition": "くもり",
+      "humidityPercent": 71,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 42
+    },
+    {
+      "id": "2026-10-06T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 2,
+      "temperatureCelsius": 29,
+      "apparentTemperatureCelsius": 28,
+      "condition": "くもり",
+      "humidityPercent": 70,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 44
     }
   ],
   "weeklyForecast": [
