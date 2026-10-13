@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-10-13T11:05:27+09:00",
-  "temperatureCelsius": 24,
-  "apparentTemperatureCelsius": 26,
-  "weatherCode": 2,
+  "updatedAt": "2026-10-13T12:39:13+09:00",
+  "temperatureCelsius": 27,
+  "apparentTemperatureCelsius": 29,
+  "weatherCode": 1,
   "condition": "くもり",
-  "humidityPercent": 84,
-  "windSpeedKmh": 11,
-  "currentWaveHeightMeters": 0.74,
+  "humidityPercent": 69,
+  "windSpeedKmh": 14,
+  "currentWaveHeightMeters": 0.76,
   "todayMaxWaveHeightMeters": 0.9,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-13T11:00",
-      "timeLabel": "11時",
-      "weatherCode": 51,
-      "temperatureCelsius": 24,
-      "apparentTemperatureCelsius": 26,
-      "condition": "小雨",
-      "humidityPercent": 84,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.1,
-      "windSpeedKmh": 11
-    },
     {
       "id": "2026-10-13T12:00",
       "timeLabel": "12時",
@@ -296,6 +284,18 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 15
+    },
+    {
+      "id": "2026-10-14T11:00",
+      "timeLabel": "11時",
+      "weatherCode": 0,
+      "temperatureCelsius": 22,
+      "apparentTemperatureCelsius": 21,
+      "condition": "晴れ",
+      "humidityPercent": 56,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 15
     }
   ],
   "weeklyForecast": [
@@ -342,11 +342,11 @@
     {
       "id": "2026-10-17",
       "dateLabel": "10/17（土）",
-      "weatherCode": 3,
+      "weatherCode": 2,
       "minTemperatureCelsius": 24,
-      "maxTemperatureCelsius": 24,
+      "maxTemperatureCelsius": 25,
       "condition": "くもり",
-      "humidityPercent": 61,
+      "humidityPercent": 65,
       "precipitationProbabilityPercent": 0
     },
     {
@@ -356,7 +356,7 @@
       "minTemperatureCelsius": 24,
       "maxTemperatureCelsius": 25,
       "condition": "小雨",
-      "humidityPercent": 79,
+      "humidityPercent": 81,
       "precipitationProbabilityPercent": 0
     },
     {
