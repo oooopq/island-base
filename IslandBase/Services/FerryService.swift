@@ -55,6 +55,9 @@ struct FerryService {
                     continue
                 }
 
+                // 実データは最大約27KB。5MBを超えるものは異常として扱う
+                guard data.count <= 5 * 1024 * 1024 else { continue }
+
                 let parsed = try await parseFeed(data: data, islandID: island.id, feed: feed)
                 anyFeedSucceeded = true
 

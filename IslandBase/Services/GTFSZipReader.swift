@@ -9,14 +9,25 @@ import Foundation
 import zlib
 
 enum GTFSZipReader {
+    static let maxEntryUncompressedBytes = 5 * 1024 * 1024
+    static let maxTotalUncompressedBytes = 20 * 1024 * 1024
+    static let maxEntryCount = 200
+
     static func extractTextFiles(from zipData: Data) throws -> [String: String] {
         var files: [String: String] = [:]
         var offset = 0
+        var entryCount = 0
+        var totalUncompressed = 0
         let bytes = [UInt8](zipData)
 
         while offset + 30 <= bytes.count {
             let signature = readUInt32(bytes, offset)
             guard signature == 0x0403_4b50 else { break }
+
+            entryCount += 1
+            if entryCount > maxEntryCount {
+                throw GTFSZipReaderError.archiveTooLarge("too many entries")
+            }
 
             let compressionMethod = readUInt16(bytes, offset + 8)
             let compressedSize = Int(readUInt32(bytes, offset + 18))
@@ -34,6 +45,19 @@ enum GTFSZipReader {
             guard dataEnd <= bytes.count else { break }
 
             if fileName.hasSuffix(".txt") {
+                if uncompressedSize > maxEntryUncompressedBytes {
+                    throw GTFSZipReaderError.archiveTooLarge(fileName)
+                }
+                if compressionMethod == 0, compressedSize > maxEntryUncompressedBytes {
+                    throw GTFSZipReaderError.archiveTooLarge(fileName)
+                }
+
+                let declaredSize = compressionMethod == 0 ? compressedSize : uncompressedSize
+                totalUncompressed += declaredSize
+                if totalUncompressed > maxTotalUncompressedBytes {
+                    throw GTFSZipReaderError.archiveTooLarge(fileName)
+                }
+
                 let compressed = Data(bytes[dataStart..<dataEnd])
                 let fileData: Data
 
@@ -77,6 +101,7 @@ enum GTFSZipReader {
 
     private static func inflateDeflate(_ data: Data, expectedSize: Int) -> Data? {
         guard expectedSize > 0 else { return Data() }
+        guard expectedSize <= GTFSZipReader.maxEntryUncompressedBytes else { return nil }
 
         var output = Data(count: expectedSize)
         let result: Int32 = data.withUnsafeBytes { inputBuffer in
@@ -110,4 +135,5 @@ enum GTFSZipReaderError: Error {
     case emptyArchive
     case decompressionFailed(String)
     case unsupportedCompression(String)
+    case archiveTooLarge(String)
 }

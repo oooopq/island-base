@@ -60,6 +60,11 @@ struct WeatherService {
             throw WeatherServiceError.badResponse
         }
 
+        // 実データは1島あたり約10KB
+        guard data.count <= 256 * 1024 else {
+            throw WeatherServiceError.badResponse
+        }
+
         let payload = try JSONDecoder().decode(WeatherCachePayload.self, from: data)
         guard let weather = payload.toWeatherInfo() else {
             throw WeatherServiceError.badResponse
@@ -115,6 +120,9 @@ private struct WeatherCachePayload: Decodable {
             return nil
         }
 
+        let hourly = Array(todayHourlyForecast.prefix(48))
+        let weekly = Array(weeklyForecast.prefix(14))
+
         return WeatherInfo(
             temperatureCelsius: temperatureCelsius,
             apparentTemperatureCelsius: apparentTemperatureCelsius,
@@ -124,8 +132,8 @@ private struct WeatherCachePayload: Decodable {
             windSpeedKmh: windSpeedKmh,
             currentWaveHeightMeters: currentWaveHeightMeters,
             todayMaxWaveHeightMeters: todayMaxWaveHeightMeters,
-            todayHourlyForecast: todayHourlyForecast,
-            weeklyForecast: weeklyForecast,
+            todayHourlyForecast: hourly,
+            weeklyForecast: weekly,
             fetchedAt: fetchedAt
         )
     }
