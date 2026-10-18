@@ -1,50 +1,14 @@
 {
-  "updatedAt": "2026-10-18T15:37:41+09:00",
-  "temperatureCelsius": 26,
+  "updatedAt": "2026-10-18T18:43:04+09:00",
+  "temperatureCelsius": 25,
   "apparentTemperatureCelsius": 28,
-  "weatherCode": 2,
+  "weatherCode": 3,
   "condition": "くもり",
-  "humidityPercent": 75,
-  "windSpeedKmh": 17,
+  "humidityPercent": 77,
+  "windSpeedKmh": 14,
   "currentWaveHeightMeters": 0.72,
   "todayMaxWaveHeightMeters": 0.96,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-18T15:00",
-      "timeLabel": "15時",
-      "weatherCode": 2,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 28,
-      "condition": "くもり",
-      "humidityPercent": 75,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 17
-    },
-    {
-      "id": "2026-10-18T16:00",
-      "timeLabel": "16時",
-      "weatherCode": 2,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 28,
-      "condition": "くもり",
-      "humidityPercent": 75,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 16
-    },
-    {
-      "id": "2026-10-18T17:00",
-      "timeLabel": "17時",
-      "weatherCode": 1,
-      "temperatureCelsius": 25,
-      "apparentTemperatureCelsius": 27,
-      "condition": "くもり",
-      "humidityPercent": 77,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 17
-    },
     {
       "id": "2026-10-18T18:00",
       "timeLabel": "18時",
@@ -296,6 +260,42 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 10
+    },
+    {
+      "id": "2026-10-19T15:00",
+      "timeLabel": "15時",
+      "weatherCode": 1,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 30,
+      "condition": "くもり",
+      "humidityPercent": 85,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 9
+    },
+    {
+      "id": "2026-10-19T16:00",
+      "timeLabel": "16時",
+      "weatherCode": 1,
+      "temperatureCelsius": 25,
+      "apparentTemperatureCelsius": 30,
+      "condition": "くもり",
+      "humidityPercent": 85,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 6
+    },
+    {
+      "id": "2026-10-19T17:00",
+      "timeLabel": "17時",
+      "weatherCode": 2,
+      "temperatureCelsius": 25,
+      "apparentTemperatureCelsius": 30,
+      "condition": "くもり",
+      "humidityPercent": 85,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 5
     }
   ],
   "weeklyForecast": [
@@ -336,7 +336,7 @@
       "minTemperatureCelsius": 20,
       "maxTemperatureCelsius": 25,
       "condition": "小雨",
-      "humidityPercent": 75,
+      "humidityPercent": 76,
       "precipitationProbabilityPercent": 0
     },
     {
@@ -344,29 +344,29 @@
       "dateLabel": "10/22（木）",
       "weatherCode": 0,
       "minTemperatureCelsius": 18,
-      "maxTemperatureCelsius": 21,
+      "maxTemperatureCelsius": 20,
       "condition": "晴れ",
-      "humidityPercent": 70,
+      "humidityPercent": 69,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-10-23",
       "dateLabel": "10/23（金）",
-      "weatherCode": 2,
+      "weatherCode": 51,
       "minTemperatureCelsius": 20,
-      "maxTemperatureCelsius": 24,
-      "condition": "くもり",
-      "humidityPercent": 75,
+      "maxTemperatureCelsius": 23,
+      "condition": "小雨",
+      "humidityPercent": 76,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-10-24",
       "dateLabel": "10/24（土）",
-      "weatherCode": 53,
-      "minTemperatureCelsius": 23,
-      "maxTemperatureCelsius": 24,
+      "weatherCode": 55,
+      "minTemperatureCelsius": 22,
+      "maxTemperatureCelsius": 25,
       "condition": "小雨",
-      "humidityPercent": 86,
+      "humidityPercent": 91,
       "precipitationProbabilityPercent": 0
     }
   ]
