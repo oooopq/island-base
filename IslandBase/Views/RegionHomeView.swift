@@ -300,7 +300,6 @@ private struct JapanRegionMarkerView: View {
 
     private let pinWidth: CGFloat = 22
     private let pinHeight: CGFloat = 30
-    private let pinStroke = Color(red: 0.70, green: 0.03, blue: 0.05)
 
     static func annotationAnchor(for region: IslandRegion, compact: Bool = false) -> UnitPoint {
         let canvas = markerCanvas(for: region, compact: compact)
@@ -351,29 +350,7 @@ private struct JapanRegionMarkerView: View {
             )
             .allowsHitTesting(false)
 
-            HomeMapPinShape()
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 1.00, green: 0.15, blue: 0.17),
-                            Color(red: 0.86, green: 0.02, blue: 0.04),
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
-                .overlay {
-                    HomeMapPinShape()
-                        .stroke(pinStroke, lineWidth: 1.2)
-                }
-                .overlay(alignment: .top) {
-                    Circle()
-                        .fill(Color.white)
-                        .frame(width: 9, height: 9)
-                        .padding(.top, 5)
-                }
-                .frame(width: pinWidth, height: pinHeight)
-                .shadow(color: .black.opacity(0.32), radius: 2, y: 1.5)
+            MapPinView(size: CGSize(width: pinWidth, height: pinHeight))
                 .position(x: tip.x, y: tip.y - pinHeight / 2)
                 .onTapGesture(perform: onSelect)
 
@@ -398,34 +375,6 @@ private struct JapanRegionMarkerView: View {
                     .strokeBorder(Color.black.opacity(0.14), lineWidth: 0.6)
             }
             .shadow(color: .black.opacity(0.16), radius: 1.5, y: 1)
-    }
-}
-
-/// アプリアイコン中央の赤いドロップ型ピン
-private struct HomeMapPinShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        let stemX = rect.midX
-        let circleSide = min(rect.width, rect.height * 0.64)
-        let circle = CGRect(
-            x: stemX - circleSide / 2,
-            y: rect.minY + 0.4,
-            width: circleSide,
-            height: circleSide
-        )
-
-        var path = Path()
-        path.addEllipse(in: circle)
-        path.move(to: CGPoint(x: circle.minX + circleSide * 0.16, y: circle.midY + circleSide * 0.18))
-        path.addQuadCurve(
-            to: CGPoint(x: stemX, y: rect.maxY),
-            control: CGPoint(x: circle.minX + circleSide * 0.12, y: circle.maxY + circleSide * 0.12)
-        )
-        path.addQuadCurve(
-            to: CGPoint(x: circle.maxX - circleSide * 0.16, y: circle.midY + circleSide * 0.18),
-            control: CGPoint(x: circle.maxX - circleSide * 0.12, y: circle.maxY + circleSide * 0.12)
-        )
-        path.closeSubpath()
-        return path
     }
 }
 

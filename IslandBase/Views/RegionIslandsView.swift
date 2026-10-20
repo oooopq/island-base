@@ -51,12 +51,13 @@ struct RegionIslandsView: View {
     private var regionMap: some View {
         Map(position: $cameraPosition, interactionModes: [.pan, .zoom]) {
             ForEach(islands) { island in
-                Annotation(island.primaryName(for: languageStore.mode), coordinate: island.coordinate) {
-                    Image(systemName: "mountain.2.fill")
-                        .font(.caption)
-                        .padding(6)
-                        .background(Circle().fill(palette.iconAccent.opacity(0.9)))
-                        .foregroundStyle(.white)
+                Annotation(
+                    island.primaryName(for: languageStore.mode),
+                    coordinate: island.coordinate,
+                    anchor: .bottom
+                ) {
+                    // ホーム地図のピン（22×30）の 75%
+                    MapPinView(size: CGSize(width: 16.5, height: 22.5))
                 }
             }
         }
