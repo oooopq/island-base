@@ -34,7 +34,7 @@ enum IslandUserLocationMapSupport {
         }
 
         ForEach(islandProfile?.ports ?? []) { port in
-            Annotation(port.name, coordinate: port.coordinate) {
+            Annotation(port.displayName(for: language), coordinate: port.coordinate) {
                 if let onPortTap {
                     Button {
                         onPortTap(port)
@@ -42,7 +42,7 @@ enum IslandUserLocationMapSupport {
                         portMarker(palette: palette)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityHint(AppText.centerMapOnPortHint(port.name).string(for: language))
+                    .accessibilityHint(AppText.centerMapOnPortHint(port.displayName(for: language)).string(for: language))
                 } else {
                     portMarker(palette: palette)
                 }

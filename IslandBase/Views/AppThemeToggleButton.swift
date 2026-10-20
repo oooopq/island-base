@@ -21,7 +21,7 @@ struct AppThemeToggleButton: View {
             )
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(themeStore.mode.accessibilityLabel)
+        .accessibilityLabel(languageStore.t(themeStore.mode.accessibilityText))
         .accessibilityHint(languageStore.t(.themeToggleHint))
     }
 }

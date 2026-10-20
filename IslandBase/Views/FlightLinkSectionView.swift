@@ -39,7 +39,7 @@ struct FlightLinkSectionView: View {
     @ViewBuilder
     private func airlineBlock(_ airline: FlightAirline) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(airline.name)
+            Text(airline.displayName(for: languageStore.mode))
                 .font(.subheadline)
                 .fontWeight(.semibold)
 

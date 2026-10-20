@@ -64,8 +64,16 @@ enum IslandCatalog {
         let regionNameJapanese: String
         let regionNameEnglish: String
         let credit: String
+        let creditEnglish: String?
 
         var id: String { islandID }
+
+        func credit(for language: AppLanguageMode) -> String {
+            if language.isJapanese {
+                return credit
+            }
+            return creditEnglish ?? credit
+        }
 
         func islandName(for language: AppLanguageMode) -> String {
             language.isJapanese ? islandNameJapanese : islandNameEnglish
@@ -89,7 +97,8 @@ enum IslandCatalog {
                         for: profile.regionID,
                         language: .english
                     ),
-                    credit: profile.backgroundCredit
+                    credit: profile.backgroundCredit,
+                    creditEnglish: profile.backgroundCreditEnglish
                 )
             }
             .sorted { lhs, rhs in
@@ -104,8 +113,41 @@ enum IslandCatalog {
         all.first { $0.matchesPlaceName(placeName) }?.id
     }
 
-    static func displayName(for islandID: String) -> String {
-        profile(for: islandID)?.island.nameJapanese ?? islandID
+    static func displayName(for islandID: String, language: AppLanguageMode = .japanese) -> String {
+        guard let island = profile(for: islandID)?.island else { return islandID }
+        return island.primaryName(for: language)
+    }
+
+    /// 日本語の港名から `IslandPort.nameEnglish` を引く。別表は持たない。無い名前はそのまま。
+    static func localizedPlaceName(_ japaneseName: String, language: AppLanguageMode) -> String {
+        guard language == .english else { return japaneseName }
+
+        if let port = all.lazy.compactMap({ profile in
+            profile.ports.first { $0.name == japaneseName }
+        }).first {
+            return port.displayName(for: language)
+        }
+
+        if let island = all.first(where: { $0.island.nameJapanese == japaneseName })?.island {
+            return island.primaryName(for: language)
+        }
+
+        if let endpoint = FlightEndpointCatalog.all.first(where: { $0.nameJapanese == japaneseName }) {
+            return endpoint.displayName(for: language)
+        }
+
+        return japaneseName
+    }
+
+    /// 「石垣港 → 竹富港」の各停を英語名にする。照合用の保存文字列は日本語のまま。
+    static func localizedRouteName(_ routeName: String, language: AppLanguageMode) -> String {
+        guard language == .english else { return routeName }
+        guard let route = FerryRouteHelper.parseRoute(routeName) else {
+            return localizedPlaceName(routeName, language: language)
+        }
+        let departure = localizedPlaceName(route.departure, language: language)
+        let arrival = localizedPlaceName(route.arrival, language: language)
+        return "\(departure) → \(arrival)"
     }
 
     static func port(for islandID: String) -> IslandPort? {
@@ -146,14 +188,14 @@ enum IslandCatalog {
             .sorted { $0.distanceMeters < $1.distanceMeters }
     }
 
-    static func ferryDataSourceNote(for islandID: String) -> String? {
+    static func ferryDataSourceNote(for islandID: String, language: AppLanguageMode = .japanese) -> String? {
         guard let regionID = profile(for: islandID)?.regionID else { return nil }
-        return IslandRegionCatalog.region(for: regionID)?.ferryDataSourceNote
+        return IslandRegionCatalog.region(for: regionID)?.ferryDataSourceNote(for: language)
     }
 
-    static func ferryValidUntilSuffix(for islandID: String) -> String? {
+    static func ferryValidUntilSuffix(for islandID: String, language: AppLanguageMode = .japanese) -> String? {
         guard let regionID = profile(for: islandID)?.regionID else { return nil }
-        return IslandRegionCatalog.region(for: regionID)?.ferryValidUntilSuffix
+        return IslandRegionCatalog.region(for: regionID)?.ferryValidUntilSuffix(for: language)
     }
 
     static func formattedDistance(_ meters: CLLocationDistance) -> String {
@@ -161,6 +203,14 @@ enum IslandCatalog {
             return "\(Int(meters.rounded()))m"
         }
         return String(format: "%.1fkm", meters / 1000)
+    }
+
+    /// 英語の距離文用。日本語の `formattedDistance`（「1.2km」）は変えない。
+    static func formattedDistanceEnglish(_ meters: CLLocationDistance) -> String {
+        if meters < 1000 {
+            return "\(Int(meters.rounded())) m"
+        }
+        return String(format: "%.1f km", meters / 1000)
     }
 
     private static let walkingSpeedMetersPerMinute: Double = 80
@@ -194,13 +244,25 @@ enum IslandCatalog {
         return "徒歩約\(hours)時間\(remainingMinutes)分"
     }
 
-    static func formattedPortAccess(from place: PlaceInfo, islandID: String) -> String? {
-        portAccessInfos(from: place.coordinate, islandID: islandID).first?.formattedLine
+    static func formattedPortAccess(
+        from place: PlaceInfo,
+        islandID: String,
+        language: AppLanguageMode = .japanese
+    ) -> String? {
+        portAccessInfos(from: place.coordinate, islandID: islandID, language: language)
+            .first?
+            .formattedLine(includeWalkingTime: true, language: language)
     }
 
     // 現在地から各港までの距離・徒歩時間（港名・方角付き）
-    static func formattedPortAccess(from coordinate: CLLocationCoordinate2D, islandID: String) -> String? {
-        let lines = portAccessInfos(from: coordinate, islandID: islandID).map(\.formattedLine)
+    static func formattedPortAccess(
+        from coordinate: CLLocationCoordinate2D,
+        islandID: String,
+        language: AppLanguageMode = .japanese
+    ) -> String? {
+        let lines = portAccessInfos(from: coordinate, islandID: islandID, language: language).map {
+            $0.formattedLine(includeWalkingTime: true, language: language)
+        }
         guard lines.isEmpty == false else { return nil }
         return lines.joined(separator: " / ")
     }

@@ -43,10 +43,15 @@ struct PlacesSectionView: View {
 
         let ports = IslandCatalog.ports(for: island.id)
         guard ports.isEmpty == false else { return nil }
+        let separator = languageStore.mode.isJapanese ? "・" : ", "
         if ports.count <= 1, let port = ports.first {
-            return languageStore.t(.portDistanceSingle(port.name))
+            return languageStore.t(.portDistanceSingle(
+                port.displayName(for: languageStore.mode, includesJapaneseName: true)
+            ))
         }
-        let names = ports.map(\.name).joined(separator: "・")
+        let names = ports
+            .map { $0.displayName(for: languageStore.mode, includesJapaneseName: true) }
+            .joined(separator: separator)
         return languageStore.t(.portDistanceMultiple(names))
     }
 
@@ -65,6 +70,12 @@ struct PlacesSectionView: View {
             if let distanceCaption {
                 Text(distanceCaption)
                     .font(.caption)
+                    .detailCardSecondaryText()
+            }
+
+            if languageStore.mode == .english {
+                Text(languageStore.t(.appleMapsPlaceNamesMayBeJapanese))
+                    .font(.caption2)
                     .detailCardSecondaryText()
             }
 
@@ -224,7 +235,7 @@ struct PlacesSectionView: View {
                 )
             )
         }
-        return IslandCatalog.formattedPortAccess(from: place, islandID: island.id)
+        return IslandCatalog.formattedPortAccess(from: place, islandID: island.id, language: languageStore.mode)
     }
 
     private func iconName(for categoryLabel: String) -> String {

@@ -38,7 +38,7 @@ struct ScheduleStatusBannerView: View {
     @ViewBuilder
     private func sourceLinks(_ source: ScheduleStatusSource) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(source.name)
+            Text(source.displayName(for: languageStore.mode))
                 .font(.caption)
                 .fontWeight(.semibold)
 

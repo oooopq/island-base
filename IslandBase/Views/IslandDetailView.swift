@@ -200,7 +200,7 @@ struct IslandDetailView: View {
                 VStack(spacing: 16) {
                     selectedSectionContent
 
-                    Text(islandProfile?.backgroundCredit ?? "")
+                    Text(islandProfile?.backgroundCredit(for: languageStore.mode) ?? "")
                         .font(.caption2)
                         .foregroundStyle(palette.captionOnPhoto)
                         .frame(maxWidth: .infinity, alignment: .trailing)

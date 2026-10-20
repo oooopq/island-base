@@ -32,10 +32,11 @@ enum AppThemeMode: String, CaseIterable {
         }
     }
 
-    var accessibilityLabel: String {
+    /// VoiceOver は AppText 経由（日本語モードの文言は従来と同じ）
+    var accessibilityText: AppText {
         switch self {
-        case .dark: return "ライトモードに切り替え"
-        case .light: return "ダークモードに切り替え"
+        case .dark: return .switchToLightMode
+        case .light: return .switchToDarkMode
         }
     }
 }

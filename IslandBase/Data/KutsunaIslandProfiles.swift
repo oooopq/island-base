@@ -30,6 +30,7 @@ enum KutsunaIslandProfiles {
     private static func nakajimaKisen(ehimePageID: String) -> FerryCompany {
         FerryCompany(
             name: "中島汽船",
+            nameEnglish: "Nakajima Kisen",
             websiteURL: "https://www.pref.ehime.jp/site/chuyo/\(ehimePageID).html",
             phoneNumber: nakajimaKisenPhoneNumber
         )
@@ -45,6 +46,7 @@ enum KutsunaIslandProfiles {
 
     private static let gogoshimaFerry = FerryCompany(
         name: "株式会社ごごしま",
+        nameEnglish: "Gogoshima Co., Ltd.",
         websiteURL: "https://gogoshima-ferry.com/",
         phoneNumber: "089-961-2034",
         statusPageURL: "https://gogoshima-ferry.com/information",
@@ -74,6 +76,11 @@ enum KutsunaIslandProfiles {
         "Photo: 松山市　まちづくり推進課（\(islandName)）"
     }
 
+    /// 松山市公式サイトに部署の英語名は見当たらないため、指定の英語表記を使う。
+    private static func matsuyamaMachizukuriCreditEnglish(_ islandName: String) -> String {
+        "Photo: Matsuyama City, Community Development Division (\(islandName))"
+    }
+
     // MARK: - 中島
 
     private static let nakajima = IslandProfile(
@@ -86,13 +93,24 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "大浦港", latitude: 33.973066, longitude: 132.630130),
-            IslandPort(name: "神浦港", latitude: 33.949661, longitude: 132.603977),
-            IslandPort(name: "西中港", latitude: 33.984307, longitude: 132.604786),
+            IslandPort(name: "大浦港", nameEnglish: "Oura Port", latitude: 33.973066, longitude: 132.630130),
+            IslandPort(name: "神浦港", nameEnglish: "Konoura Port", latitude: 33.949661, longitude: 132.603977),
+            IslandPort(name: "西中港", nameEnglish: "Nishinaka Port", latitude: 33.984307, longitude: 132.604786),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNakajima",
-        backgroundCredit: "Photo: melvil / Wikimedia Commons（中島・網明海岸）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: melvil / Wikimedia Commons",
+            place: "中島・網明海岸",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: melvil / Wikimedia Commons",
+            place: "Nakajima, Amiake Coast",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 5_000,
         onIslandRadiusMeters: 10_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -150,12 +168,23 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "由良港", latitude: 33.902807, longitude: 132.681645),
-            IslandPort(name: "泊港", latitude: 33.882132, longitude: 132.680514),
+            IslandPort(name: "由良港", nameEnglish: "Yura Port", latitude: 33.902807, longitude: 132.681645),
+            IslandPort(name: "泊港", nameEnglish: "Tomari Port", latitude: 33.882132, longitude: 132.680514),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgGogoshima",
-        backgroundCredit: "Photo: Reggaeman / Wikimedia Commons（興居島）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Reggaeman / Wikimedia Commons",
+            place: "興居島",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Reggaeman / Wikimedia Commons",
+            place: "Gogoshima",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 2_000,
         onIslandRadiusMeters: 6_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -203,11 +232,22 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "睦月港", latitude: 33.956442, longitude: 132.665515),
+            IslandPort(name: "睦月港", nameEnglish: "Mutsuki Port", latitude: 33.956442, longitude: 132.665515),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgMuzukijima",
-        backgroundCredit: "Photo: melvil / Wikimedia Commons（睦月島）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: melvil / Wikimedia Commons",
+            place: "睦月島",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: melvil / Wikimedia Commons",
+            place: "Muzukijima",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 2_000,
         onIslandRadiusMeters: 5_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -250,11 +290,12 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "野忽那港", latitude: 33.975424, longitude: 132.688247),
+            IslandPort(name: "野忽那港", nameEnglish: "Nogutsuna Port", latitude: 33.975424, longitude: 132.688247),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNogutsunajima",
         backgroundCredit: matsuyamaMachizukuriCredit("野忽那島"),
+        backgroundCreditEnglish: matsuyamaMachizukuriCreditEnglish("Nogutsunajima"),
         placeSearchRadiusMeters: 2_000,
         onIslandRadiusMeters: 4_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -297,12 +338,13 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "上怒和港", latitude: 33.986633, longitude: 132.557480),
-            IslandPort(name: "元怒和港", latitude: 33.974775, longitude: 132.540551),
+            IslandPort(name: "上怒和港", nameEnglish: "Kaminuwa Port", latitude: 33.986633, longitude: 132.557480),
+            IslandPort(name: "元怒和港", nameEnglish: "Motonuwa Port", latitude: 33.974775, longitude: 132.540551),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNuwajima",
         backgroundCredit: matsuyamaMachizukuriCredit("怒和島"),
+        backgroundCreditEnglish: matsuyamaMachizukuriCreditEnglish("Nuwajima"),
         placeSearchRadiusMeters: 2_500,
         onIslandRadiusMeters: 5_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -345,11 +387,12 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "津和地港", latitude: 33.983116, longitude: 132.516270),
+            IslandPort(name: "津和地港", nameEnglish: "Tsuwaji Port", latitude: 33.983116, longitude: 132.516270),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgTsuwajishima",
         backgroundCredit: matsuyamaMachizukuriCredit("津和地島"),
+        backgroundCreditEnglish: matsuyamaMachizukuriCreditEnglish("Tsuwajishima"),
         placeSearchRadiusMeters: 2_000,
         onIslandRadiusMeters: 4_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -392,11 +435,18 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "二神港", latitude: 33.933428, longitude: 132.537155),
+            IslandPort(name: "二神港", nameEnglish: "Futagami Port", latitude: 33.933428, longitude: 132.537155),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgFutagamijima",
-        backgroundCredit: "Photo: Tomoyuki Shidara（二神島）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "二神島"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "Futagamijima"
+        ),
         placeSearchRadiusMeters: 2_000,
         onIslandRadiusMeters: 3_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
@@ -439,11 +489,22 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "釣島港", latitude: 33.894317, longitude: 132.639913),
+            IslandPort(name: "釣島港", nameEnglish: "Tsurushima Port", latitude: 33.894317, longitude: 132.639913),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgTsurushima",
-        backgroundCredit: "Photo: Ka23 13 / Wikimedia Commons（釣島）／CC BY 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Ka23 13 / Wikimedia Commons",
+            place: "釣島",
+            license: "CC BY 4.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Ka23 13 / Wikimedia Commons",
+            place: "Tsurushima",
+            license: "CC BY 4.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 2_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
         placeAddressAnyTokens: ["釣島"],
@@ -479,11 +540,12 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "安居島港", latitude: 34.068059, longitude: 132.705669),
+            IslandPort(name: "安居島港", nameEnglish: "Aijima Port", latitude: 34.068059, longitude: 132.705669),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgAijima",
         backgroundCredit: matsuyamaMachizukuriCredit("安居島"),
+        backgroundCreditEnglish: matsuyamaMachizukuriCreditEnglish("Aijima"),
         placeSearchRadiusMeters: 2_000,
         placeAddressRequiredTokens: ehimeMatsuyamaRequired,
         placeAddressAnyTokens: ["安居島"],

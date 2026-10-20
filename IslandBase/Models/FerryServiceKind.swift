@@ -56,8 +56,8 @@ enum FerryServiceKind: String, Codable, CaseIterable {
         }
     }
 
-    var shortLabel: String {
-        "\(titleJapanese) / \(titleEnglish)"
+    func shortLabel(for language: AppLanguageMode) -> String {
+        title(for: language)
     }
 
     func title(for language: AppLanguageMode) -> String {

@@ -25,6 +25,7 @@ enum YaeyamaIslandProfiles {
 
     private static let yaeyamaFerry = FerryCompany(
         name: "株式会社八重山観光フェリー",
+        nameEnglish: "Yaeyama Kanko Ferry",
         websiteURL: "https://yaeyama.co.jp/",
         phoneNumber: "0570-013-007",
         statusPageURL: "https://yaeyama.co.jp/operation.html"
@@ -32,6 +33,7 @@ enum YaeyamaIslandProfiles {
 
     private static let aneiKanko = FerryCompany(
         name: "安栄観光株式会社",
+        nameEnglish: "Anei Kanko Co., Ltd.",
         websiteURL: "https://aneikankou.co.jp/",
         phoneNumber: "0980-83-0055",
         statusPageURL: "https://aneikankou.co.jp/condition"
@@ -39,6 +41,7 @@ enum YaeyamaIslandProfiles {
 
     private static let fukuyamaKaiun = FerryCompany(
         name: "福山海運株式会社",
+        nameEnglish: "Fukuyama Kaiun Co., Ltd.",
         websiteURL: "https://www.yonakuni-ferry.com/",
         phoneNumber: "0980-87-2555",
         statusPageURL: "https://www.yonakuni-ferry.com/"
@@ -46,6 +49,7 @@ enum YaeyamaIslandProfiles {
 
     private static let irimoteJyosen = FerryCompany(
         name: "西表島交通株式会社",
+        nameEnglish: "Iriomotejima Kotsu Co., Ltd.",
         websiteURL: "https://yubujima.com/",
         phoneNumber: "0980-85-5601",
         statusPageURL: "https://yubujima.com/"
@@ -53,6 +57,7 @@ enum YaeyamaIslandProfiles {
 
     private static let rac = FlightAirline(
         name: "琉球エアコミューター（JALグループ）",
+        nameEnglish: "Ryukyu Air Commuter (JAL Group)",
         websiteURL: "https://www.jal.co.jp/dom/",
         phoneNumber: "0570-025-031",
         statusPageURL: "https://www.jal.co.jp/jp/ja/flight-status/dom/"
@@ -74,10 +79,17 @@ enum YaeyamaIslandProfiles {
     private static let ishigaki = IslandProfile(
         island: Island(id: "ishigaki", nameJapanese: "石垣島", nameEnglish: "Ishigaki", latitude: 24.432805, longitude: 124.205319),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "石垣港", latitude: 24.337193, longitude: 124.155485)],
+        ports: [IslandPort(name: "石垣港", nameEnglish: "Ishigaki Port", latitude: 24.337193, longitude: 124.155485)],
         jmaMarineForecastArea: .okinawaSouth,
         backgroundAssetName: "IslandBgIshigaki",
-        backgroundCredit: "Photo: Roméo A. / Unsplash（石垣島・川平湾）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Roméo A. / Unsplash",
+            place: "石垣島・川平湾"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Roméo A. / Unsplash",
+            place: "Ishigaki, Kabira Bay"
+        ),
         placeSearchRadiusMeters: 18_000,
         routeKeywords: ["石垣"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry, FerryGTFSFeedCatalog.fukuyama],
@@ -113,10 +125,17 @@ enum YaeyamaIslandProfiles {
     private static let taketomi = IslandProfile(
         island: Island(id: "taketomi", nameJapanese: "竹富島", nameEnglish: "Taketomi", latitude: 24.325064, longitude: 124.088064),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "竹富港", latitude: 24.335000, longitude: 124.095556)],
+        ports: [IslandPort(name: "竹富港", nameEnglish: "Taketomi Port", latitude: 24.335000, longitude: 124.095556)],
         jmaMarineForecastArea: .okinawaSouth,
         backgroundAssetName: "IslandBgTaketomi",
-        backgroundCredit: "Photo: Hiroko Yoshii / Unsplash（竹富島）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Hiroko Yoshii / Unsplash",
+            place: "竹富島"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Hiroko Yoshii / Unsplash",
+            place: "Taketomi"
+        ),
         placeSearchRadiusMeters: 6_000,
         routeKeywords: ["竹富"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
@@ -146,10 +165,21 @@ enum YaeyamaIslandProfiles {
         island: Island(id: "kohama", nameJapanese: "小浜島", nameEnglish: "Kohama", latitude: 24.341111, longitude: 123.980833),
         regionID: "yaeyama",
         // 港座標: 海上保安庁「八重山列島の港」小浜（地方港湾）24°20′42″N 123°59′35″E。細崎漁港ではない
-        ports: [IslandPort(name: "小浜港", latitude: 24.345000, longitude: 123.993056)],
+        ports: [IslandPort(name: "小浜港", nameEnglish: "Kohama Port", latitude: 24.345000, longitude: 123.993056)],
         jmaMarineForecastArea: .okinawaSouth,
         backgroundAssetName: "IslandBgKohama",
-        backgroundCredit: "Photo: Paipateroma / Wikimedia Commons（小浜島・トゥマールビーチ）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Paipateroma / Wikimedia Commons",
+            place: "小浜島・トゥマールビーチ",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Paipateroma / Wikimedia Commons",
+            place: "Kohama, Tumaru Beach",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 6_000,
         routeKeywords: ["小浜"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
@@ -183,10 +213,17 @@ enum YaeyamaIslandProfiles {
     private static let kuroshima = IslandProfile(
         island: Island(id: "kuroshima", nameJapanese: "黒島", nameEnglish: "Kuroshima", latitude: 24.237716, longitude: 124.010266),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "黒島港", latitude: 24.254167, longitude: 124.000889)],
+        ports: [IslandPort(name: "黒島港", nameEnglish: "Kuroshima Port", latitude: 24.254167, longitude: 124.000889)],
         jmaMarineForecastArea: .okinawaSouth,
         backgroundAssetName: "IslandBgKuroshima",
-        backgroundCredit: "Photo: Tomoyuki Shidara（黒島）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "黒島"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "Kuroshima"
+        ),
         placeSearchRadiusMeters: 6_000,
         routeKeywords: ["黒島"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
@@ -215,10 +252,17 @@ enum YaeyamaIslandProfiles {
     private static let hateruma = IslandProfile(
         island: Island(id: "hateruma", nameJapanese: "波照間島", nameEnglish: "Hateruma", latitude: 24.058487, longitude: 123.782328),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "波照間港", latitude: 24.067778, longitude: 123.766111)],
+        ports: [IslandPort(name: "波照間港", nameEnglish: "Hateruma Port", latitude: 24.067778, longitude: 123.766111)],
         jmaMarineForecastArea: .okinawaSouth,
         backgroundAssetName: "IslandBgHateruma",
-        backgroundCredit: "Photo: Tomoyuki Shidara（波照間島・西浜）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "波照間島・西浜"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "Hateruma, Nishihama"
+        ),
         placeSearchRadiusMeters: 10_000,
         routeKeywords: ["波照間"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
@@ -248,12 +292,19 @@ enum YaeyamaIslandProfiles {
         island: Island(id: "iriomote", nameJapanese: "西表島", nameEnglish: "Iriomote", latitude: 24.335989, longitude: 123.814737),
         regionID: "yaeyama",
         ports: [
-            IslandPort(name: "大原港", latitude: 24.271895, longitude: 123.884104),
-            IslandPort(name: "上原港", latitude: 24.417955, longitude: 123.799790),
+            IslandPort(name: "大原港", nameEnglish: "Ohara Port", latitude: 24.271895, longitude: 123.884104),
+            IslandPort(name: "上原港", nameEnglish: "Uehara Port", latitude: 24.417955, longitude: 123.799790),
         ],
         jmaMarineForecastArea: .okinawaSouth,
         backgroundAssetName: "IslandBgIriomote",
-        backgroundCredit: "Photo: Wataru Sato / Unsplash（西表島）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Wataru Sato / Unsplash",
+            place: "西表島"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Wataru Sato / Unsplash",
+            place: "Iriomote"
+        ),
         placeSearchRadiusMeters: 18_000,
         routeKeywords: ["大原", "上原", "西表", "由布"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
@@ -292,10 +343,21 @@ enum YaeyamaIslandProfiles {
         island: Island(id: "hatoma", nameJapanese: "鳩間島", nameEnglish: "Hatoma", latitude: 24.472156, longitude: 123.820048),
         regionID: "yaeyama",
         // 港座標: 海上保安庁「八重山列島の港」鳩間（地方港湾）24°28′03″N 123°49′16″E。島の南側
-        ports: [IslandPort(name: "鳩間港", latitude: 24.467500, longitude: 123.821111)],
+        ports: [IslandPort(name: "鳩間港", nameEnglish: "Hatoma Port", latitude: 24.467500, longitude: 123.821111)],
         jmaMarineForecastArea: .okinawaSouth,
         backgroundAssetName: "IslandBgHatoma",
-        backgroundCredit: "Photo: Paipateroma / Wikimedia Commons（鳩間島・前の浜）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Paipateroma / Wikimedia Commons",
+            place: "鳩間島・前の浜",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Paipateroma / Wikimedia Commons",
+            place: "Hatoma, Mae-no-hama",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 3_000,
         routeKeywords: ["鳩間"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],
@@ -329,10 +391,21 @@ enum YaeyamaIslandProfiles {
     private static let yonaguni = IslandProfile(
         island: Island(id: "yonaguni", nameJapanese: "与那国島", nameEnglish: "Yonaguni", latitude: 24.455366, longitude: 122.988942),
         regionID: "yaeyama",
-        ports: [IslandPort(name: "与那国港", latitude: 24.451944, longitude: 122.940000)],
+        ports: [IslandPort(name: "与那国港", nameEnglish: "Yonaguni Port", latitude: 24.451944, longitude: 122.940000)],
         jmaMarineForecastArea: .eastChinaSouth, // 与那国港付近は JMA 細分海域ポリゴン外のため 6010（東シナ海南部）
         backgroundAssetName: "IslandBgYonaguni",
-        backgroundCredit: "Photo: Metatron / Wikimedia Commons（与那国島・東崎）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Metatron / Wikimedia Commons",
+            place: "与那国島・東崎",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Metatron / Wikimedia Commons",
+            place: "Yonaguni, Agarizaki",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 10_000,
         routeKeywords: ["与那国"],
         ferryGTFSFeeds: [FerryGTFSFeedCatalog.fukuyama, FerryGTFSFeedCatalog.anei, FerryGTFSFeedCatalog.yaeyamaFerry],

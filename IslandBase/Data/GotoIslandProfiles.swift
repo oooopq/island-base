@@ -21,6 +21,7 @@ enum GotoIslandProfiles {
 
     private static let gotoRyokyakusen = FerryCompany(
         name: "五島旅客船株式会社",
+        nameEnglish: "Goto Passenger Ship",
         websiteURL: "https://goto-ryokyakusen.com/guide/",
         phoneNumber: "0959-72-8151",
         statusPageURL: "https://goto-ryokyakusen.com/",
@@ -29,6 +30,7 @@ enum GotoIslandProfiles {
 
     private static let kiguchiKisen = FerryCompany(
         name: "木口汽船",
+        nameEnglish: "Kiguchi Kisen",
         websiteURL: "https://www.kiguchi-kisen.jp/",
         phoneNumber: "0959-73-0003",
         statusPageURL: "https://www.kiguchi-kisen.jp/",
@@ -37,6 +39,7 @@ enum GotoIslandProfiles {
 
     private static let kyushuShosen = FerryCompany(
         name: "九州商船株式会社",
+        nameEnglish: "Kyushu Shosen Co., Ltd.",
         websiteURL: "https://kyusho.co.jp/schedule",
         phoneNumber: "095-822-0101",
         statusPageURL: "https://kyusho.co.jp/status",
@@ -45,6 +48,7 @@ enum GotoIslandProfiles {
 
     private static let ana = FlightAirline(
         name: "全日本空輸（ANA）",
+        nameEnglish: "All Nippon Airways (ANA)",
         websiteURL: "https://www.ana.co.jp/",
         phoneNumber: "0570-029-222",
         statusPageURL: "https://www.ana.co.jp/fs/dom/jp/"
@@ -70,12 +74,23 @@ enum GotoIslandProfiles {
         ),
         regionID: "goto",
         ports: [
-            IslandPort(name: "福江港", latitude: 32.696764, longitude: 128.852276),
-            IslandPort(name: "奥浦港", latitude: 32.744615, longitude: 128.825669),
+            IslandPort(name: "福江港", nameEnglish: "Fukue Port", latitude: 32.696764, longitude: 128.852276),
+            IslandPort(name: "奥浦港", nameEnglish: "Okuura Port", latitude: 32.744615, longitude: 128.825669),
         ],
         jmaMarineForecastArea: .nagasakiWest,
         backgroundAssetName: "IslandBgFukue",
-        backgroundCredit: "Photo: Hiroaki Kaneko / Wikimedia Commons（堂崎天主堂）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Hiroaki Kaneko / Wikimedia Commons",
+            place: "堂崎天主堂",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Hiroaki Kaneko / Wikimedia Commons",
+            place: "Dozaki Church",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 20_000,
         routeKeywords: ["福江", "五島", "福江島"],
         ferryGTFSFeeds: [],
@@ -124,11 +139,22 @@ enum GotoIslandProfiles {
         ),
         regionID: "goto",
         ports: [
-            IslandPort(name: "田ノ浦港", latitude: 32.781865, longitude: 128.841986),
+            IslandPort(name: "田ノ浦港", nameEnglish: "Tanoura Port", latitude: 32.781865, longitude: 128.841986),
         ],
         jmaMarineForecastArea: .nagasakiWest,
         backgroundAssetName: "IslandBgHisaka",
-        backgroundCredit: "Photo: Marine-Blue / Wikimedia Commons（旧五輪教会）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Marine-Blue / Wikimedia Commons",
+            place: "旧五輪教会",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Marine-Blue / Wikimedia Commons",
+            place: "Former Gorin Church",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 8_000,
         routeKeywords: ["久賀", "久賀島", "田ノ浦"],
         ferryGTFSFeeds: [],
@@ -169,11 +195,22 @@ enum GotoIslandProfiles {
         ),
         regionID: "goto",
         ports: [
-            IslandPort(name: "奈留港", latitude: 32.822013, longitude: 128.938960),
+            IslandPort(name: "奈留港", nameEnglish: "Naru Port", latitude: 32.822013, longitude: 128.938960),
         ],
         jmaMarineForecastArea: .nagasakiWest,
         backgroundAssetName: "IslandBgNaru",
-        backgroundCredit: "Photo: Indiana jo / Wikimedia Commons（江上天主堂）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Indiana jo / Wikimedia Commons",
+            place: "江上天主堂",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Indiana jo / Wikimedia Commons",
+            place: "Egami Church",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 8_000,
         routeKeywords: ["奈留", "奈留島"],
         ferryGTFSFeeds: [],
@@ -214,12 +251,23 @@ enum GotoIslandProfiles {
         ),
         regionID: "goto",
         ports: [
-            IslandPort(name: "若松港", latitude: 32.898159, longitude: 128.999510),
-            IslandPort(name: "土井浦港", latitude: 32.864775, longitude: 129.018491),
+            IslandPort(name: "若松港", nameEnglish: "Wakamatsu Port", latitude: 32.898159, longitude: 128.999510),
+            IslandPort(name: "土井浦港", nameEnglish: "Doinoura Port", latitude: 32.864775, longitude: 129.018491),
         ],
         jmaMarineForecastArea: .nagasakiWest,
         backgroundAssetName: "IslandBgWakamatsu",
-        backgroundCredit: "Photo: Ebizur / Wikimedia Commons（若松大橋）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Ebizur / Wikimedia Commons",
+            place: "若松大橋",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Ebizur / Wikimedia Commons",
+            place: "Wakamatsu Bridge",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 8_000,
         routeKeywords: ["若松", "若松島", "土井浦"],
         ferryGTFSFeeds: [],
@@ -259,12 +307,23 @@ enum GotoIslandProfiles {
         ),
         regionID: "goto",
         ports: [
-            IslandPort(name: "郷ノ首港", latitude: 32.925658, longitude: 129.037458),
-            IslandPort(name: "奈良尾港", latitude: 32.846167, longitude: 129.061428),
+            IslandPort(name: "郷ノ首港", nameEnglish: "Gonokubi Port", latitude: 32.925658, longitude: 129.037458),
+            IslandPort(name: "奈良尾港", nameEnglish: "Narao Port", latitude: 32.846167, longitude: 129.061428),
         ],
         jmaMarineForecastArea: .nagasakiWest,
         backgroundAssetName: "IslandBgNakadori",
-        backgroundCredit: "Photo: Sapphire123 / Wikimedia Commons（青砂ヶ浦教会）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Sapphire123 / Wikimedia Commons",
+            place: "青砂ヶ浦教会",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Sapphire123 / Wikimedia Commons",
+            place: "Aosagaura Church",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 15_000,
         routeKeywords: ["中通", "中通島", "郷ノ首", "奈良尾", "新上五島"],
         ferryGTFSFeeds: [],

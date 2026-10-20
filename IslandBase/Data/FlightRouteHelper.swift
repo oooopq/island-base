@@ -66,11 +66,11 @@ enum FlightRouteHelper {
             .map { FlightDestination(id: $0, nameJapanese: displayName(for: $0)) }
     }
 
-    static func displayName(for endpointID: String) -> String {
-        if let islandName = IslandCatalog.profile(for: endpointID)?.island.nameJapanese {
-            return islandName
+    static func displayName(for endpointID: String, language: AppLanguageMode = .japanese) -> String {
+        if let island = IslandCatalog.profile(for: endpointID)?.island {
+            return island.primaryName(for: language)
         }
-        if let externalName = FlightEndpointCatalog.displayName(for: endpointID) {
+        if let externalName = FlightEndpointCatalog.displayName(for: endpointID, language: language) {
             return externalName
         }
         return endpointID

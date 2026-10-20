@@ -88,7 +88,8 @@ struct FerryScheduleSectionView: View {
         let nextDepartures = NextDepartureHelper.nextFerryDepartures(
             from: schedules,
             islandID: island.id,
-            destinationID: selectedDestinationID
+            destinationID: selectedDestinationID,
+            language: languageStore.mode
         )
 
         let totalTrips = schedules.reduce(0) { $0 + $1.trips.count }
@@ -125,7 +126,7 @@ struct FerryScheduleSectionView: View {
         }
 
         if let validUntilText {
-            let suffix = IslandCatalog.ferryValidUntilSuffix(for: island.id) ?? ""
+            let suffix = IslandCatalog.ferryValidUntilSuffix(for: island.id, language: languageStore.mode) ?? ""
             Text(languageStore.t(.dataValidUntil("\(validUntilText)\(suffix)")))
                 .font(.caption)
                 .detailCardSecondaryText()
@@ -135,7 +136,7 @@ struct FerryScheduleSectionView: View {
             Text(cacheText)
                 .font(.caption)
                 .detailCardSecondaryText()
-        } else if let sourceNote = IslandCatalog.ferryDataSourceNote(for: island.id) {
+        } else if let sourceNote = IslandCatalog.ferryDataSourceNote(for: island.id, language: languageStore.mode) {
             Text(sourceNote)
                 .font(.caption)
                 .detailCardSecondaryText()
@@ -160,7 +161,7 @@ struct FerryScheduleSectionView: View {
 
                     ForEach(destinations) { destination in
                         destinationChip(
-                            title: destination.nameJapanese,
+                            title: IslandCatalog.displayName(for: destination.id, language: languageStore.mode),
                             isSelected: selectedDestinationID == destination.id
                         ) {
                             selectedDestinationID = destination.id
@@ -219,7 +220,7 @@ struct FerryScheduleSectionView: View {
                 FerryServiceKindHeaderView(serviceKind: serviceKind)
             }
 
-            Text(schedule.company.name)
+            Text(schedule.company.displayName(for: languageStore.mode))
                 .font(.subheadline)
                 .fontWeight(.semibold)
 
@@ -245,11 +246,11 @@ struct FerryScheduleSectionView: View {
         if let route = FerryRouteHelper.parseRoute(trip.routeName) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 6) {
-                    Text(route.departure)
+                    Text(IslandCatalog.localizedPlaceName(route.departure, language: languageStore.mode))
                     Image(systemName: "arrow.right")
                         .font(.caption)
                         .detailCardSecondaryText()
-                    Text(route.arrival)
+                    Text(IslandCatalog.localizedPlaceName(route.arrival, language: languageStore.mode))
                 }
                 .font(.subheadline)
                 .fontWeight(.medium)
@@ -261,7 +262,7 @@ struct FerryScheduleSectionView: View {
             }
         } else {
             VStack(alignment: .leading, spacing: 8) {
-                Text(trip.routeName)
+                Text(IslandCatalog.localizedRouteName(trip.routeName, language: languageStore.mode))
                     .font(.subheadline)
                     .fontWeight(.medium)
 
