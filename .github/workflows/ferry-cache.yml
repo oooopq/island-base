@@ -1,0 +1,72 @@
+# 中島汽船の時刻表を取得し docs/ferry/kutsuna.json を更新する。
+# 成功時のみ main に push → GitHub Pages（/docs）で配信。
+name: 船の時刻表キャッシュ更新
+
+on:
+  schedule:
+    # JST 5:23 と 15:23（1日2回）。正時・30分ちょうどは避ける。
+    - cron: "23 5 * * *"
+      timezone: "Asia/Tokyo"
+    - cron: "23 15 * * *"
+      timezone: "Asia/Tokyo"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ferry-cache
+  cancel-in-progress: false
+
+jobs:
+  update-ferry-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          # weather-cache が main を頻繁に進める。pull --rebase できるよう履歴を取る。
+          fetch-depth: 0
+
+      - name: Python をセットアップ
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+
+      - name: 依存パッケージをインストール
+        run: pip install -r scripts/requirements-ferry.txt
+
+      - name: 船の時刻表キャッシュを取得・生成
+        run: python3 scripts/fetch_ferry_nakajima.py
+
+      - name: 更新失敗を明示する
+        if: failure()
+        run: |
+          echo "::error::船の時刻表キャッシュの更新に失敗しました。docs/ferry は前回の配信を維持しています。ログを確認し、必要なら workflow_dispatch で再実行してください。"
+
+      - name: 変更があれば commit して push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/ferry/
+          if git diff --staged --quiet; then
+            echo "変更なし — commit をスキップします"
+          else
+            git commit -m "船の時刻表キャッシュを更新する"
+            # push の前に pull --rebase する。失敗したら同じ手順を最大3回までやり直す。
+            attempt=1
+            max_attempts=3
+            while [ "$attempt" -le "$max_attempts" ]; do
+              git pull --rebase origin "$GITHUB_REF_NAME"
+              if git push; then
+                echo "push しました"
+                exit 0
+              fi
+              if [ "$attempt" -ge "$max_attempts" ]; then
+                echo "::error::船の時刻表キャッシュの push が ${max_attempts} 回失敗しました"
+                exit 1
+              fi
+              echo "push に失敗しました (${attempt}/${max_attempts})。pull --rebase してやり直します"
+              attempt=$((attempt + 1))
+            done
+          fi
