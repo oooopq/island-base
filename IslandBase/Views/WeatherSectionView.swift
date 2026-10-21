@@ -40,10 +40,19 @@ struct WeatherSectionView: View {
                 }
             }
 
+            numericalModelNote
             openMeteoAttribution
             JMAMarineForecastLinkView(area: jmaMarineForecastArea)
         }
         .detailSectionCard()
+    }
+
+    /// 天気・波は数値モデルの計算値である旨
+    private var numericalModelNote: some View {
+        Text(languageStore.t(.numericalModelNote))
+            .font(.caption2)
+            .foregroundStyle(palette.secondaryText)
+            .fixedSize(horizontal: false, vertical: true)
     }
 
     // CC BY 4.0：天気データ表示箇所の近くに Open-Meteo へのリンクを置く
