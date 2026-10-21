@@ -232,7 +232,7 @@ enum KutsunaIslandProfiles {
         ),
         regionID: "kutsuna",
         ports: [
-            IslandPort(name: "睦月港", nameEnglish: "Mutsuki Port", latitude: 33.956442, longitude: 132.665515),
+            IslandPort(name: "睦月港", nameEnglish: "Muzuki Port", latitude: 33.956442, longitude: 132.665515),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgMuzukijima",
