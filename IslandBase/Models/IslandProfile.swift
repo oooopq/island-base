@@ -88,6 +88,8 @@ struct IslandProfile: Identifiable {
     /// 航路名・港名の判定用（例: 「石垣」「大原」）
     let routeKeywords: [String]
     let ferryGTFSFeeds: [FerryGTFSFeed]
+    /// GitHub Pages の時刻表 JSON ファイル名（拡張子なし）。例: "kutsuna"。未使用は nil
+    let ferryPagesFileName: String?
     let sampleFerrySchedules: [FerryCompanySchedule]
     let usefulInfo: [UsefulInfo]
     let liveCameras: [LiveCamera]
@@ -113,9 +115,15 @@ struct IslandProfile: Identifiable {
         ferryGTFSFeeds.isEmpty == false
     }
 
-    /// アプリ内に発着時刻を出せるか（OTTOP GTFS のみ。代表ダイヤは出さない）
+    /// GitHub Pages の時刻表 JSON を使う島（忽那諸島の中島汽船7島）
+    var usesFerryPagesJSON: Bool {
+        guard let ferryPagesFileName else { return false }
+        return ferryPagesFileName.isEmpty == false
+    }
+
+    /// アプリ内に発着時刻を出せるか（GTFS または Pages JSON。代表ダイヤは出さない）
     var hasInAppFerryTrips: Bool {
-        usesFerryGTFS
+        usesFerryGTFS || usesFerryPagesJSON
     }
 
     /// 時刻なし・公式リンクのみの島
@@ -190,6 +198,7 @@ struct IslandProfile: Identifiable {
         placeAddressAnyTokens: [String] = [],
         routeKeywords: [String],
         ferryGTFSFeeds: [FerryGTFSFeed],
+        ferryPagesFileName: String? = nil,
         sampleFerrySchedules: [FerryCompanySchedule],
         usefulInfo: [UsefulInfo],
         liveCameras: [LiveCamera],
@@ -214,6 +223,7 @@ struct IslandProfile: Identifiable {
         self.placeAddressAnyTokens = placeAddressAnyTokens
         self.routeKeywords = routeKeywords
         self.ferryGTFSFeeds = ferryGTFSFeeds
+        self.ferryPagesFileName = ferryPagesFileName
         self.sampleFerrySchedules = sampleFerrySchedules
         self.usefulInfo = usefulInfo
         self.liveCameras = liveCameras

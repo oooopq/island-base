@@ -58,8 +58,24 @@ struct IslandDetailView: View {
         islandProfile?.usesFerryGTFS == true
     }
 
+    private var usesFerryPagesJSON: Bool {
+        islandProfile?.usesFerryPagesJSON == true
+    }
+
     private var hasInAppFerryTrips: Bool {
         islandProfile?.hasInAppFerryTrips == true
+    }
+
+    /// 取得できた Pages 時刻表、または取得中だけカードを出す。無いときはリンクに戻す
+    private var showsPagesTimetable: Bool {
+        switch ferryState {
+        case .loading:
+            return true
+        case .loaded(let schedules, _, _, _):
+            return schedules.contains { $0.trips.isEmpty == false }
+        case .failed:
+            return false
+        }
     }
 
     /// GTFS 失敗・本日0便のとき、公式リンクを併せて出す
@@ -152,6 +168,10 @@ struct IslandDetailView: View {
 
             if usesFerryGTFS {
                 async let ferryLoad: Void = loadFerrySchedules()
+                await loadWeather()
+                _ = await ferryLoad
+            } else if usesFerryPagesJSON {
+                async let ferryLoad: Void = loadFerryPagesSchedules()
                 await loadWeather()
                 _ = await ferryLoad
             } else {
@@ -289,7 +309,7 @@ struct IslandDetailView: View {
                 ScheduleStatusBannerView(sources: scheduleStatusSources)
             }
 
-            if hasInAppFerryTrips {
+            if usesFerryGTFS {
                 FerryScheduleSectionView(
                     island: island,
                     state: ferryState,
@@ -299,6 +319,19 @@ struct IslandDetailView: View {
                 // GTFS 取得失敗で時刻がないときは、公式リンクへ誘導する
                 if shouldShowFerryLinksAlongsideGTFSFailure,
                    let companies = islandProfile?.ferryLinkCompanies,
+                   companies.isEmpty == false {
+                    FerryLinkSectionView(companies: companies)
+                }
+            } else if usesFerryPagesJSON {
+                if showsPagesTimetable {
+                    FerryScheduleSectionView(
+                        island: island,
+                        state: ferryState,
+                        onRetry: { Task { await retryFerry() } }
+                    )
+                }
+
+                if let companies = islandProfile?.ferryLinkCompanies,
                    companies.isEmpty == false {
                     FerryLinkSectionView(companies: companies)
                 }
@@ -355,6 +388,9 @@ struct IslandDetailView: View {
         if usesFerryGTFS, ferryService.cachedSchedules(for: island.id) == nil {
             ferryState = .loading
         }
+        if usesFerryPagesJSON, ferryService.cachedPagesSchedules(for: island.id) == nil {
+            ferryState = .loading
+        }
         if selectedSection == .places,
            placesSearchService.cachedPlaces(for: island.id, category: selectedPlaceCategory) == nil {
             placesState = .loading
@@ -362,6 +398,10 @@ struct IslandDetailView: View {
 
         if usesFerryGTFS {
             async let ferryLoad: Void = loadFerrySchedules()
+            await loadWeather()
+            _ = await ferryLoad
+        } else if usesFerryPagesJSON {
+            async let ferryLoad: Void = loadFerryPagesSchedules()
             await loadWeather()
             _ = await ferryLoad
         } else {
@@ -392,6 +432,12 @@ struct IslandDetailView: View {
             } else {
                 ferryState = .loading
             }
+        } else if usesFerryPagesJSON {
+            if let cached = ferryService.cachedPagesSchedules(for: island.id) {
+                ferryState = ferryLoadedState(from: cached)
+            } else {
+                ferryState = .loading
+            }
         }
 
         // 飲食カテゴリのキャッシュがあればスポットタブ用に先復元する
@@ -410,6 +456,14 @@ struct IslandDetailView: View {
 
     @MainActor
     private func retryFerry() async {
+        if usesFerryPagesJSON {
+            if ferryService.cachedPagesSchedules(for: island.id) == nil {
+                ferryState = .loading
+            }
+            await loadFerryPagesSchedules()
+            return
+        }
+
         guard usesFerryGTFS else { return }
         if ferryService.cachedSchedules(for: island.id) == nil {
             ferryState = .loading
@@ -594,6 +648,62 @@ struct IslandDetailView: View {
             return try await fetch()
         } catch NetworkTimeout.TimeoutError.timedOut where !hasCache {
             // キャッシュがないときだけ 1 回再試行（キャッシュありは早めに諦めて表示を維持）
+            return try await fetch()
+        }
+    }
+
+    @MainActor
+    private func loadFerryPagesSchedules() async {
+        guard usesFerryPagesJSON else { return }
+
+        let hasCache = ferryService.cachedPagesSchedules(for: island.id) != nil
+        if let cached = ferryService.cachedPagesSchedules(for: island.id) {
+            ferryState = ferryLoadedState(from: cached)
+        }
+
+        do {
+            let result = try await fetchFerryPagesWithTimeout(hasCache: hasCache)
+            ferryState = .loaded(
+                result.schedules,
+                isFromCache: false,
+                validUntilText: result.validUntilText,
+                fetchedAt: result.fetchedAt
+            )
+        } catch is CancellationError {
+            applyPagesFerryFallback()
+        } catch NetworkTimeout.TimeoutError.timedOut {
+            AppLog.networkError("ferry pages timeout island=\(island.id)")
+            applyPagesFerryFallback()
+        } catch {
+            AppLog.networkError("ferry pages failed island=\(island.id)")
+            applyPagesFerryFallback()
+        }
+    }
+
+    @MainActor
+    private func applyPagesFerryFallback() {
+        if let cached = ferryService.cachedPagesSchedules(for: island.id) {
+            ferryState = ferryLoadedState(from: cached)
+            return
+        }
+
+        ferryState = .failed(
+            message: languageStore.t(.offlineFerry),
+            cachedSchedules: nil,
+            fetchedAt: nil
+        )
+    }
+
+    private func fetchFerryPagesWithTimeout(hasCache: Bool) async throws -> FerryFetchResult {
+        let fetch = {
+            try await NetworkTimeout.withTimeout(seconds: NetworkTimeout.weatherPagesSeconds) {
+                try await ferryService.fetchPagesSchedules(for: island)
+            }
+        }
+
+        do {
+            return try await fetch()
+        } catch NetworkTimeout.TimeoutError.timedOut where !hasCache {
             return try await fetch()
         }
     }

@@ -93,6 +93,15 @@ struct FerryScheduleSectionView: View {
         )
 
         let totalTrips = schedules.reduce(0) { $0 + $1.trips.count }
+        let pagesStamp = pagesSourceStamp(in: schedules)
+
+        if let pagesStamp, FerryPagesTimetable.isStale(sourceUpdatedAt: pagesStamp.date) {
+            Text(languageStore.t(.ferryPagesStaleNotice(pagesStamp.text)))
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .fixedSize(horizontal: false, vertical: true)
+                .scheduleStatusCallout()
+        }
 
         if destinations.isEmpty == false {
             destinationPicker(destinations: destinations)
@@ -132,15 +141,28 @@ struct FerryScheduleSectionView: View {
                 .detailCardSecondaryText()
         }
 
+        if let pagesStamp {
+            Text(languageStore.t(.ferryPagesSourceNotice(pagesStamp.text)))
+                .font(.caption)
+                .detailCardSecondaryText()
+                .fixedSize(horizontal: false, vertical: true)
+        }
+
         if let cacheText = CacheAgeText.displayText(fetchedAt: fetchedAt, isFromCache: isFromCache, language: languageStore.mode) {
             Text(cacheText)
                 .font(.caption)
                 .detailCardSecondaryText()
-        } else if let sourceNote = IslandCatalog.ferryDataSourceNote(for: island.id, language: languageStore.mode) {
+        } else if pagesStamp == nil,
+                  let sourceNote = IslandCatalog.ferryDataSourceNote(for: island.id, language: languageStore.mode) {
             Text(sourceNote)
                 .font(.caption)
                 .detailCardSecondaryText()
         }
+    }
+
+    private func pagesSourceStamp(in schedules: [FerryCompanySchedule]) -> (date: Date, text: String)? {
+        guard let date = schedules.compactMap(\.sourceUpdatedAt).min() else { return nil }
+        return (date, FerryPagesTimetable.displayTimestamp(date, language: languageStore.mode))
     }
 
     @ViewBuilder
@@ -197,7 +219,10 @@ struct FerryScheduleSectionView: View {
                 id: schedule.id,
                 company: schedule.company,
                 trips: trips,
-                serviceKind: schedule.serviceKind
+                serviceKind: schedule.serviceKind,
+                lineLabel: schedule.lineLabel,
+                sourceUpdatedAt: schedule.sourceUpdatedAt,
+                showsOperatorActions: schedule.showsOperatorActions
             )
         }
     }
@@ -217,16 +242,31 @@ struct FerryScheduleSectionView: View {
     private func companyBlock(_ schedule: FerryCompanySchedule, allSchedules: [FerryCompanySchedule]) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             if let serviceKind = schedule.serviceKind {
-                FerryServiceKindHeaderView(serviceKind: serviceKind)
+                FerryServiceKindHeaderView(
+                    serviceKind: serviceKind,
+                    detailText: FerryPagesTimetable.localizedLine(
+                        schedule.lineLabel,
+                        language: languageStore.mode
+                    )
+                )
+            } else if let line = FerryPagesTimetable.localizedLine(
+                schedule.lineLabel,
+                language: languageStore.mode
+            ) {
+                Text(line)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
             }
 
             Text(schedule.company.displayName(for: languageStore.mode))
                 .font(.subheadline)
                 .fontWeight(.semibold)
 
-            ScheduleOperatorActionButtonsView(
-                actions: ScheduleOperatorActionFactory.actions(for: schedule.company, language: languageStore.mode)
-            )
+            if schedule.showsOperatorActions != false {
+                ScheduleOperatorActionButtonsView(
+                    actions: ScheduleOperatorActionFactory.actions(for: schedule.company, language: languageStore.mode)
+                )
+            }
 
             ForEach(Array(schedule.trips.enumerated()), id: \.element.id) { index, trip in
                 if index > 0 {
@@ -255,10 +295,7 @@ struct FerryScheduleSectionView: View {
                 .font(.subheadline)
                 .fontWeight(.medium)
 
-                ScheduleDepartureArrivalView(
-                    departureTime: trip.departureTime,
-                    arrivalTime: trip.arrivalTime
-                )
+                tripTimesAndNote(trip)
             }
         } else {
             VStack(alignment: .leading, spacing: 8) {
@@ -266,11 +303,25 @@ struct FerryScheduleSectionView: View {
                     .font(.subheadline)
                     .fontWeight(.medium)
 
-                ScheduleDepartureArrivalView(
-                    departureTime: trip.departureTime,
-                    arrivalTime: trip.arrivalTime
-                )
+                tripTimesAndNote(trip)
             }
+        }
+    }
+
+    @ViewBuilder
+    private func tripTimesAndNote(_ trip: FerryTrip) -> some View {
+        if trip.hasScheduledTimes {
+            ScheduleDepartureArrivalView(
+                departureTime: trip.departureTime,
+                arrivalTime: trip.arrivalTime
+            )
+        }
+
+        if let note = trip.note, note.isEmpty == false {
+            Text(note)
+                .font(.caption)
+                .foregroundStyle(palette.warning)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 

@@ -34,6 +34,16 @@ enum FerryRouteHelper {
 
     // 今見ている島以外の相手島IDを返す
     static func partnerIslandID(for trip: FerryTrip, currentIslandID: String) -> String? {
+        if trip.departureIslandID != nil || trip.arrivalIslandID != nil {
+            if trip.departureIslandID == currentIslandID {
+                return trip.arrivalIslandID
+            }
+            if trip.arrivalIslandID == currentIslandID {
+                return trip.departureIslandID
+            }
+            return nil
+        }
+
         guard let route = parseRoute(trip.routeName) else { return nil }
 
         let departureID = islandID(for: route.departure)

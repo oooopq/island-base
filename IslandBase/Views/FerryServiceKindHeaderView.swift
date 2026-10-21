@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FerryServiceKindHeaderView: View {
     let serviceKind: FerryServiceKind
+    /// nil のときは船種の説明文を出す。忽那の東線・西線では路線名に差し替える
+    var detailText: String? = nil
 
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
@@ -25,7 +27,7 @@ struct FerryServiceKindHeaderView: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
 
-                Text(serviceKind.description(for: languageStore.mode))
+                Text(resolvedDetail)
                     .font(.caption)
                     .detailCardSecondaryText()
             }
@@ -34,6 +36,13 @@ struct FerryServiceKindHeaderView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(palette.bannerBackground)
         .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+
+    private var resolvedDetail: String {
+        if let detailText, detailText.isEmpty == false {
+            return detailText
+        }
+        return serviceKind.description(for: languageStore.mode)
     }
 }
 
