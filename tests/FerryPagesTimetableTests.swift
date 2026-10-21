@@ -71,7 +71,22 @@ private func testRealFile() throws {
 
     let timed = trips.filter(\.hasScheduledTimes)
     expect(timed.count + suspended.count == trips.count, "every trip is timed or note-only")
+    expect(suspended.count == 10, "nakajima has 10 suspended trips, got \(suspended.count)")
+    expect(FerryPagesTimetable.scheduledTripCount(in: timetable.schedules) == 28, "card counts timed trips only, got \(FerryPagesTimetable.scheduledTripCount(in: timetable.schedules))")
     expect(timed.allSatisfy { $0.departureIslandID == "nakajima" || $0.arrivalIslandID == "nakajima" }, "nakajima trips touch nakajima")
+    expect(
+        suspended.allSatisfy {
+            FerryPagesTimetable.localizedSuspensionNote($0.note ?? "", language: .english) == "Suspended until further notice (since Feb 1, 2025)"
+        },
+        "known suspension notes translate"
+    )
+
+    let kinds = Set(timetable.schedules.compactMap(\.serviceKind))
+    expect(kinds.contains(.ferry) && kinds.contains(.highSpeedBoat), "nakajima has ferry and high-speed headings")
+    expect(
+        FerryPagesTimetable.showsHighSpeedAndOvernightLegend(timetable.schedules.map(\.serviceKind)) == false,
+        "ferry plus high-speed does not show the overnight legend"
+    )
 
     let nogutsuna = try FerryPagesTimetable.decode(data: data, islandID: "nogutsunajima", company: company)
     let nogutsunaTrips = nogutsuna.schedules.flatMap(\.trips)
@@ -142,6 +157,8 @@ private func testTruncation() throws {
     let timetable = try decodeFixture(json)
     let count = timetable.schedules.flatMap(\.trips).count
     expect(count == 100, "truncates to 100 trips, got \(count)")
+    expect(timetable.schedules[0].serviceKind == .ferry, "ferry maps to the ferry kind")
+    expect(FerryPagesTimetable.scheduledTripCount(in: timetable.schedules) == 100, "timed ferry trips are all counted")
 }
 
 private func testStaleAndBlock() {
@@ -158,6 +175,61 @@ private func testStaleAndBlock() {
 
     let stamp = FerryPagesTimetable.displayTimestamp(fetched, language: .japanese)
     expect(stamp == "10月21日 10:20", "JST stamp got \(stamp)")
+}
+
+private func testKindLabelsAndLegendStayPut() {
+    expect(FerryServiceKind.ferry.titleJapanese == "フェリー", "ferry title")
+    expect(FerryServiceKind.ferry.titleEnglish == "Ferry", "ferry english title")
+    expect(FerryServiceKind.ferry.shortLabel(for: .japanese) == "フェリー", "next-departure label")
+    expect(FerryServiceKind.ferry.shortLabel(for: .english) == "Ferry", "english next-departure label")
+    expect(FerryServiceKind.highSpeedBoat.titleJapanese == "高速船", "high-speed title unchanged")
+    expect(FerryServiceKind.highSpeedBoat.titleEnglish == "High-Speed Boat", "high-speed english title unchanged")
+    expect(FerryServiceKind.highSpeedBoat.shortLabel(for: .english) == "High-Speed Boat", "high-speed label unchanged")
+    expect(FerryServiceKind.highSpeedBoat.descriptionJapanese == "日中運航 · 約2〜3時間 · 指定席", "high-speed description unchanged")
+    expect(FerryServiceKind.highSpeedBoat.descriptionEnglish == "Day service · About 2–3 hours · Reserved seats", "high-speed english description unchanged")
+    expect(FerryServiceKind.overnightFerry.titleJapanese == "大型客船（夜航）", "overnight title unchanged")
+    expect(FerryServiceKind.overnightFerry.titleEnglish == "Overnight Ferry", "overnight english title unchanged")
+    expect(FerryServiceKind.overnightFerry.descriptionJapanese == "夜出港 · 翌朝着 · 2等寝台あり", "overnight description unchanged")
+    expect(FerryServiceKind.overnightFerry.descriptionEnglish == "Evening departure · Arrives next morning · Sleeper berths available", "overnight english description unchanged")
+    expect(FerryServiceKind.allCases.count == 3, "only the ferry case was added")
+
+    expect(FerryPagesTimetable.showsHighSpeedAndOvernightLegend([.highSpeedBoat, .overnightFerry]), "izu and goto pair still shows the legend")
+    expect(FerryPagesTimetable.showsHighSpeedAndOvernightLegend([.ferry, .highSpeedBoat]) == false, "kutsuna pair hides the legend")
+    expect(FerryPagesTimetable.showsHighSpeedAndOvernightLegend([.highSpeedBoat]) == false, "one kind hides the legend")
+    expect(FerryPagesTimetable.showsHighSpeedAndOvernightLegend([nil, .highSpeedBoat]) == false, "yaeyama nil kind hides the legend")
+}
+
+private func testNotesAndMainlandPorts() {
+    let known = "2025年2月1日から当面の間運休"
+    expect(
+        FerryPagesTimetable.localizedSuspensionNote(known, language: .english) == "Suspended until further notice (since Feb 1, 2025)",
+        "date is taken from the note"
+    )
+    expect(FerryPagesTimetable.localizedSuspensionNote(known, language: .japanese) == known, "japanese note stays")
+    expect(
+        FerryPagesTimetable.localizedSuspensionNote("当面の間運休", language: .english) == "Suspended until further notice",
+        "phrase without a date"
+    )
+    expect(
+        FerryPagesTimetable.localizedSuspensionNote("荒天のため当面の間運休", language: .english) == "荒天のため当面の間運休",
+        "unknown surrounding text stays japanese"
+    )
+    expect(
+        FerryPagesTimetable.localizedSuspensionNote("2025年2月31日から当面の間運休", language: .english) == "2025年2月31日から当面の間運休",
+        "invalid date stays japanese"
+    )
+    expect(
+        FerryPagesTimetable.localizedSuspensionNote("欠航", language: .english) == "欠航",
+        "unknown note stays japanese"
+    )
+
+    expect(FerryPagesTimetable.localizedMainlandPortName("三津浜", language: .english) == "Mitsuhama Port (三津浜)", "mitsuhama")
+    expect(FerryPagesTimetable.localizedMainlandPortName("高浜", language: .english) == "Takahama Port (高浜)", "takahama")
+    expect(FerryPagesTimetable.localizedMainlandPortName("三津浜", language: .japanese) == nil, "japanese place names stay in the caller")
+    expect(FerryPagesTimetable.localizedMainlandPortName("大浦港", language: .english) == nil, "island ports are unchanged")
+    expect(FerryPagesTimetable.localizedMainlandPortName("北条", language: .english) == nil, "hojo is unchanged")
+    expect(FerryPagesTimetable.localizedLine("東線", language: .english) == "East route", "east route label")
+    expect(FerryPagesTimetable.localizedLine("西線", language: .japanese) == "西線", "west route label")
 }
 
 private func testLegacyGTFSCacheStillDecodes() throws {
@@ -182,6 +254,8 @@ struct FerryPagesTimetableTestRunner {
         try testSchemaSizeAndMalformed()
         try testTruncation()
         testStaleAndBlock()
+        testKindLabelsAndLegendStayPut()
+        testNotesAndMainlandPorts()
         try testLegacyGTFSCacheStillDecodes()
         if failures > 0 {
             fputs("\(failures) failed\n", stderr)

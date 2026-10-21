@@ -333,9 +333,9 @@ enum AppText {
         case .nakajimaKisenFerryGuidance:
             return "航路・時刻表は愛媛県公式情報をご確認ください。運航状況・乗船については中島汽船へお問い合わせください。"
         case .ferryPagesStaleNotice(let updatedAt):
-            return "最終更新：\(updatedAt)（JST）・最新は公式でご確認ください"
+            return "最終更新：\(updatedAt)（JST）・最新は公式サイトでご確認ください"
         case .ferryPagesSourceNotice(let updatedAt):
-            return "時刻表出典：中島汽船株式会社 公式サイト（取得日時 \(updatedAt)）。運航状況は必ず公式でご確認ください。"
+            return "時刻表出典：中島汽船株式会社 公式サイト（取得日時 \(updatedAt)）。運航状況は必ず公式サイトでご確認ください。"
         case .flightCheckOfficialSites:
             return "ダイヤ・運航状況は各航空会社の公式サイトでご確認ください。"
         case .liveCameraFootnote:

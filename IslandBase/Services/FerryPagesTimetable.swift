@@ -55,6 +55,42 @@ enum FerryPagesTimetable {
         return formatter.string(from: date)
     }
 
+    /// 時刻のある便だけ数える。運休（時刻なし）はカードの便数に入れない。
+    static func scheduledTripCount(in schedules: [FerryCompanySchedule]) -> Int {
+        schedules.reduce(0) { count, schedule in
+            count + schedule.trips.filter(\.hasScheduledTimes).count
+        }
+    }
+
+    /// 凡例は高速船と夜航が揃ったときだけ。フェリーと高速船の組み合わせでは出さない。
+    static func showsHighSpeedAndOvernightLegend(_ kinds: [FerryServiceKind?]) -> Bool {
+        let present = Set(kinds.compactMap { $0 })
+        return present.contains(.highSpeedBoat) && present.contains(.overnightFerry)
+    }
+
+    /// 松山側の港。公式英語が取れた名前だけ。日本語モードと、それ以外の港は nil。
+    static func localizedMainlandPortName(_ japaneseName: String, language: AppLanguageMode) -> String? {
+        guard language == .english else { return nil }
+        switch japaneseName {
+        case "三津浜":
+            return "Mitsuhama Port (三津浜)"
+        case "高浜":
+            return "Takahama Port (高浜)"
+        default:
+            return nil
+        }
+    }
+
+    /// 「当面の間運休」を含む既知の文言だけ英訳する。日付は注記から取る。それ以外は原文。
+    static func localizedSuspensionNote(_ note: String, language: AppLanguageMode) -> String {
+        guard language == .english else { return note }
+        if note == "当面の間運休" {
+            return "Suspended until further notice"
+        }
+        guard let since = suspensionSinceText(note) else { return note }
+        return "Suspended until further notice (since \(since))"
+    }
+
     /// 東線・西線。知らない文言はそのまま（URL にはしない）
     static func localizedLine(_ raw: String?, language: AppLanguageMode) -> String? {
         guard let raw else { return nil }
@@ -218,11 +254,53 @@ enum FerryPagesTimetable {
 
     private static func serviceKind(for raw: String?) -> FerryServiceKind? {
         switch raw {
+        case "ferry":
+            return .ferry
         case "highspeed":
             return .highSpeedBoat
         default:
             return nil
         }
+    }
+
+    /// `2025年2月1日から当面の間運休` だけ日付を取り出す。余計な文字や実在しない日は nil。
+    private static func suspensionSinceText(_ note: String) -> String? {
+        let marker = "日から当面の間運休"
+        guard note.hasSuffix(marker) else { return nil }
+        let head = note.dropLast(marker.count)
+        let yearParts = head.split(separator: "年", omittingEmptySubsequences: false)
+        guard yearParts.count == 2,
+              yearParts[0].count == 4,
+              yearParts[0].allSatisfy(\.isNumber),
+              let year = Int(yearParts[0]) else {
+            return nil
+        }
+        let monthParts = yearParts[1].split(separator: "月", omittingEmptySubsequences: false)
+        guard monthParts.count == 2,
+              monthParts[0].isEmpty == false,
+              monthParts[0].count <= 2,
+              monthParts[0].allSatisfy(\.isNumber),
+              let month = Int(monthParts[0]),
+              (1...12).contains(month),
+              monthParts[1].isEmpty == false,
+              monthParts[1].count <= 2,
+              monthParts[1].allSatisfy(\.isNumber),
+              let day = Int(monthParts[1]) else {
+            return nil
+        }
+
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "Asia/Tokyo") ?? .current
+        let components = DateComponents(year: year, month: month, day: day)
+        guard let date = calendar.date(from: components),
+              calendar.component(.year, from: date) == year,
+              calendar.component(.month, from: date) == month,
+              calendar.component(.day, from: date) == day else {
+            return nil
+        }
+
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        return "\(months[month - 1]) \(day), \(year)"
     }
 
     /// 時刻表の港名を島 ID にする。松山側（高浜・三津浜）は nil。JSON の URL は使わない

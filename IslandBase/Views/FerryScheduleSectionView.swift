@@ -34,7 +34,7 @@ struct FerryScheduleSectionView: View {
             case .loaded(let schedules, let isFromCache, let validUntilText, let fetchedAt):
                 ScheduleTransportCardView(
                     kind: .ferry,
-                    tripCount: schedules.reduce(0) { $0 + $1.trips.count },
+                    tripCount: FerryPagesTimetable.scheduledTripCount(in: schedules),
                     isExpanded: $isScheduleExpanded
                 ) {
                     scheduleContent(
@@ -48,7 +48,7 @@ struct FerryScheduleSectionView: View {
             case .failed(let message, let cachedSchedules, let fetchedAt):
                 ScheduleTransportCardView(
                     kind: .ferry,
-                    tripCount: cachedSchedules?.reduce(0) { $0 + $1.trips.count } ?? 0,
+                    tripCount: cachedSchedules.map { FerryPagesTimetable.scheduledTripCount(in: $0) } ?? 0,
                     isExpanded: $isScheduleExpanded
                 ) {
                     Text(message)
@@ -234,8 +234,7 @@ struct FerryScheduleSectionView: View {
     }
 
     private func hasMultipleServiceKinds(in schedules: [FerryCompanySchedule]) -> Bool {
-        let kinds = Set(schedules.compactMap(\.serviceKind))
-        return kinds.count > 1
+        FerryPagesTimetable.showsHighSpeedAndOvernightLegend(schedules.map(\.serviceKind))
     }
 
     @ViewBuilder
@@ -318,7 +317,7 @@ struct FerryScheduleSectionView: View {
         }
 
         if let note = trip.note, note.isEmpty == false {
-            Text(note)
+            Text(FerryPagesTimetable.localizedSuspensionNote(note, language: languageStore.mode))
                 .font(.caption)
                 .foregroundStyle(palette.warning)
                 .fixedSize(horizontal: false, vertical: true)
