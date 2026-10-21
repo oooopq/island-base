@@ -1,0 +1,950 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "中島汽船株式会社",
+    "url": "http://www.nakajimakisen.co.jp/contents/time-table.html"
+  },
+  "fetchedAt": "2026-10-21T01:20:23Z",
+  "validFrom": "2025-02-01",
+  "contentHash": "7ca5268fcd09c0a87dd2f1704a8c9bfd1db348991ae87a554e6c8988e31c0dd3",
+  "islands": {
+    "nakajima": [
+      {
+        "id": "nakajima-kisen-ferry-east",
+        "line": "東線",
+        "kind": "ferry",
+        "trips": [
+          {
+            "from": "大浦",
+            "to": "三津浜",
+            "departure": "05:40",
+            "arrival": "06:40",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "大浦",
+            "departure": "06:55",
+            "arrival": "08:15",
+            "note": null
+          },
+          {
+            "from": "大浦",
+            "to": "三津浜",
+            "departure": "08:35",
+            "arrival": "09:57",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "大浦",
+            "departure": "10:10",
+            "arrival": "11:30",
+            "note": null
+          },
+          {
+            "from": "大浦",
+            "to": "三津浜",
+            "departure": "11:40",
+            "arrival": "12:34",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "大浦",
+            "departure": "13:00",
+            "arrival": "13:55",
+            "note": null
+          },
+          {
+            "from": "大浦",
+            "to": "三津浜",
+            "departure": "14:10",
+            "arrival": "15:32",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "大浦",
+            "departure": "15:50",
+            "arrival": "17:10",
+            "note": null
+          },
+          {
+            "from": "大浦",
+            "to": "三津浜",
+            "departure": "17:30",
+            "arrival": "18:55",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "大浦",
+            "departure": "19:10",
+            "arrival": "20:14",
+            "note": null
+          }
+        ]
+      },
+      {
+        "id": "nakajima-kisen-highspeed-east",
+        "line": "東線",
+        "kind": "highspeed",
+        "trips": [
+          {
+            "from": "大浦",
+            "to": "高浜",
+            "departure": "06:35",
+            "arrival": "07:15",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "大浦",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "大浦",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "大浦",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "大浦",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "大浦",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "大浦",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "大浦",
+            "departure": "17:25",
+            "arrival": "18:05",
+            "note": null
+          },
+          {
+            "from": "大浦",
+            "to": "高浜",
+            "departure": "18:45",
+            "arrival": "19:14",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "大浦",
+            "departure": "19:25",
+            "arrival": "19:56",
+            "note": null
+          }
+        ]
+      },
+      {
+        "id": "nakajima-kisen-ferry-west",
+        "line": "西線",
+        "kind": "ferry",
+        "trips": [
+          {
+            "from": "西中",
+            "to": "三津浜",
+            "departure": "06:06",
+            "arrival": "08:50",
+            "note": null
+          },
+          {
+            "from": "神浦",
+            "to": "三津浜",
+            "departure": "07:45",
+            "arrival": "08:50",
+            "note": null
+          },
+          {
+            "from": "西中",
+            "to": "三津浜",
+            "departure": "13:59",
+            "arrival": "16:25",
+            "note": null
+          },
+          {
+            "from": "神浦",
+            "to": "三津浜",
+            "departure": "15:39",
+            "arrival": "16:25",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "神浦",
+            "departure": "09:10",
+            "arrival": "10:02",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "西中",
+            "departure": "09:10",
+            "arrival": "11:37",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "神浦",
+            "departure": "16:40",
+            "arrival": "17:47",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "西中",
+            "departure": "16:40",
+            "arrival": "19:22",
+            "note": null
+          }
+        ]
+      },
+      {
+        "id": "nakajima-kisen-highspeed-west",
+        "line": "西線",
+        "kind": "highspeed",
+        "trips": [
+          {
+            "from": "高浜",
+            "to": "神浦",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "神浦",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "神浦",
+            "departure": "07:40",
+            "arrival": "08:06",
+            "note": null
+          },
+          {
+            "from": "神浦",
+            "to": "高浜",
+            "departure": "09:11",
+            "arrival": "09:36",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "神浦",
+            "departure": "11:40",
+            "arrival": "12:06",
+            "note": null
+          },
+          {
+            "from": "神浦",
+            "to": "高浜",
+            "departure": "13:11",
+            "arrival": "13:36",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "神浦",
+            "departure": "15:15",
+            "arrival": "15:42",
+            "note": null
+          },
+          {
+            "from": "神浦",
+            "to": "高浜",
+            "departure": "16:47",
+            "arrival": "17:13",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "神浦",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "神浦",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          }
+        ]
+      }
+    ],
+    "muzukijima": [
+      {
+        "id": "muzukijima-kisen-ferry-east",
+        "line": "東線",
+        "kind": "ferry",
+        "trips": [
+          {
+            "from": "睦月",
+            "to": "三津浜",
+            "departure": "05:59",
+            "arrival": "06:40",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "睦月",
+            "departure": "06:55",
+            "arrival": "07:40",
+            "note": null
+          },
+          {
+            "from": "睦月",
+            "to": "三津浜",
+            "departure": "09:13",
+            "arrival": "09:57",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "睦月",
+            "departure": "10:10",
+            "arrival": "10:55",
+            "note": null
+          },
+          {
+            "from": "睦月",
+            "to": "三津浜",
+            "departure": "14:48",
+            "arrival": "15:32",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "睦月",
+            "departure": "15:50",
+            "arrival": "16:35",
+            "note": null
+          },
+          {
+            "from": "睦月",
+            "to": "三津浜",
+            "departure": "18:08",
+            "arrival": "18:55",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "睦月",
+            "departure": "19:10",
+            "arrival": "19:55",
+            "note": null
+          }
+        ]
+      },
+      {
+        "id": "muzukijima-kisen-highspeed-east",
+        "line": "東線",
+        "kind": "highspeed",
+        "trips": [
+          {
+            "from": "睦月",
+            "to": "高浜",
+            "departure": "06:58",
+            "arrival": "07:15",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "睦月",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "睦月",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "睦月",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "睦月",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "睦月",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "睦月",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "睦月",
+            "departure": "17:25",
+            "arrival": "17:43",
+            "note": null
+          },
+          {
+            "from": "睦月",
+            "to": "高浜",
+            "departure": "18:57",
+            "arrival": "19:14",
+            "note": null
+          }
+        ]
+      }
+    ],
+    "nogutsunajima": [
+      {
+        "id": "nogutsunajima-kisen-ferry-east",
+        "line": "東線",
+        "kind": "ferry",
+        "trips": [
+          {
+            "from": "三津浜",
+            "to": "野忽那",
+            "departure": "06:55",
+            "arrival": "07:57",
+            "note": null
+          },
+          {
+            "from": "野忽那",
+            "to": "三津浜",
+            "departure": "08:56",
+            "arrival": "09:57",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "野忽那",
+            "departure": "10:10",
+            "arrival": "11:12",
+            "note": null
+          },
+          {
+            "from": "野忽那",
+            "to": "三津浜",
+            "departure": "14:31",
+            "arrival": "15:32",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "野忽那",
+            "departure": "15:50",
+            "arrival": "16:52",
+            "note": null
+          },
+          {
+            "from": "野忽那",
+            "to": "三津浜",
+            "departure": "17:51",
+            "arrival": "18:55",
+            "note": null
+          }
+        ]
+      },
+      {
+        "id": "nogutsunajima-kisen-highspeed-east",
+        "line": "東線",
+        "kind": "highspeed",
+        "trips": [
+          {
+            "from": "野忽那",
+            "to": "高浜",
+            "departure": "06:48",
+            "arrival": "07:15",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "野忽那",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "野忽那",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "野忽那",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "野忽那",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "野忽那",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "野忽那",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "野忽那",
+            "departure": "17:25",
+            "arrival": "17:53",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "野忽那",
+            "departure": "19:25",
+            "arrival": "19:44",
+            "note": null
+          }
+        ]
+      }
+    ],
+    "nuwajima": [
+      {
+        "id": "nuwajima-kisen-ferry-west",
+        "line": "西線",
+        "kind": "ferry",
+        "trips": [
+          {
+            "from": "上怒和",
+            "to": "三津浜",
+            "departure": "06:23",
+            "arrival": "08:50",
+            "note": null
+          },
+          {
+            "from": "元怒和",
+            "to": "三津浜",
+            "departure": "06:45",
+            "arrival": "08:50",
+            "note": null
+          },
+          {
+            "from": "上怒和",
+            "to": "三津浜",
+            "departure": "14:16",
+            "arrival": "16:25",
+            "note": null
+          },
+          {
+            "from": "元怒和",
+            "to": "三津浜",
+            "departure": "14:38",
+            "arrival": "16:25",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "元怒和",
+            "departure": "09:10",
+            "arrival": "10:59",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "上怒和",
+            "departure": "09:10",
+            "arrival": "11:21",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "元怒和",
+            "departure": "16:40",
+            "arrival": "18:44",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "上怒和",
+            "departure": "16:40",
+            "arrival": "19:06",
+            "note": null
+          }
+        ]
+      },
+      {
+        "id": "nuwajima-kisen-highspeed-west",
+        "line": "西線",
+        "kind": "highspeed",
+        "trips": [
+          {
+            "from": "高浜",
+            "to": "上怒和",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "元怒和",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "上怒和",
+            "departure": "07:40",
+            "arrival": "08:23",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "元怒和",
+            "departure": "07:40",
+            "arrival": "08:36",
+            "note": null
+          },
+          {
+            "from": "元怒和",
+            "to": "高浜",
+            "departure": "12:41",
+            "arrival": "13:36",
+            "note": null
+          },
+          {
+            "from": "上怒和",
+            "to": "高浜",
+            "departure": "12:54",
+            "arrival": "13:36",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "上怒和",
+            "departure": "15:15",
+            "arrival": "15:59",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "元怒和",
+            "departure": "15:15",
+            "arrival": "16:12",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "上怒和",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "元怒和",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          }
+        ]
+      }
+    ],
+    "tsuwajishima": [
+      {
+        "id": "tsuwajishima-kisen-ferry-west",
+        "line": "西線",
+        "kind": "ferry",
+        "trips": [
+          {
+            "from": "津和地",
+            "to": "三津浜",
+            "departure": "06:56",
+            "arrival": "08:50",
+            "note": null
+          },
+          {
+            "from": "津和地",
+            "to": "三津浜",
+            "departure": "14:49",
+            "arrival": "16:25",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "津和地",
+            "departure": "09:10",
+            "arrival": "10:48",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "津和地",
+            "departure": "16:40",
+            "arrival": "18:33",
+            "note": null
+          }
+        ]
+      },
+      {
+        "id": "tsuwajishima-kisen-highspeed-west",
+        "line": "西線",
+        "kind": "highspeed",
+        "trips": [
+          {
+            "from": "高浜",
+            "to": "津和地",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "津和地",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "津和地",
+            "departure": "07:40",
+            "arrival": "08:43",
+            "note": null
+          },
+          {
+            "from": "津和地",
+            "to": "高浜",
+            "departure": "12:34",
+            "arrival": "13:36",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "津和地",
+            "departure": "15:15",
+            "arrival": "16:19",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "津和地",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "津和地",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          }
+        ]
+      }
+    ],
+    "futagamijima": [
+      {
+        "id": "futagamijima-kisen-ferry-west",
+        "line": "西線",
+        "kind": "ferry",
+        "trips": [
+          {
+            "from": "二神",
+            "to": "三津浜",
+            "departure": "07:16",
+            "arrival": "08:50",
+            "note": null
+          },
+          {
+            "from": "二神",
+            "to": "三津浜",
+            "departure": "15:09",
+            "arrival": "16:25",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "二神",
+            "departure": "09:10",
+            "arrival": "10:28",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "二神",
+            "departure": "16:40",
+            "arrival": "18:13",
+            "note": null
+          }
+        ]
+      },
+      {
+        "id": "futagamijima-kisen-highspeed-west",
+        "line": "西線",
+        "kind": "highspeed",
+        "trips": [
+          {
+            "from": "高浜",
+            "to": "二神",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "二神",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "高浜",
+            "to": "二神",
+            "departure": "07:40",
+            "arrival": "08:56",
+            "note": null
+          },
+          {
+            "from": "二神",
+            "to": "高浜",
+            "departure": "08:56",
+            "arrival": "09:36",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "二神",
+            "departure": "11:40",
+            "arrival": "12:21",
+            "note": null
+          },
+          {
+            "from": "二神",
+            "to": "高浜",
+            "departure": "12:21",
+            "arrival": "13:36",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "二神",
+            "departure": "15:15",
+            "arrival": "16:32",
+            "note": null
+          },
+          {
+            "from": "二神",
+            "to": "高浜",
+            "departure": "16:32",
+            "arrival": "17:13",
+            "note": null
+          },
+          {
+            "from": "高浜",
+            "to": "二神",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          },
+          {
+            "from": "二神",
+            "to": "高浜",
+            "departure": null,
+            "arrival": null,
+            "note": "2025年2月1日から当面の間運休"
+          }
+        ]
+      }
+    ],
+    "tsurushima": [
+      {
+        "id": "tsurushima-kisen-ferry-west",
+        "line": "西線",
+        "kind": "ferry",
+        "trips": [
+          {
+            "from": "釣島",
+            "to": "三津浜",
+            "departure": "08:08",
+            "arrival": "08:50",
+            "note": null
+          },
+          {
+            "from": "釣島",
+            "to": "三津浜",
+            "departure": "16:02",
+            "arrival": "16:25",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "釣島",
+            "departure": "09:10",
+            "arrival": "09:35",
+            "note": null
+          },
+          {
+            "from": "三津浜",
+            "to": "釣島",
+            "departure": "16:40",
+            "arrival": "17:20",
+            "note": null
+          }
+        ]
+      }
+    ]
+  }
+}
