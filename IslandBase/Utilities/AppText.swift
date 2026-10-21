@@ -174,6 +174,7 @@ enum AppText {
     case tapToExpandWeeklyWeather
     case tapToExpandUsefulInfo
     case hourlyForecastAccessibility
+    case numericalModelNote
 
     // キャッシュ
     case cachePrevious
@@ -231,9 +232,9 @@ enum AppText {
         case .current:
             return "現在"
         case .hourlyForecast:
-            return "1時間ごとの予報"
+            return "1時間ごとの数値モデル値"
         case .weeklyWeather:
-            return "週間天気"
+            return "7日間の数値モデル値"
         case .humidity:
             return "湿度"
         case .windSpeed:
@@ -485,15 +486,17 @@ enum AppText {
         case .precipitationPercent(let percent):
             return "降水 \(percent)%"
         case .weeklyWeatherAccessibility:
-            return "週間天気"
+            return "7日間の数値モデル値"
         case .tapToCollapse:
             return "タップで閉じる"
         case .tapToExpandWeeklyWeather:
-            return "タップで週間天気を表示"
+            return "タップで7日間の数値モデル値を表示"
         case .tapToExpandUsefulInfo:
             return "タップでお役立ち情報を表示"
         case .hourlyForecastAccessibility:
-            return "1時間ごとの気温グラフと予報"
+            return "1時間ごとの気温グラフ（数値モデル値）"
+        case .numericalModelNote:
+            return "Open-Meteo（気象庁モデル等）の数値計算結果です。気象庁や予報事業者の予報ではなく、大きな誤差を含むことがあります。"
         case .cachePrevious:
             return "前回取得したデータを表示中"
         case .cacheJustNow:
@@ -552,9 +555,9 @@ enum AppText {
         case .current:
             return "Now"
         case .hourlyForecast:
-            return "Hourly forecast"
+            return "Hourly model data"
         case .weeklyWeather:
-            return "7-day forecast"
+            return "7-day model data"
         case .humidity:
             return "Humidity"
         case .windSpeed:
@@ -806,15 +809,17 @@ enum AppText {
         case .precipitationPercent(let percent):
             return "Rain \(percent)%"
         case .weeklyWeatherAccessibility:
-            return "7-day forecast"
+            return "7-day model data"
         case .tapToCollapse:
             return "Tap to collapse"
         case .tapToExpandWeeklyWeather:
-            return "Tap to show 7-day forecast"
+            return "Tap to show 7-day model data"
         case .tapToExpandUsefulInfo:
             return "Tap to show useful information"
         case .hourlyForecastAccessibility:
-            return "Hourly temperature chart and forecast"
+            return "Hourly temperature chart (model data)"
+        case .numericalModelNote:
+            return "Numerical model output from Open-Meteo (incl. JMA models). Not an official forecast; may contain large errors."
         case .cachePrevious:
             return "Showing previously saved data"
         case .cacheJustNow:
