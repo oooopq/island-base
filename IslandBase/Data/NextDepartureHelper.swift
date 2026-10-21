@@ -72,6 +72,7 @@ enum NextDepartureHelper {
                 currentIslandID: islandID
             )
             .compactMap { trip -> (FerryTrip, String?)? in
+                guard trip.hasScheduledTimes else { return nil }
                 guard departsFromCurrentIsland(trip: trip, islandID: islandID) else { return nil }
                 return (trip, ferryScheduleLabel(for: schedule, language: language))
             }
@@ -119,6 +120,9 @@ enum NextDepartureHelper {
     }
 
     static func departsFromCurrentIsland(trip: FerryTrip, islandID: String) -> Bool {
+        if let departureIslandID = trip.departureIslandID {
+            return departureIslandID == islandID
+        }
         guard let route = FerryRouteHelper.parseRoute(trip.routeName) else { return false }
         return FerryRouteHelper.islandID(for: route.departure) == islandID
     }

@@ -31,6 +31,8 @@ enum AppLegalInfo {
 
     /// GitHub Pages 上の天気キャッシュ JSON（Actions が約30分ごとに更新）
     static let weatherCacheBaseURL = "https://oooopq.github.io/island-base/weather"
+    /// GitHub Pages 上のフェリー時刻表 JSON（docs/ferry）
+    static let ferryCacheBaseURL = "https://oooopq.github.io/island-base/ferry"
     /// Actions の更新間隔（秒）。表示用の目安
     static let weatherCacheUpdateIntervalSeconds = 1800
 }

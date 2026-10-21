@@ -122,6 +122,10 @@ enum IslandCatalog {
     static func localizedPlaceName(_ japaneseName: String, language: AppLanguageMode) -> String {
         guard language == .english else { return japaneseName }
 
+        if let mainlandPort = FerryPagesTimetable.localizedMainlandPortName(japaneseName, language: language) {
+            return mainlandPort
+        }
+
         if let port = all.lazy.compactMap({ profile in
             profile.ports.first { $0.name == japaneseName }
         }).first {

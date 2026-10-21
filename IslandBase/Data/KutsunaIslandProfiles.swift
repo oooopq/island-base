@@ -26,6 +26,8 @@ enum KutsunaIslandProfiles {
     // 中島汽船に公式 HTTPS サイトがないため、愛媛県公式の航路案内と電話案内にする。
     // HTTP の中島汽船サイトや松山観光港はリンクしない。
     private static let nakajimaKisenPhoneNumber = "089-997-1221"
+    /// docs/ferry/kutsuna.json。興居島・安居島には付けない
+    private static let pagesTimetableFileName = "kutsuna"
 
     private static func nakajimaKisen(ehimePageID: String) -> FerryCompany {
         FerryCompany(
@@ -128,8 +130,9 @@ enum KutsunaIslandProfiles {
             "畑里",
             "小浜",
         ],
-        routeKeywords: ["中島", "大浦", "神浦", "忽那"],
+        routeKeywords: ["中島", "大浦", "神浦", "西中", "忽那"],
         ferryGTFSFeeds: [],
+        ferryPagesFileName: pagesTimetableFileName,
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "nakajima-kisen-ferry-east",
@@ -254,6 +257,7 @@ enum KutsunaIslandProfiles {
         placeAddressAnyTokens: ["睦月", "睦月島"],
         routeKeywords: ["睦月", "睦月島"],
         ferryGTFSFeeds: [],
+        ferryPagesFileName: pagesTimetableFileName,
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "muzuki-kisen-ferry",
@@ -302,6 +306,7 @@ enum KutsunaIslandProfiles {
         placeAddressAnyTokens: ["野忽那", "野忽那島"],
         routeKeywords: ["野忽那", "野忽那島"],
         ferryGTFSFeeds: [],
+        ferryPagesFileName: pagesTimetableFileName,
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "nogutsuna-kisen-ferry",
@@ -351,6 +356,7 @@ enum KutsunaIslandProfiles {
         placeAddressAnyTokens: ["上怒和", "元怒和", "怒和島", "怒和"],
         routeKeywords: ["怒和", "怒和島", "上怒和", "元怒和"],
         ferryGTFSFeeds: [],
+        ferryPagesFileName: pagesTimetableFileName,
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "nuwa-kisen-ferry",
@@ -399,6 +405,7 @@ enum KutsunaIslandProfiles {
         placeAddressAnyTokens: ["津和地", "津和地島"],
         routeKeywords: ["津和地", "津和地島"],
         ferryGTFSFeeds: [],
+        ferryPagesFileName: pagesTimetableFileName,
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "tsuwaji-kisen-ferry",
@@ -453,6 +460,7 @@ enum KutsunaIslandProfiles {
         placeAddressAnyTokens: ["二神", "二神島"],
         routeKeywords: ["二神", "二神島"],
         ferryGTFSFeeds: [],
+        ferryPagesFileName: pagesTimetableFileName,
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "futagami-kisen-ferry",
@@ -510,6 +518,7 @@ enum KutsunaIslandProfiles {
         placeAddressAnyTokens: ["釣島"],
         routeKeywords: ["釣島", "釣"],
         ferryGTFSFeeds: [],
+        ferryPagesFileName: pagesTimetableFileName,
         sampleFerrySchedules: [
             FerryCompanySchedule(
                 id: "tsurushima-kisen-ferry",

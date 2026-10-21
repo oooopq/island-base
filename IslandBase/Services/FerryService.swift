@@ -31,6 +31,15 @@ private struct ParsedFeedResult: Sendable {
 
 struct FerryService {
     private let cacheKeyPrefix = "ferry_cache_v2_"
+    /// GTFS は当日分だけ残す。Pages の定期ダイヤは別キーにし、同じ日判定で消さない
+    private let pagesCacheKeyPrefix = "ferry_pages_cache_v1_"
+    private static let pagesSession: URLSession = {
+        let config = URLSessionConfiguration.ephemeral
+        config.timeoutIntervalForRequest = NetworkTimeout.weatherPagesSeconds
+        config.timeoutIntervalForResource = NetworkTimeout.weatherPagesSeconds + 2
+        config.waitsForConnectivity = false
+        return URLSession(configuration: config)
+    }()
     private static let japanCalendar: Calendar = {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(identifier: "Asia/Tokyo") ?? .current
@@ -99,6 +108,61 @@ struct FerryService {
         return result
     }
 
+    /// GitHub Pages の時刻表 JSON。失敗時は保存しない
+    func fetchPagesSchedules(for island: Island) async throws -> FerryFetchResult {
+        guard let profile = IslandCatalog.profile(for: island),
+              let fileName = profile.ferryPagesFileName,
+              fileName == FerryPagesTimetable.allowedFileName,
+              let company = profile.sampleFerrySchedules.first?.company else {
+            throw FerryServiceError.badResponse
+        }
+
+        let url = try makePagesURL(fileName: fileName)
+        var request = URLRequest(url: url)
+        request.cachePolicy = .reloadIgnoringLocalCacheData
+        request.timeoutInterval = NetworkTimeout.weatherPagesSeconds
+
+        let (data, response) = try await Self.pagesSession.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw FerryServiceError.badResponse
+        }
+
+        let timetable: FerryPagesIslandTimetable
+        do {
+            timetable = try FerryPagesTimetable.decode(
+                data: data,
+                islandID: island.id,
+                company: company
+            )
+        } catch {
+            throw FerryServiceError.badResponse
+        }
+
+        let result = FerryFetchResult(
+            schedules: timetable.schedules,
+            validUntilText: nil,
+            fetchedAt: Date()
+        )
+        savePagesCache(result, for: island.id)
+        return result
+    }
+
+    /// Pages 時刻表の端末キャッシュ。日をまたいでも残す（鮮度は JSON の fetchedAt で判断する）
+    func cachedPagesSchedules(for islandID: String) -> FerryFetchResult? {
+        let key = pagesCacheKeyPrefix + islandID
+        guard let data = UserDefaults.standard.data(forKey: key) else {
+            return nil
+        }
+
+        guard let result = try? JSONDecoder().decode(FerryFetchResult.self, from: data) else {
+            UserDefaults.standard.removeObject(forKey: key)
+            return nil
+        }
+
+        return result
+    }
+
     /// 当日（日本時間）に取得したキャッシュのみ返す。前日の便は表示しない
     func cachedSchedules(for islandID: String) -> FerryFetchResult? {
         let key = cacheKeyPrefix + islandID
@@ -154,6 +218,23 @@ struct FerryService {
     private func saveCache(_ result: FerryFetchResult, for islandID: String) {
         guard let data = try? JSONEncoder().encode(result) else { return }
         UserDefaults.standard.set(data, forKey: cacheKeyPrefix + islandID)
+    }
+
+    private func savePagesCache(_ result: FerryFetchResult, for islandID: String) {
+        guard let data = try? JSONEncoder().encode(result) else { return }
+        UserDefaults.standard.set(data, forKey: pagesCacheKeyPrefix + islandID)
+    }
+
+    private func makePagesURL(fileName: String) throws -> URL {
+        guard fileName == FerryPagesTimetable.allowedFileName else {
+            throw FerryServiceError.badResponse
+        }
+        let block = FerryPagesTimetable.halfDayBlockString()
+        let urlString = "\(AppLegalInfo.ferryCacheBaseURL)/\(fileName).json?h=\(block)"
+        guard let url = URL(string: urlString) else {
+            throw FerryServiceError.badResponse
+        }
+        return url
     }
 }
 

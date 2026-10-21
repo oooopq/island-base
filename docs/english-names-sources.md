@@ -50,9 +50,9 @@
 | 静岡 | Shizuoka | 静岡空港（富士山静岡空港）の公式英語は Shizuoka Airport。同上 | 2026-10-20 |
 | 長崎 | Nagasaki | 長崎空港の公式英語は Nagasaki Airport。同上 | 2026-10-20 |
 | 福岡 | Fukuoka | 福岡空港の公式英語は Fukuoka Airport。同上 | 2026-10-20 |
-| 北条 | Hojo | ローマ字化（公式英語名なし）。松山側の港 | 2026-10-20 |
-| 高浜 | Takahama | ローマ字化（公式英語名なし）。松山側の港 | 2026-10-20 |
-| 三津浜 | Mitsuhama | ローマ字化（公式英語名なし）。松山側の港 | 2026-10-20 |
+| 北条 | Hojo | ローマ字化（公式英語名なし）。松山側の港。中予地方局の英語ページには "Hojo port" もあるが、今回の時刻表表示の対象外 | 2026-10-20 |
+| 高浜 | Takahama | 行き先チップの短名。港としての公式英語は下の「松山側の港」 | 2026-10-21 |
+| 三津浜 | Mitsuhama | 行き先チップの短名。港としての公式英語は下の「松山側の港」 | 2026-10-21 |
 
 ## 港
 
@@ -142,6 +142,15 @@
 | 二神港 | Futagami Port | ローマ字化（公式英語名なし） |
 | 釣島港 | Tsurushima Port | ローマ字化（公式英語名なし） |
 | 安居島港 | Aijima Port | ローマ字化（公式英語名なし） |
+
+### 松山側の港（三津浜・高浜）
+
+愛媛県 中予地方局の英語ページ [Access from The Central Matsuyama City](https://www.pref.ehime.jp/site/chuyo/4765.html)（2026-10-21 確認）が、中島汽船の釣島・二神島・津和地島・怒和島・睦月島・野忽那島・中島へのアクセスで "Mitsuhama port" と "Takahama port" と書いている。ページ上の port は小文字。アプリの既存港名は "Oura Port" のように Port を大文字にし、港の一覧と同じく日本語を括弧で添える。時刻表と次の便の英語表示だけこの形にする。上の行き先チップの短名（Takahama / Mitsuhama）は変えていない。
+
+| 日本語名 | 英語表示 | 根拠 | 確認日 |
+| --- | --- | --- | --- |
+| 三津浜 | Mitsuhama Port (三津浜) | 中予地方局の "Mitsuhama port" | 2026-10-21 |
+| 高浜 | Takahama Port (高浜) | 同ページの "Takahama port"（Takahama port is in front of Takahama Station） | 2026-10-21 |
 
 ## 八重山 GTFS の航路名
 

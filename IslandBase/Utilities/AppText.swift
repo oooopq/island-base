@@ -83,6 +83,8 @@ enum AppText {
     case callToConfirm
     case nakajimaKisen
     case nakajimaKisenFerryGuidance
+    case ferryPagesStaleNotice(String)
+    case ferryPagesSourceNotice(String)
     case flightCheckOfficialSites
     case liveCameraFootnote
     case usefulInfoDisclaimer
@@ -330,6 +332,10 @@ enum AppText {
             return "中島汽船"
         case .nakajimaKisenFerryGuidance:
             return "航路・時刻表は愛媛県公式情報をご確認ください。運航状況・乗船については中島汽船へお問い合わせください。"
+        case .ferryPagesStaleNotice(let updatedAt):
+            return "最終更新：\(updatedAt)（JST）・最新は公式サイトでご確認ください"
+        case .ferryPagesSourceNotice(let updatedAt):
+            return "時刻表出典：中島汽船株式会社 公式サイト（取得日時 \(updatedAt)）。運航状況は必ず公式サイトでご確認ください。"
         case .flightCheckOfficialSites:
             return "ダイヤ・運航状況は各航空会社の公式サイトでご確認ください。"
         case .liveCameraFootnote:
@@ -647,6 +653,10 @@ enum AppText {
             return "Nakajima Kisen"
         case .nakajimaKisenFerryGuidance:
             return "Check the official Ehime Prefecture page for routes and timetables. For current service information, contact Nakajima Kisen."
+        case .ferryPagesStaleNotice(let updatedAt):
+            return "Last updated: \(updatedAt) (JST). Please confirm the latest information on the official site."
+        case .ferryPagesSourceNotice(let updatedAt):
+            return "Timetable source: Nakajima Kisen Co., Ltd. official website (retrieved \(updatedAt)). Always confirm the operating status on the official website."
         case .flightCheckOfficialSites:
             return "Check timetables and service status on each airline’s official site."
         case .liveCameraFootnote:

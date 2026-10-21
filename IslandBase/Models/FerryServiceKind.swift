@@ -8,11 +8,14 @@
 import Foundation
 
 enum FerryServiceKind: String, Codable, CaseIterable {
+    case ferry
     case highSpeedBoat
     case overnightFerry
 
     var titleEnglish: String {
         switch self {
+        case .ferry:
+            return "Ferry"
         case .highSpeedBoat:
             return "High-Speed Boat"
         case .overnightFerry:
@@ -22,6 +25,8 @@ enum FerryServiceKind: String, Codable, CaseIterable {
 
     var titleJapanese: String {
         switch self {
+        case .ferry:
+            return "フェリー"
         case .highSpeedBoat:
             return "高速船"
         case .overnightFerry:
@@ -31,6 +36,8 @@ enum FerryServiceKind: String, Codable, CaseIterable {
 
     var descriptionEnglish: String {
         switch self {
+        case .ferry:
+            return "Vehicle ferry"
         case .highSpeedBoat:
             return "Day service · About 2–3 hours · Reserved seats"
         case .overnightFerry:
@@ -40,6 +47,8 @@ enum FerryServiceKind: String, Codable, CaseIterable {
 
     var descriptionJapanese: String {
         switch self {
+        case .ferry:
+            return "車両航送"
         case .highSpeedBoat:
             return "日中運航 · 約2〜3時間 · 指定席"
         case .overnightFerry:
@@ -49,6 +58,8 @@ enum FerryServiceKind: String, Codable, CaseIterable {
 
     var systemImage: String {
         switch self {
+        case .ferry:
+            return "ferry"
         case .highSpeedBoat:
             return "ferry.fill"
         case .overnightFerry:
