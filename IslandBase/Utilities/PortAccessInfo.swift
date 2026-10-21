@@ -18,11 +18,21 @@ struct PortAccessInfo {
     }
 
     func formattedLine(includeWalkingTime: Bool, language: AppLanguageMode = .japanese) -> String {
-        let distanceText = IslandCatalog.formattedDistance(distanceMeters)
-        if includeWalkingTime {
-            return "\(port.name)（\(directionLabel)）から \(distanceText)（\(IslandCatalog.formattedWalkingTime(distanceMeters, language: language))）"
+        if language.isJapanese {
+            let distanceText = IslandCatalog.formattedDistance(distanceMeters)
+            if includeWalkingTime {
+                return "\(port.name)（\(directionLabel)）から \(distanceText)（\(IslandCatalog.formattedWalkingTime(distanceMeters, language: language))）"
+            }
+            return "\(port.name)（\(directionLabel)）から \(distanceText)"
         }
-        return "\(port.name)（\(directionLabel)）から \(distanceText)"
+
+        let distanceText = IslandCatalog.formattedDistanceEnglish(distanceMeters)
+        let portName = port.displayName(for: .english, includesJapaneseName: true)
+        if includeWalkingTime {
+            let walking = IslandCatalog.formattedWalkingTime(distanceMeters, language: .english)
+            return "\(distanceText) from \(portName) (\(directionLabel)), \(walking)"
+        }
+        return "\(distanceText) from \(portName) (\(directionLabel))"
     }
 }
 

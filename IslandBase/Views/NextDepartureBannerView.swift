@@ -64,7 +64,7 @@ struct NextDepartureBannerView: View {
 
         HStack(alignment: .top, spacing: 12) {
             VStack(alignment: .leading, spacing: 6) {
-                Text(departure.routeText)
+                Text(IslandCatalog.localizedRouteName(departure.routeText, language: languageStore.mode))
                     .font(.subheadline)
                     .fontWeight(.medium)
 

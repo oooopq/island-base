@@ -13,11 +13,26 @@ import Foundation
 struct IslandPort: Identifiable {
     var id: String { name }
     let name: String
+    /// 公式またはヘボン式の英語名。nil のときは日本語名を出す。
+    var nameEnglish: String? = nil
     let latitude: Double
     let longitude: Double
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
+    /// 地図ピンは英語名のみ。一覧や距離文は `includesJapaneseName` で「Oura Port (大浦港)」。
+    func displayName(for language: AppLanguageMode, includesJapaneseName: Bool = false) -> String {
+        guard language == .english,
+              let nameEnglish,
+              nameEnglish.isEmpty == false else {
+            return name
+        }
+        if includesJapaneseName {
+            return "\(nameEnglish) (\(name))"
+        }
+        return nameEnglish
     }
 }
 
@@ -61,6 +76,8 @@ struct IslandProfile: Identifiable {
     let weatherLocation: IslandWeatherLocation?
     let backgroundAssetName: String
     let backgroundCredit: String
+    /// 英語モード用。nil のときは日本語クレジットをそのまま出す。
+    let backgroundCreditEnglish: String?
     let placeSearchRadiusMeters: CLLocationDistance
     /// 現在地が「島内にいます」と判定される中心からの距離
     let onIslandRadiusMeters: CLLocationDistance
@@ -166,6 +183,7 @@ struct IslandProfile: Identifiable {
         weatherLocation: IslandWeatherLocation? = nil,
         backgroundAssetName: String,
         backgroundCredit: String,
+        backgroundCreditEnglish: String? = nil,
         placeSearchRadiusMeters: CLLocationDistance,
         onIslandRadiusMeters: CLLocationDistance? = nil,
         placeAddressRequiredTokens: [String] = [],
@@ -189,6 +207,7 @@ struct IslandProfile: Identifiable {
         self.weatherLocation = weatherLocation
         self.backgroundAssetName = backgroundAssetName
         self.backgroundCredit = backgroundCredit
+        self.backgroundCreditEnglish = backgroundCreditEnglish
         self.placeSearchRadiusMeters = placeSearchRadiusMeters
         self.onIslandRadiusMeters = onIslandRadiusMeters ?? placeSearchRadiusMeters
         self.placeAddressRequiredTokens = placeAddressRequiredTokens
@@ -204,6 +223,13 @@ struct IslandProfile: Identifiable {
         self.flightSchedules = flightSchedules
         self.flightScheduleNote = flightScheduleNote
         self.artIntro = artIntro
+    }
+
+    func backgroundCredit(for language: AppLanguageMode) -> String {
+        if language.isJapanese {
+            return backgroundCredit
+        }
+        return backgroundCreditEnglish ?? backgroundCredit
     }
 
     /// 表示言語に合わせたライブカメラ注記

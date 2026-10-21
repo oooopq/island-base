@@ -50,6 +50,8 @@ struct FerryLinkButton: Identifiable {
 
 struct FerryCompany: Codable {
     let name: String
+    /// 公式英語名。nil のときは日本語名を出す。
+    let nameEnglish: String?
     /// 時刻表・予約ページ
     let websiteURL: String
     let phoneNumber: String
@@ -60,16 +62,54 @@ struct FerryCompany: Codable {
 
     init(
         name: String,
+        nameEnglish: String? = nil,
         websiteURL: String,
         phoneNumber: String,
         statusPageURL: String? = nil,
         homePageURL: String? = nil
     ) {
         self.name = name
+        self.nameEnglish = nameEnglish
         self.websiteURL = websiteURL
         self.phoneNumber = phoneNumber
         self.statusPageURL = statusPageURL
         self.homePageURL = homePageURL
+    }
+
+    func displayName(for language: AppLanguageMode) -> String {
+        if language == .english, let nameEnglish, nameEnglish.isEmpty == false {
+            return nameEnglish
+        }
+        return name
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case nameEnglish
+        case websiteURL
+        case phoneNumber
+        case statusPageURL
+        case homePageURL
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        nameEnglish = try container.decodeIfPresent(String.self, forKey: .nameEnglish)
+        websiteURL = try container.decode(String.self, forKey: .websiteURL)
+        phoneNumber = try container.decode(String.self, forKey: .phoneNumber)
+        statusPageURL = try container.decodeIfPresent(String.self, forKey: .statusPageURL)
+        homePageURL = try container.decodeIfPresent(String.self, forKey: .homePageURL)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(nameEnglish, forKey: .nameEnglish)
+        try container.encode(websiteURL, forKey: .websiteURL)
+        try container.encode(phoneNumber, forKey: .phoneNumber)
+        try container.encodeIfPresent(statusPageURL, forKey: .statusPageURL)
+        try container.encodeIfPresent(homePageURL, forKey: .homePageURL)
     }
 
     // 電話アプリを開くためのURL

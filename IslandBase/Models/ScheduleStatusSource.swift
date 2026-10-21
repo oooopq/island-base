@@ -15,9 +15,17 @@ struct ScheduleStatusSource: Identifiable, Hashable {
 
     let id: String
     let name: String
+    var nameEnglish: String? = nil
     let statusPageURL: URL
     let phoneNumber: String?
     let category: Category
+
+    func displayName(for language: AppLanguageMode) -> String {
+        if language == .english, let nameEnglish, nameEnglish.isEmpty == false {
+            return nameEnglish
+        }
+        return name
+    }
 
     var phoneURL: URL? {
         guard let phoneNumber else { return nil }
@@ -56,6 +64,7 @@ enum ScheduleStatusSourceCollector {
         return ScheduleStatusSource(
             id: statusPageURL.absoluteString,
             name: company.name,
+            nameEnglish: company.nameEnglish,
             statusPageURL: statusPageURL,
             phoneNumber: company.phoneNumber,
             category: .ferry
@@ -67,6 +76,7 @@ enum ScheduleStatusSourceCollector {
         return ScheduleStatusSource(
             id: statusPageURL.absoluteString,
             name: airline.name,
+            nameEnglish: airline.nameEnglish,
             statusPageURL: statusPageURL,
             phoneNumber: airline.phoneNumber,
             category: .flight

@@ -66,10 +66,7 @@ struct FerryLinkSectionView: View {
     }
 
     private func companyTitle(_ company: FerryCompany) -> String {
-        if company.name == "中島汽船" {
-            return languageStore.t(.nakajimaKisen)
-        }
-        return company.name
+        company.displayName(for: languageStore.mode)
     }
 
     private func actions(for company: FerryCompany) -> [ScheduleOperatorAction] {

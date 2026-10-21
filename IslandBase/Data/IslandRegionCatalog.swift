@@ -54,10 +54,13 @@ struct IslandRegion: Identifiable, Hashable {
     let coverAssetName: String
     /// 地域カバー画像の出典表記（Unsplash 等）
     let coverAssetCredit: String?
+    var coverAssetCreditEnglish: String? = nil
     /// フェリーダイヤ取得元の説明（GTFS 取得時のフッター用）
     let ferryDataSourceNote: String?
+    var ferryDataSourceNoteEnglish: String? = nil
     /// 有効期限表示の接尾辞（例: OTTOP）
     let ferryValidUntilSuffix: String?
+    var ferryValidUntilSuffixEnglish: String? = nil
 
     static func == (lhs: IslandRegion, rhs: IslandRegion) -> Bool {
         lhs.id == rhs.id
@@ -74,6 +77,27 @@ struct IslandRegion: Identifiable, Hashable {
     func mapLabel(for language: AppLanguageMode) -> String {
         language.isJapanese ? mapLabelJapanese : mapLabelEnglish
     }
+
+    func coverCredit(for language: AppLanguageMode) -> String? {
+        if language.isJapanese {
+            return coverAssetCredit
+        }
+        return coverAssetCreditEnglish ?? coverAssetCredit
+    }
+
+    func ferryDataSourceNote(for language: AppLanguageMode) -> String? {
+        if language.isJapanese {
+            return ferryDataSourceNote
+        }
+        return ferryDataSourceNoteEnglish ?? ferryDataSourceNote
+    }
+
+    func ferryValidUntilSuffix(for language: AppLanguageMode) -> String? {
+        if language.isJapanese {
+            return ferryValidUntilSuffix
+        }
+        return ferryValidUntilSuffixEnglish ?? ferryValidUntilSuffix
+    }
 }
 
 enum IslandRegionCatalog {
@@ -89,9 +113,18 @@ enum IslandRegionCatalog {
             labelOffsetY: 32
         ),
         coverAssetName: "IslandBgIshigaki",
-        coverAssetCredit: "Photo: Roméo A. / Unsplash（石垣島・川平湾）",
+        coverAssetCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Roméo A. / Unsplash",
+            place: "石垣島・川平湾"
+        ),
+        coverAssetCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Roméo A. / Unsplash",
+            place: "Ishigaki, Kabira Bay"
+        ),
         ferryDataSourceNote: "OTTOP 公開 GTFS を改変して表示（CC BY 4.0）。詳細は出典・クレジット参照",
-        ferryValidUntilSuffix: "（OTTOP公開データ）"
+        ferryDataSourceNoteEnglish: "Shown from modified OTTOP public GTFS (CC BY 4.0). See Credits & sources for details.",
+        ferryValidUntilSuffix: "（OTTOP公開データ）",
+        ferryValidUntilSuffixEnglish: " (OTTOP public data)"
     )
 
     static let sado = IslandRegion(
@@ -105,7 +138,18 @@ enum IslandRegionCatalog {
             labelOffsetY: -18
         ),
         coverAssetName: "IslandBgSado",
-        coverAssetCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡島・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        coverAssetCredit: PhotoCreditText.japanese(
+            attribution: "Photo: 伊藤善行 / Wikimedia Commons",
+            place: "佐渡島・矢島経島のたらい舟",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
+        coverAssetCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: 伊藤善行 / Wikimedia Commons",
+            place: "Sado Island, tarai-bune at Yajima and Kyojima",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
         ferryDataSourceNote: nil,
         ferryValidUntilSuffix: nil
     )
@@ -122,8 +166,16 @@ enum IslandRegionCatalog {
             labelOffsetY: 62
         ),
         coverAssetName: "IslandBgIzu",
-        coverAssetCredit: "Photo: Ice Tea / Unsplash（神津島・伊豆諸島）",
+        coverAssetCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Ice Tea / Unsplash",
+            place: "神津島・伊豆諸島"
+        ),
+        coverAssetCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Ice Tea / Unsplash",
+            place: "Kozushima, Izu Islands"
+        ),
         ferryDataSourceNote: "ダイヤ・運航状況は東海汽船の公式サイトでご確認ください。",
+        ferryDataSourceNoteEnglish: "Check the timetable and service status on the Tokai Kisen official website.",
         ferryValidUntilSuffix: nil
     )
 
@@ -139,8 +191,20 @@ enum IslandRegionCatalog {
             labelOffsetY: -62
         ),
         coverAssetName: "IslandBgGoto",
-        coverAssetCredit: "Photo: Nami-ja / Wikimedia Commons（五島市玉之浦町・頓泊海水浴場）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        coverAssetCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Nami-ja / Wikimedia Commons",
+            place: "五島市玉之浦町・頓泊海水浴場",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
+        coverAssetCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Nami-ja / Wikimedia Commons",
+            place: "Tamanoura, Goto City, Tontomari Beach",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
         ferryDataSourceNote: "ダイヤ・運航状況は五島旅客船・木口汽船・九州商船等の公式サイトでご確認ください。",
+        ferryDataSourceNoteEnglish: "Check the timetable and service status on the official websites of Goto Passenger Ship, Kiguchi Kisen, Kyushu Shosen, and others.",
         ferryValidUntilSuffix: nil
     )
 
@@ -156,8 +220,20 @@ enum IslandRegionCatalog {
             labelOffsetY: 44
         ),
         coverAssetName: "IslandBgKutsuna",
-        coverAssetCredit: "Photo: KUNIO MIURA / Wikimedia Commons（興居島沖合）／CC BY 3.0／表示時に暗色グラデーションを追加",
+        coverAssetCredit: PhotoCreditText.japanese(
+            attribution: "Photo: KUNIO MIURA / Wikimedia Commons",
+            place: "興居島沖合",
+            license: "CC BY 3.0",
+            addsDarkGradient: true
+        ),
+        coverAssetCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: KUNIO MIURA / Wikimedia Commons",
+            place: "off Gogoshima",
+            license: "CC BY 3.0",
+            addsDarkGradient: true
+        ),
         ferryDataSourceNote: "ダイヤ・運航状況は中島汽船・ごごしま等の公式サイトでご確認ください。",
+        ferryDataSourceNoteEnglish: "Check the timetable and service status on the official websites of Nakajima Kisen, Gogoshima, and others.",
         ferryValidUntilSuffix: nil
     )
 
@@ -173,8 +249,16 @@ enum IslandRegionCatalog {
             labelOffsetY: -38
         ),
         coverAssetName: "IslandBgShodoshimaNaoshima",
-        coverAssetCredit: "Photo: Yu / Unsplash（小豆島・香川）",
+        coverAssetCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Yu / Unsplash",
+            place: "小豆島・香川"
+        ),
+        coverAssetCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Yu / Unsplash",
+            place: "Shodoshima, Kagawa"
+        ),
         ferryDataSourceNote: "四国フェリー・小豆島豊島フェリー・四国汽船等の公式サイトからご確認ください。",
+        ferryDataSourceNoteEnglish: "Check the official websites of Shikoku Ferry, Shodoshima Teshima Ferry, Shikoku Kisen, and others.",
         ferryValidUntilSuffix: nil
     )
 

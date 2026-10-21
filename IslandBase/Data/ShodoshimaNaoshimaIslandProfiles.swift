@@ -20,6 +20,7 @@ enum ShodoshimaNaoshimaIslandProfiles {
 
     private static let shikokuFerry = FerryCompany(
         name: "四国フェリー株式会社",
+        nameEnglish: "Shikoku Ferry Co., Ltd.",
         websiteURL: "https://www.shikokuferry.com/lp-ferry/",
         phoneNumber: "087-851-0131",
         statusPageURL: "https://www.shikokuferry.com/news/",
@@ -28,6 +29,7 @@ enum ShodoshimaNaoshimaIslandProfiles {
 
     private static let shodoshimaFerry = FerryCompany(
         name: "小豆島豊島フェリー株式会社",
+        nameEnglish: "Shodoshima Teshima Ferry",
         websiteURL: "https://www.shodoshima-ferry.co.jp/timetable/",
         phoneNumber: "0879-62-1348",
         statusPageURL: "https://www.shodoshima-ferry.co.jp/",
@@ -36,6 +38,7 @@ enum ShodoshimaNaoshimaIslandProfiles {
 
     private static let shikokuKisen = FerryCompany(
         name: "四国汽船株式会社",
+        nameEnglish: "Shikoku Kisen",
         websiteURL: "https://www.shikokukisen.com/routes/",
         phoneNumber: "087-821-5100",
         statusPageURL: "https://shikokukisen.com/traffic-info/",
@@ -44,6 +47,7 @@ enum ShodoshimaNaoshimaIslandProfiles {
 
     private static let akebonoMaritime = FerryCompany(
         name: "あけぼのマリタイム株式会社",
+        nameEnglish: "AKEBONO MARITIME Co.Ltd.",
         websiteURL: "https://www.akebonomaritime.com/",
         phoneNumber: "086-947-1757",
         statusPageURL: "https://www.akebonomaritime.com/",
@@ -65,6 +69,7 @@ enum ShodoshimaNaoshimaIslandProfiles {
 
     private static let shodoshimaPort = IslandPort(
         name: "土庄港",
+        nameEnglish: "Tonosho Port",
         latitude: 34.489263,
         longitude: 134.171791
     )
@@ -81,7 +86,14 @@ enum ShodoshimaNaoshimaIslandProfiles {
         ports: [shodoshimaPort],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgShodoshima",
-        backgroundCredit: "Photo: Yu / Unsplash（小豆島・香川）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Yu / Unsplash",
+            place: "小豆島・香川"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Yu / Unsplash",
+            place: "Shodoshima, Kagawa"
+        ),
         placeSearchRadiusMeters: 20_000,
         onIslandRadiusMeters: 18_000,
         routeKeywords: ["小豆島", "土庄", "オリーブ"],
@@ -131,12 +143,19 @@ enum ShodoshimaNaoshimaIslandProfiles {
         regionID: "shodoshima_naoshima",
         ports: [
             // 港座標: OSM ferry_terminal / 直島港ターミナル（本村）
-            IslandPort(name: "宮浦港", latitude: 34.456351, longitude: 133.974135),
-            IslandPort(name: "本村港", latitude: 34.461600, longitude: 133.998143),
+            IslandPort(name: "宮浦港", nameEnglish: "Miyanoura Port", latitude: 34.456351, longitude: 133.974135),
+            IslandPort(name: "本村港", nameEnglish: "Honmura Port", latitude: 34.461600, longitude: 133.998143),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgNaoshima",
-        backgroundCredit: "Photo: Hotaria N / Unsplash（直島・香川）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Hotaria N / Unsplash",
+            place: "直島・香川"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Hotaria N / Unsplash",
+            place: "Naoshima, Kagawa"
+        ),
         placeSearchRadiusMeters: 8_000,
         onIslandRadiusMeters: 6_000,
         routeKeywords: ["直島", "宮浦", "本村", "ベネッセ"],
@@ -186,12 +205,19 @@ enum ShodoshimaNaoshimaIslandProfiles {
         regionID: "shodoshima_naoshima",
         ports: [
             // 港座標: OSM ferry_terminal（家浦）/ 小豆島豊島フェリー唐櫃港FT（唐櫃）
-            IslandPort(name: "家浦港", latitude: 34.490076, longitude: 134.060982),
-            IslandPort(name: "唐櫃港", latitude: 34.489934, longitude: 134.095569),
+            IslandPort(name: "家浦港", nameEnglish: "Ieura Port", latitude: 34.490076, longitude: 134.060982),
+            IslandPort(name: "唐櫃港", nameEnglish: "Karato Port", latitude: 34.489934, longitude: 134.095569),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgTeshima",
-        backgroundCredit: "Photo: Victor Lu / Unsplash（豊島・香川）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Victor Lu / Unsplash",
+            place: "豊島・香川"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Victor Lu / Unsplash",
+            place: "Teshima, Kagawa"
+        ),
         placeSearchRadiusMeters: 5_000,
         onIslandRadiusMeters: 4_000,
         routeKeywords: ["豊島", "家浦", "唐櫃", "テシマ"],
@@ -231,11 +257,20 @@ enum ShodoshimaNaoshimaIslandProfiles {
         ),
         regionID: "shodoshima_naoshima",
         ports: [
-            IslandPort(name: "犬島港", latitude: 34.566756, longitude: 134.104110),
+            IslandPort(name: "犬島港", nameEnglish: "Inujima Port", latitude: 34.566756, longitude: 134.104110),
         ],
         jmaMarineForecastArea: .setonaikai,
         backgroundAssetName: "IslandBgInujima",
-        backgroundCredit: "Photo: Tomoyuki Shidara（犬島）／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "犬島",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "Inujima",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 3_000,
         onIslandRadiusMeters: 2_500,
         routeKeywords: ["犬島", "犬島精錬所", "瀬戸内市"],

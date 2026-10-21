@@ -17,6 +17,7 @@ enum SadoIslandProfiles {
 
     private static let sadoKisen = FerryCompany(
         name: "佐渡汽船株式会社",
+        nameEnglish: "Sado Kisen Co., Ltd.",
         websiteURL: "https://www.sadokisen.co.jp/reservation/timetables/?route=1",
         phoneNumber: "025-245-6400",
         statusPageURL: "https://www.sadokisen.co.jp/reservation/service-status/",
@@ -25,6 +26,7 @@ enum SadoIslandProfiles {
 
     private static let ana = FlightAirline(
         name: "全日本空輸（ANA）",
+        nameEnglish: "All Nippon Airways (ANA)",
         websiteURL: "https://www.ana.co.jp/",
         phoneNumber: "0570-029-222",
         statusPageURL: "https://www.ana.co.jp/fs/dom/jp/"
@@ -42,12 +44,23 @@ enum SadoIslandProfiles {
         ),
         regionID: "sado",
         ports: [
-            IslandPort(name: "両津港", latitude: 38.081653, longitude: 138.438069),
-            IslandPort(name: "小木港", latitude: 37.816271, longitude: 138.282232),
+            IslandPort(name: "両津港", nameEnglish: "Ryotsu Port", latitude: 38.081653, longitude: 138.438069),
+            IslandPort(name: "小木港", nameEnglish: "Ogi Port", latitude: 37.816271, longitude: 138.282232),
         ],
         jmaMarineForecastArea: .sadoOffshore,
         backgroundAssetName: "IslandBgSado",
-        backgroundCredit: "Photo: 伊藤善行 / Wikimedia Commons（佐渡島・矢島経島のたらい舟）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: 伊藤善行 / Wikimedia Commons",
+            place: "佐渡島・矢島経島のたらい舟",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: 伊藤善行 / Wikimedia Commons",
+            place: "Sado Island, tarai-bune at Yajima and Kyojima",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 18_000,
         routeKeywords: ["佐渡", "両津", "小木"],
         ferryGTFSFeeds: [],

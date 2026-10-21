@@ -167,7 +167,7 @@ struct ImageCreditsView: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(palette.text)
 
-                    if let credit = region.coverAssetCredit {
+                    if let credit = region.coverCredit(for: languageStore.mode) {
                         Text(credit)
                             .font(.caption)
                             .foregroundStyle(palette.text)
@@ -196,7 +196,7 @@ struct ImageCreditsView: View {
                         .font(.caption)
                         .foregroundStyle(palette.secondaryText)
 
-                    Text(entry.credit)
+                    Text(entry.credit(for: languageStore.mode))
                         .font(.caption)
                         .foregroundStyle(palette.text)
                         .fixedSize(horizontal: false, vertical: true)
@@ -221,7 +221,9 @@ struct ImageCreditsView: View {
                 }
                 if let url = AppLegalInfo.supportEmailURL {
                     legalLinkRow(
-                        title: "\(contactTitle)（\(AppLegalInfo.supportEmail)）",
+                        title: languageStore.mode.isJapanese
+                            ? "\(contactTitle)（\(AppLegalInfo.supportEmail)）"
+                            : "\(contactTitle) (\(AppLegalInfo.supportEmail))",
                         url: url
                     )
                 }
@@ -387,9 +389,9 @@ struct ImageCreditsView: View {
             """
             : """
             Datasets used (copyright holders):
-            ・(有) Anei Kanko GTFS — OTTOP · (有) Anei Kanko
-            ・Yaeyama Kanko Ferry Co. GTFS — OTTOP · Yaeyama Kanko Ferry Co.
-            ・Fukuyama Kaiun GTFS — OTTOP · Fukuyama Kaiun
+            - Anei Kanko Co., Ltd. GTFS — OTTOP · Anei Kanko Co., Ltd.
+            - Yaeyama Kanko Ferry GTFS — OTTOP · Yaeyama Kanko Ferry
+            - Fukuyama Kaiun GTFS — OTTOP · Fukuyama Kaiun
             Outside Yaeyama, the app links to each operator’s official site only and does not show in-app timetables. Always check the operator’s site for the latest status.
             """
     }

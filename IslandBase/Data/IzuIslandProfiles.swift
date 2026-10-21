@@ -24,6 +24,7 @@ enum IzuIslandProfiles {
 
     private static let tokaiKisen = FerryCompany(
         name: "東海汽船株式会社",
+        nameEnglish: "Tokai Kisen Co., Ltd.",
         websiteURL: "https://www.tokaikisen.co.jp/boarding/timetable/",
         phoneNumber: "03-5472-9999",
         statusPageURL: "https://www.tokaikisen.co.jp/schedule/",
@@ -32,6 +33,7 @@ enum IzuIslandProfiles {
 
     private static let ana = FlightAirline(
         name: "全日本空輸（ANA）",
+        nameEnglish: "All Nippon Airways (ANA)",
         websiteURL: "https://www.ana.co.jp/",
         phoneNumber: "0570-029-222",
         statusPageURL: "https://www.ana.co.jp/fs/dom/jp/"
@@ -39,6 +41,7 @@ enum IzuIslandProfiles {
 
     private static let shinChuoAir = FlightAirline(
         name: "新中央航空",
+        nameEnglish: "New Central Airservice Co., Ltd.",
         websiteURL: "https://central-air.co.jp/schedule-fee.html",
         phoneNumber: "042-548-0100",
         statusPageURL: "https://central-air.co.jp/status.html"
@@ -62,12 +65,23 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "岡田港", latitude: 34.790559, longitude: 139.390640),
-            IslandPort(name: "元町港", latitude: 34.751962, longitude: 139.352509),
+            IslandPort(name: "岡田港", nameEnglish: "Okata Port", latitude: 34.790559, longitude: 139.390640),
+            IslandPort(name: "元町港", nameEnglish: "Motomachi Port", latitude: 34.751962, longitude: 139.352509),
         ],
         jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgOshima",
-        backgroundCredit: "Photo: Donners / Wikimedia Commons（伊豆大島）／CC BY-SA 1.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Donners / Wikimedia Commons",
+            place: "伊豆大島",
+            license: "CC BY-SA 1.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Donners / Wikimedia Commons",
+            place: "Izu Oshima",
+            license: "CC BY-SA 1.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 18_000,
         routeKeywords: ["伊豆大島", "大島", "岡田", "元町", "三原山"],
         ferryGTFSFeeds: [],
@@ -110,11 +124,22 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "利島港", latitude: 34.532398, longitude: 139.281009),
+            IslandPort(name: "利島港", nameEnglish: "Toshima Port", latitude: 34.532398, longitude: 139.281009),
         ],
         jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgToshima",
-        backgroundCredit: "Photo: User: (WT-shared) Shoestring / Wikimedia Commons（利島・東京）／CC BY-SA 4.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: User: (WT-shared) Shoestring / Wikimedia Commons",
+            place: "利島・東京",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: User: (WT-shared) Shoestring / Wikimedia Commons",
+            place: "Toshima, Tokyo",
+            license: "CC BY-SA 4.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 4_000,
         routeKeywords: ["利島"],
         ferryGTFSFeeds: [],
@@ -149,11 +174,18 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "前浜港", latitude: 34.366944, longitude: 139.244167),
+            IslandPort(name: "前浜港", nameEnglish: "Maehama Port", latitude: 34.366944, longitude: 139.244167),
         ],
         jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgNiijima",
-        backgroundCredit: "Photo: Fumiaki Hayashi / Unsplash（新島・白ママ層崖）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Fumiaki Hayashi / Unsplash",
+            place: "新島・白ママ層崖"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Fumiaki Hayashi / Unsplash",
+            place: "Niijima, Shiramama Cliff"
+        ),
         placeSearchRadiusMeters: 10_000,
         routeKeywords: ["新島", "前浜", "若郷"],
         ferryGTFSFeeds: [],
@@ -206,11 +238,22 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "野伏港", latitude: 34.333636, longitude: 139.215258),
+            IslandPort(name: "野伏港", nameEnglish: "Nobushi Port", latitude: 34.333636, longitude: 139.215258),
         ],
         jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgShikinejima",
-        backgroundCredit: "Photo: takeakisky homma / Wikimedia Commons（式根島・泊海水浴場）／CC BY-SA 3.0／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: takeakisky homma / Wikimedia Commons",
+            place: "式根島・泊海水浴場",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: takeakisky homma / Wikimedia Commons",
+            place: "Shikinejima, Tomari Beach",
+            license: "CC BY-SA 3.0",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 6_000,
         routeKeywords: ["式根", "式根島", "野伏"],
         ferryGTFSFeeds: [],
@@ -255,11 +298,18 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "神津港", latitude: 34.210796, longitude: 139.129848),
+            IslandPort(name: "神津港", nameEnglish: "Kozu Port", latitude: 34.210796, longitude: 139.129848),
         ],
         jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgKozushima",
-        backgroundCredit: "Photo: Ice Tea / Unsplash（神津島）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Ice Tea / Unsplash",
+            place: "神津島"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Ice Tea / Unsplash",
+            place: "Kozushima"
+        ),
         placeSearchRadiusMeters: 8_000,
         routeKeywords: ["神津", "神津島"],
         ferryGTFSFeeds: [],
@@ -302,12 +352,19 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "三池港", latitude: 34.079750, longitude: 139.563624),
-            IslandPort(name: "阿古港", latitude: 34.068218, longitude: 139.478162),
+            IslandPort(name: "三池港", nameEnglish: "Miike Port", latitude: 34.079750, longitude: 139.563624),
+            IslandPort(name: "阿古港", nameEnglish: "Ako Port", latitude: 34.068218, longitude: 139.478162),
         ],
         jmaMarineForecastArea: .kantoNorth,
         backgroundAssetName: "IslandBgMiyakejima",
-        backgroundCredit: "Photo: Marek Okon / Unsplash（三宅島）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Marek Okon / Unsplash",
+            place: "三宅島"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Marek Okon / Unsplash",
+            place: "Miyakejima"
+        ),
         placeSearchRadiusMeters: 12_000,
         routeKeywords: ["三宅", "三宅島", "三池", "阿古", "錆ヶ浜"],
         ferryGTFSFeeds: [],
@@ -344,11 +401,22 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "御蔵島港", latitude: 33.897239, longitude: 139.589880),
+            IslandPort(name: "御蔵島港", nameEnglish: "Mikurajima Port", latitude: 33.897239, longitude: 139.589880),
         ],
         jmaMarineForecastArea: .kantoSouth,
         backgroundAssetName: "IslandBgMikurajima",
-        backgroundCredit: "Photo: 名古屋太郎 / Wikimedia Commons（御蔵島）／Public domain／表示時に暗色グラデーションを追加",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: 名古屋太郎 / Wikimedia Commons",
+            place: "御蔵島",
+            license: "Public domain",
+            addsDarkGradient: true
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: 名古屋太郎 / Wikimedia Commons",
+            place: "Mikurajima",
+            license: "Public domain",
+            addsDarkGradient: true
+        ),
         placeSearchRadiusMeters: 5_000,
         routeKeywords: ["御蔵", "御蔵島", "玄ヶ浦"],
         ferryGTFSFeeds: [],
@@ -383,12 +451,19 @@ enum IzuIslandProfiles {
         ),
         regionID: "izu",
         ports: [
-            IslandPort(name: "八重根港", latitude: 33.097875, longitude: 139.769695),
-            IslandPort(name: "底土港", latitude: 33.123615, longitude: 139.821233),
+            IslandPort(name: "八重根港", nameEnglish: "Yaene Port", latitude: 33.097875, longitude: 139.769695),
+            IslandPort(name: "底土港", nameEnglish: "Sokodo Port", latitude: 33.123615, longitude: 139.821233),
         ],
         jmaMarineForecastArea: .kantoSouth,
         backgroundAssetName: "IslandBgHachijojima",
-        backgroundCredit: "Photo: Tomoyuki Shidara（八丈島）",
+        backgroundCredit: PhotoCreditText.japanese(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "八丈島"
+        ),
+        backgroundCreditEnglish: PhotoCreditText.english(
+            attribution: "Photo: Tomoyuki Shidara",
+            place: "Hachijojima"
+        ),
         placeSearchRadiusMeters: 15_000,
         routeKeywords: ["八丈", "八丈島", "八重根", "底土"],
         ferryGTFSFeeds: [],

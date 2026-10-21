@@ -254,6 +254,8 @@ struct GTFSFerryParser {
 
     private func ferryTrip(id: String, from: StopCall, to: StopCall) -> FerryTrip? {
         guard from.id != to.id else { return nil }
+        // 航路名は港の照合に使うので日本語の stop_name のまま保存する。
+        // 英語表示は IslandCatalog.localizedRouteName が IslandPort.nameEnglish を引く。
         return FerryTrip(
             id: id,
             routeName: "\(from.name) → \(to.name)",

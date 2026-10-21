@@ -104,7 +104,12 @@ enum AppText {
     case jmaMarineForecastLink(String)
     case jmaMarineForecastNote
     case themeToggleHint
+    case switchToLightMode
+    case switchToDarkMode
     case languageToggleHint
+    case appleMapsPlaceNamesMayBeJapanese
+    case flightBookingSingle(String)
+    case flightBookingMultiple
 
     // 現在地マップ
     case yourCurrentLocation
@@ -367,8 +372,18 @@ enum AppText {
             return "出航前の公式確認用です。アプリ内の波の高さ（Open-Meteo）とは別ソースです。"
         case .themeToggleHint:
             return "画面の明るさを切り替えます"
+        case .switchToLightMode:
+            return "ライトモードに切り替え"
+        case .switchToDarkMode:
+            return "ダークモードに切り替え"
         case .languageToggleHint:
             return "表示言語を切り替えます"
+        case .appleMapsPlaceNamesMayBeJapanese:
+            return "Apple マップの店名は日本語で表示されることがあります。"
+        case .flightBookingSingle(let name):
+            return "予約・最新時刻は \(name) 公式サイトでご確認ください"
+        case .flightBookingMultiple:
+            return "予約・最新時刻は各航空会社の公式サイトでご確認ください"
         case .yourCurrentLocation:
             return "あなたの現在地"
         case .tapToOpenFullMapHint:
@@ -674,8 +689,18 @@ enum AppText {
             return "Official reference before sailing. In-app wave height (Open-Meteo) is a different source."
         case .themeToggleHint:
             return "Toggle light or dark appearance"
+        case .switchToLightMode:
+            return "Switch to light mode"
+        case .switchToDarkMode:
+            return "Switch to dark mode"
         case .languageToggleHint:
             return "Toggle display language"
+        case .appleMapsPlaceNamesMayBeJapanese:
+            return "Place names from Apple Maps may appear in Japanese."
+        case .flightBookingSingle(let name):
+            return "Check the latest times and book on the \(name) official website."
+        case .flightBookingMultiple:
+            return "Check the latest times and book on each airline’s official website."
         case .yourCurrentLocation:
             return "Your location"
         case .tapToOpenFullMapHint:

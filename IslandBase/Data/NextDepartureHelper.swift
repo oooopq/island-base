@@ -47,11 +47,14 @@ enum NextDepartureHelper {
         return arrivalMinutes < departureMinutes
     }
 
-    static func ferryScheduleLabel(for schedule: FerryCompanySchedule) -> String {
+    static func ferryScheduleLabel(
+        for schedule: FerryCompanySchedule,
+        language: AppLanguageMode = .japanese
+    ) -> String {
         if let serviceKind = schedule.serviceKind {
-            return serviceKind.shortLabel
+            return serviceKind.shortLabel(for: language)
         }
-        return schedule.company.name
+        return schedule.company.displayName(for: language)
     }
 
     // この島を出発するフェリーの次の便（最大2件）
@@ -59,7 +62,8 @@ enum NextDepartureHelper {
         from schedules: [FerryCompanySchedule],
         islandID: String,
         destinationID: String,
-        limit: Int = 2
+        limit: Int = 2,
+        language: AppLanguageMode = .japanese
     ) -> [UpcomingDeparture] {
         let candidates = schedules.flatMap { schedule in
             FerryRouteHelper.filteredTrips(
@@ -69,7 +73,7 @@ enum NextDepartureHelper {
             )
             .compactMap { trip -> (FerryTrip, String?)? in
                 guard departsFromCurrentIsland(trip: trip, islandID: islandID) else { return nil }
-                return (trip, ferryScheduleLabel(for: schedule))
+                return (trip, ferryScheduleLabel(for: schedule, language: language))
             }
         }
 

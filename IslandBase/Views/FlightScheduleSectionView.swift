@@ -99,7 +99,7 @@ struct FlightScheduleSectionView: View {
 
                     ForEach(destinations) { destination in
                         destinationChip(
-                            title: destination.nameJapanese,
+                            title: FlightRouteHelper.displayName(for: destination.id, language: languageStore.mode),
                             isSelected: selectedDestinationID == destination.id
                         ) {
                             selectedDestinationID = destination.id
@@ -136,18 +136,18 @@ struct FlightScheduleSectionView: View {
     }
 
     private func bookingFootnote(from schedules: [FlightAirlineSchedule]) -> String? {
-        let names = Array(Set(schedules.map(\.airline.name))).sorted()
+        let names = Array(Set(schedules.map { $0.airline.displayName(for: languageStore.mode) })).sorted()
         guard names.isEmpty == false else { return nil }
         if names.count == 1 {
-            return "予約・最新時刻は \(names[0]) 公式サイトでご確認ください"
+            return languageStore.t(.flightBookingSingle(names[0]))
         }
-        return "予約・最新時刻は各航空会社の公式サイトでご確認ください"
+        return languageStore.t(.flightBookingMultiple)
     }
 
     @ViewBuilder
     private func airlineBlock(_ schedule: FlightAirlineSchedule, allSchedules: [FlightAirlineSchedule]) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(schedule.airline.name)
+            Text(schedule.airline.displayName(for: languageStore.mode))
                 .font(.subheadline)
                 .fontWeight(.semibold)
 
@@ -178,11 +178,11 @@ struct FlightScheduleSectionView: View {
                     .foregroundStyle(ScheduleTransportKind.flight.accentColor)
 
                 HStack(spacing: 6) {
-                    Text(route.departure)
+                    Text(IslandCatalog.localizedPlaceName(route.departure, language: languageStore.mode))
                     Image(systemName: "airplane")
                         .font(.caption)
                         .foregroundStyle(ScheduleTransportKind.flight.accentColor)
-                    Text(route.arrival)
+                    Text(IslandCatalog.localizedPlaceName(route.arrival, language: languageStore.mode))
                 }
                 .font(.subheadline)
                 .fontWeight(.medium)
@@ -194,7 +194,7 @@ struct FlightScheduleSectionView: View {
             }
         } else {
             VStack(alignment: .leading, spacing: 8) {
-                Text("\(trip.flightNumber) \(trip.routeName)")
+                Text("\(trip.flightNumber) \(IslandCatalog.localizedRouteName(trip.routeName, language: languageStore.mode))")
                     .font(.subheadline)
                     .fontWeight(.medium)
 
