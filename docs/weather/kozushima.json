@@ -1,50 +1,14 @@
 {
-  "updatedAt": "2026-10-22T10:35:43+09:00",
+  "updatedAt": "2026-10-22T13:32:34+09:00",
   "temperatureCelsius": 23,
-  "apparentTemperatureCelsius": 22,
-  "weatherCode": 3,
-  "condition": "くもり",
-  "humidityPercent": 71,
-  "windSpeedKmh": 27,
-  "currentWaveHeightMeters": 2.5,
+  "apparentTemperatureCelsius": 24,
+  "weatherCode": 0,
+  "condition": "晴れ",
+  "humidityPercent": 69,
+  "windSpeedKmh": 14,
+  "currentWaveHeightMeters": 2.34,
   "todayMaxWaveHeightMeters": 2.98,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-22T10:00",
-      "timeLabel": "10時",
-      "weatherCode": 2,
-      "temperatureCelsius": 23,
-      "apparentTemperatureCelsius": 21,
-      "condition": "くもり",
-      "humidityPercent": 71,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 29
-    },
-    {
-      "id": "2026-10-22T11:00",
-      "timeLabel": "11時",
-      "weatherCode": 2,
-      "temperatureCelsius": 23,
-      "apparentTemperatureCelsius": 22,
-      "condition": "くもり",
-      "humidityPercent": 70,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 26
-    },
-    {
-      "id": "2026-10-22T12:00",
-      "timeLabel": "12時",
-      "weatherCode": 1,
-      "temperatureCelsius": 23,
-      "apparentTemperatureCelsius": 22,
-      "condition": "くもり",
-      "humidityPercent": 69,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 24
-    },
     {
       "id": "2026-10-22T13:00",
       "timeLabel": "13時",
@@ -296,6 +260,42 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 34
+    },
+    {
+      "id": "2026-10-23T10:00",
+      "timeLabel": "10時",
+      "weatherCode": 3,
+      "temperatureCelsius": 22,
+      "apparentTemperatureCelsius": 20,
+      "condition": "くもり",
+      "humidityPercent": 69,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 31
+    },
+    {
+      "id": "2026-10-23T11:00",
+      "timeLabel": "11時",
+      "weatherCode": 3,
+      "temperatureCelsius": 22,
+      "apparentTemperatureCelsius": 20,
+      "condition": "くもり",
+      "humidityPercent": 69,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 31
+    },
+    {
+      "id": "2026-10-23T12:00",
+      "timeLabel": "12時",
+      "weatherCode": 2,
+      "temperatureCelsius": 22,
+      "apparentTemperatureCelsius": 20,
+      "condition": "くもり",
+      "humidityPercent": 70,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 30
     }
   ],
   "weeklyForecast": [
@@ -332,11 +332,11 @@
     {
       "id": "2026-10-25",
       "dateLabel": "10/25（日）",
-      "weatherCode": 53,
+      "weatherCode": 51,
       "minTemperatureCelsius": 23,
       "maxTemperatureCelsius": 25,
       "condition": "小雨",
-      "humidityPercent": 84,
+      "humidityPercent": 87,
       "precipitationProbabilityPercent": 0
     },
     {
@@ -344,25 +344,25 @@
       "dateLabel": "10/26（月）",
       "weatherCode": 63,
       "minTemperatureCelsius": 22,
-      "maxTemperatureCelsius": 24,
+      "maxTemperatureCelsius": 25,
       "condition": "雨",
-      "humidityPercent": 91,
+      "humidityPercent": 92,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-10-27",
       "dateLabel": "10/27（火）",
-      "weatherCode": 55,
+      "weatherCode": 63,
       "minTemperatureCelsius": 22,
-      "maxTemperatureCelsius": 26,
-      "condition": "小雨",
-      "humidityPercent": 86,
+      "maxTemperatureCelsius": 24,
+      "condition": "雨",
+      "humidityPercent": 85,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-10-28",
       "dateLabel": "10/28（水）",
-      "weatherCode": 2,
+      "weatherCode": 3,
       "minTemperatureCelsius": 20,
       "maxTemperatureCelsius": 22,
       "condition": "くもり",
