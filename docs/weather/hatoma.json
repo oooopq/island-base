@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-10-24T21:45:18+09:00",
+  "updatedAt": "2026-10-24T23:27:16+09:00",
   "temperatureCelsius": 27,
   "apparentTemperatureCelsius": 27,
-  "weatherCode": 3,
+  "weatherCode": 2,
   "condition": "くもり",
   "humidityPercent": 80,
-  "windSpeedKmh": 36,
-  "currentWaveHeightMeters": 2.68,
+  "windSpeedKmh": 34,
+  "currentWaveHeightMeters": 2.74,
   "todayMaxWaveHeightMeters": 4.62,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-24T21:00",
-      "timeLabel": "21時",
-      "weatherCode": 53,
-      "temperatureCelsius": 27,
-      "apparentTemperatureCelsius": 28,
-      "condition": "小雨",
-      "humidityPercent": 80,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.7,
-      "windSpeedKmh": 33
-    },
-    {
-      "id": "2026-10-24T22:00",
-      "timeLabel": "22時",
-      "weatherCode": 3,
-      "temperatureCelsius": 27,
-      "apparentTemperatureCelsius": 27,
-      "condition": "くもり",
-      "humidityPercent": 80,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 36
-    },
     {
       "id": "2026-10-24T23:00",
       "timeLabel": "23時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 19
+    },
+    {
+      "id": "2026-10-25T21:00",
+      "timeLabel": "21時",
+      "weatherCode": 1,
+      "temperatureCelsius": 27,
+      "apparentTemperatureCelsius": 30,
+      "condition": "くもり",
+      "humidityPercent": 78,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 19
+    },
+    {
+      "id": "2026-10-25T22:00",
+      "timeLabel": "22時",
+      "weatherCode": 2,
+      "temperatureCelsius": 28,
+      "apparentTemperatureCelsius": 30,
+      "condition": "くもり",
+      "humidityPercent": 78,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 18
     }
   ],
   "weeklyForecast": [
