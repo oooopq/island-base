@@ -71,99 +71,85 @@ enum ScheduleOperatorActionFactory {
         for company: FerryCompany,
         language: AppLanguageMode = .japanese
     ) -> [ScheduleOperatorAction] {
-        var actions: [ScheduleOperatorAction] = []
-
-        if let statusURL = company.statusPageLink {
-            actions.append(
-                ScheduleOperatorAction(
-                    id: "status-\(company.name)",
-                    title: FerryLinkKind.status.title(for: language),
-                    systemImage: "exclamationmark.triangle.fill",
-                    url: statusURL,
-                    isEmphasized: true
-                )
-            )
-        }
-
-        if let websiteURL = company.websiteLink {
-            actions.append(
-                ScheduleOperatorAction(
-                    id: "schedule-\(company.name)",
-                    title: AppText.timetable.string(for: language),
-                    systemImage: "calendar",
-                    url: websiteURL
-                )
-            )
-        }
-
-        if let phoneURL = company.phoneURL {
-            actions.append(
-                ScheduleOperatorAction(
-                    id: "phone-\(company.name)",
-                    title: AppText.phone.string(for: language),
-                    systemImage: "phone.fill",
-                    url: phoneURL
-                )
-            )
-        }
-
-        return actions
+        actions(
+            idSuffix: company.name,
+            statusURL: company.statusPageLink,
+            timetableURL: company.websiteLink,
+            homeURL: company.homePageLink,
+            phoneURL: company.phoneURL,
+            language: language
+        )
     }
 
     static func actions(
         for airline: FlightAirline,
         language: AppLanguageMode = .japanese
     ) -> [ScheduleOperatorAction] {
-        var actions: [ScheduleOperatorAction] = []
-
-        if let statusURL = airline.statusPageLink {
-            actions.append(
-                ScheduleOperatorAction(
-                    id: "status-\(airline.name)",
-                    title: FerryLinkKind.status.title(for: language),
-                    systemImage: "exclamationmark.triangle.fill",
-                    url: statusURL,
-                    isEmphasized: true
-                )
-            )
-        }
-
-        if let websiteURL = airline.websiteLink {
-            actions.append(
-                ScheduleOperatorAction(
-                    id: "schedule-\(airline.name)",
-                    title: AppText.timetable.string(for: language),
-                    systemImage: "calendar",
-                    url: websiteURL
-                )
-            )
-        }
-
-        if let phoneURL = airline.phoneURL {
-            actions.append(
-                ScheduleOperatorAction(
-                    id: "phone-\(airline.name)",
-                    title: AppText.phone.string(for: language),
-                    systemImage: "phone.fill",
-                    url: phoneURL
-                )
-            )
-        }
-
-        return actions
+        // 航空会社には公式サイト（トップ）の URL を持たせていない
+        actions(
+            idSuffix: airline.name,
+            statusURL: airline.statusPageLink,
+            timetableURL: airline.websiteLink,
+            homeURL: nil,
+            phoneURL: airline.phoneURL,
+            language: language
+        )
     }
 
+    /// 公式ボタンを「運航状況 → 時刻表 → 公式サイト → 電話」の順に並べる。
+    /// URL が無いボタンは出さない。同じ URL が重なったら、左（優先度の高いほう）だけ残す。
     static func actions(
-        for button: FerryLinkButton,
+        idSuffix: String,
+        statusURL: URL?,
+        timetableURL: URL?,
+        homeURL: URL?,
+        phoneURL: URL?,
         language: AppLanguageMode = .japanese
-    ) -> ScheduleOperatorAction {
-        ScheduleOperatorAction(
-            id: button.id,
-            title: button.kind.title(for: language),
-            systemImage: button.kind.systemImage,
-            url: button.url,
-            isEmphasized: button.kind == .status
+    ) -> [ScheduleOperatorAction] {
+        var actions: [ScheduleOperatorAction] = []
+        var seenURLs = Set<String>()
+
+        func append(_ idPrefix: String, title: String, systemImage: String, url: URL?, isEmphasized: Bool = false) {
+            guard let url else { return }
+            guard seenURLs.insert(url.absoluteString.lowercased()).inserted else { return }
+            actions.append(
+                ScheduleOperatorAction(
+                    id: "\(idPrefix)-\(idSuffix)",
+                    title: title,
+                    systemImage: systemImage,
+                    url: url,
+                    isEmphasized: isEmphasized
+                )
+            )
+        }
+
+        append(
+            "status",
+            title: FerryLinkKind.status.title(for: language),
+            systemImage: FerryLinkKind.status.systemImage,
+            url: statusURL,
+            isEmphasized: true
         )
+        append(
+            "schedule",
+            title: FerryLinkKind.schedule.title(for: language),
+            systemImage: FerryLinkKind.schedule.systemImage,
+            url: timetableURL
+        )
+        append(
+            "home",
+            title: FerryLinkKind.home.title(for: language),
+            systemImage: FerryLinkKind.home.systemImage,
+            url: homeURL
+        )
+        append(
+            "phone",
+            title: AppText.phone.string(for: language),
+            systemImage: "phone.fill",
+            url: phoneURL
+        )
+
+        return actions
     }
 }
 

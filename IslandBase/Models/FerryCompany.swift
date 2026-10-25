@@ -15,9 +15,9 @@ enum FerryLinkKind: String, CaseIterable {
 
     var titleJapanese: String {
         switch self {
-        case .home: return "トップ"
-        case .schedule: return "ダイヤ"
-        case .status: return "運行状況"
+        case .home: return "公式サイト"
+        case .schedule: return "時刻表"
+        case .status: return "運航状況"
         }
     }
 
@@ -40,12 +40,6 @@ enum FerryLinkKind: String, CaseIterable {
         case .status: return "exclamationmark.triangle.fill"
         }
     }
-}
-
-struct FerryLinkButton: Identifiable {
-    let id: String
-    let kind: FerryLinkKind
-    let url: URL
 }
 
 struct FerryCompany: Codable {
@@ -127,22 +121,7 @@ struct FerryCompany: Codable {
         AppURL.from(string: statusPageURL)
     }
 
-    /// 重複URLを除いた公式リンク（トップ・ダイヤ・運行状況）
-    var linkButtons: [FerryLinkButton] {
-        var buttons: [FerryLinkButton] = []
-        var seenURLs = Set<String>()
-
-        func append(kind: FerryLinkKind, urlString: String?) {
-            guard let urlString, let url = AppURL.from(string: urlString) else { return }
-            let key = url.absoluteString.lowercased()
-            guard seenURLs.insert(key).inserted else { return }
-            buttons.append(FerryLinkButton(id: key, kind: kind, url: url))
-        }
-
-        append(kind: .home, urlString: homePageURL)
-        append(kind: .schedule, urlString: websiteURL)
-        append(kind: .status, urlString: statusPageURL)
-
-        return buttons
+    var homePageLink: URL? {
+        AppURL.from(string: homePageURL)
     }
 }

@@ -48,13 +48,15 @@ struct ScheduleTransportCardView<Content: View>: View {
                 .frame(width: 32)
 
             VStack(alignment: .leading, spacing: 3) {
-                Text(kind.title(for: languageStore.mode))
+                Text(languageStore.t(kind.titleText))
                     .font(.headline)
                     .foregroundStyle(palette.text)
 
-                Text(kind.description(for: languageStore.mode))
-                    .font(.caption)
-                    .foregroundStyle(palette.secondaryText)
+                if let descriptionText = kind.descriptionText {
+                    Text(languageStore.t(descriptionText))
+                        .font(.caption)
+                        .foregroundStyle(palette.secondaryText)
+                }
             }
 
             Spacer(minLength: 8)
@@ -73,7 +75,7 @@ struct ScheduleTransportCardView<Content: View>: View {
     }
 
     private var tripCountText: String {
-        languageStore.mode.isJapanese ? "全\(tripCount)便" : "\(tripCount) trips"
+        languageStore.t(kind.tripCountText(tripCount))
     }
 }
 
@@ -99,29 +101,31 @@ enum ScheduleTransportCardKind {
         }
     }
 
-    func title(for language: AppLanguageMode) -> String {
-        switch (self, language) {
-        case (.ferry, .japanese):
-            return "船便"
-        case (.ferry, .english):
-            return "Ferry"
-        case (.flight, .japanese):
-            return "航空便"
-        case (.flight, .english):
-            return "Flight"
+    var titleText: AppText {
+        switch self {
+        case .ferry:
+            return .ferry
+        case .flight:
+            return .flights
         }
     }
 
-    func description(for language: AppLanguageMode) -> String {
-        switch (self, language) {
-        case (.ferry, .japanese):
-            return "フェリー・高速船"
-        case (.ferry, .english):
-            return "Ferries and high-speed boats"
-        case (.flight, .japanese):
-            return "飛行機"
-        case (.flight, .english):
-            return "Air service"
+    /// 飛行機は「航空便」と意味が重なるので小見出しを出さない
+    var descriptionText: AppText? {
+        switch self {
+        case .ferry:
+            return .ferryAndHighSpeed
+        case .flight:
+            return nil
+        }
+    }
+
+    func tripCountText(_ count: Int) -> AppText {
+        switch self {
+        case .ferry:
+            return .ferrySailingCount(count)
+        case .flight:
+            return .flightCount(count)
         }
     }
 }

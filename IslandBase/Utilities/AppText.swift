@@ -76,6 +76,8 @@ enum AppText {
     case noFlightsForDestination
     case dataValidUntil(String)
     case showAllTrips(Int)
+    case ferrySailingCount(Int)
+    case flightCount(Int)
     case hideAllTrips
     case highSpeedAndOvernightNote
     case ferryCheckOfficialSites
@@ -312,13 +314,17 @@ enum AppText {
         case .noTripsForDestination:
             return "この行き先のダイヤはありません"
         case .noFerryTripsToday:
-            return "本日の運行便はありません"
+            return "本日の運航便はありません"
         case .noFlightsForDestination:
             return "この行き先の便はありません"
         case .dataValidUntil(let text):
             return "データ有効期限: \(text)"
         case .showAllTrips(let count):
             return "全ダイヤを見る（\(count)便）"
+        case .ferrySailingCount(let count):
+            return "全\(count)便"
+        case .flightCount(let count):
+            return "全\(count)便"
         case .hideAllTrips:
             return "全ダイヤを閉じる"
         case .highSpeedAndOvernightNote:
@@ -539,7 +545,7 @@ enum AppText {
         case .ferry:
             return "Ferry"
         case .ferryAndHighSpeed:
-            return "Ferry & high-speed boat"
+            return "Ferries & high-speed boats"
         case .flights:
             return "Flights"
         case .usefulInfo:
@@ -642,6 +648,10 @@ enum AppText {
             return "Data valid until: \(text)"
         case .showAllTrips(let count):
             return "Show all sailings (\(count))"
+        case .ferrySailingCount(let count):
+            return count == 1 ? "1 sailing" : "\(count) sailings"
+        case .flightCount(let count):
+            return count == 1 ? "1 flight" : "\(count) flights"
         case .hideAllTrips:
             return "Hide full timetable"
         case .highSpeedAndOvernightNote:

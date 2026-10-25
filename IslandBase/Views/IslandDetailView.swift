@@ -302,7 +302,7 @@ struct IslandDetailView: View {
                     .detailSectionCard()
             }
 
-            // 八重山以外は各社・各航空会社に運行状況があるので、先頭の欠航・遅延は出さない
+            // 八重山以外は各社・各航空会社に運航状況があるので、先頭の欠航・遅延は出さない
             if islandProfile?.regionID == "yaeyama",
                let scheduleStatusSources,
                scheduleStatusSources.isEmpty == false {
