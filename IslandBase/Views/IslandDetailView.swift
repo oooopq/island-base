@@ -87,15 +87,18 @@ struct IslandDetailView: View {
         }
     }
 
-    /// 「運航状況」パネルに出す船の会社。読み込みの状態でパネルが消えたり出たりしないよう島のデータを基準にし、
-    /// 取得できた時刻表にだけいる会社（例：石垣島の福山海運）を後ろに足す
+    /// 「運航状況」パネルに出す船の会社。読み込みの状態や今日の便の有無でパネルが変わらないよう島のデータを基準にする。
+    /// 並び：リンク用の会社 → GTFS の取得先の会社（例：石垣島の福山海運）→ 取得できた時刻表の会社。会社名で重複を除く
     private var serviceStatusFerryCompanies: [FerryCompany] {
-        var companies = islandProfile?.ferryLinkCompanies ?? []
-        var seenNames = Set(companies.map(\.name))
+        let candidates = (islandProfile?.ferryLinkCompanies ?? [])
+            + (islandProfile?.ferryGTFSFeeds.map(\.company) ?? [])
+            + currentFerrySchedules.map(\.company)
+        var seenNames = Set<String>()
+        var companies: [FerryCompany] = []
 
-        for schedule in currentFerrySchedules {
-            guard seenNames.insert(schedule.company.name).inserted else { continue }
-            companies.append(schedule.company)
+        for company in candidates {
+            guard seenNames.insert(company.name).inserted else { continue }
+            companies.append(company)
         }
 
         return companies
