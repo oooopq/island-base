@@ -44,7 +44,7 @@ struct FerryLinkSectionView: View {
         return languageStore.t(.ferryCheckOfficialSites)
     }
 
-    /// 公式サイトのトップ／運行状況がなく、案内ページと電話で完結する会社（中島汽船）
+    /// 公式サイトのトップ／運航状況がなく、案内ページと電話で完結する会社（中島汽船）
     private func usesInfoPageAndPhone(_ company: FerryCompany) -> Bool {
         company.homePageURL == nil
             && company.statusPageURL == nil
@@ -70,28 +70,7 @@ struct FerryLinkSectionView: View {
     }
 
     private func actions(for company: FerryCompany) -> [ScheduleOperatorAction] {
-        if usesInfoPageAndPhone(company),
-           let infoURL = company.websiteLink,
-           let phoneURL = company.phoneURL {
-            return [
-                ScheduleOperatorAction(
-                    id: "info-\(infoURL.absoluteString)",
-                    title: languageStore.t(.routesAndTimetable),
-                    systemImage: "calendar",
-                    url: infoURL
-                ),
-                ScheduleOperatorAction(
-                    id: "phone-\(company.phoneNumber)",
-                    title: languageStore.t(.callToConfirm),
-                    systemImage: "phone.fill",
-                    url: phoneURL
-                )
-            ]
-        }
-
-        return company.linkButtons.map {
-            ScheduleOperatorActionFactory.actions(for: $0, language: languageStore.mode)
-        }
+        ScheduleOperatorActionFactory.actions(for: company, language: languageStore.mode)
     }
 }
 

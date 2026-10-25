@@ -51,38 +51,16 @@ struct ScheduleStatusBannerView: View {
         ScheduleOperatorActionButtonsView(actions: actions(for: source))
     }
 
+    // 欠航・遅延枠は「運航状況 / 電話」の2つだけ
     private func actions(for source: ScheduleStatusSource) -> [ScheduleOperatorAction] {
-        var actions: [ScheduleOperatorAction] = [
-            ScheduleOperatorAction(
-                id: "status-\(source.id)",
-                title: FerryLinkKind.status.title(for: languageStore.mode),
-                systemImage: statusIcon(for: source.category),
-                url: source.statusPageURL,
-                isEmphasized: true
-            ),
-        ]
-
-        if let phoneURL = source.phoneURL {
-            actions.append(
-                ScheduleOperatorAction(
-                    id: "phone-\(source.id)",
-                    title: languageStore.t(.phone),
-                    systemImage: "phone.fill",
-                    url: phoneURL
-                )
-            )
-        }
-
-        return actions
-    }
-
-    private func statusIcon(for category: ScheduleStatusSource.Category) -> String {
-        switch category {
-        case .ferry:
-            return "ferry.fill"
-        case .flight:
-            return "airplane"
-        }
+        ScheduleOperatorActionFactory.actions(
+            idSuffix: source.id,
+            statusURL: source.statusPageURL,
+            timetableURL: nil,
+            homeURL: nil,
+            phoneURL: source.phoneURL,
+            language: languageStore.mode
+        )
     }
 }
 
