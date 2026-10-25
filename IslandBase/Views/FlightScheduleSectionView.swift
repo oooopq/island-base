@@ -152,7 +152,11 @@ struct FlightScheduleSectionView: View {
                 .fontWeight(.semibold)
 
             ScheduleOperatorActionButtonsView(
-                actions: ScheduleOperatorActionFactory.actions(for: schedule.airline, language: languageStore.mode)
+                actions: ScheduleOperatorActionFactory.actions(
+                    for: schedule.airline,
+                    kinds: ScheduleOperatorActionKind.cardKinds,
+                    language: languageStore.mode
+                )
             )
 
             ForEach(Array(schedule.trips.enumerated()), id: \.element.id) { index, trip in

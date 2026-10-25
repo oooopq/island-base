@@ -66,9 +66,23 @@ struct ScheduleOperatorActionButtonsView: View {
     }
 }
 
+/// 公式ボタンの種類
+enum ScheduleOperatorActionKind: CaseIterable {
+    case status
+    case timetable
+    case home
+    case phone
+
+    /// ダイヤタブ先頭の「運航状況」パネル用
+    static let panelKinds: Set<ScheduleOperatorActionKind> = [.status, .phone]
+    /// 下の時刻表・リンクカード用
+    static let cardKinds: Set<ScheduleOperatorActionKind> = [.timetable, .home]
+}
+
 enum ScheduleOperatorActionFactory {
     static func actions(
         for company: FerryCompany,
+        kinds: Set<ScheduleOperatorActionKind>? = nil,
         language: AppLanguageMode = .japanese
     ) -> [ScheduleOperatorAction] {
         actions(
@@ -77,12 +91,14 @@ enum ScheduleOperatorActionFactory {
             timetableURL: company.websiteLink,
             homeURL: company.homePageLink,
             phoneURL: company.phoneURL,
+            kinds: kinds,
             language: language
         )
     }
 
     static func actions(
         for airline: FlightAirline,
+        kinds: Set<ScheduleOperatorActionKind>? = nil,
         language: AppLanguageMode = .japanese
     ) -> [ScheduleOperatorAction] {
         // 航空会社には公式サイト（トップ）の URL を持たせていない
@@ -92,24 +108,36 @@ enum ScheduleOperatorActionFactory {
             timetableURL: airline.websiteLink,
             homeURL: nil,
             phoneURL: airline.phoneURL,
+            kinds: kinds,
             language: language
         )
     }
 
     /// 公式ボタンを「運航状況 → 時刻表 → 公式サイト → 電話」の順に並べる。
-    /// URL が無いボタンは出さない。同じ URL が重なったら、左（優先度の高いほう）だけ残す。
+    /// `kinds` に入っている種類だけ出す（nil なら全部の種類）。URL が無いボタンは出さない。
+    /// 同じ URL が重なったら、その行に出すボタンの中で左（優先度の高いほう）だけ残す。
     static func actions(
         idSuffix: String,
         statusURL: URL?,
         timetableURL: URL?,
         homeURL: URL?,
         phoneURL: URL?,
+        kinds: Set<ScheduleOperatorActionKind>? = nil,
         language: AppLanguageMode = .japanese
     ) -> [ScheduleOperatorAction] {
+        let kinds = kinds ?? Set(ScheduleOperatorActionKind.allCases)
         var actions: [ScheduleOperatorAction] = []
         var seenURLs = Set<String>()
 
-        func append(_ idPrefix: String, title: String, systemImage: String, url: URL?, isEmphasized: Bool = false) {
+        func append(
+            _ kind: ScheduleOperatorActionKind,
+            idPrefix: String,
+            title: String,
+            systemImage: String,
+            url: URL?,
+            isEmphasized: Bool = false
+        ) {
+            guard kinds.contains(kind) else { return }
             guard let url else { return }
             guard seenURLs.insert(url.absoluteString.lowercased()).inserted else { return }
             actions.append(
@@ -124,26 +152,30 @@ enum ScheduleOperatorActionFactory {
         }
 
         append(
-            "status",
+            .status,
+            idPrefix: "status",
             title: FerryLinkKind.status.title(for: language),
             systemImage: FerryLinkKind.status.systemImage,
             url: statusURL,
             isEmphasized: true
         )
         append(
-            "schedule",
+            .timetable,
+            idPrefix: "schedule",
             title: FerryLinkKind.schedule.title(for: language),
             systemImage: FerryLinkKind.schedule.systemImage,
             url: timetableURL
         )
         append(
-            "home",
+            .home,
+            idPrefix: "home",
             title: FerryLinkKind.home.title(for: language),
             systemImage: FerryLinkKind.home.systemImage,
             url: homeURL
         )
         append(
-            "phone",
+            .phone,
+            idPrefix: "phone",
             title: AppText.phone.string(for: language),
             systemImage: "phone.fill",
             url: phoneURL

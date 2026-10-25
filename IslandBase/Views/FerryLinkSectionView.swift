@@ -70,7 +70,11 @@ struct FerryLinkSectionView: View {
     }
 
     private func actions(for company: FerryCompany) -> [ScheduleOperatorAction] {
-        ScheduleOperatorActionFactory.actions(for: company, language: languageStore.mode)
+        ScheduleOperatorActionFactory.actions(
+            for: company,
+            kinds: ScheduleOperatorActionKind.cardKinds,
+            language: languageStore.mode
+        )
     }
 }
 
