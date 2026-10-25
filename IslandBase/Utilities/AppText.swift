@@ -56,8 +56,8 @@ enum AppText {
     case photoLimitTitle
     case phone
     case timetable
-    case cancellationsDelays
-    case checkStatusBeforeDeparture
+    case serviceStatusPanelTitle
+    case serviceStatusPanelNote
     case noPlacesInCategory
     case showMorePlaces(Int)
     case showFewerPlaces
@@ -281,10 +281,10 @@ enum AppText {
             return "電話"
         case .timetable:
             return "時刻表"
-        case .cancellationsDelays:
-            return "欠航・遅延"
-        case .checkStatusBeforeDeparture:
-            return "出発前に各社公式サイトで運航状況を確認してください。本アプリの時刻は参考ダイヤです。"
+        case .serviceStatusPanelTitle:
+            return "運航状況"
+        case .serviceStatusPanelNote:
+            return "欠航・遅延はこのアプリには表示されません。出発前に各社の運航状況を確認してください。"
         case .noPlacesInCategory:
             return "このカテゴリのスポットが見つかりませんでした"
         case .showMorePlaces(let count):
@@ -608,10 +608,10 @@ enum AppText {
             return "Call"
         case .timetable:
             return "Timetable"
-        case .cancellationsDelays:
-            return "Cancellations & delays"
-        case .checkStatusBeforeDeparture:
-            return "Check each operator’s official site before departure. Times in this app are for reference only."
+        case .serviceStatusPanelTitle:
+            return "Service status"
+        case .serviceStatusPanelNote:
+            return "This app doesn’t show cancellations or delays. Check each operator’s service status before you travel."
         case .noPlacesInCategory:
             return "No places found in this category"
         case .showMorePlaces(let count):

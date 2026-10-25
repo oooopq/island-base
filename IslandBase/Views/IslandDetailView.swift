@@ -62,10 +62,6 @@ struct IslandDetailView: View {
         islandProfile?.usesFerryPagesJSON == true
     }
 
-    private var hasInAppFerryTrips: Bool {
-        islandProfile?.hasInAppFerryTrips == true
-    }
-
     /// 取得できた Pages 時刻表、または取得中だけカードを出す。無いときはリンクに戻す
     private var showsPagesTimetable: Bool {
         switch ferryState {
@@ -91,21 +87,21 @@ struct IslandDetailView: View {
         }
     }
 
-    private var scheduleStatusSources: [ScheduleStatusSource]? {
-        var sources: [ScheduleStatusSource] = []
+    /// 「運航状況」パネルに出す船の会社。読み込みの状態や今日の便の有無でパネルが変わらないよう島のデータを基準にする。
+    /// 並び：リンク用の会社 → GTFS の取得先の会社（例：石垣島の福山海運）→ 取得できた時刻表の会社。会社名で重複を除く
+    private var serviceStatusFerryCompanies: [FerryCompany] {
+        let candidates = (islandProfile?.ferryLinkCompanies ?? [])
+            + (islandProfile?.ferryGTFSFeeds.map(\.company) ?? [])
+            + currentFerrySchedules.map(\.company)
+        var seenNames = Set<String>()
+        var companies: [FerryCompany] = []
 
-        if hasInAppFerryTrips {
-            sources += ScheduleStatusSourceCollector.fromFerrySchedules(currentFerrySchedules)
-        } else if let companies = islandProfile?.ferryLinkCompanies {
-            sources += ScheduleStatusSourceCollector.fromFerryCompanies(companies)
+        for company in candidates {
+            guard seenNames.insert(company.name).inserted else { continue }
+            companies.append(company)
         }
 
-        if let flightSchedules = islandProfile?.flightSchedules {
-            sources += ScheduleStatusSourceCollector.fromFlightSchedules(flightSchedules)
-        }
-
-        let unique = ScheduleStatusSourceCollector.unique(sources)
-        return unique.isEmpty ? nil : unique
+        return companies
     }
 
     private var currentFerrySchedules: [FerryCompanySchedule] {
@@ -296,18 +292,12 @@ struct IslandDetailView: View {
             )
 
         case .schedule:
-            if let jmaMarineForecastArea = islandProfile?.jmaMarineForecastArea {
-                JMAMarineForecastLinkView(area: jmaMarineForecastArea)
-                    .padding(16)
-                    .detailSectionCard()
-            }
-
-            // 八重山以外は各社・各航空会社に運航状況があるので、先頭の欠航・遅延は出さない
-            if islandProfile?.regionID == "yaeyama",
-               let scheduleStatusSources,
-               scheduleStatusSources.isEmpty == false {
-                ScheduleStatusBannerView(sources: scheduleStatusSources)
-            }
+            // 全島で一番上に「運航状況」パネル（各社の運航状況・電話、気象庁の海上予報）
+            ScheduleServiceStatusPanelView(
+                ferryCompanies: serviceStatusFerryCompanies,
+                airlines: islandProfile?.flightLinkAirlines ?? [],
+                marineForecastArea: islandProfile?.jmaMarineForecastArea
+            )
 
             if usesFerryGTFS {
                 FerryScheduleSectionView(

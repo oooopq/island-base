@@ -96,11 +96,7 @@ struct FerryScheduleSectionView: View {
         let pagesStamp = pagesSourceStamp(in: schedules)
 
         if let pagesStamp, FerryPagesTimetable.isStale(sourceUpdatedAt: pagesStamp.date) {
-            Text(languageStore.t(.ferryPagesStaleNotice(pagesStamp.text)))
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .fixedSize(horizontal: false, vertical: true)
-                .scheduleStatusCallout()
+            staleNotice(updatedAtText: pagesStamp.text)
         }
 
         if destinations.isEmpty == false {
@@ -158,6 +154,24 @@ struct FerryScheduleSectionView: View {
                 .font(.caption)
                 .detailCardSecondaryText()
         }
+    }
+
+    /// 時刻表データが古いときの注意。上の「運航状況」パネル（黄色の枠）と見分けがつくよう、
+    /// 黄色の枠は使わず、淡い背景＋時計アイコンにする
+    private func staleNotice(updatedAtText: String) -> some View {
+        Label {
+            Text(languageStore.t(.ferryPagesStaleNotice(updatedAtText)))
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .fixedSize(horizontal: false, vertical: true)
+        } icon: {
+            Image(systemName: "clock.arrow.circlepath")
+                .foregroundStyle(palette.warning)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(palette.bannerBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     private func pagesSourceStamp(in schedules: [FerryCompanySchedule]) -> (date: Date, text: String)? {
@@ -263,7 +277,11 @@ struct FerryScheduleSectionView: View {
 
             if schedule.showsOperatorActions != false {
                 ScheduleOperatorActionButtonsView(
-                    actions: ScheduleOperatorActionFactory.actions(for: schedule.company, language: languageStore.mode)
+                    actions: ScheduleOperatorActionFactory.actions(
+                        for: schedule.company,
+                        kinds: ScheduleOperatorActionKind.cardKinds,
+                        language: languageStore.mode
+                    )
                 )
             }
 

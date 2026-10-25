@@ -44,7 +44,11 @@ struct FlightLinkSectionView: View {
                 .fontWeight(.semibold)
 
             ScheduleOperatorActionButtonsView(
-                actions: ScheduleOperatorActionFactory.actions(for: airline, language: languageStore.mode)
+                actions: ScheduleOperatorActionFactory.actions(
+                    for: airline,
+                    kinds: ScheduleOperatorActionKind.cardKinds,
+                    language: languageStore.mode
+                )
             )
         }
     }
