@@ -40,7 +40,8 @@ def main() -> int:
     for needle in (
         "https://oooopq.github.io/island-base/privacy-policy.html",
         "収集するデータタイプはありません",
-        "八重山諸島の船便のみ",
+        "八重山諸島・忽那諸島の船便のみ",
+        "中島汽船の公式サイトの時刻表ページ",
         "WBGT・熱中症指数など未実装",
         "小浜島",
         "鳩間島",
