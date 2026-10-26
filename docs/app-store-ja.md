@@ -17,7 +17,7 @@ Island Base
 
 ## プロモーション用テキスト（170文字以内・任意）
 
-八重山・伊豆・五島・忽那・佐渡島・小豆島直島の離島向けに、天気・波の高さ・役立つ連絡先・店舗をまとめて確認。船便・航空便は各社公式サイトへ（八重山は公開ダイヤをアプリ内表示）。欠航・遅延は必ず公式で最新確認を。
+八重山・伊豆・五島・忽那・佐渡島・小豆島直島の離島向けに、天気・波の高さ・役立つ連絡先・店舗をまとめて確認。船便・航空便は各社公式サイトへ（八重山・忽那は船便ダイヤをアプリ内表示）。欠航・遅延は必ず公式で最新確認を。
 
 ## 説明文
 
@@ -26,8 +26,8 @@ Island Base は、日本の離島を訪れる方のための現地情報アプ�
 【主な機能】
 ・天気（現在・1時間ごと・7日間）と波の高さの数値モデル値（予報ではありません）（アプリ内表示。GitHub Pages キャッシュ／出典 Open-Meteo。一部は気象庁 seamless モデル）
 ・気象庁「海上警報・予報」へのリンク（島ごとの細分海域）
-・船便・航空便：各運航会社・航空会社の公式サイトへのリンク（運行状況・ダイヤ）
-・八重山諸島の船便のみ：沖縄の公開データ（GTFS）に基づくダイヤをアプリ内表示（他地域は公式リンクのみ）
+・船便・航空便：各運航会社・航空会社の公式サイトへのリンク（運航状況・ダイヤ）
+・八重山諸島・忽那諸島の船便のみ：ダイヤをアプリ内表示（八重山は沖縄の公開データ（GTFS）、忽那諸島の中島汽船の航路は中島汽船の公式サイトの時刻表ページを1日2回読み取り。他地域は公式リンクのみ）
 ・病院・コンビニ・観光案内などの役立つ連絡先
 ・島付近の飲食店・宿泊・商店など（Apple マップ連携・Google マップリンク）
 ・ライブカメラ・関連リンク（島により異なります。アプリ内埋め込みではなく外部ブラウザで開きます）
@@ -44,7 +44,7 @@ Island Base は、日本の離島を訪れる方のための現地情報アプ�
 ・小豆島・直島諸島（小豆島、直島、豊島、犬島）
 
 【重要なお知らせ】
-八重山以外の地域では、船便・航空便の発着時刻はアプリ内に表示しません。各社の公式サイトで最新のダイヤ・運航状況をご確認ください。八重山の船便ダイヤも公開データに基づく参考情報であり、欠航・遅延・運休はリアルタイムで反映されません。
+八重山諸島と忽那諸島（中島汽船の航路）以外の地域では、船便・航空便の発着時刻はアプリ内に表示しません。各社の公式サイトで最新のダイヤ・運航状況をご確認ください。八重山の船便ダイヤ（公開データ）と忽那諸島の船便ダイヤ（中島汽船の公式サイトの時刻表ページを読み取ったもの）も参考情報であり、欠航・遅延・運休はリアルタイムで反映されません。
 
 天気・波の高さも参考情報です。海上・気象の安全を保証するものではありません。WBGT・熱中症指数など未実装の指標は扱いません。
 
@@ -54,6 +54,7 @@ Island Base は、日本の離島を訪れる方のための現地情報アプ�
 ・天気・波の高さ: Open-Meteo（一部 jma_seamless）。端末は当方の GitHub Pages キャッシュを取得
 ・海上予報: 気象庁「海上警報・予報」（リンク）
 ・八重山フェリー: OTTOP 公開 GTFS（（有）安栄観光・八重山観光フェリー（株）・福山海運）を改変して表示（CC BY 4.0）
+・忽那諸島の船便: 中島汽船株式会社 公式サイトの時刻表ページを1日2回読み取って表示
 ・その他船便・航空便: 各社公式サイトへのリンク
 ・店舗: Apple マップ（MapKit）、Google マップ（リンク）
 
@@ -111,11 +112,11 @@ Island Base is a reference app for Japan’s remote islands.
 
 In-app features (not a link directory):
 • Weather and wave height are shown in-app (GitHub Pages cache; source: Open-Meteo).
-• Yaeyama ferry timetables only are shown in-app from OTTOP public GTFS (CC BY 4.0; adapted).
+• Ferry timetables are shown in-app only for Yaeyama (from OTTOP public GTFS, CC BY 4.0; adapted) and for the Kutsuna Islands on Nakajima Kisen routes (read twice a day from Nakajima Kisen’s official timetable page).
 • Place search (MapKit), useful contacts, and on-device photo notes.
 
 Links / schedules:
-• Outside Yaeyama, ferry/flight info is official-site links only (no in-app timetables).
+• Outside Yaeyama and the Kutsuna Islands (Nakajima Kisen routes), ferry/flight info is official-site links only (no in-app timetables).
 • Live cameras and related pages open in the external browser (not embedded). Public streams / official pages only.
 • On Yonaguni, the Japan Coast Guard lighthouse camera page may appear blank on iPhone; please use the YouTube live link above it.
 
@@ -124,7 +125,7 @@ Privacy:
 • Photo notes: camera permission for capture; the system Photos picker (PHPicker) to choose an existing photo — no full Photo Library access. Photos stay on-device.
 • No account, no tracking, no advertising SDK.
 
-Data sources (also in-app ℹ️ Credits): Open-Meteo; JMA marine forecast links; OTTOP GTFS (CC BY 4.0).
+Data sources (also in-app ℹ️ Credits): Open-Meteo; JMA marine forecast links; OTTOP GTFS (CC BY 4.0); Nakajima Kisen official timetable page.
 Privacy Policy: https://oooopq.github.io/island-base/privacy-policy.html
 Support: opaquu@gmail.com
 ```
@@ -134,7 +135,7 @@ Support: opaquu@gmail.com
 ```
 Island Base は離島向けの参考情報アプリです。
 ・天気・波の高さはアプリ内表示（GitHub Pages キャッシュ／出典 Open-Meteo）。
-・八重山の船便のみ、OTTOP の GTFS（CC BY 4.0）を改変してアプリ内に表示します。
+・八重山の船便は OTTOP の GTFS（CC BY 4.0）を改変して、忽那諸島（中島汽船の航路）の船便は中島汽船の公式サイトの時刻表ページを1日2回読み取って、アプリ内に表示します。
 ・その他地域の船便・航空便は各社公式サイトへのリンクのみ（アプリ内に時刻表なし）。
 ・ライブカメラは公開配信・公式ページへの外部ブラウザリンクです（埋め込みなし）。
 ・与那国の海上保安庁灯台カメラは iPhone で真っ白になることがあります。上の YouTube ライブをご確認ください。
