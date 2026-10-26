@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-10-26T21:49:35+09:00",
+  "updatedAt": "2026-10-26T23:34:07+09:00",
   "temperatureCelsius": 22,
   "apparentTemperatureCelsius": 19,
-  "weatherCode": 65,
-  "condition": "雨",
-  "humidityPercent": 86,
-  "windSpeedKmh": 46,
+  "weatherCode": 3,
+  "condition": "くもり",
+  "humidityPercent": 89,
+  "windSpeedKmh": 42,
   "currentWaveHeightMeters": 2.22,
   "todayMaxWaveHeightMeters": 2.22,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-26T21:00",
-      "timeLabel": "21時",
-      "weatherCode": 55,
-      "temperatureCelsius": 22,
-      "apparentTemperatureCelsius": 18,
-      "condition": "小雨",
-      "humidityPercent": 83,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 1.1,
-      "windSpeedKmh": 50
-    },
-    {
-      "id": "2026-10-26T22:00",
-      "timeLabel": "22時",
-      "weatherCode": 65,
-      "temperatureCelsius": 22,
-      "apparentTemperatureCelsius": 19,
-      "condition": "雨",
-      "humidityPercent": 87,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 7.8,
-      "windSpeedKmh": 45
-    },
     {
       "id": "2026-10-26T23:00",
       "timeLabel": "23時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 45
+    },
+    {
+      "id": "2026-10-27T21:00",
+      "timeLabel": "21時",
+      "weatherCode": 0,
+      "temperatureCelsius": 24,
+      "apparentTemperatureCelsius": 18,
+      "condition": "晴れ",
+      "humidityPercent": 60,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 52
+    },
+    {
+      "id": "2026-10-27T22:00",
+      "timeLabel": "22時",
+      "weatherCode": 0,
+      "temperatureCelsius": 23,
+      "apparentTemperatureCelsius": 17,
+      "condition": "晴れ",
+      "humidityPercent": 62,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 58
     }
   ],
   "weeklyForecast": [
