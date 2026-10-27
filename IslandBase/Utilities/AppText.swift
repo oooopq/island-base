@@ -284,7 +284,7 @@ enum AppText {
         case .serviceStatusPanelTitle:
             return "運航状況"
         case .serviceStatusPanelNote:
-            return "欠航・遅延はこのアプリには表示されません。出発前に各社の運航状況を確認してください。"
+            return "本アプリの時刻は参考です。欠航・遅延は表示されません。出発前に各社の運航状況を確認してください。"
         case .noPlacesInCategory:
             return "このカテゴリのスポットが見つかりませんでした"
         case .showMorePlaces(let count):
@@ -611,7 +611,7 @@ enum AppText {
         case .serviceStatusPanelTitle:
             return "Service status"
         case .serviceStatusPanelNote:
-            return "This app doesn’t show cancellations or delays. Check each operator’s service status before you travel."
+            return "Times in this app are for reference only. Cancellations and delays aren’t shown. Check each operator’s service status before you travel."
         case .noPlacesInCategory:
             return "No places found in this category"
         case .showMorePlaces(let count):
