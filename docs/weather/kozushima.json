@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-10-31T03:39:40+09:00",
+  "updatedAt": "2026-10-31T05:53:59+09:00",
   "temperatureCelsius": 22,
-  "apparentTemperatureCelsius": 21,
-  "weatherCode": 55,
-  "condition": "小雨",
-  "humidityPercent": 86,
+  "apparentTemperatureCelsius": 20,
+  "weatherCode": 1,
+  "condition": "くもり",
+  "humidityPercent": 79,
   "windSpeedKmh": 32,
-  "currentWaveHeightMeters": 1.44,
+  "currentWaveHeightMeters": 1.56,
   "todayMaxWaveHeightMeters": 2.92,
   "todayHourlyForecast": [
-    {
-      "id": "2026-10-31T03:00",
-      "timeLabel": "3時",
-      "weatherCode": 53,
-      "temperatureCelsius": 22,
-      "apparentTemperatureCelsius": 21,
-      "condition": "小雨",
-      "humidityPercent": 86,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.9,
-      "windSpeedKmh": 28
-    },
-    {
-      "id": "2026-10-31T04:00",
-      "timeLabel": "4時",
-      "weatherCode": 55,
-      "temperatureCelsius": 22,
-      "apparentTemperatureCelsius": 21,
-      "condition": "小雨",
-      "humidityPercent": 86,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 1.0,
-      "windSpeedKmh": 33
-    },
     {
       "id": "2026-10-31T05:00",
       "timeLabel": "5時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 34
+    },
+    {
+      "id": "2026-11-01T03:00",
+      "timeLabel": "3時",
+      "weatherCode": 0,
+      "temperatureCelsius": 20,
+      "apparentTemperatureCelsius": 17,
+      "condition": "晴れ",
+      "humidityPercent": 60,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 31
+    },
+    {
+      "id": "2026-11-01T04:00",
+      "timeLabel": "4時",
+      "weatherCode": 0,
+      "temperatureCelsius": 20,
+      "apparentTemperatureCelsius": 17,
+      "condition": "晴れ",
+      "humidityPercent": 60,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 32
     }
   ],
   "weeklyForecast": [
