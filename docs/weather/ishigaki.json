@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-11-01T23:20:07+09:00",
+  "updatedAt": "2026-11-02T00:27:37+09:00",
   "temperatureCelsius": 26,
   "apparentTemperatureCelsius": 29,
   "weatherCode": 1,
   "condition": "くもり",
   "humidityPercent": 77,
-  "windSpeedKmh": 15,
+  "windSpeedKmh": 14,
   "currentWaveHeightMeters": 1.02,
   "todayMaxWaveHeightMeters": 1.1,
   "todayHourlyForecast": [
-    {
-      "id": "2026-11-01T23:00",
-      "timeLabel": "23時",
-      "weatherCode": 1,
-      "temperatureCelsius": 26,
-      "apparentTemperatureCelsius": 29,
-      "condition": "くもり",
-      "humidityPercent": 77,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 15
-    },
     {
       "id": "2026-11-02T00:00",
       "timeLabel": "0時",
@@ -296,19 +284,21 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 24
+    },
+    {
+      "id": "2026-11-02T23:00",
+      "timeLabel": "23時",
+      "weatherCode": 1,
+      "temperatureCelsius": 26,
+      "apparentTemperatureCelsius": 27,
+      "condition": "くもり",
+      "humidityPercent": 76,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 23
     }
   ],
   "weeklyForecast": [
-    {
-      "id": "2026-11-01",
-      "dateLabel": "11/1（日）",
-      "weatherCode": 1,
-      "minTemperatureCelsius": 25,
-      "maxTemperatureCelsius": 27,
-      "condition": "くもり",
-      "humidityPercent": 75,
-      "precipitationProbabilityPercent": 0
-    },
     {
       "id": "2026-11-02",
       "dateLabel": "11/2（月）",
@@ -367,6 +357,16 @@
       "maxTemperatureCelsius": 26,
       "condition": "くもり",
       "humidityPercent": 70,
+      "precipitationProbabilityPercent": 0
+    },
+    {
+      "id": "2026-11-08",
+      "dateLabel": "11/8（日）",
+      "weatherCode": 2,
+      "minTemperatureCelsius": 25,
+      "maxTemperatureCelsius": 26,
+      "condition": "くもり",
+      "humidityPercent": 75,
       "precipitationProbabilityPercent": 0
     }
   ]
