@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-11-01T16:26:19+09:00",
+  "updatedAt": "2026-11-01T18:24:48+09:00",
   "temperatureCelsius": 21,
   "apparentTemperatureCelsius": 19,
-  "weatherCode": 1,
-  "condition": "くもり",
-  "humidityPercent": 47,
-  "windSpeedKmh": 14,
-  "currentWaveHeightMeters": 1.74,
+  "weatherCode": 0,
+  "condition": "晴れ",
+  "humidityPercent": 55,
+  "windSpeedKmh": 18,
+  "currentWaveHeightMeters": 1.7,
   "todayMaxWaveHeightMeters": 2.8,
   "todayHourlyForecast": [
-    {
-      "id": "2026-11-01T16:00",
-      "timeLabel": "16時",
-      "weatherCode": 1,
-      "temperatureCelsius": 21,
-      "apparentTemperatureCelsius": 19,
-      "condition": "くもり",
-      "humidityPercent": 47,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 14
-    },
-    {
-      "id": "2026-11-01T17:00",
-      "timeLabel": "17時",
-      "weatherCode": 0,
-      "temperatureCelsius": 21,
-      "apparentTemperatureCelsius": 19,
-      "condition": "晴れ",
-      "humidityPercent": 49,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 15
-    },
     {
       "id": "2026-11-01T18:00",
       "timeLabel": "18時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 46
+    },
+    {
+      "id": "2026-11-02T16:00",
+      "timeLabel": "16時",
+      "weatherCode": 51,
+      "temperatureCelsius": 24,
+      "apparentTemperatureCelsius": 22,
+      "condition": "小雨",
+      "humidityPercent": 76,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.3,
+      "windSpeedKmh": 47
+    },
+    {
+      "id": "2026-11-02T17:00",
+      "timeLabel": "17時",
+      "weatherCode": 63,
+      "temperatureCelsius": 21,
+      "apparentTemperatureCelsius": 19,
+      "condition": "雨",
+      "humidityPercent": 85,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 6.6,
+      "windSpeedKmh": 38
     }
   ],
   "weeklyForecast": [

@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-11-01T16:26:19+09:00",
+  "updatedAt": "2026-11-01T18:24:48+09:00",
   "temperatureCelsius": 21,
-  "apparentTemperatureCelsius": 21,
-  "weatherCode": 1,
-  "condition": "くもり",
-  "humidityPercent": 66,
-  "windSpeedKmh": 12,
-  "currentWaveHeightMeters": 2.04,
+  "apparentTemperatureCelsius": 19,
+  "weatherCode": 0,
+  "condition": "晴れ",
+  "humidityPercent": 56,
+  "windSpeedKmh": 14,
+  "currentWaveHeightMeters": 2.0,
   "todayMaxWaveHeightMeters": 3.34,
   "todayHourlyForecast": [
-    {
-      "id": "2026-11-01T16:00",
-      "timeLabel": "16時",
-      "weatherCode": 1,
-      "temperatureCelsius": 22,
-      "apparentTemperatureCelsius": 22,
-      "condition": "くもり",
-      "humidityPercent": 66,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 11
-    },
-    {
-      "id": "2026-11-01T17:00",
-      "timeLabel": "17時",
-      "weatherCode": 0,
-      "temperatureCelsius": 21,
-      "apparentTemperatureCelsius": 20,
-      "condition": "晴れ",
-      "humidityPercent": 64,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 12
-    },
     {
       "id": "2026-11-01T18:00",
       "timeLabel": "18時",
@@ -295,6 +271,30 @@
       "humidityPercent": 74,
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 32
+    },
+    {
+      "id": "2026-11-02T16:00",
+      "timeLabel": "16時",
+      "weatherCode": 1,
+      "temperatureCelsius": 24,
+      "apparentTemperatureCelsius": 23,
+      "condition": "くもり",
+      "humidityPercent": 76,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 33
+    },
+    {
+      "id": "2026-11-02T17:00",
+      "timeLabel": "17時",
+      "weatherCode": 55,
+      "temperatureCelsius": 24,
+      "apparentTemperatureCelsius": 23,
+      "condition": "小雨",
+      "humidityPercent": 81,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 1.0,
       "windSpeedKmh": 32
     }
   ],
