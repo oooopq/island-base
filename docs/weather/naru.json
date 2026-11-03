@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-11-04T05:56:10+09:00",
+  "updatedAt": "2026-11-04T06:49:43+09:00",
   "temperatureCelsius": 19,
-  "apparentTemperatureCelsius": 15,
-  "weatherCode": 3,
+  "apparentTemperatureCelsius": 16,
+  "weatherCode": 2,
   "condition": "くもり",
-  "humidityPercent": 59,
-  "windSpeedKmh": 30,
-  "currentWaveHeightMeters": 0.8,
+  "humidityPercent": 60,
+  "windSpeedKmh": 28,
+  "currentWaveHeightMeters": 0.78,
   "todayMaxWaveHeightMeters": 0.8,
   "todayHourlyForecast": [
-    {
-      "id": "2026-11-04T05:00",
-      "timeLabel": "5時",
-      "weatherCode": 2,
-      "temperatureCelsius": 19,
-      "apparentTemperatureCelsius": 15,
-      "condition": "くもり",
-      "humidityPercent": 59,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 29
-    },
     {
       "id": "2026-11-04T06:00",
       "timeLabel": "6時",
@@ -296,6 +284,18 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.1,
       "windSpeedKmh": 26
+    },
+    {
+      "id": "2026-11-05T05:00",
+      "timeLabel": "5時",
+      "weatherCode": 2,
+      "temperatureCelsius": 23,
+      "apparentTemperatureCelsius": 21,
+      "condition": "くもり",
+      "humidityPercent": 75,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 28
     }
   ],
   "weeklyForecast": [
@@ -336,7 +336,7 @@
       "minTemperatureCelsius": 15,
       "maxTemperatureCelsius": 18,
       "condition": "晴れ",
-      "humidityPercent": 62,
+      "humidityPercent": 64,
       "precipitationProbabilityPercent": 0
     },
     {
@@ -344,29 +344,29 @@
       "dateLabel": "11/8（日）",
       "weatherCode": 3,
       "minTemperatureCelsius": 16,
-      "maxTemperatureCelsius": 19,
+      "maxTemperatureCelsius": 20,
       "condition": "くもり",
-      "humidityPercent": 68,
+      "humidityPercent": 66,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-11-09",
       "dateLabel": "11/9（月）",
-      "weatherCode": 3,
-      "minTemperatureCelsius": 17,
-      "maxTemperatureCelsius": 19,
-      "condition": "くもり",
-      "humidityPercent": 65,
+      "weatherCode": 51,
+      "minTemperatureCelsius": 16,
+      "maxTemperatureCelsius": 20,
+      "condition": "小雨",
+      "humidityPercent": 67,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-11-10",
       "dateLabel": "11/10（火）",
       "weatherCode": 51,
-      "minTemperatureCelsius": 16,
-      "maxTemperatureCelsius": 17,
+      "minTemperatureCelsius": 15,
+      "maxTemperatureCelsius": 18,
       "condition": "小雨",
-      "humidityPercent": 68,
+      "humidityPercent": 67,
       "precipitationProbabilityPercent": 0
     }
   ]
