@@ -1,50 +1,14 @@
 {
-  "updatedAt": "2026-11-03T15:57:07+09:00",
-  "temperatureCelsius": 20,
-  "apparentTemperatureCelsius": 18,
-  "weatherCode": 0,
-  "condition": "晴れ",
-  "humidityPercent": 52,
-  "windSpeedKmh": 14,
-  "currentWaveHeightMeters": 0.06,
+  "updatedAt": "2026-11-03T18:42:56+09:00",
+  "temperatureCelsius": 19,
+  "apparentTemperatureCelsius": 17,
+  "weatherCode": 1,
+  "condition": "くもり",
+  "humidityPercent": 60,
+  "windSpeedKmh": 15,
+  "currentWaveHeightMeters": 0.08,
   "todayMaxWaveHeightMeters": 0.3,
   "todayHourlyForecast": [
-    {
-      "id": "2026-11-03T15:00",
-      "timeLabel": "15時",
-      "weatherCode": 1,
-      "temperatureCelsius": 20,
-      "apparentTemperatureCelsius": 18,
-      "condition": "くもり",
-      "humidityPercent": 52,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 13
-    },
-    {
-      "id": "2026-11-03T16:00",
-      "timeLabel": "16時",
-      "weatherCode": 1,
-      "temperatureCelsius": 20,
-      "apparentTemperatureCelsius": 18,
-      "condition": "くもり",
-      "humidityPercent": 52,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 14
-    },
-    {
-      "id": "2026-11-03T17:00",
-      "timeLabel": "17時",
-      "weatherCode": 1,
-      "temperatureCelsius": 20,
-      "apparentTemperatureCelsius": 18,
-      "condition": "くもり",
-      "humidityPercent": 54,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 14
-    },
     {
       "id": "2026-11-03T18:00",
       "timeLabel": "18時",
@@ -296,6 +260,42 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 18
+    },
+    {
+      "id": "2026-11-04T15:00",
+      "timeLabel": "15時",
+      "weatherCode": 1,
+      "temperatureCelsius": 20,
+      "apparentTemperatureCelsius": 17,
+      "condition": "くもり",
+      "humidityPercent": 48,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 18
+    },
+    {
+      "id": "2026-11-04T16:00",
+      "timeLabel": "16時",
+      "weatherCode": 3,
+      "temperatureCelsius": 20,
+      "apparentTemperatureCelsius": 17,
+      "condition": "くもり",
+      "humidityPercent": 47,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 17
+    },
+    {
+      "id": "2026-11-04T17:00",
+      "timeLabel": "17時",
+      "weatherCode": 3,
+      "temperatureCelsius": 20,
+      "apparentTemperatureCelsius": 18,
+      "condition": "くもり",
+      "humidityPercent": 48,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 14
     }
   ],
   "weeklyForecast": [
@@ -332,7 +332,7 @@
     {
       "id": "2026-11-06",
       "dateLabel": "11/6（金）",
-      "weatherCode": 1,
+      "weatherCode": 2,
       "minTemperatureCelsius": 15,
       "maxTemperatureCelsius": 21,
       "condition": "くもり",
@@ -342,29 +342,29 @@
     {
       "id": "2026-11-07",
       "dateLabel": "11/7（土）",
-      "weatherCode": 0,
+      "weatherCode": 1,
       "minTemperatureCelsius": 13,
       "maxTemperatureCelsius": 16,
-      "condition": "晴れ",
-      "humidityPercent": 59,
+      "condition": "くもり",
+      "humidityPercent": 60,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-11-08",
       "dateLabel": "11/8（日）",
-      "weatherCode": 51,
+      "weatherCode": 3,
       "minTemperatureCelsius": 13,
       "maxTemperatureCelsius": 17,
-      "condition": "小雨",
+      "condition": "くもり",
       "humidityPercent": 68,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-11-09",
       "dateLabel": "11/9（月）",
-      "weatherCode": 2,
+      "weatherCode": 3,
       "minTemperatureCelsius": 14,
-      "maxTemperatureCelsius": 18,
+      "maxTemperatureCelsius": 19,
       "condition": "くもり",
       "humidityPercent": 66,
       "precipitationProbabilityPercent": 0
