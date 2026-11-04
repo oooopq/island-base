@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-11-04T15:42:02+09:00",
+  "updatedAt": "2026-11-04T17:00:29+09:00",
   "temperatureCelsius": 19,
   "apparentTemperatureCelsius": 17,
   "weatherCode": 2,
   "condition": "くもり",
-  "humidityPercent": 57,
-  "windSpeedKmh": 20,
-  "currentWaveHeightMeters": 0.28,
+  "humidityPercent": 58,
+  "windSpeedKmh": 15,
+  "currentWaveHeightMeters": 0.24,
   "todayMaxWaveHeightMeters": 0.32,
   "todayHourlyForecast": [
-    {
-      "id": "2026-11-04T15:00",
-      "timeLabel": "15時",
-      "weatherCode": 3,
-      "temperatureCelsius": 19,
-      "apparentTemperatureCelsius": 16,
-      "condition": "くもり",
-      "humidityPercent": 58,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 21
-    },
-    {
-      "id": "2026-11-04T16:00",
-      "timeLabel": "16時",
-      "weatherCode": 2,
-      "temperatureCelsius": 19,
-      "apparentTemperatureCelsius": 17,
-      "condition": "くもり",
-      "humidityPercent": 57,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 18
-    },
     {
       "id": "2026-11-04T17:00",
       "timeLabel": "17時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.2,
       "windSpeedKmh": 7
+    },
+    {
+      "id": "2026-11-05T15:00",
+      "timeLabel": "15時",
+      "weatherCode": 55,
+      "temperatureCelsius": 21,
+      "apparentTemperatureCelsius": 21,
+      "condition": "小雨",
+      "humidityPercent": 72,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 1.2,
+      "windSpeedKmh": 11
+    },
+    {
+      "id": "2026-11-05T16:00",
+      "timeLabel": "16時",
+      "weatherCode": 2,
+      "temperatureCelsius": 22,
+      "apparentTemperatureCelsius": 21,
+      "condition": "くもり",
+      "humidityPercent": 76,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 27
     }
   ],
   "weeklyForecast": [
