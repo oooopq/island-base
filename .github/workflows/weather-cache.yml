@@ -1,31 +1,62 @@
 # 全島の天気を Open-Meteo から取得し docs/weather/ を更新する。
-# 成功時のみ main に push → GitHub Pages（/docs）で配信。
+# 成功したときだけ main に push し、GitHub Pages（/docs）で配信する。
+# そのあと、main の公開ファイルを Cloudflare Pages（island-base）にも配信する。
+# Cloudflare 側が失敗しても、GitHub への commit は取り消さない。
+#
+# 通常の更新時刻（日本時間）: 偶数時の 28 分。
+#   0:28, 2:28, 4:28, 6:28, 8:28, 10:28, 12:28, 14:28, 16:28, 18:28, 20:28, 22:28。
+# 取得に失敗したら 10 分待ち、それでも失敗したらさらに 20 分待つ
+# （最初の試行から約 30 分後）に、もう一度だけやり直す。3 回とも失敗したらジョブを失敗させる。
+#
+# 台風モード（1 時間ごと）: 奇数時の 28 分（1:28, 3:28, … 23:28）にも更新する。
+# 入れる: Settings > Secrets and variables > Actions > Variables
+#   変数名 WEATHER_HOURLY 、値 true（この文字列だけが有効）
+# 止める: その変数を削除する。
+# 変数が true でないとき、奇数時の回はジョブが始まる前にスキップする（分数は消費しない）。
+# 「今すぐ実行」（workflow_dispatch）は、変数の有無に関係なく実行する。
+#
+# 見張り役（weather-cache-watchdog）は廃止した。
+# GitHub 自体がその回の起動を飛ばした場合は、次の偶数時（およそ 2 時間後）まで待つ。
+# 10 分後・約 30 分後のやり直しは、起動したあと取得に失敗したとき用。
+#
+# 天気と船は同じ順番待ち（island-base-data-publish）で、同時には一つだけ動く。
+# 配信の直前に origin/main を取り直し、公開ファイルを全部まとめて Cloudflare に送る。
+# 船のワークフローの配信手順と同じ。片方だけ直さない。
 name: 天気キャッシュ更新
 
 on:
   schedule:
-    # JST 毎時 :17 と :47（1日48回）。片方が欠けても次の枠で拾う。
-    # :00/:30 付近の Actions 混雑と Open-Meteo の :00 更新を避ける。
-    # さらに欠ける場合は weather-cache-watchdog が自動再トリガーする。
-    - cron: "17 * * * *"
+    # 偶数時 :28（通常）。timezone により日本時間の 0:28, 2:28, … 22:28。
+    - cron: "28 */2 * * *"
       timezone: "Asia/Tokyo"
-    - cron: "47 * * * *"
+    # 奇数時 :28。ジョブの if で、台風モードのときだけ実行する。
+    - cron: "28 1-23/2 * * *"
       timezone: "Asia/Tokyo"
   workflow_dispatch:
 
 permissions:
   contents: write
 
-concurrency:
-  group: weather-cache
-  cancel-in-progress: false
-
 jobs:
   update-weather-cache:
+    # 奇数時の cron は WEATHER_HOURLY が true のときだけ。スキップされたジョブは分数を使わない。
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || github.event.schedule == '28 */2 * * *'
+      || (github.event.schedule == '28 1-23/2 * * *' && vars.WEATHER_HOURLY == 'true')
     runs-on: ubuntu-latest
+    timeout-minutes: 40
+    # 待ち行列に入った実行を、次の実行で消さない（船の更新が押し出されないようにする）。
+    concurrency:
+      group: island-base-data-publish
+      cancel-in-progress: false
+      queue: max
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # 船の更新も main を進める。pull --rebase できるよう履歴を取る。
+          fetch-depth: 0
 
       - name: Python をセットアップ
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
@@ -33,7 +64,18 @@ jobs:
           python-version: "3.12"
 
       - name: 天気キャッシュを取得・生成
-        run: python3 scripts/fetch_weather_cache.py
+        run: |
+          if python3 scripts/fetch_weather_cache.py; then
+            exit 0
+          fi
+          echo "1回目が失敗しました。600秒（10分）待ってやり直します"
+          sleep 600
+          if python3 scripts/fetch_weather_cache.py; then
+            exit 0
+          fi
+          echo "2回目が失敗しました。1200秒（20分）待ってやり直します"
+          sleep 1200
+          python3 scripts/fetch_weather_cache.py
 
       - name: 更新失敗を明示する
         if: failure()
@@ -49,5 +91,103 @@ jobs:
             echo "変更なし — commit をスキップします"
           else
             git commit -m "天気キャッシュを更新する"
-            git push
+            # push の前に pull --rebase する。失敗したら同じ手順を最大3回までやり直す。
+            attempt=1
+            max_attempts=3
+            while [ "$attempt" -le "$max_attempts" ]; do
+              git pull --rebase origin "$GITHUB_REF_NAME"
+              if git push; then
+                echo "push しました"
+                exit 0
+              fi
+              if [ "$attempt" -ge "$max_attempts" ]; then
+                echo "::error::天気キャッシュの push が ${max_attempts} 回失敗しました"
+                exit 1
+              fi
+              echo "push に失敗しました (${attempt}/${max_attempts})。pull --rebase してやり直します"
+              attempt=$((attempt + 1))
+            done
+          fi
+
+      - name: Cloudflare の秘密情報があるか確認する
+        id: cloudflare-secrets
+        if: success()
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::notice::CLOUDFLARE_API_TOKEN または CLOUDFLARE_ACCOUNT_ID が未設定のため、Cloudflare Pages への配信をスキップします。GitHub Pages の配信はそのままです。"
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # actions/setup-node v7.1.0。node-version: 24 は Node 24 系の最新。
+      - name: Node.js をセットアップ
+        if: success() && steps.cloudflare-secrets.outputs.enabled == 'true'
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+
+      - name: Cloudflare Pages に配信する
+        if: success() && steps.cloudflare-secrets.outputs.enabled == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+          echo "配信する commit: $(git rev-parse HEAD)"
+
+          rm -rf _site
+          mkdir -p _site
+          cp -a docs/weather _site/weather
+          cp -a docs/ferry _site/ferry
+          # HTML が参照するローカルファイルは legal-site.css だけ。
+          cp -a docs/index.html docs/privacy-policy.html docs/terms-of-service.html docs/legal-site.css _site/
+          cat > _site/_headers <<'EOF'
+          /weather/*.json
+            Cache-Control: public, max-age=300
+            Content-Type: application/json; charset=utf-8
+            Access-Control-Allow-Origin: *
+
+          /ferry/*.json
+            Cache-Control: public, max-age=300
+            Content-Type: application/json; charset=utf-8
+            Access-Control-Allow-Origin: *
+          EOF
+
+          test -s _site/index.html
+          test -s _site/privacy-policy.html
+          test -s _site/terms-of-service.html
+          test -s _site/legal-site.css
+          test -s _site/_headers
+          test -n "$(find _site/weather -name '*.json' -print -quit)"
+          test -n "$(find _site/ferry -name '*.json' -print -quit)"
+          unexpected=$(find _site -type f \
+            ! -path '_site/weather/*.json' \
+            ! -path '_site/ferry/*.json' \
+            ! -path '_site/index.html' \
+            ! -path '_site/privacy-policy.html' \
+            ! -path '_site/terms-of-service.html' \
+            ! -path '_site/legal-site.css' \
+            ! -path '_site/_headers' \
+            -print)
+          if [ -n "$unexpected" ]; then
+            echo "::error::公開対象外のファイルが _site に含まれています"
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi
+          find _site -type f | sort
+
+          # 未作成なら作る。既にある場合のエラーは無視して配信を続ける。
+          if npx --yes wrangler@4.155.0 pages project create island-base --production-branch main; then
+            echo "Cloudflare Pages プロジェクト island-base を作成しました"
+          else
+            echo "プロジェクト作成はスキップしました（既にある場合のエラーを含む）。配信を続けます"
+          fi
+          if ! npx --yes wrangler@4.155.0 pages deploy _site --project-name island-base --branch main --commit-dirty=true; then
+            echo "::error::Cloudflare Pages への配信に失敗しました。GitHub への commit は取り消していません。GitHub Pages はこれまでどおり更新されています。"
+            exit 1
           fi
