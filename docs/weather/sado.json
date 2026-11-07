@@ -1,38 +1,14 @@
 {
-  "updatedAt": "2026-11-07T09:58:59+09:00",
+  "updatedAt": "2026-11-07T11:43:32+09:00",
   "temperatureCelsius": 10,
-  "apparentTemperatureCelsius": 5,
+  "apparentTemperatureCelsius": 4,
   "weatherCode": 51,
   "condition": "小雨",
   "humidityPercent": 69,
-  "windSpeedKmh": 26,
-  "currentWaveHeightMeters": 3.42,
+  "windSpeedKmh": 29,
+  "currentWaveHeightMeters": 3.6,
   "todayMaxWaveHeightMeters": 3.82,
   "todayHourlyForecast": [
-    {
-      "id": "2026-11-07T09:00",
-      "timeLabel": "9時",
-      "weatherCode": 51,
-      "temperatureCelsius": 10,
-      "apparentTemperatureCelsius": 5,
-      "condition": "小雨",
-      "humidityPercent": 73,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.2,
-      "windSpeedKmh": 25
-    },
-    {
-      "id": "2026-11-07T10:00",
-      "timeLabel": "10時",
-      "weatherCode": 51,
-      "temperatureCelsius": 10,
-      "apparentTemperatureCelsius": 5,
-      "condition": "小雨",
-      "humidityPercent": 69,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.3,
-      "windSpeedKmh": 27
-    },
     {
       "id": "2026-11-07T11:00",
       "timeLabel": "11時",
@@ -296,6 +272,30 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 15
+    },
+    {
+      "id": "2026-11-08T09:00",
+      "timeLabel": "9時",
+      "weatherCode": 1,
+      "temperatureCelsius": 10,
+      "apparentTemperatureCelsius": 7,
+      "condition": "くもり",
+      "humidityPercent": 63,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 15
+    },
+    {
+      "id": "2026-11-08T10:00",
+      "timeLabel": "10時",
+      "weatherCode": 1,
+      "temperatureCelsius": 11,
+      "apparentTemperatureCelsius": 7,
+      "condition": "くもり",
+      "humidityPercent": 61,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 16
     }
   ],
   "weeklyForecast": [
