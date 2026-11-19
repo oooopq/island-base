@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-11-19T11:49:13+09:00",
+  "updatedAt": "2026-11-19T12:38:18+09:00",
   "temperatureCelsius": 12,
   "apparentTemperatureCelsius": 5,
   "weatherCode": 1,
   "condition": "くもり",
-  "humidityPercent": 56,
-  "windSpeedKmh": 37,
+  "humidityPercent": 53,
+  "windSpeedKmh": 35,
   "currentWaveHeightMeters": 0.58,
   "todayMaxWaveHeightMeters": 0.72,
   "todayHourlyForecast": [
-    {
-      "id": "2026-11-19T11:00",
-      "timeLabel": "11時",
-      "weatherCode": 1,
-      "temperatureCelsius": 12,
-      "apparentTemperatureCelsius": 5,
-      "condition": "くもり",
-      "humidityPercent": 58,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 38
-    },
     {
       "id": "2026-11-19T12:00",
       "timeLabel": "12時",
@@ -296,6 +284,18 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 35
+    },
+    {
+      "id": "2026-11-20T11:00",
+      "timeLabel": "11時",
+      "weatherCode": 1,
+      "temperatureCelsius": 10,
+      "apparentTemperatureCelsius": 4,
+      "condition": "くもり",
+      "humidityPercent": 62,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 35
     }
   ],
   "weeklyForecast": [
@@ -332,20 +332,20 @@
     {
       "id": "2026-11-22",
       "dateLabel": "11/22（日）",
-      "weatherCode": 51,
+      "weatherCode": 3,
       "minTemperatureCelsius": 10,
       "maxTemperatureCelsius": 12,
-      "condition": "小雨",
+      "condition": "くもり",
       "humidityPercent": 67,
       "precipitationProbabilityPercent": 0
     },
     {
       "id": "2026-11-23",
       "dateLabel": "11/23（月）",
-      "weatherCode": 51,
+      "weatherCode": 3,
       "minTemperatureCelsius": 12,
-      "maxTemperatureCelsius": 17,
-      "condition": "小雨",
+      "maxTemperatureCelsius": 18,
+      "condition": "くもり",
       "humidityPercent": 69,
       "precipitationProbabilityPercent": 0
     },
@@ -354,9 +354,9 @@
       "dateLabel": "11/24（火）",
       "weatherCode": 61,
       "minTemperatureCelsius": 11,
-      "maxTemperatureCelsius": 17,
+      "maxTemperatureCelsius": 18,
       "condition": "雨",
-      "humidityPercent": 75,
+      "humidityPercent": 73,
       "precipitationProbabilityPercent": 0
     },
     {
