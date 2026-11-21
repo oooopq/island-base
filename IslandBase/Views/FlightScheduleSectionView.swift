@@ -54,7 +54,7 @@ struct FlightScheduleSectionView: View {
                 title: languageStore.t(.nextFlight),
                 departures: nextDepartures,
                 showsTomorrowNote: NextDepartureHelper.isTodayFinished(nextDepartures),
-                accentColor: ScheduleTransportKind.flight.accentColor
+                accentColor: ScheduleTransportKind.flight.accentColor(in: palette)
             )
         }
 
@@ -179,13 +179,13 @@ struct FlightScheduleSectionView: View {
                 Text(trip.flightNumber)
                     .font(.caption)
                     .fontWeight(.semibold)
-                    .foregroundStyle(ScheduleTransportKind.flight.accentColor)
+                    .foregroundStyle(ScheduleTransportKind.flight.accentColor(in: palette))
 
                 HStack(spacing: 6) {
                     Text(IslandCatalog.localizedPlaceName(route.departure, language: languageStore.mode))
                     Image(systemName: "airplane")
                         .font(.caption)
-                        .foregroundStyle(ScheduleTransportKind.flight.accentColor)
+                        .foregroundStyle(ScheduleTransportKind.flight.accentColor(in: palette))
                     Text(IslandCatalog.localizedPlaceName(route.arrival, language: languageStore.mode))
                 }
                 .font(.subheadline)

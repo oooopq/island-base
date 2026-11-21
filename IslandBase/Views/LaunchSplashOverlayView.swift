@@ -10,6 +10,7 @@ import SwiftUI
 struct LaunchSplashOverlayView: View {
     let onFinished: () -> Void
 
+    @Environment(\.detailPalette) private var palette
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var iconOpacity = 0.0
     @State private var iconScale: CGFloat = 0.78
@@ -20,27 +21,19 @@ struct LaunchSplashOverlayView: View {
 
     var body: some View {
         ZStack {
-            LaunchSplashPalette.background
+            palette.background
                 .ignoresSafeArea()
 
             VStack(spacing: 22) {
-                ZStack {
-                    Circle()
-                        .fill(LaunchSplashPalette.glow.opacity(0.22))
-                        .frame(width: 168, height: 168)
-                        .blur(radius: 28)
-                        .opacity(iconOpacity)
-
-                    AppBrandTitleView(style: .splash)
-                        .shadow(color: .black.opacity(0.30), radius: 16, y: 8)
-                }
-                .scaleEffect(iconScale)
-                .offset(y: iconOffsetY)
-                .opacity(iconOpacity)
+                AppBrandTitleView(style: .splash)
+                    .shadow(color: palette.cardShadow, radius: 12, y: 6)
+                    .scaleEffect(iconScale)
+                    .offset(y: iconOffsetY)
+                    .opacity(iconOpacity)
 
                 Text("Island Base")
                     .font(.system(.title2, design: .rounded).weight(.semibold))
-                    .foregroundStyle(Color.white.opacity(0.92))
+                    .foregroundStyle(palette.text)
                     .opacity(titleOpacity)
                     .offset(y: titleOffsetY)
             }
@@ -94,12 +87,7 @@ struct LaunchSplashOverlayView: View {
     }
 }
 
-private enum LaunchSplashPalette {
-    /// ホーム画面と同じネイビー。システム起動画面とも揃える
-    static let background = Color(red: 0.06, green: 0.08, blue: 0.12)
-    static let glow = Color(red: 0.25, green: 0.82, blue: 0.95)
-}
-
 #Preview {
     LaunchSplashOverlayView(onFinished: {})
+        .environment(\.detailPalette, DetailCardPalette.dark)
 }

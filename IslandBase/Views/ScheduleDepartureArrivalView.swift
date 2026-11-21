@@ -32,7 +32,7 @@ struct ScheduleDepartureArrivalView: View {
         timeRow(
             time: departureTime,
             label: languageStore.t(.scheduleDepartureShort),
-            labelColor: isDepartureUrgent ? .red : palette.accent,
+            labelColor: isDepartureUrgent ? palette.urgent : palette.accent,
             isUrgent: isDepartureUrgent,
             isDeparture: true
         )
@@ -50,7 +50,7 @@ struct ScheduleDepartureArrivalView: View {
                 .font(.title2)
                 .fontWeight(.bold)
                 .monospacedDigit()
-                .foregroundStyle(isUrgent ? .red : palette.text)
+                .foregroundStyle(isUrgent ? palette.urgent : palette.text)
 
             Text(label)
                 .font(.subheadline)

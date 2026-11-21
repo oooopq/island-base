@@ -211,18 +211,8 @@ struct RegionHomeView: View {
     }
 
     private var homeBackground: some View {
-        ZStack {
-            Color(red: 0.06, green: 0.08, blue: 0.12)
-            LinearGradient(
-                colors: [
-                    palette.cardBackground.opacity(0.35),
-                    palette.cardBackground.opacity(0.85),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        }
-        .ignoresSafeArea()
+        palette.background
+            .ignoresSafeArea()
     }
 }
 

@@ -27,7 +27,7 @@ struct FerryScheduleSectionView: View {
                     isExpanded: $isScheduleExpanded
                 ) {
                     ProgressView(languageStore.t(.loadingSchedule))
-                        .tint(ScheduleTransportKind.ferry.accentColor)
+                        .tint(ScheduleTransportKind.ferry.accentColor(in: palette))
                         .detailCardSecondaryText()
                 }
 
@@ -108,7 +108,7 @@ struct FerryScheduleSectionView: View {
                 title: languageStore.t(.nextFerry),
                 departures: nextDepartures,
                 showsTomorrowNote: NextDepartureHelper.isTodayFinished(nextDepartures),
-                accentColor: ScheduleTransportKind.ferry.accentColor
+                accentColor: ScheduleTransportKind.ferry.accentColor(in: palette)
             )
         }
 

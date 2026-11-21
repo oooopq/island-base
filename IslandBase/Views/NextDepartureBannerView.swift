@@ -101,7 +101,7 @@ struct NextDepartureBannerView: View {
             departureTime: departure.departureTime,
             arrivalTime: departure.arrivalTime
         )
-        let countdownColor: Color = isUrgent ? .red : resolvedAccent
+        let countdownColor: Color = isUrgent ? palette.urgent : resolvedAccent
 
         VStack(alignment: .trailing, spacing: 8) {
             if let countdownMinutes {
@@ -109,7 +109,7 @@ struct NextDepartureBannerView: View {
                     Text(languageStore.t(.countdownPrefix))
                         .font(.caption2)
                         .fontWeight(.semibold)
-                        .foregroundStyle(isUrgent ? .red : palette.secondaryText)
+                        .foregroundStyle(isUrgent ? palette.urgent : palette.secondaryText)
 
                     Text(NextDepartureHelper.formattedCountdown(countdownMinutes, language: languageStore.mode))
                         .font(.title2)

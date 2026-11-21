@@ -12,6 +12,8 @@ struct WeatherIconView: View {
     let condition: String
     var iconSize: CGFloat = 24
 
+    @Environment(\.detailPalette) private var palette
+
     init(weatherCode: Int? = nil, condition: String, iconSize: CGFloat = 24) {
         self.weatherCode = weatherCode
         self.condition = condition
@@ -21,7 +23,9 @@ struct WeatherIconView: View {
     var body: some View {
         Image(systemName: WeatherIconMapper.systemImage(weatherCode: weatherCode, condition: condition))
             .font(.system(size: iconSize))
-            .foregroundStyle(WeatherIconMapper.color(weatherCode: weatherCode, condition: condition))
+            .foregroundStyle(
+                WeatherIconMapper.color(weatherCode: weatherCode, condition: condition, palette: palette)
+            )
             .frame(width: iconSize + 8, height: iconSize + 8)
     }
 }

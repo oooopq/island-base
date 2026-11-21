@@ -17,13 +17,7 @@ struct IslandDetailHeaderView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 10) {
             RoundedRectangle(cornerRadius: 1.5, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [palette.accent, palette.iconAccent],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
+                .fill(palette.accent)
                 .frame(width: 3, height: 38)
 
             VStack(alignment: .leading, spacing: 2) {

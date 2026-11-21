@@ -72,7 +72,7 @@ struct RegionIslandsView: View {
     }
 
     private var listBackground: some View {
-        palette.cardBackground.opacity(0.15)
+        palette.background
             .ignoresSafeArea()
     }
 }

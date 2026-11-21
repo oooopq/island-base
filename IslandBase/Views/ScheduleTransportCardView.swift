@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct ScheduleTransportCardView<Content: View>: View {
-    let kind: ScheduleTransportCardKind
+    let kind: ScheduleTransportKind
     let tripCount: Int
     @Binding var isExpanded: Bool
     @ViewBuilder let content: () -> Content
 
     @Environment(\.detailPalette) private var palette
     @Environment(AppLanguageStore.self) private var languageStore
+
+    private var transportColor: Color {
+        kind.accentColor(in: palette)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -35,7 +39,7 @@ struct ScheduleTransportCardView<Content: View>: View {
         .background(palette.bannerBackground)
         .overlay {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .stroke(kind.accentColor.opacity(0.35), lineWidth: 1)
+                .stroke(transportColor.opacity(0.28), lineWidth: 1)
         }
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
@@ -44,7 +48,7 @@ struct ScheduleTransportCardView<Content: View>: View {
         HStack(spacing: 12) {
             Image(systemName: kind.systemImage)
                 .font(.title2)
-                .foregroundStyle(kind.accentColor)
+                .foregroundStyle(transportColor)
                 .frame(width: 32)
 
             VStack(alignment: .leading, spacing: 3) {
@@ -65,7 +69,7 @@ struct ScheduleTransportCardView<Content: View>: View {
                 Text(tripCountText)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .foregroundStyle(kind.accentColor)
+                    .foregroundStyle(transportColor)
 
                 Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                     .font(.caption.weight(.semibold))
@@ -79,28 +83,7 @@ struct ScheduleTransportCardView<Content: View>: View {
     }
 }
 
-enum ScheduleTransportCardKind {
-    case ferry
-    case flight
-
-    var systemImage: String {
-        switch self {
-        case .ferry:
-            return "ferry.fill"
-        case .flight:
-            return "airplane"
-        }
-    }
-
-    var accentColor: Color {
-        switch self {
-        case .ferry:
-            return Color(red: 0.12, green: 0.48, blue: 0.88)
-        case .flight:
-            return Color(red: 0.18, green: 0.62, blue: 0.35)
-        }
-    }
-
+private extension ScheduleTransportKind {
     var titleText: AppText {
         switch self {
         case .ferry:
