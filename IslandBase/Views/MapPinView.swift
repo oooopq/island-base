@@ -48,7 +48,11 @@ struct MapPinView: View {
         let layout = MapPinGeometry.layout(in: CGRect(origin: .zero, size: size))
 
         MapPinShape()
-            .fill(palette.selectedTabFill)
+            .fill(palette.mapPin)
+            .overlay {
+                MapPinShape()
+                    .stroke(Color.white.opacity(0.85), lineWidth: 1)
+            }
             .frame(width: size.width, height: size.height)
             .overlay {
                 Circle()

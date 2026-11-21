@@ -18,6 +18,7 @@ struct DetailCardPalette: Equatable {
     let urgent: Color
     let green: Color
     let flight: Color
+    let mapPin: Color
     let weatherSun: Color
     let weatherRain: Color
     let weatherSnow: Color
@@ -57,6 +58,7 @@ struct DetailCardPalette: Equatable {
         urgent: Color,
         green: Color,
         flight: Color,
+        mapPin: Color,
         weatherSun: Color,
         weatherRain: Color,
         weatherSnow: Color,
@@ -85,6 +87,7 @@ struct DetailCardPalette: Equatable {
         self.urgent = urgent
         self.green = green
         self.flight = flight
+        self.mapPin = mapPin
         self.weatherSun = weatherSun
         self.weatherRain = weatherRain
         self.weatherSnow = weatherSnow
@@ -116,6 +119,7 @@ struct DetailCardPalette: Equatable {
         urgent: Color(hex: 0xE5837A),
         green: Color(hex: 0x78B992),
         flight: Color(hex: 0x93A9C2),
+        mapPin: Color(hex: 0xE0B15E),
         weatherSun: Color(hex: 0xE0B15E),
         weatherRain: Color(hex: 0x93A9C2),
         weatherSnow: Color(hex: 0x93B3B8),
@@ -147,6 +151,7 @@ struct DetailCardPalette: Equatable {
         urgent: Color(hex: 0xB4473D),
         green: Color(hex: 0x3D7F57),
         flight: Color(hex: 0x56708C),
+        mapPin: Color(hex: 0xC08A2E),
         weatherSun: Color(hex: 0xC08A2E),
         weatherRain: Color(hex: 0x56708C),
         weatherSnow: Color(hex: 0x5F8287),
