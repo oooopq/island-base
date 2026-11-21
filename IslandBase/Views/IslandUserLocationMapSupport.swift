@@ -53,10 +53,10 @@ enum IslandUserLocationMapSupport {
             Annotation(AppText.currentLocationMapLabel.string(for: language), coordinate: userCoordinate) {
                 ZStack {
                     Circle()
-                        .fill(Color.blue.opacity(0.25))
+                        .fill(palette.accent.opacity(0.25))
                         .frame(width: 28, height: 28)
                     Circle()
-                        .fill(Color.blue)
+                        .fill(palette.accent)
                         .frame(width: 12, height: 12)
                         .overlay {
                             Circle()
@@ -71,7 +71,7 @@ enum IslandUserLocationMapSupport {
         Image(systemName: "mountain.2.fill")
             .font(.caption)
             .padding(6)
-            .background(Circle().fill(palette.iconAccent.opacity(0.9)))
+            .background(Circle().fill(palette.selectedTabFill))
             .foregroundStyle(.white)
     }
 
@@ -79,7 +79,7 @@ enum IslandUserLocationMapSupport {
         Image(systemName: "ferry.fill")
             .font(.caption2)
             .padding(5)
-            .background(Circle().fill(palette.accent.opacity(0.85)))
+            .background(Circle().fill(palette.selectedTabFill))
             .foregroundStyle(.white)
     }
 

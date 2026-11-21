@@ -11,8 +11,19 @@ struct DetailCardPalette: Equatable {
     let text: Color
     let secondaryText: Color
     let accent: Color
+    let selectedTabFill: Color
+    let accentSoft: Color
     let iconAccent: Color
     let warning: Color
+    let urgent: Color
+    let green: Color
+    let flight: Color
+    let weatherSun: Color
+    let weatherRain: Color
+    let weatherSnow: Color
+    let weatherStorm: Color
+    let weatherCloud: Color
+    let background: Color
     let cardBackground: Color
     let cardBorder: Color
     let noticeBackground: Color
@@ -26,7 +37,7 @@ struct DetailCardPalette: Equatable {
     let cardShadow: Color
 
     func chipBackground(isSelected: Bool) -> Color {
-        isSelected ? accent.opacity(0.32) : chipBackgroundUnselected
+        isSelected ? accentSoft : chipBackgroundUnselected
     }
 
     func chipForeground(isSelected: Bool) -> Color {
@@ -39,8 +50,19 @@ struct DetailCardPalette: Equatable {
         text: Color,
         secondaryText: Color,
         accent: Color,
+        selectedTabFill: Color,
+        accentSoft: Color,
         iconAccent: Color,
         warning: Color,
+        urgent: Color,
+        green: Color,
+        flight: Color,
+        weatherSun: Color,
+        weatherRain: Color,
+        weatherSnow: Color,
+        weatherStorm: Color,
+        weatherCloud: Color,
+        background: Color,
         cardBackground: Color,
         cardBorder: Color,
         noticeBackground: Color,
@@ -56,8 +78,19 @@ struct DetailCardPalette: Equatable {
         self.text = text
         self.secondaryText = secondaryText
         self.accent = accent
+        self.selectedTabFill = selectedTabFill
+        self.accentSoft = accentSoft
         self.iconAccent = iconAccent
         self.warning = warning
+        self.urgent = urgent
+        self.green = green
+        self.flight = flight
+        self.weatherSun = weatherSun
+        self.weatherRain = weatherRain
+        self.weatherSnow = weatherSnow
+        self.weatherStorm = weatherStorm
+        self.weatherCloud = weatherCloud
+        self.background = background
         self.cardBackground = cardBackground
         self.cardBorder = cardBorder
         self.noticeBackground = noticeBackground
@@ -71,45 +104,76 @@ struct DetailCardPalette: Equatable {
         self.chipBackgroundUnselected = chipBackgroundUnselected
     }
 
-    /// 現行 UI（ダーク）
+    /// ダークモード
     static let dark = DetailCardPalette(
-        text: Color.white.opacity(0.92),
-        secondaryText: Color.white.opacity(0.58),
-        accent: Color(red: 0.25, green: 0.82, blue: 0.95),
-        iconAccent: Color(red: 1.0, green: 0.62, blue: 0.38),
-        warning: Color.orange,
-        cardBackground: Color(red: 0.08, green: 0.11, blue: 0.16).opacity(0.90),
-        cardBorder: Color.white.opacity(0.12),
-        noticeBackground: Color.orange.opacity(0.18),
-        bannerBackground: Color(red: 0.25, green: 0.82, blue: 0.95).opacity(0.14),
-        scheduleStatusBackground: Color(red: 0.34, green: 0.22, blue: 0.10),
-        scheduleStatusBorder: Color(red: 1.0, green: 0.62, blue: 0.22).opacity(0.65),
-        scheduleStatusSecondaryText: Color.white.opacity(0.78),
-        hourlySlotBackground: Color.white.opacity(0.08),
-        captionOnPhoto: Color.white.opacity(0.75),
-        cardShadow: Color.black.opacity(0.30),
-        chipBackgroundUnselected: Color.white.opacity(0.10)
+        text: Color(hex: 0xF2F2F7),
+        secondaryText: Color(hex: 0x98989F),
+        accent: Color(hex: 0x7FBDB7),
+        selectedTabFill: Color(hex: 0x3A7D78),
+        accentSoft: Color(hex: 0x1F3331),
+        iconAccent: Color(hex: 0x7FBDB7),
+        warning: Color(hex: 0xD6B46A),
+        urgent: Color(hex: 0xE5837A),
+        green: Color(hex: 0x78B992),
+        flight: Color(hex: 0x93A9C2),
+        weatherSun: Color(hex: 0xE0B15E),
+        weatherRain: Color(hex: 0x93A9C2),
+        weatherSnow: Color(hex: 0x93B3B8),
+        weatherStorm: Color(hex: 0xA19BB8),
+        weatherCloud: Color(hex: 0xA0A4AA),
+        background: Color(hex: 0x000000),
+        cardBackground: Color(hex: 0x1C1C1E, opacity: 0.92),
+        cardBorder: Color(hex: 0x38383A),
+        noticeBackground: Color(hex: 0x2A2418),
+        bannerBackground: Color(hex: 0x1A2726),
+        scheduleStatusBackground: Color(hex: 0x2A2418),
+        scheduleStatusBorder: Color(hex: 0x5C4C2C),
+        scheduleStatusSecondaryText: Color(hex: 0x98989F),
+        hourlySlotBackground: Color.white.opacity(0.07),
+        captionOnPhoto: Color.white.opacity(0.78),
+        cardShadow: Color.black.opacity(0.24),
+        chipBackgroundUnselected: Color.white.opacity(0.08)
     )
 
-    /// ライト（レイアウトは同じ、配色のみ反転）
+    /// ライトモード
     static let light = DetailCardPalette(
-        text: Color(red: 0.10, green: 0.12, blue: 0.16).opacity(0.92),
-        secondaryText: Color(red: 0.10, green: 0.12, blue: 0.16).opacity(0.58),
-        accent: Color(red: 0.05, green: 0.55, blue: 0.68),
-        iconAccent: Color(red: 0.90, green: 0.45, blue: 0.18),
-        warning: Color.orange,
-        cardBackground: Color.white.opacity(0.92),
-        cardBorder: Color.black.opacity(0.10),
-        noticeBackground: Color.orange.opacity(0.14),
-        bannerBackground: Color(red: 0.05, green: 0.55, blue: 0.68).opacity(0.12),
-        scheduleStatusBackground: Color(red: 1.0, green: 0.93, blue: 0.78),
-        scheduleStatusBorder: Color(red: 0.82, green: 0.48, blue: 0.04).opacity(0.45),
-        scheduleStatusSecondaryText: Color(red: 0.28, green: 0.20, blue: 0.10).opacity(0.78),
-        hourlySlotBackground: Color.black.opacity(0.05),
+        text: Color(hex: 0x1C1C1E),
+        secondaryText: Color(hex: 0x6C6C70),
+        accent: Color(hex: 0x2E7572),
+        selectedTabFill: Color(hex: 0x2E7572),
+        accentSoft: Color(hex: 0xE5F0EE),
+        iconAccent: Color(hex: 0x2E7572),
+        warning: Color(hex: 0x8F6A1F),
+        urgent: Color(hex: 0xB4473D),
+        green: Color(hex: 0x3D7F57),
+        flight: Color(hex: 0x56708C),
+        weatherSun: Color(hex: 0xC08A2E),
+        weatherRain: Color(hex: 0x56708C),
+        weatherSnow: Color(hex: 0x5F8287),
+        weatherStorm: Color(hex: 0x6B6580),
+        weatherCloud: Color(hex: 0x7A7D82),
+        background: Color(hex: 0xF2F2F7),
+        cardBackground: Color(hex: 0xFFFFFF, opacity: 0.94),
+        cardBorder: Color(hex: 0xE5E5EA),
+        noticeBackground: Color(hex: 0xFAF4E6),
+        bannerBackground: Color(hex: 0xEEF5F4),
+        scheduleStatusBackground: Color(hex: 0xFAF4E6),
+        scheduleStatusBorder: Color(hex: 0xE8D6AE),
+        scheduleStatusSecondaryText: Color(hex: 0x6C6C70),
+        hourlySlotBackground: Color.black.opacity(0.04),
         captionOnPhoto: Color.white.opacity(0.88),
-        cardShadow: Color.black.opacity(0.12),
-        chipBackgroundUnselected: Color.black.opacity(0.06)
+        cardShadow: Color.black.opacity(0.06),
+        chipBackgroundUnselected: Color.black.opacity(0.05)
     )
+}
+
+private extension Color {
+    init(hex: UInt32, opacity: Double = 1.0) {
+        let red = Double((hex >> 16) & 0xFF) / 255.0
+        let green = Double((hex >> 8) & 0xFF) / 255.0
+        let blue = Double(hex & 0xFF) / 255.0
+        self.init(red: red, green: green, blue: blue, opacity: opacity)
+    }
 }
 
 private struct DetailCardPaletteKey: EnvironmentKey {

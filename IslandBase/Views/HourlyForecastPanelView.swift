@@ -58,20 +58,23 @@ struct HourlyForecastPanelView: View {
     }
 }
 
-// 気温帯ごとのグラフ色
+// 気温帯ごとのグラフ色（パレットに調和する落ち着いたトーン）
 private enum TemperatureChartColor {
-    static func color(for celsius: Int) -> Color {
+    static func color(for celsius: Int, palette: DetailCardPalette) -> Color {
+        let isLight = palette == DetailCardPalette.light
         switch celsius {
         case 35...:
-            return Color(red: 0.45, green: 0.02, blue: 0.02)
+            return isLight
+                ? Color(red: 0.56, green: 0.23, blue: 0.20)
+                : Color(red: 0.83, green: 0.45, blue: 0.42)
         case 30..<35:
-            return .red
+            return palette.urgent
         case 20..<30:
-            return .orange
+            return palette.weatherSun
         case 11..<20:
-            return Color(red: 0.92, green: 0.78, blue: 0.05)
+            return palette.green
         default:
-            return .blue
+            return palette.flight
         }
     }
 }
@@ -82,6 +85,8 @@ private struct HourlyTemperatureLineChart: View {
     let nowIndexes: Set<Int>
     let slotWidth: CGFloat
     let slotSpacing: CGFloat
+
+    @Environment(\.detailPalette) private var palette
 
     var body: some View {
         Canvas { context, size in
@@ -102,7 +107,7 @@ private struct HourlyTemperatureLineChart: View {
 
             // 区間ごとに塗りつぶし
             for index in 0..<(points.count - 1) {
-                let segmentColor = TemperatureChartColor.color(for: temperatures[index])
+                let segmentColor = TemperatureChartColor.color(for: temperatures[index], palette: palette)
                 var fillPath = Path()
                 fillPath.move(to: CGPoint(x: points[index].x, y: size.height))
                 fillPath.addLine(to: points[index])
@@ -114,7 +119,7 @@ private struct HourlyTemperatureLineChart: View {
 
             // 区間ごとに折れ線
             for index in 0..<(points.count - 1) {
-                let segmentColor = TemperatureChartColor.color(for: temperatures[index])
+                let segmentColor = TemperatureChartColor.color(for: temperatures[index], palette: palette)
                 var linePath = Path()
                 linePath.move(to: points[index])
                 linePath.addLine(to: points[index + 1])
@@ -129,7 +134,7 @@ private struct HourlyTemperatureLineChart: View {
             for (index, point) in points.enumerated() {
                 let isNow = nowIndexes.contains(index)
                 let radius: CGFloat = isNow ? 4 : 2.5
-                let dotColor = TemperatureChartColor.color(for: temperatures[index])
+                let dotColor = TemperatureChartColor.color(for: temperatures[index], palette: palette)
                 let dotRect = CGRect(
                     x: point.x - radius,
                     y: point.y - radius,
@@ -182,12 +187,12 @@ private struct HourlyForecastCompactSlotView: View {
         .padding(.horizontal, 2)
         .background {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(isNow ? palette.accent.opacity(0.12) : palette.hourlySlotBackground)
+                .fill(isNow ? palette.accentSoft : palette.hourlySlotBackground)
         }
         .overlay {
             if isNow {
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .strokeBorder(palette.accent.opacity(0.75), lineWidth: 1)
+                    .strokeBorder(palette.accent.opacity(0.55), lineWidth: 1)
             }
         }
         .accessibilityElement(children: .combine)

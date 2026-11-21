@@ -52,7 +52,7 @@ struct ScheduleServiceStatusPanelView: View {
             } icon: {
                 Image(systemName: row.kind.systemImage)
                     .font(.caption)
-                    .foregroundStyle(row.kind.accentColor)
+                    .foregroundStyle(row.kind.accentColor(in: palette))
             }
 
             ScheduleOperatorActionButtonsView(actions: row.actions)

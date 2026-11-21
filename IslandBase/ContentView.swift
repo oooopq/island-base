@@ -25,7 +25,7 @@ struct ContentView: View {
             navigationPath.append(regionID)
         })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(red: 0.06, green: 0.08, blue: 0.12).ignoresSafeArea())
+        .background(themeStore.palette.background.ignoresSafeArea())
         .environment(themeStore)
         .environment(languageStore)
         .environment(lastSelectedIslandStore)

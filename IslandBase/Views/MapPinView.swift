@@ -42,11 +42,13 @@ struct MapPinShape: Shape {
 struct MapPinView: View {
     var size: CGSize = CGSize(width: 22, height: 30)
 
+    @Environment(\.detailPalette) private var palette
+
     var body: some View {
         let layout = MapPinGeometry.layout(in: CGRect(origin: .zero, size: size))
 
         MapPinShape()
-            .fill(Self.fill)
+            .fill(palette.selectedTabFill)
             .frame(width: size.width, height: size.height)
             .overlay {
                 Circle()
@@ -55,18 +57,8 @@ struct MapPinView: View {
                     .offset(y: layout.headCenter.y - size.height / 2)
             }
             .compositingGroup()
-            .shadow(color: .black.opacity(0.32), radius: 2, y: 1.5)
+            .shadow(color: .black.opacity(0.24), radius: 2, y: 1.5)
     }
-
-    /// #C2304F → #A8203F。中間はアイコンの #B8294A と同じ深紅に見える。
-    private static let fill = LinearGradient(
-        colors: [
-            Color(red: 0.761, green: 0.188, blue: 0.310),
-            Color(red: 0.659, green: 0.125, blue: 0.247),
-        ],
-        startPoint: .top,
-        endPoint: .bottom
-    )
 }
 
 private enum MapPinGeometry {
@@ -140,14 +132,16 @@ private enum MapPinGeometry {
 #Preview("Light") {
     MapPinPreview()
         .padding(32)
-        .background(Color(red: 0.93, green: 0.94, blue: 0.95))
+        .background(DetailCardPalette.light.background)
+        .environment(\.detailPalette, DetailCardPalette.light)
         .preferredColorScheme(.light)
 }
 
 #Preview("Dark") {
     MapPinPreview()
         .padding(32)
-        .background(Color(red: 0.11, green: 0.13, blue: 0.16))
+        .background(DetailCardPalette.dark.background)
+        .environment(\.detailPalette, DetailCardPalette.dark)
         .preferredColorScheme(.dark)
 }
 

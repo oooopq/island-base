@@ -56,7 +56,7 @@ struct ScheduleOperatorActionButtonsView: View {
             .overlay {
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .strokeBorder(
-                        action.isEmphasized ? palette.warning.opacity(0.45) : palette.cardBorder,
+                        action.isEmphasized ? palette.scheduleStatusBorder : palette.cardBorder,
                         lineWidth: 1
                     )
             }

@@ -196,7 +196,7 @@ struct WeatherSectionView: View {
             Label(languageStore.t(.waveHeight), systemImage: "water.waves")
                 .font(.caption.weight(.semibold))
                 .labelStyle(.titleAndIcon)
-                .foregroundStyle(Color.cyan.opacity(0.9))
+                .foregroundStyle(palette.accent)
                 .lineLimit(1)
                 .minimumScaleFactor(0.65)
 
@@ -241,11 +241,11 @@ struct WeatherSectionView: View {
         .padding(.vertical, 10)
         .background {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(Color.cyan.opacity(0.1))
+                .fill(palette.accentSoft)
         }
         .overlay {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .strokeBorder(Color.cyan.opacity(0.25), lineWidth: 1)
+                .strokeBorder(palette.accent.opacity(0.25), lineWidth: 1)
         }
     }
 

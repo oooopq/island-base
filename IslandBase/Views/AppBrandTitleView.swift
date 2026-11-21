@@ -74,5 +74,5 @@ struct AppBrandTitleView: View {
 #Preview("Splash") {
     AppBrandTitleView(style: .splash)
         .padding()
-        .background(Color(red: 0.06, green: 0.08, blue: 0.12))
+        .background(DetailCardPalette.dark.background)
 }

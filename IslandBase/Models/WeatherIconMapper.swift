@@ -15,11 +15,11 @@ enum WeatherIconMapper {
         return systemImage(for: condition)
     }
 
-    static func color(weatherCode: Int?, condition: String) -> Color {
+    static func color(weatherCode: Int?, condition: String, palette: DetailCardPalette = .dark) -> Color {
         if let code = WeatherConditionMapper.resolvedWeatherCode(storedCode: weatherCode, condition: condition) {
-            return color(forWeatherCode: code)
+            return color(forWeatherCode: code, palette: palette)
         }
-        return color(for: condition)
+        return color(for: condition, palette: palette)
     }
 
     static func systemImage(forWeatherCode code: Int) -> String {
@@ -45,20 +45,20 @@ enum WeatherIconMapper {
         }
     }
 
-    static func color(forWeatherCode code: Int) -> Color {
+    static func color(forWeatherCode code: Int, palette: DetailCardPalette = .dark) -> Color {
         switch code {
         case 0:
-            return .orange
+            return palette.weatherSun
         case 1, 2, 3, 45, 48:
-            return .gray
+            return palette.weatherCloud
         case 51, 53, 55, 61, 63, 65, 80, 81, 82:
-            return .blue
+            return palette.weatherRain
         case 71, 73, 75:
-            return .cyan
+            return palette.weatherSnow
         case 95, 96, 99:
-            return .purple
+            return palette.weatherStorm
         default:
-            return .secondary
+            return palette.secondaryText
         }
     }
 
@@ -85,20 +85,20 @@ enum WeatherIconMapper {
         }
     }
 
-    static func color(for condition: String) -> Color {
+    static func color(for condition: String, palette: DetailCardPalette = .dark) -> Color {
         switch condition {
         case "晴れ", "Clear":
-            return .orange
+            return palette.weatherSun
         case "くもり", "Cloudy", "霧", "Fog":
-            return .gray
+            return palette.weatherCloud
         case "小雨", "Drizzle", "雨", "Rain", "にわか雨", "Showers":
-            return .blue
+            return palette.weatherRain
         case "雪", "Snow":
-            return .cyan
+            return palette.weatherSnow
         case "雷雨", "Thunderstorm":
-            return .purple
+            return palette.weatherStorm
         default:
-            return .secondary
+            return palette.secondaryText
         }
     }
 }

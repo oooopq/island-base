@@ -18,13 +18,12 @@ enum ScheduleTransportKind {
         }
     }
 
-    /// 船=青系、空=空色
-    var accentColor: Color {
+    func accentColor(in palette: DetailCardPalette) -> Color {
         switch self {
         case .ferry:
-            return Color(red: 0.12, green: 0.48, blue: 0.88)
+            return palette.accent
         case .flight:
-            return Color(red: 0.20, green: 0.70, blue: 0.86)
+            return palette.flight
         }
     }
 }
@@ -37,15 +36,17 @@ struct ScheduleTransportHeaderView: View {
     @Environment(\.detailPalette) private var palette
 
     var body: some View {
+        let transportColor = kind.accentColor(in: palette)
+
         HStack(alignment: .top, spacing: 10) {
             RoundedRectangle(cornerRadius: 1.5, style: .continuous)
-                .fill(kind.accentColor)
+                .fill(transportColor)
                 .frame(width: 3, height: barHeight)
 
             VStack(alignment: .leading, spacing: 4) {
                 Label(title, systemImage: kind.systemImage)
                     .font(.headline)
-                    .foregroundStyle(kind.accentColor)
+                    .foregroundStyle(transportColor)
                     .labelStyle(.titleAndIcon)
 
                 if let subtitle {
