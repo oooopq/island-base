@@ -1,26 +1,14 @@
 {
-  "updatedAt": "2026-11-25T06:23:30+09:00",
+  "updatedAt": "2026-11-25T07:28:24+09:00",
   "temperatureCelsius": 13,
-  "apparentTemperatureCelsius": 4,
+  "apparentTemperatureCelsius": 5,
   "weatherCode": 0,
   "condition": "晴れ",
-  "humidityPercent": 66,
-  "windSpeedKmh": 57,
-  "currentWaveHeightMeters": 4.22,
+  "humidityPercent": 65,
+  "windSpeedKmh": 54,
+  "currentWaveHeightMeters": 4.06,
   "todayMaxWaveHeightMeters": 4.54,
   "todayHourlyForecast": [
-    {
-      "id": "2026-11-25T06:00",
-      "timeLabel": "6時",
-      "weatherCode": 0,
-      "temperatureCelsius": 13,
-      "apparentTemperatureCelsius": 4,
-      "condition": "晴れ",
-      "humidityPercent": 66,
-      "precipitationProbabilityPercent": 0,
-      "precipitationMillimeters": 0.0,
-      "windSpeedKmh": 58
-    },
     {
       "id": "2026-11-25T07:00",
       "timeLabel": "7時",
@@ -296,6 +284,18 @@
       "precipitationProbabilityPercent": 0,
       "precipitationMillimeters": 0.0,
       "windSpeedKmh": 31
+    },
+    {
+      "id": "2026-11-26T06:00",
+      "timeLabel": "6時",
+      "weatherCode": 1,
+      "temperatureCelsius": 15,
+      "apparentTemperatureCelsius": 10,
+      "condition": "くもり",
+      "humidityPercent": 61,
+      "precipitationProbabilityPercent": 0,
+      "precipitationMillimeters": 0.0,
+      "windSpeedKmh": 30
     }
   ],
   "weeklyForecast": [
@@ -334,9 +334,9 @@
       "dateLabel": "11/28（土）",
       "weatherCode": 63,
       "minTemperatureCelsius": 18,
-      "maxTemperatureCelsius": 21,
+      "maxTemperatureCelsius": 22,
       "condition": "雨",
-      "humidityPercent": 81,
+      "humidityPercent": 80,
       "precipitationProbabilityPercent": 0
     },
     {
@@ -363,8 +363,8 @@
       "id": "2026-12-01",
       "dateLabel": "12/1（火）",
       "weatherCode": 2,
-      "minTemperatureCelsius": 19,
-      "maxTemperatureCelsius": 20,
+      "minTemperatureCelsius": 20,
+      "maxTemperatureCelsius": 21,
       "condition": "くもり",
       "humidityPercent": 72,
       "precipitationProbabilityPercent": 0
